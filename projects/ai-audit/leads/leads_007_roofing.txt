@@ -1,0 +1,36 @@
+Business Name: Hendo Roofing
+Decision-Maker: Nico Henderson
+Email: nico@hendoroofing.com
+Phone: (614) 312-7733
+Website: https://www.hendoroofing.com
+Tier: 0
+
+Business Name: Muth & Company Roofing
+Decision-Maker: Chad Muth
+Email: chad@muthandco.com
+Phone: (614) 882-0900
+Website: https://muthroofing.com
+Tier: 0
+
+Business Name: Able Roofing
+Decision-Maker: Justin Perry
+Email: smile@ableroof.com
+Phone: (614) 444-7663
+Website: https://www.ableroof.com
+Tier: 0
+
+Business Name: Columbus Roofing Rescue
+Decision-Maker: Joe Daley
+Email: office@roofingrescue.com
+Phone: (614) 905-1345
+Website: https://www.columbusroofingrescue.com
+Tier: 0
+
+Business Name: Brothers Roofing & Construction
+Decision-Maker: William Schmidt
+Email: william@brothersroofingconstruction.com
+Phone: (614) 436-5588
+Website: https://www.brothersroofingconstruction.com
+Tier: 0
+
+Total Leads: 5 | Tier 0: 5 | Tier 1: 0 | Tier 2: 0 | Tokens Used: ~18,400

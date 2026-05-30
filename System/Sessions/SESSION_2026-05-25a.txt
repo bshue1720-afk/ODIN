@@ -1,0 +1,132 @@
+ODIN SESSION — 2026-05-25a
+Started: ~11:00 PM CT | Ended: ~12:15 AM CT
+Theme: Discord Bot Invite + Eddie Full Access + Transcript Downloader
+
+════════════════════════════════════════════════════════
+WHAT WAS FIXED / BUILT
+════════════════════════════════════════════════════════
+
+1. DISCORD BOT — ODIN INVITED TO SERVER
+   ─────────────────────────────────────
+   Server: "Brock and Eddie ODIN" (Guild ID: 1508105078190506014)
+   Channel: #general (ID: 1508105078786101251)
+   Bot: ODIN#9534 (App ID: 1508296830763667526)
+
+   OAuth2 invite URL used (no redirect URI needed for bot-only):
+   https://discord.com/oauth2/authorize?client_id=1508296830763667526&scope=bot&permissions=68608
+
+   Scopes confirmed checked: bot + messages.read
+   Bot permissions confirmed: Send Messages + Read Message History
+   Note: View Channels was NOT checked in screenshots — add if bot can't see channels
+
+   Both reference messages posted to Discord #general:
+   - MSG1: Full command reference (3 chunks)
+   - MSG2: Brock & Eddie practical playbook (3 chunks)
+   Same content as Slack #odin-brock.
+
+2. DISCORD AUTHORIZED IDS — SET
+   ─────────────────────────────
+   Railway env var set:
+   DISCORD_AUTHORIZED_IDS=524856480554549248,811799891588022302
+     524856480554549248 = Brock (ash.takeuchi Discord username)
+     811799891588022302 = Eddie (heri_trejo Discord username)
+   Only these two users can command ODIN on Discord.
+
+3. EDDIE — FULL ACCESS UPGRADE
+   ──────────────────────────────
+   DB changes:
+   - slack_uid set: U0B5CTBLKCP (Slack handle: heritrejo30)
+   - role upgraded: caller → re_partner
+     Can now: approve/reject deals, send contracts, buyer matching,
+              deal analysis, stats — same as Brock minus super_admin
+
+   Railway env var added:
+   SLACK_CHANNEL_EDDIE=U0B5CTBLKCP (DMs directly to Eddie on Slack)
+
+   Notifications Eddie now receives (same as Brock):
+   - All inbound SMS reply alerts (seller replies to blast)
+   - Opt-out / Do-Not-Contact auto-ignore alerts
+   - Hot/warm lead alerts when MCTP score >= 5
+
+   app.py changes (3 edits):
+   a) Opt-out alert block: now posts to both brock_channel AND eddie_ch
+   b) Inbound reply alert: alert_text now posts to both channels
+   c) MCTP hot/warm alert: hot_alert now posts to brock_ch AND eddie_ch
+      Guard: eddie_ch != reply_channel and eddie_ch != brock_ch to avoid double-posts
+
+   Deployed to Railway: 2026-05-25 ~03:40 UTC — confirmed live
+
+4. TRANSCRIPT DOWNLOADER — BUILT + RUNNING
+   ─────────────────────────────────────────
+   File: C:\Users\Brock\OneDrive\Desktop\Master Folder\transcript_downloader.py
+
+   Channels configured:
+   - https://www.youtube.com/@danmartell  (3,331 videos found)
+   - https://www.youtube.com/@FlipWithRick
+
+   Features:
+   - yt-dlp fetches all video IDs, titles, upload dates from channel
+   - youtube-transcript-api downloads transcript (prefers en, en-US, en-GB)
+   - Falls back: manual → auto-generated → any available transcript
+   - Merges all segments into clean paragraph block (no timestamps, no [Music] tags)
+   - Saves as: transcripts/<ChannelName>/[YYYY-MM-DD]_[Video_Title].txt
+   - Resume support: skips files already downloaded
+   - Random 2–5s delay between videos
+   - Rate limit handling: 429 → wait 60s → retry once → skip
+   - Graceful skip: TranscriptsDisabled, NoTranscriptFound, VideoUnavailable
+
+   To run:
+     cd "C:\Users\Brock\OneDrive\Desktop\Master Folder\ODIN"
+     C:\Python314\python.exe "..\transcript_downloader.py"
+
+   To add channels in the future:
+     Edit CHANNELS list near top of transcript_downloader.py
+
+   Output location:
+     C:\Users\Brock\OneDrive\Desktop\Master Folder\ODIN\transcripts\
+
+   Packages installed to ODIN venv (C:\Python314):
+   - yt-dlp==2026.3.17
+   - youtube-transcript-api==1.2.4
+   - defusedxml==0.7.1
+
+   Fixes applied during debugging:
+   - yt-dlp not on PATH → hardcoded full path to ODIN\Scripts\yt-dlp.exe
+   - Windows cp1252 encoding crash on emoji/special chars → sys.stdout.reconfigure(utf-8)
+   - youtube-transcript-api v1.2+ uses instance-based API (api.list() not class method)
+   - subprocess encoding errors on video titles → errors="replace" on all subprocess calls
+   - stdout None guard added if yt-dlp returns no output
+
+════════════════════════════════════════════════════════
+DEPLOYMENT STATE
+════════════════════════════════════════════════════════
+Railway: natural-analysis → odin-api — LIVE
+Last deploy: 2026-05-25 ~03:40 UTC
+All migrations: 001–013 (no new migrations this session)
+Gunicorn + Discord bot thread both running
+
+════════════════════════════════════════════════════════
+ENV VARS ADDED THIS SESSION
+════════════════════════════════════════════════════════
+SLACK_CHANNEL_EDDIE       = U0B5CTBLKCP
+DISCORD_AUTHORIZED_IDS    = 524856480554549248,811799891588022302
+
+════════════════════════════════════════════════════════
+EDDIE — CURRENT STATE
+════════════════════════════════════════════════════════
+Name:     Heriberto Trejo (Eddie)
+Email:    heritrejo30@gmail.com
+Role:     re_partner (upgraded from caller this session)
+Slack UID: U0B5CTBLKCP (handle: heritrejo30) — now set in DB
+Discord ID: 811799891588022302 (handle: heri_trejo)
+Can approve deals: YES (re_partner role)
+Notifications: All inbound alerts, opt-out alerts, hot/warm MCTP alerts
+
+════════════════════════════════════════════════════════
+NEXT ACTIONS
+════════════════════════════════════════════════════════
+[ ] Monitor transcript downloader — Dan Martell 3,331 videos + FlipWithRick
+    Output: ODIN\transcripts\ — Brock runs manually
+[ ] First Katelyn automation (email or Etsy — never started, her choice)
+[ ] APEX gaps: proactive decision queue, KPI targets, task delegation, financial spoke, voice briefing
+[ ] Monitor 8 AM blast results (100 contacts enrolled in SMS Text Blaster BULK DRIP)

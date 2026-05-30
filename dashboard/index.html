@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODIN — Shue Box LLC</title>
+<style>
+/* ── Reset + Variables ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:       #0d1117;
+  --surface:  #161b22;
+  --border:   #30363d;
+  --text:     #e6edf3;
+  --muted:    #8b949e;
+  --amber:    #f7a800;
+  --amber-dk: #c98900;
+  --green:    #3fb950;
+  --red:      #f85149;
+  --yellow:   #d29922;
+  --blue:     #58a6ff;
+  --sidebar-w: 220px;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+
+/* ── ODIN / Norse theme (all non-wife roles) ── */
+body.theme-norse {
+  --bg:       #080c10;
+  --surface:  #0e1420;
+  --border:   #1e3a5f;
+  --text:     #d4e4f7;
+  --muted:    #7a9ab8;
+  --amber:    #c8a84b;
+  --amber-dk: #a07830;
+  --green:    #3d9e6e;
+  --red:      #c0392b;
+  --blue:     #4a90d9;
+  --yellow:   #e6c86a;
+}
+body.theme-norse .sidebar {
+  background: linear-gradient(180deg, #050810 0%, #0a1020 40%, #06090e 100%);
+  border-right: 1px solid #1e3a5f;
+}
+body.theme-norse .sidebar-logo h2 {
+  background: linear-gradient(90deg, #c8a84b, #e6c86a, #c8a84b);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: 5px;
+}
+body.theme-norse .nav-item.active { background: rgba(200,168,75,.12); border-left-color: var(--amber); color: var(--amber); }
+body.theme-norse .nav-item:hover  { background: rgba(74,144,217,.08); color: var(--text); }
+body.theme-norse .card {
+  border-color: #1e3a5f;
+  background: linear-gradient(135deg, #0e1420 0%, #111c30 100%);
+}
+body.theme-norse .card h4 { color: #7a9ab8; }
+body.theme-norse .page-title {
+  background: linear-gradient(90deg, #c8a84b, #e6c86a);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+body.theme-norse #app-screen {
+  background: radial-gradient(ellipse at top left, #0a1428 0%, #080c10 70%);
+}
+body.theme-norse .table-wrap { border-color: #1e3a5f; background: #0e1420; }
+body.theme-norse table thead tr { background: #111c30; }
+body.theme-norse table tbody tr:hover { background: rgba(74,144,217,.05); }
+body.theme-norse .btn-primary { background: var(--amber); color: #000; }
+body.theme-norse .btn-primary:hover { background: var(--amber-dk); }
+
+/* Norse rune border accent on cards */
+body.theme-norse .card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c8a84b44, transparent);
+  border-radius: 8px 8px 0 0;
+}
+body.theme-norse .card { position: relative; overflow: hidden; }
+
+/* Norse topbar rune stripe */
+body.theme-norse .rune-stripe {
+  display: block;
+  font-size: 11px;
+  color: #c8a84b44;
+  letter-spacing: 6px;
+  padding: 4px 16px 0;
+  user-select: none;
+  font-family: monospace;
+}
+
+/* ── Wife / business_standard pink theme ── */
+body.theme-pink {
+  --bg:       #120a18;
+  --surface:  #1e1028;
+  --border:   #6b3fa0;
+  --text:     #f8e6ef;
+  --muted:    #c9a0dc;
+  --amber:    #f472b6;
+  --amber-dk: #db2777;
+  --green:    #e879f9;
+  --red:      #f43f5e;
+  --blue:     #c084fc;
+  --yellow:   #f0abfc;
+}
+body.theme-pink .sidebar {
+  background: linear-gradient(180deg, #1a0d2e 0%, #2d1048 50%, #1a0d2e 100%);
+  border-right-color: #6b3fa0;
+}
+body.theme-pink .nav-item.active { background: rgba(244,114,182,.15); border-left-color: var(--amber); }
+body.theme-pink .nav-item:hover  { background: rgba(244,114,182,.08); }
+body.theme-pink .card { border-color: #6b3fa0; background: linear-gradient(135deg, #1e1028 0%, #2a1040 100%); }
+body.theme-pink .page-title { color: #f0abfc; }
+body.theme-pink #app-screen { background: radial-gradient(ellipse at top, #1a0d2e 0%, #120a18 60%); }
+
+/* Floating stars animation */
+@keyframes twinkle {
+  0%, 100% { opacity: .2; transform: scale(1); }
+  50%       { opacity: 1;  transform: scale(1.3); }
+}
+.star-decor { position: fixed; pointer-events: none; font-size: 10px; animation: twinkle 3s infinite; z-index: 0; color: #f0abfc; }
+
+/* Witch card accents */
+body.theme-pink .witch-card { border: 1px solid #9333ea; background: linear-gradient(135deg, #2d1048, #1a0d2e); border-radius: 8px; padding: 20px; margin-bottom: 16px; position: relative; overflow: hidden; }
+body.theme-pink .witch-card::before { content: ''; position: absolute; top: -50%; right: -20px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(192,132,252,.15) 0%, transparent 70%); pointer-events: none; }
+body.theme-pink .witch-banner { background: linear-gradient(90deg, #4a0080, #9333ea, #db2777, #9333ea, #4a0080); background-size: 200% auto; animation: shimmer 4s linear infinite; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; color: #fff; font-weight: 600; }
+@keyframes shimmer { to { background-position: 200% center; } }
+body.theme-pink .idea-item { background: rgba(147,51,234,.1); border: 1px solid #6b3fa0; border-radius: 8px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+body.theme-pink .odin-chat-box { background: rgba(244,114,182,.06); border: 1px dashed #f472b6; border-radius: 8px; padding: 20px; text-align: center; margin-top: 20px; }
+
+/* ── Screens ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── Auth Screen ── */
+#auth-screen.active {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+}
+.auth-box {
+  width: 380px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 36px;
+}
+.auth-logo { text-align: center; margin-bottom: 28px; }
+.auth-logo h1 { font-size: 28px; font-weight: 700; color: var(--amber); letter-spacing: 4px; }
+.auth-logo p { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.auth-box input {
+  width: 100%; padding: 10px 12px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text); font-size: 14px; margin-bottom: 12px;
+}
+.auth-box input:focus { outline: none; border-color: var(--amber); }
+.btn-primary {
+  width: 100%; padding: 11px; background: var(--amber); border: none;
+  border-radius: 6px; color: #000; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: background .15s;
+}
+.btn-primary:hover { background: var(--amber-dk); }
+.auth-error { color: var(--red); font-size: 12px; text-align: center; margin-top: 8px; }
+
+/* ── App Layout ── */
+#app-screen { display: flex; min-height: 100vh; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0; position: fixed;
+  top: 0; left: 0; height: 100vh; overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 20px 16px 16px; border-bottom: 1px solid var(--border);
+}
+.sidebar-logo h2 { font-size: 18px; font-weight: 700; color: var(--amber); letter-spacing: 3px; }
+.sidebar-logo .role-badge {
+  display: inline-block; margin-top: 4px; padding: 2px 8px;
+  background: rgba(247,168,0,.15); border: 1px solid var(--amber);
+  border-radius: 4px; font-size: 10px; color: var(--amber); text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.sidebar-user { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.sidebar-user .name { font-weight: 600; font-size: 13px; }
+.sidebar-user .email { color: var(--muted); font-size: 11px; }
+nav { flex: 1; padding: 8px 0; }
+.nav-section { padding: 12px 16px 4px; font-size: 10px; color: var(--muted);
+               text-transform: uppercase; letter-spacing: 1px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 16px;
+  cursor: pointer; border-radius: 0; transition: background .1s; color: var(--muted);
+  font-size: 13px;
+}
+.nav-item:hover { background: rgba(255,255,255,.05); color: var(--text); }
+.nav-item.active { background: rgba(247,168,0,.12); color: var(--amber); border-left: 3px solid var(--amber); }
+.nav-item .icon { width: 16px; text-align: center; }
+.badge {
+  margin-left: auto; background: var(--red); color: #fff; border-radius: 10px;
+  padding: 1px 6px; font-size: 10px; font-weight: 600;
+}
+.badge.amber { background: var(--amber); color: #000; }
+.sidebar-footer {
+  padding: 12px 16px; border-top: 1px solid var(--border);
+}
+.btn-logout {
+  width: 100%; padding: 8px; background: transparent; border: 1px solid var(--border);
+  border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 12px; transition: all .15s;
+}
+.btn-logout:hover { border-color: var(--red); color: var(--red); }
+
+/* ── Main Content ── */
+.main-content {
+  flex: 1; margin-left: var(--sidebar-w); padding: 24px 28px;
+  min-height: 100vh; overflow-y: auto;
+}
+.page { display: none; }
+.page.active { display: block; }
+.page-title {
+  font-size: 20px; font-weight: 600; margin-bottom: 6px;
+}
+.page-subtitle { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+
+/* ── Cards ── */
+.cards-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 140px;
+}
+.card.full { flex: none; width: 100%; }
+.card h4 { font-size: 11px; color: var(--muted); text-transform: uppercase;
+           letter-spacing: 1px; margin-bottom: 6px; }
+.card .big-num { font-size: 32px; font-weight: 700; color: var(--text); }
+.card .big-num.amber { color: var(--amber); }
+.card .big-num.green { color: var(--green); }
+.card .big-num.red   { color: var(--red); }
+
+/* ── Tables ── */
+.table-wrap { background: var(--surface); border: 1px solid var(--border);
+              border-radius: 8px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead tr { background: rgba(255,255,255,.03); }
+th { padding: 10px 14px; text-align: left; font-size: 11px; color: var(--muted);
+     text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+     border-bottom: 1px solid var(--border); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,.02); }
+
+/* ── Role Pills ── */
+.role-pill {
+  display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: .5px;
+}
+.role-super_admin      { background: rgba(247,168,0,.2); color: var(--amber); border: 1px solid var(--amber); }
+.role-re_partner       { background: rgba(63,185,80,.15); color: var(--green); border: 1px solid var(--green); }
+.role-acquisition_manager { background: rgba(88,166,255,.15); color: var(--blue); border: 1px solid var(--blue); }
+.role-caller           { background: rgba(139,148,158,.15); color: var(--muted); border: 1px solid var(--border); }
+.role-disposition_agent{ background: rgba(210,153,34,.2); color: var(--yellow); border: 1px solid var(--yellow); }
+.role-business_standard{ background: rgba(248,81,73,.15); color: var(--red); border: 1px solid var(--red); }
+.role-virtual_assistant{ background: rgba(139,148,158,.1); color: var(--muted); border: 1px solid var(--border); }
+
+/* ── Status Pills ── */
+.status-pill { display: inline-block; padding: 2px 8px; border-radius: 10px;
+               font-size: 11px; font-weight: 600; }
+.s-hot      { background: rgba(248,81,73,.2); color: var(--red); }
+.s-warm     { background: rgba(247,168,0,.2); color: var(--amber); }
+.s-new      { background: rgba(139,148,158,.15); color: var(--muted); }
+.s-contracted{background: rgba(63,185,80,.2); color: var(--green); }
+.s-closed   { background: rgba(63,185,80,.3); color: var(--green); }
+.s-dead     { background: rgba(48,54,61,.5); color: var(--muted); }
+
+/* ── Score Bar ── */
+.score-bar { display: flex; align-items: center; gap: 8px; }
+.score-dots { display: flex; gap: 3px; }
+.score-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.score-dot.filled.hot  { background: var(--red); }
+.score-dot.filled.warm { background: var(--amber); }
+.score-dot.filled.cold { background: var(--muted); }
+
+/* ── Forms ── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-grid.single { grid-template-columns: 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.form-group input, .form-group select, .form-group textarea {
+  padding: 9px 12px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text); font-size: 13px; font-family: inherit;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none; border-color: var(--amber);
+}
+.form-group textarea { resize: vertical; min-height: 70px; }
+.form-group select option { background: var(--surface); }
+
+/* ── Buttons ── */
+.btn { padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px;
+       font-weight: 500; border: none; transition: all .15s; }
+.btn-amber { background: var(--amber); color: #000; }
+.btn-amber:hover { background: var(--amber-dk); }
+.btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+.btn-ghost:hover { border-color: var(--text); color: var(--text); }
+.btn-danger { background: transparent; border: 1px solid var(--red); color: var(--red); }
+.btn-danger:hover { background: rgba(248,81,73,.1); }
+.btn-green { background: var(--green); color: #000; }
+.btn-green:hover { background: #2ea043; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+/* ── Modal ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  z-index: 100; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 28px; width: 480px; max-width: 95vw;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.modal .subtitle { color: var(--muted); font-size: 12px; margin-bottom: 20px; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* ── MCTP Scoring ── */
+.mctp-score-display {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; margin-top: 16px; text-align: center;
+}
+.mctp-score-display .score-num {
+  font-size: 48px; font-weight: 700; line-height: 1;
+}
+.mctp-score-display .score-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.mctp-score-display .score-status {
+  font-size: 18px; font-weight: 700; margin-top: 8px; text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ── Alert ── */
+.alert {
+  padding: 12px 16px; border-radius: 6px; font-size: 13px; margin-bottom: 16px;
+  border: 1px solid;
+}
+.alert-green { background: rgba(63,185,80,.1); border-color: var(--green); color: var(--green); }
+.alert-red   { background: rgba(248,81,73,.1); border-color: var(--red); color: var(--red); }
+.alert-amber { background: rgba(247,168,0,.1); border-color: var(--amber); color: var(--amber); }
+
+/* ── Approval Card ── */
+.approval-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 16px 20px; margin-bottom: 12px;
+}
+.approval-card .ac-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.approval-card .ac-title { font-weight: 600; font-size: 14px; }
+.approval-card .ac-meta { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.approval-card .ac-actions { display: flex; gap: 8px; margin-top: 14px; }
+.priority-urgent { border-left: 3px solid var(--red); }
+.priority-high   { border-left: 3px solid var(--amber); }
+.priority-normal { border-left: 3px solid var(--border); }
+
+/* ── Offer Script ── */
+.offer-script-box {
+  background: var(--bg); border: 1px solid var(--green); border-radius: 6px;
+  padding: 14px; font-size: 13px; line-height: 1.6; color: var(--text);
+  margin-top: 12px; font-style: italic;
+}
+
+/* ── Invite Link ── */
+.invite-link-box {
+  background: var(--bg); border: 1px solid var(--amber); border-radius: 6px;
+  padding: 10px 14px; font-size: 12px; color: var(--amber);
+  word-break: break-all; margin-top: 12px;
+}
+
+/* ── Divider ── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+/* ── Spinner ── */
+.spinner { display: inline-block; width: 16px; height: 16px;
+           border: 2px solid var(--border); border-top-color: var(--amber);
+           border-radius: 50%; animation: spin .6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Toast ── */
+#toast {
+  position: fixed; bottom: 24px; right: 24px; padding: 12px 18px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13px; z-index: 999; opacity: 0; transform: translateY(10px);
+  transition: all .25s; pointer-events: none;
+}
+#toast.show { opacity: 1; transform: translateY(0); }
+#toast.success { border-color: var(--green); color: var(--green); }
+#toast.error   { border-color: var(--red); color: var(--red); }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); z-index: 50; }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-left: 0; padding: 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .cards-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ AUTH SCREEN ═══ -->
+<div id="auth-screen" class="screen active">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <h1>ODIN</h1>
+      <p>Shue Box LLC — Operations Dashboard</p>
+    </div>
+    <div id="auth-form">
+      <input type="email" id="login-email" placeholder="Email address" autocomplete="email">
+      <input type="password" id="login-password" placeholder="Password" autocomplete="current-password">
+      <button class="btn-primary" onclick="doLogin()">Sign In</button>
+      <div id="login-error" class="auth-error"></div>
+    </div>
+    <div id="set-pw-form" style="display:none">
+      <p style="color:var(--muted);font-size:12px;margin-bottom:12px;text-align:center">
+        Set your password to activate your account.
+      </p>
+      <input type="password" id="new-password" placeholder="New password (min 8 chars)" autocomplete="new-password">
+      <input type="password" id="new-password-confirm" placeholder="Confirm password" autocomplete="new-password">
+      <button class="btn-primary" onclick="doSetPassword()">Activate Account</button>
+      <div id="setpw-error" class="auth-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP SCREEN ═══ -->
+<div id="app-screen" class="screen">
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h2>ODIN</h2>
+      <div class="role-badge" id="sb-role-badge">loading...</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="name" id="sb-name">—</div>
+      <div class="email" id="sb-email">—</div>
+    </div>
+    <nav id="sidebar-nav"></nav>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="main-content"></div>
+</div>
+
+<!-- ═══ MODALS ═══ -->
+<!-- Add User Modal -->
+<div class="modal-overlay" id="modal-add-user">
+  <div class="modal">
+    <h3>Add Team Member</h3>
+    <div class="subtitle">New user will receive an invite link to set their password.</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="nu-name" placeholder="e.g. John Smith">
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="nu-email" placeholder="john@example.com">
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" id="nu-phone" placeholder="(901) 555-0100">
+      </div>
+      <div class="form-group">
+        <label>Role *</label>
+        <select id="nu-role">
+          <option value="">Select role...</option>
+          <option value="re_partner">RE Partner — equal RE access, approve deals under $15k</option>
+          <option value="acquisition_manager">Acquisition Manager — team lead, assign leads</option>
+          <option value="caller">Caller — logs MCTP, works assigned leads</option>
+          <option value="disposition_agent">Disposition Agent — buyer side, contracted deals</option>
+          <option value="business_standard">Business Standard — assigned spoke only</option>
+          <option value="virtual_assistant">Virtual Assistant — tasks and data entry only</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Max Approvable Fee ($)</label>
+        <input type="number" id="nu-maxfee" placeholder="15000 for re_partner">
+      </div>
+      <div class="form-group">
+        <label>Spend Limit ($)</label>
+        <input type="number" id="nu-spend" placeholder="Leave blank = unlimited">
+      </div>
+    </div>
+    <div id="nu-result"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-user')">Cancel</button>
+      <button class="btn btn-amber" onclick="submitAddUser()">Create &amp; Send Invite</button>
+    </div>
+  </div>
+</div>
+
+<!-- MCTP Log Modal -->
+<div class="modal-overlay" id="modal-mctp">
+  <div class="modal" style="width:560px">
+    <h3>Log Seller Call — MCTP</h3>
+    <div class="subtitle">Score 8+ = HOT (auto-routes to Brock). Score 5-7 = Warm.</div>
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Property Address *</label>
+        <input type="text" id="m-address" placeholder="4314 Leatherwood Ave, Memphis, TN 38111">
+      </div>
+      <div class="form-group"><label>Beds</label><input type="number" id="m-beds" placeholder="3"></div>
+      <div class="form-group"><label>Baths</label><input type="number" id="m-baths" step="0.5" placeholder="2"></div>
+      <div class="form-group"><label>Sqft</label><input type="number" id="m-sqft" placeholder="1534"></div>
+      <div class="form-group">
+        <label>Condition</label>
+        <select id="m-condition">
+          <option value="">Select...</option>
+          <option value="Light">Light (cosmetic only)</option>
+          <option value="Medium">Medium (some systems)</option>
+          <option value="Heavy">Heavy (full rehab)</option>
+        </select>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="form-grid">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>MOTIVATION — Why are they selling? *</label>
+        <textarea id="m-motivation" placeholder="e.g. Going through divorce, needs to sell fast"></textarea>
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Motivation Score</label>
+        <select id="m-mot-score">
+          <option value="3">3 — Financial hardship / divorce / death / foreclosure</option>
+          <option value="2">2 — Job change / moving / major life event</option>
+          <option value="1">1 — Just ready to sell, no urgency</option>
+          <option value="0">0 — Flexible / not motivated</option>
+        </select>
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>CONDITION — What's the state of the property?</label>
+        <select id="m-cond-score">
+          <option value="2">2 — Needs full rehab</option>
+          <option value="1">1 — Moderate repairs needed</option>
+          <option value="0">0 — Good condition / move-in ready</option>
+        </select>
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>TIMELINE — How soon do they need to sell?</label>
+        <input type="text" id="m-timeline" placeholder="e.g. 30 days, needs to be out by June 1">
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Timeline Score</label>
+        <select id="m-time-score">
+          <option value="3">3 — Under 30 days / urgent</option>
+          <option value="2">2 — 1-2 months</option>
+          <option value="1">1 — 2-6 months</option>
+          <option value="0">0 — Flexible / no rush</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>PRICE — Their asking price ($)</label>
+        <input type="number" id="m-asking" placeholder="120000">
+      </div>
+      <div class="form-group">
+        <label>Price Score</label>
+        <select id="m-price-score">
+          <option value="2">2 — Open to negotiation</option>
+          <option value="1">1 — Somewhat flexible</option>
+          <option value="0">0 — Firm on price</option>
+        </select>
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>ARV Mid (from Deal Analyzer)</label>
+        <input type="number" id="m-arv" placeholder="165000">
+      </div>
+      <div class="form-group">
+        <label>LAO</label>
+        <input type="number" id="m-lao" placeholder="69300">
+      </div>
+      <div class="form-group">
+        <label>Buyer Max</label>
+        <input type="number" id="m-buyermax" placeholder="55500">
+      </div>
+      <div class="form-group">
+        <label>Fee @ LAO</label>
+        <input type="number" id="m-feelao" placeholder="">
+      </div>
+      <div class="form-group">
+        <label>Fee @ Walk-up</label>
+        <input type="number" id="m-feewu" placeholder="">
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Caller Notes</label>
+        <textarea id="m-notes" placeholder="Anything else about the call..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Next Action</label>
+        <input type="text" id="m-nextaction" placeholder="e.g. Call back Thursday">
+      </div>
+      <div class="form-group">
+        <label>Follow-up Date</label>
+        <input type="date" id="m-followup">
+      </div>
+    </div>
+
+    <div class="mctp-score-display" id="mctp-preview">
+      <div class="score-num" id="mctp-score-num" style="color:var(--muted)">—</div>
+      <div class="score-label">out of 10</div>
+      <div class="score-status" id="mctp-score-status" style="color:var(--muted)">—</div>
+    </div>
+
+    <div id="mctp-result" style="margin-top:12px"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-mctp')">Cancel</button>
+      <button class="btn btn-amber" onclick="updateMctpPreview()">Preview Score</button>
+      <button class="btn btn-green" onclick="submitMctp()">Submit &amp; Route</button>
+    </div>
+  </div>
+</div>
+
+<!-- Approval Notes Modal -->
+<div class="modal-overlay" id="modal-approve-notes">
+  <div class="modal">
+    <h3 id="approve-modal-title">Approve Lead</h3>
+    <div class="subtitle">An offer script will be generated and sent to the caller.</div>
+    <div class="form-group" style="margin-top:16px">
+      <label>Notes (optional)</label>
+      <textarea id="approve-notes" placeholder="Any context for the caller..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-approve-notes')">Cancel</button>
+      <button class="btn btn-green" id="approve-confirm-btn" onclick="confirmApprove()">Approve &amp; Send Script</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// ODIN Dashboard — Core JS
+// ═══════════════════════════════════════════════════════
+
+const API = '';  // same origin (Flask serves this file)
+let currentUser = null;
+let pendingApprovalId = null;
+let pendingApproveAction = null;
+
+// ── Startup ──────────────────────────────────────────
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Check for invite token in URL
+  const params = new URLSearchParams(window.location.search);
+  const inviteToken = params.get('token');
+  if (inviteToken) {
+    sessionStorage.setItem('invite_token', inviteToken);
+    showSetPasswordForm();
+    return;
+  }
+
+  const stored = localStorage.getItem('odin_token');
+  if (stored) {
+    try {
+      const payload = parseJwt(stored);
+      if (payload && payload.exp * 1000 > Date.now()) {
+        currentUser = payload;
+        bootApp();
+        return;
+      }
+    } catch {}
+    localStorage.removeItem('odin_token');
+  }
+  showScreen('auth-screen');
+});
+
+function showSetPasswordForm() {
+  document.getElementById('auth-form').style.display = 'none';
+  document.getElementById('set-pw-form').style.display = 'block';
+  showScreen('auth-screen');
+}
+
+// ── Auth ─────────────────────────────────────────────
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('login-error');
+  errEl.textContent = '';
+
+  if (!email || !password) { errEl.textContent = 'Email and password required.'; return; }
+
+  try {
+    const res = await api('/api/auth/login', 'POST', { email, password });
+    if (res.error) { errEl.textContent = res.error; return; }
+    localStorage.setItem('odin_token', res.token);
+    currentUser = parseJwt(res.token);
+    bootApp();
+  } catch (e) {
+    errEl.textContent = 'Cannot reach ODIN API. Make sure Flask is running.';
+  }
+}
+
+async function doSetPassword() {
+  const pw  = document.getElementById('new-password').value;
+  const pw2 = document.getElementById('new-password-confirm').value;
+  const errEl = document.getElementById('setpw-error');
+  const token = sessionStorage.getItem('invite_token');
+
+  if (!pw || pw.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; return; }
+  if (pw !== pw2) { errEl.textContent = 'Passwords do not match.'; return; }
+
+  try {
+    const res = await api('/api/auth/set-password', 'POST', { token, password: pw });
+    if (res.error) { errEl.textContent = res.error; return; }
+    sessionStorage.removeItem('invite_token');
+    window.history.replaceState({}, '', '/');
+    document.getElementById('set-pw-form').style.display = 'none';
+    document.getElementById('auth-form').style.display = 'block';
+    toast('Password set! You can now log in.', 'success');
+  } catch (e) {
+    errEl.textContent = 'Error setting password. Try again.';
+  }
+}
+
+function logout() {
+  localStorage.removeItem('odin_token');
+  currentUser = null;
+  showScreen('auth-screen');
+  document.getElementById('login-password').value = '';
+}
+
+// ── App Boot ─────────────────────────────────────────
+
+function bootApp() {
+  showScreen('app-screen');
+  if (currentUser.role === 'business_standard') {
+    document.body.classList.add('theme-pink');
+    const starChars = ['✦','✧','⋆','✵','✶','⭒','🌟','💫'];
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement('div');
+      s.className = 'star-decor';
+      s.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+      s.style.cssText = `left:${Math.random()*98}vw;top:${Math.random()*98}vh;animation-delay:${(Math.random()*4).toFixed(1)}s;animation-duration:${(2+Math.random()*3).toFixed(1)}s;font-size:${8+Math.floor(Math.random()*10)}px;opacity:${(0.2+Math.random()*0.5).toFixed(2)}`;
+      document.body.appendChild(s);
+    }
+  } else {
+    document.body.classList.add('theme-norse');
+    // Add subtle rune stripe under logo
+    const logo = document.querySelector('.sidebar-logo');
+    if (logo) {
+      const rune = document.createElement('span');
+      rune.className = 'rune-stripe';
+      rune.textContent = 'ᚩ ᛞ ᛁ ᚾ';
+      logo.appendChild(rune);
+    }
+  }
+  document.getElementById('sb-name').textContent  = currentUser.name;
+  document.getElementById('sb-email').textContent = currentUser.email;
+  document.getElementById('sb-role-badge').textContent = currentUser.role.replace(/_/g, ' ');
+
+  buildNav();
+  showDefaultPage();
+  loadApprovalBadge();
+}
+
+function buildNav() {
+  const role = currentUser.role;
+  const nav  = document.getElementById('sidebar-nav');
+  nav.innerHTML = '';
+
+  const pages = navConfig[role] || navConfig['virtual_assistant'];
+  pages.forEach(section => {
+    if (section.header) {
+      nav.innerHTML += `<div class="nav-section">${section.header}</div>`;
+    }
+    if (section.items) {
+      section.items.forEach(item => {
+        nav.innerHTML += `
+          <div class="nav-item" data-page="${item.page}" onclick="showPage('${item.page}')">
+            <span class="icon">${item.icon}</span>
+            <span>${item.label}</span>
+            ${item.badge ? `<span class="badge amber" id="badge-${item.badge}">0</span>` : ''}
+          </div>`;
+      });
+    }
+  });
+}
+
+const navConfig = {
+  super_admin: [
+    { header: 'Overview', items: [
+      { page: 'summary',  icon: '◈', label: 'Dashboard' },
+      { page: 'approvals',icon: '⚡', label: 'Approval Queue', badge: 'approvals' },
+    ]},
+    { header: 'Real Estate', items: [
+      { page: 'leads',    icon: '⌂', label: 'All Leads' },
+      { page: 'mctp',     icon: '✎', label: 'Log MCTP Call' },
+      { page: 'buyers',   icon: '👥', label: 'Buyer List' },
+    ]},
+    { header: 'Admin', items: [
+      { page: 'users',    icon: '⚙', label: 'User Management' },
+      { page: 'activity', icon: '◉', label: 'Activity Log' },
+    ]},
+  ],
+  re_partner: [
+    { header: 'Real Estate', items: [
+      { page: 'summary',  icon: '◈', label: 'Dashboard' },
+      { page: 'leads',    icon: '⌂', label: 'All Leads' },
+      { page: 'approvals',icon: '⚡', label: 'Approval Queue', badge: 'approvals' },
+      { page: 'buyers',   icon: '👥', label: 'Buyer List' },
+    ]},
+    { header: 'Team', items: [
+      { page: 'activity', icon: '◉', label: 'Team Activity' },
+    ]},
+  ],
+  acquisition_manager: [
+    { header: 'Pipeline', items: [
+      { page: 'leads',    icon: '⌂', label: 'Lead Pipeline' },
+      { page: 'approvals',icon: '⚡', label: 'Warm Lead Review', badge: 'approvals' },
+    ]},
+    { header: 'Team', items: [
+      { page: 'callers',  icon: '📞', label: 'Caller Board' },
+      { page: 'activity', icon: '◉', label: 'MCTP Logs' },
+    ]},
+  ],
+  caller: [
+    { header: 'My Work', items: [
+      { page: 'my-leads', icon: '⌂', label: 'My Leads' },
+      { page: 'mctp',     icon: '✎', label: 'Log MCTP Call' },
+      { page: 'stats',    icon: '◈', label: 'My Stats' },
+    ]},
+    { header: 'Tools', items: [
+      { page: 'deal-analyzer', icon: '◉', label: 'Deal Analyzer' },
+    ]},
+  ],
+  disposition_agent: [
+    { header: 'Deals', items: [
+      { page: 'contracts',icon: '◈', label: 'Contracted Deals' },
+      { page: 'buyers',   icon: '👥', label: 'Buyer List' },
+    ]},
+  ],
+  business_standard: [
+    { header: '✨ Katelyn\'s Studio', items: [
+      { page: 'my-spoke',   icon: '🌙', label: 'My Dashboard'    },
+      { page: 'biz-ideas',  icon: '🔮', label: 'Business Ideas'  },
+      { page: 'biz-chat',   icon: '💬', label: 'Talk to ODIN'    },
+    ]},
+    { header: '💄 My Ventures', items: [
+      { page: 'biz-tracker', icon: '🧪', label: 'Active Projects' },
+    ]},
+  ],
+  virtual_assistant: [
+    { header: 'Tasks', items: [
+      { page: 'tasks',    icon: '✎', label: 'My Tasks' },
+    ]},
+  ],
+};
+
+function showDefaultPage() {
+  const role = currentUser.role;
+  const defaults = {
+    super_admin: 'summary', re_partner: 'summary',
+    acquisition_manager: 'leads', caller: 'my-leads',
+    disposition_agent: 'contracts', business_standard: 'my-spoke',
+    virtual_assistant: 'tasks',
+  };
+  showPage(defaults[role] || 'summary');
+}
+
+// ── Page Router ──────────────────────────────────────
+
+function showPage(pageId) {
+  // Update nav active state
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.page === pageId);
+  });
+
+  // Render page content
+  const main = document.getElementById('main-content');
+  main.innerHTML = renderPage(pageId);
+
+  // Post-render hooks
+  if (pageId === 'summary')   loadSummary();
+  if (pageId === 'users')     loadUsers();
+  if (pageId === 'leads')     loadLeads('all');
+  if (pageId === 'my-leads')  loadLeads('mine');
+  if (pageId === 'buyers')    loadBuyers();
+  if (pageId === 'approvals') loadApprovals();
+  if (pageId === 'activity')  loadActivity();
+  if (pageId === 'stats')     loadStats();
+  if (pageId === 'mctp')      showMctpModal();
+  if (pageId === 'deal-analyzer') openDealAnalyzer();
+}
+
+// ── Page Renderers ───────────────────────────────────
+
+function renderPage(pageId) {
+  switch (pageId) {
+    case 'summary':     return pageSummary();
+    case 'users':       return pageUsers();
+    case 'leads':       return pageLeads('All Leads', 'Full pipeline — all statuses');
+    case 'my-leads':    return pageLeads('My Leads', 'Your assigned leads + unassigned pool');
+    case 'approvals':   return pageApprovals();
+    case 'activity':    return pageActivity();
+    case 'stats':       return pageStats();
+    case 'buyers':      return pageBuyers();
+    case 'contracts':   return pageLeads('Contracted Deals', 'Properties under contract — ready for buyer matching');
+    case 'callers':     return pageCallers();
+    case 'my-spoke':     return pageMySpoke();
+    case 'biz-ideas':    return pageBizIdeas();
+    case 'biz-chat':     return pageBizChat();
+    case 'biz-tracker':  return pageBizTracker();
+    case 'tasks':       return pageTasks();
+    case 'deal-analyzer': return pageDealAnalyzer();
+    default:            return `<div class="page active"><p style="color:var(--muted)">Page not found.</p></div>`;
+  }
+}
+
+function pageSummary() {
+  return `
+    <div class="page active">
+      <div class="page-title">Dashboard</div>
+      <div class="page-subtitle">Overview — ${new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</div>
+      <div class="cards-row" id="summary-cards">
+        <div class="card"><h4>Loading...</h4><div class="big-num">—</div></div>
+      </div>
+      <div id="summary-extra"></div>
+    </div>`;
+}
+
+function pageUsers() {
+  return `
+    <div class="page active">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div>
+          <div class="page-title">User Management</div>
+          <div class="page-subtitle">Add, edit, and manage team access</div>
+        </div>
+        <button class="btn btn-amber" onclick="openModal('modal-add-user')">+ Add Team Member</button>
+      </div>
+      <div id="users-table-wrap">
+        <div style="color:var(--muted);padding:24px">Loading users...</div>
+      </div>
+    </div>`;
+}
+
+function pageLeads(title, subtitle) {
+  return `
+    <div class="page active">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div>
+          <div class="page-title">${title}</div>
+          <div class="page-subtitle">${subtitle}</div>
+        </div>
+        <button class="btn btn-amber" onclick="openModal('modal-mctp')">+ Log Call</button>
+      </div>
+      <div id="leads-wrap">
+        <div style="color:var(--muted);padding:24px">Loading...</div>
+      </div>
+    </div>`;
+}
+
+function pageApprovals() {
+  return `
+    <div class="page active">
+      <div class="page-title">Approval Queue</div>
+      <div class="page-subtitle">Pending actions that require your review</div>
+      <div id="approvals-wrap">
+        <div style="color:var(--muted);padding:24px">Loading...</div>
+      </div>
+    </div>`;
+}
+
+function pageActivity() {
+  const isAdmin = ['super_admin', 're_partner', 'acquisition_manager'].includes(currentUser.role);
+  return `
+    <div class="page active">
+      <div class="page-title">${isAdmin ? 'Activity Log' : 'MCTP Logs'}</div>
+      <div class="page-subtitle">Recent actions across the system</div>
+      <div id="activity-wrap">
+        <div style="color:var(--muted);padding:24px">Loading...</div>
+      </div>
+    </div>`;
+}
+
+function pageStats() {
+  return `
+    <div class="page active">
+      <div class="page-title">My Stats</div>
+      <div class="page-subtitle">Your calling performance</div>
+      <div class="cards-row" id="stats-cards">
+        <div class="card"><h4>Loading...</h4><div class="big-num">—</div></div>
+      </div>
+    </div>`;
+}
+
+function pageBuyers() {
+  return `
+    <div class="page active">
+      <div class="page-title">Buyer List</div>
+      <div class="page-subtitle">Cash buyer database — Memphis TN market</div>
+      <div class="cards-row" style="margin-bottom:16px">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;width:100%">
+          <input id="buyer-search" type="text" placeholder="Search name, email, phone..."
+            style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;width:220px"
+            oninput="loadBuyers()">
+          <select id="buyer-market" onchange="loadBuyers()"
+            style="padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px">
+            <option value="">All Markets</option>
+            <option value="TN">Tennessee</option>
+            <option value="MS">Mississippi</option>
+            <option value="Memphis">Memphis</option>
+          </select>
+          <select id="buyer-active" onchange="loadBuyers()"
+            style="padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px">
+            <option value="">All Status</option>
+            <option value="true">Active only</option>
+            <option value="false">Inactive</option>
+          </select>
+          <button onclick="syncXLeadsLeads()" style="margin-left:auto;padding:8px 16px;background:var(--amber);border:none;border-radius:6px;color:#000;font-size:13px;font-weight:600;cursor:pointer">
+            ⚡ Sync XLeads Leads
+          </button>
+        </div>
+      </div>
+      <div id="buyers-wrap">
+        <div style="color:var(--muted);padding:24px">Loading buyers...</div>
+      </div>
+    </div>`;
+}
+
+async function loadBuyers() {
+  const wrap   = document.getElementById('buyers-wrap');
+  if (!wrap) return;
+  const search = document.getElementById('buyer-search')?.value || '';
+  const market = document.getElementById('buyer-market')?.value || '';
+  const active = document.getElementById('buyer-active')?.value || '';
+  try {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (market) params.set('market', market);
+    if (active) params.set('active', active);
+    params.set('per_page', '100');
+    const data = await api('/api/buyers?' + params.toString());
+    const buyers = data.buyers || [];
+    if (!buyers.length) {
+      wrap.innerHTML = `<div class="table-wrap" style="padding:32px;text-align:center;color:var(--muted)">No buyers found.</div>`;
+      return;
+    }
+    wrap.innerHTML = `
+      <div style="color:var(--muted);font-size:12px;margin-bottom:8px">${data.total} total buyers</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Name</th><th>Type</th><th>Market</th>
+            <th>Phone</th><th>Email</th>
+            <th>Portfolio</th><th>Status</th>
+          </tr></thead>
+          <tbody>
+            ${buyers.map(b => {
+              const types = [b.is_flipper && 'Flipper', b.is_landlord && 'Landlord', b.is_lender && 'Lender'].filter(Boolean).join(', ');
+              const statusColor = b.is_dnc ? 'var(--red)' : b.active ? 'var(--green)' : 'var(--muted)';
+              const statusLabel = b.is_dnc ? 'DNC' : b.active ? 'Active' : 'Inactive';
+              return `<tr>
+                <td>
+                  <div style="font-weight:600;font-size:13px">${esc(b.name||'—')}</div>
+                  ${b.company ? `<div style="color:var(--muted);font-size:11px">${esc(b.company)}</div>` : ''}
+                </td>
+                <td style="color:var(--amber);font-size:12px">${esc(types||'—')}</td>
+                <td style="font-size:12px">
+                  <div>${esc(b.city||'')}${b.city&&b.state?', ':''} ${esc(b.state||'')}</div>
+                  <div style="color:var(--muted);font-size:11px">${esc(b.market||'')}</div>
+                </td>
+                <td style="font-size:12px">${esc(b.phone||'—')}</td>
+                <td style="font-size:11px;color:var(--muted)">${esc(b.email||'—')}</td>
+                <td style="font-size:12px;text-align:center">
+                  <div style="font-weight:600">${b.portfolio_owned||0}</div>
+                  <div style="color:var(--muted);font-size:10px">owned</div>
+                </td>
+                <td><span style="font-size:11px;font-weight:600;color:${statusColor}">${statusLabel}</span></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch(e) {
+    wrap.innerHTML = `<div class="alert alert-red">Error loading buyers: ${esc(e.message)}</div>`;
+  }
+}
+
+async function syncXLeadsLeads() {
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = '⏳ Syncing...';
+  try {
+    const data = await api('/api/leads/sync-xleads', {method:'POST', body: JSON.stringify({limit:200}), headers:{'Content-Type':'application/json'}});
+    btn.textContent = `✓ Synced ${data.synced} leads`;
+    setTimeout(() => { btn.disabled = false; btn.textContent = '⚡ Sync XLeads Leads'; }, 4000);
+  } catch(e) {
+    btn.textContent = '✗ Sync failed';
+    btn.disabled = false;
+  }
+}
+
+function pageCallers() {
+  return `
+    <div class="page active">
+      <div class="page-title">Caller Board</div>
+      <div class="page-subtitle">Assign leads and track caller activity</div>
+      <div id="callers-wrap">
+        <div style="color:var(--muted);padding:24px">Loading callers...</div>
+      </div>
+    </div>`;
+}
+
+function pageMySpoke() {
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  const moons = ['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'];
+  const moonPhase = moons[Math.floor((new Date().getDate() / 3.7)) % 8];
+  const day = new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+  return `
+    <div class="page active">
+      <div class="witch-banner">
+        ${moonPhase} ${greeting}, Katelyn ✨ &nbsp;·&nbsp; ${day}
+      </div>
+      <div class="cards-row">
+        <div class="card" style="flex:1;min-width:140px;text-align:center">
+          <h4>Active Ventures</h4>
+          <div class="big-num amber">0</div>
+          <div style="font-size:24px;margin-top:4px">🧙‍♀️</div>
+        </div>
+        <div class="card" style="flex:1;min-width:140px;text-align:center">
+          <h4>Ideas Brewing</h4>
+          <div class="big-num" style="color:var(--blue)">0</div>
+          <div style="font-size:24px;margin-top:4px">🔮</div>
+        </div>
+        <div class="card" style="flex:1;min-width:140px;text-align:center">
+          <h4>Revenue</h4>
+          <div class="big-num green">$0</div>
+          <div style="font-size:24px;margin-top:4px">💰</div>
+        </div>
+        <div class="card" style="flex:1;min-width:140px;text-align:center">
+          <h4>Tasks Due</h4>
+          <div class="big-num red">0</div>
+          <div style="font-size:24px;margin-top:4px">📋</div>
+        </div>
+      </div>
+      <div class="witch-card">
+        <div style="font-size:22px;margin-bottom:8px">🌿 Welcome to Your Studio</div>
+        <p style="color:var(--muted);line-height:1.6">
+          This is your command center, Katelyn. Tell ODIN what kind of business you want to create —
+          witch-themed shops, makeup brands, digital products, client services — and ODIN will
+          build and run it for you automatically. Head to <strong style="color:var(--amber)">Business Ideas</strong>
+          to start brewing something new, or <strong style="color:var(--amber)">Talk to ODIN</strong> to describe your vision.
+        </p>
+      </div>
+      <div class="cards-row" style="margin-top:8px">
+        <div class="card" style="flex:1;cursor:pointer" onclick="showPage('biz-ideas')">
+          <div style="font-size:28px;margin-bottom:8px">🔮</div>
+          <h4>Business Ideas</h4>
+          <p style="color:var(--muted);font-size:12px;margin-top:6px">Capture and develop new business concepts</p>
+        </div>
+        <div class="card" style="flex:1;cursor:pointer" onclick="showPage('biz-chat')">
+          <div style="font-size:28px;margin-bottom:8px">💬</div>
+          <h4>Talk to ODIN</h4>
+          <p style="color:var(--muted);font-size:12px;margin-top:6px">Describe your vision — ODIN handles the rest</p>
+        </div>
+        <div class="card" style="flex:1;cursor:pointer" onclick="showPage('biz-tracker')">
+          <div style="font-size:28px;margin-bottom:8px">🧪</div>
+          <h4>Active Projects</h4>
+          <p style="color:var(--muted);font-size:12px;margin-top:6px">Track and manage your running ventures</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+function pageBizIdeas() {
+  return `
+    <div class="page active">
+      <div class="page-title">🔮 Business Ideas</div>
+      <div class="page-subtitle">Your idea cauldron — every empire starts with a spark</div>
+      <div class="witch-card">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="font-size:36px">🧪</div>
+          <div style="flex:1">
+            <div style="font-weight:600;margin-bottom:8px;color:var(--amber)">Drop a new idea into the cauldron</div>
+            <textarea id="idea-input" placeholder="e.g. A witchy Etsy shop selling hand-poured candles with spell cards... or a makeup tutorial membership with a dark-glamour theme..." style="width:100%;height:80px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:13px;resize:vertical;font-family:inherit"></textarea>
+            <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+              <select id="idea-type" style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:13px">
+                <option value="witch">🧙‍♀️ Witch / Spiritual</option>
+                <option value="makeup">💄 Makeup / Beauty</option>
+                <option value="digital">💻 Digital Product</option>
+                <option value="service">🌸 Service Business</option>
+                <option value="shop">🛍️ Online Shop</option>
+                <option value="other">✨ Other</option>
+              </select>
+              <button onclick="brewIdea()" style="background:linear-gradient(135deg,#9333ea,#db2777);border:none;border-radius:6px;padding:8px 20px;color:#fff;cursor:pointer;font-weight:600">🌙 Brew It</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="ideas-list">
+        <div class="odin-chat-box">
+          <div style="font-size:32px;margin-bottom:12px">🌑</div>
+          <div style="color:var(--muted)">No ideas yet — the cauldron awaits your first spark ✨</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function pageBizChat() {
+  return `
+    <div class="page active">
+      <div class="page-title">💬 Talk to ODIN</div>
+      <div class="page-subtitle">Describe your business vision — ODIN will build and run it</div>
+      <div class="witch-card">
+        <div style="font-size:22px;margin-bottom:12px">🤖 ODIN is listening...</div>
+        <p style="color:var(--muted);line-height:1.6;margin-bottom:16px">
+          Tell ODIN what kind of business you want. Be as detailed or vague as you like — describe the vibe,
+          the customer, the product. ODIN will ask follow-up questions and then build the whole thing for you.
+        </p>
+        <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:16px;margin-bottom:16px;min-height:200px;border:1px solid var(--border)" id="chat-history">
+          <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px">
+            <div style="font-size:20px">🔮</div>
+            <div style="background:rgba(147,51,234,.2);border-radius:8px;padding:10px 14px;max-width:80%;font-size:13px;line-height:1.5">
+              Hi Katelyn ✨ I'm ODIN. Tell me about the business you want to create — the more detail the better, but even a vibe or aesthetic is enough to start. What are you imagining?
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <textarea id="chat-input" placeholder="e.g. I want a witchy candle brand that sells on Etsy with automated order follow-ups..." style="flex:1;height:60px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text);font-size:13px;resize:none;font-family:inherit"></textarea>
+          <button onclick="sendOdinChat()" style="background:linear-gradient(135deg,#9333ea,#db2777);border:none;border-radius:6px;padding:10px 18px;color:#fff;cursor:pointer;font-weight:600;align-self:flex-end">Send ✨</button>
+        </div>
+        <div style="color:var(--muted);font-size:12px;margin-top:10px;text-align:center">
+          🌙 Full ODIN automation via Slack coming soon — Brock is wiring it up
+        </div>
+      </div>
+    </div>`;
+}
+
+function pageBizTracker() {
+  return `
+    <div class="page active">
+      <div class="page-title">🧪 Active Projects</div>
+      <div class="page-subtitle">Your running ventures and their status</div>
+      <div class="odin-chat-box">
+        <div style="font-size:40px;margin-bottom:12px">🌕</div>
+        <div style="color:var(--text);font-weight:600;margin-bottom:8px">No active ventures yet</div>
+        <div style="color:var(--muted);margin-bottom:16px">Head to Business Ideas to brew your first one ✨</div>
+        <button onclick="showPage('biz-ideas')" style="background:linear-gradient(135deg,#9333ea,#db2777);border:none;border-radius:6px;padding:10px 20px;color:#fff;cursor:pointer;font-weight:600">🔮 Start Brewing</button>
+      </div>
+    </div>`;
+}
+
+function brewIdea() {
+  const input = document.getElementById('idea-input');
+  const type  = document.getElementById('idea-type');
+  const text  = (input.value || '').trim();
+  if (!text) { toast('Add an idea first ✨', 'error'); return; }
+  const icons = { witch:'🧙‍♀️', makeup:'💄', digital:'💻', service:'🌸', shop:'🛍️', other:'✨' };
+  const list  = document.getElementById('ideas-list');
+  const existing = list.querySelector('.odin-chat-box');
+  if (existing) existing.remove();
+  const item = document.createElement('div');
+  item.className = 'idea-item';
+  item.innerHTML = `<div style="font-size:24px">${icons[type.value]||'✨'}</div><div style="flex:1"><div style="font-weight:600;margin-bottom:4px">${text}</div><div style="font-size:12px;color:var(--muted)">${type.options[type.selectedIndex].text} · Just now</div></div><div style="color:var(--amber);font-size:12px;cursor:pointer" onclick="this.closest('.idea-item').remove()">✕</div>`;
+  list.appendChild(item);
+  input.value = '';
+  toast('Idea added to the cauldron 🔮', 'success');
+}
+
+function sendOdinChat() {
+  const input = document.getElementById('chat-input');
+  const text  = (input.value || '').trim();
+  if (!text) return;
+  const history = document.getElementById('chat-history');
+  history.innerHTML += `<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;justify-content:flex-end"><div style="background:rgba(244,114,182,.2);border-radius:8px;padding:10px 14px;max-width:80%;font-size:13px;line-height:1.5">${text}</div><div style="font-size:20px">✨</div></div>`;
+  input.value = '';
+  setTimeout(() => {
+    history.innerHTML += `<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px"><div style="font-size:20px">🔮</div><div style="background:rgba(147,51,234,.2);border-radius:8px;padding:10px 14px;max-width:80%;font-size:13px;line-height:1.5">I love it ✨ Brock is finishing the Slack wiring — once that's live, I'll be able to fully build this out for you automatically. For now, save your idea in the 🔮 Business Ideas tab so it's ready to go!</div></div>`;
+    history.scrollTop = history.scrollHeight;
+  }, 800);
+  history.scrollTop = history.scrollHeight;
+}
+
+function pageTasks() {
+  return `
+    <div class="page active">
+      <div class="page-title">My Tasks</div>
+      <div class="page-subtitle">Assigned work and data entry queue</div>
+      <div class="alert alert-amber">Tasks will be assigned to you by your manager.</div>
+    </div>`;
+}
+
+function pageDealAnalyzer() {
+  return `
+    <div class="page active">
+      <div class="page-title">Deal Analyzer</div>
+      <div class="page-subtitle">Powered by Rentcast API + LAO engine</div>
+      <div class="alert alert-amber" style="margin-bottom:16px">
+        The full Deal Analyzer runs in the Shue Box Tools.
+        <a href="javascript:openDealAnalyzer()" style="color:var(--amber)">
+          Open shue_box_tools.html
+        </a>
+        — or use the local proxy launcher (start_deal_analyzer.bat).
+      </div>
+    </div>`;
+}
+
+// ── Data Loaders ─────────────────────────────────────
+
+async function loadSummary() {
+  try {
+    const data = await api('/api/dashboard/summary');
+    const role = currentUser.role;
+    const el   = document.getElementById('summary-cards');
+    if (!el) return;
+
+    if (role === 'super_admin') {
+      el.innerHTML = `
+        ${card('Active Leads', data.active_leads, '')}
+        ${card('Hot (8+)', data.hot_leads, 'red')}
+        ${card('Warm (5-7)', data.warm_leads, 'amber')}
+        ${card('Pending Approvals', data.pending_approvals, 'amber')}
+        ${card('Deals Closed', data.deals_closed, 'green')}
+        ${card('Team Users', data.total_users, '')}
+      `;
+    } else if (role === 'caller') {
+      el.innerHTML = `
+        ${card('My Leads', data.my_leads, '')}
+        ${card('Hot Leads Sent', data.hot_leads_sent, 'red')}
+        ${card('Unassigned Pool', data.unassigned_pool, 'amber')}
+      `;
+    } else {
+      el.innerHTML = card('Dashboard Active', '✓', 'green');
+    }
+  } catch (e) {
+    const el = document.getElementById('summary-cards');
+    if (el) el.innerHTML = `<div class="alert alert-red">Cannot connect to ODIN API.<br>Make sure the Flask server is running.</div>`;
+  }
+}
+
+async function loadUsers() {
+  try {
+    const data  = await api('/api/users');
+    const users = data.users || [];
+    const wrap  = document.getElementById('users-table-wrap');
+    if (!wrap) return;
+
+    if (!users.length) {
+      wrap.innerHTML = '<div style="color:var(--muted);padding:24px">No users found.</div>';
+      return;
+    }
+
+    wrap.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Name</th><th>Role</th><th>Status</th>
+            <th>Last Active</th><th>Onboarded</th><th>Actions</th>
+          </tr></thead>
+          <tbody>
+            ${users.map(u => `
+              <tr>
+                <td>
+                  <div style="font-weight:600">${esc(u.name)}</div>
+                  <div style="color:var(--muted);font-size:11px">${esc(u.email)}</div>
+                </td>
+                <td><span class="role-pill role-${u.role}">${u.role.replace(/_/g,' ')}</span></td>
+                <td>
+                  <span style="color:${u.active ? 'var(--green)' : 'var(--red)'}">
+                    ${u.active ? '● Active' : '○ Inactive'}
+                  </span>
+                </td>
+                <td style="color:var(--muted);font-size:12px">
+                  ${u.last_active ? new Date(u.last_active).toLocaleDateString() : 'Never'}
+                </td>
+                <td style="color:${u.onboarded ? 'var(--green)' : 'var(--muted)'}">
+                  ${u.onboarded ? '✓' : 'Invite pending'}
+                </td>
+                <td>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <button class="btn btn-ghost btn-sm" onclick="showInviteLink('${u.id}')">Invite</button>
+                    ${u.role !== 'super_admin' ? `<button class="btn btn-danger btn-sm" onclick="deactivateUser('${u.id}','${esc(u.name)}')">Deactivate</button>` : ''}
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch (e) {
+    document.getElementById('users-table-wrap').innerHTML =
+      `<div class="alert alert-red">Error loading users: ${esc(e.message)}</div>`;
+  }
+}
+
+async function loadLeads(mode) {
+  try {
+    const params = mode === 'mine' ? '' : '';
+    const data  = await api('/api/leads' + params);
+    const leads = data.leads || [];
+    const wrap  = document.getElementById('leads-wrap');
+    if (!wrap) return;
+
+    if (!leads.length) {
+      wrap.innerHTML = `
+        <div class="table-wrap" style="padding:32px;text-align:center;color:var(--muted)">
+          No leads yet. Log your first MCTP call to get started.
+        </div>`;
+      return;
+    }
+
+    wrap.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Address</th><th>Score</th><th>Status</th>
+            <th>Motivation</th><th>Timeline</th><th>Asking</th>
+            <th>LAO</th><th>Follow-up</th>
+          </tr></thead>
+          <tbody>
+            ${leads.map(l => {
+              const score = l.mctp_total || 0;
+              const sClass = score >= 8 ? 'hot' : (score >= 5 ? 'warm' : 'cold');
+              return `
+                <tr>
+                  <td>
+                    <div style="font-weight:600;font-size:13px">${esc(l.address || '—')}</div>
+                    <div style="color:var(--muted);font-size:11px">${esc(l.condition||'')} ${l.beds?l.beds+'bd':''} ${l.baths?l.baths+'ba':''} ${l.sqft?l.sqft+'sqft':''}</div>
+                  </td>
+                  <td>
+                    <span style="font-size:18px;font-weight:700;color:${score>=8?'var(--red)':score>=5?'var(--amber)':'var(--muted)'}">${score}</span>
+                    <span style="color:var(--muted);font-size:11px">/10</span>
+                  </td>
+                  <td><span class="status-pill s-${l.status||'new'}">${(l.status||'new').toUpperCase()}</span></td>
+                  <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:12px">${esc(l.motivation||'—')}</td>
+                  <td style="color:var(--muted);font-size:12px">${esc(l.timeline||'—')}</td>
+                  <td>${l.asking_price ? '$'+Number(l.asking_price).toLocaleString() : '—'}</td>
+                  <td style="color:var(--amber);font-weight:600">${l.lao ? '$'+Number(l.lao).toLocaleString() : '—'}</td>
+                  <td style="color:var(--muted);font-size:12px">${l.follow_up_date||'—'}</td>
+                </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch (e) {
+    const wrap = document.getElementById('leads-wrap');
+    if (wrap) wrap.innerHTML = `<div class="alert alert-red">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+async function loadApprovals() {
+  try {
+    const data  = await api('/api/approval');
+    const items = data.approvals || [];
+    const wrap  = document.getElementById('approvals-wrap');
+    if (!wrap) return;
+
+    // Update badge
+    const badge = document.getElementById('badge-approvals');
+    if (badge) { badge.textContent = items.length; badge.style.display = items.length ? '' : 'none'; }
+
+    if (!items.length) {
+      wrap.innerHTML = `<div style="color:var(--muted);padding:32px;text-align:center">No pending approvals. ✓</div>`;
+      return;
+    }
+
+    wrap.innerHTML = items.map(item => {
+      const pClass = item.priority >= 3 ? 'priority-urgent' : item.priority === 2 ? 'priority-high' : 'priority-normal';
+      const data   = item.data || {};
+      const score  = data.mctp_total || 0;
+
+      return `
+        <div class="approval-card ${pClass}">
+          <div class="ac-header">
+            <div>
+              <div class="ac-title">
+                ${item.action_type === 'hot_lead_review' ? '🔥' : '📋'}
+                ${esc(data.address || item.action_type.replace(/_/g,' '))}
+              </div>
+              <div class="ac-meta">
+                ${item.action_type.replace(/_/g,' ')} ·
+                Submitted by ${esc(item.initiated_by_name||'—')} ·
+                ${new Date(item.created_at).toLocaleDateString()}
+                ${score ? ` · Score: <strong style="color:${score>=8?'var(--red)':score>=5?'var(--amber)':'var(--muted)'}">${score}/10</strong>` : ''}
+              </div>
+            </div>
+            <span class="status-pill s-new" style="white-space:nowrap">PENDING</span>
+          </div>
+          ${item.message_template ? `<div style="color:var(--muted);font-size:12px;margin-top:10px;white-space:pre-wrap;line-height:1.5">${esc(item.message_template)}</div>` : ''}
+          <div class="ac-actions">
+            <button class="btn btn-green btn-sm" onclick="openApproveModal('${item.id}','approve')">✓ Approve</button>
+            <button class="btn btn-danger btn-sm" onclick="openApproveModal('${item.id}','reject')">✗ Reject</button>
+          </div>
+        </div>`;
+    }).join('');
+  } catch (e) {
+    const wrap = document.getElementById('approvals-wrap');
+    if (wrap) wrap.innerHTML = `<div class="alert alert-red">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+async function loadActivity() {
+  try {
+    const userId = currentUser.user_id;
+    const data   = await api(`/api/users/${userId}/activity?limit=50`);
+    const rows   = data.activity || [];
+    const wrap   = document.getElementById('activity-wrap');
+    if (!wrap) return;
+
+    if (!rows.length) {
+      wrap.innerHTML = '<div style="color:var(--muted);padding:24px">No activity yet.</div>';
+      return;
+    }
+
+    wrap.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Action</th><th>Resource</th><th>Result</th><th>Time</th></tr></thead>
+          <tbody>
+            ${rows.map(r => `
+              <tr>
+                <td>${esc(r.action_type.replace(/_/g,' '))}</td>
+                <td style="color:var(--muted)">${esc(r.resource||'—')}</td>
+                <td style="color:${r.result==='ok'?'var(--green)':'var(--red)'}">${esc(r.result||'—')}</td>
+                <td style="color:var(--muted);font-size:12px">${new Date(r.created_at).toLocaleString()}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch (e) {
+    const wrap = document.getElementById('activity-wrap');
+    if (wrap) wrap.innerHTML = `<div class="alert alert-red">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+async function loadStats() {
+  try {
+    const data = await api('/api/dashboard/summary');
+    const el   = document.getElementById('stats-cards');
+    if (!el) return;
+    el.innerHTML = `
+      ${card('My Leads', data.my_leads||0, '')}
+      ${card('Hot Leads Sent', data.hot_leads_sent||0, 'red')}
+      ${card('Available Pool', data.unassigned_pool||0, 'amber')}
+    `;
+  } catch {}
+}
+
+async function loadApprovalBadge() {
+  try {
+    const data  = await api('/api/approval');
+    const count = (data.approvals || []).length;
+    const badge = document.getElementById('badge-approvals');
+    if (badge) { badge.textContent = count; badge.style.display = count ? '' : 'none'; }
+  } catch {}
+}
+
+// ── User Management Actions ──────────────────────────
+
+async function submitAddUser() {
+  const name    = document.getElementById('nu-name').value.trim();
+  const email   = document.getElementById('nu-email').value.trim();
+  const phone   = document.getElementById('nu-phone').value.trim();
+  const role    = document.getElementById('nu-role').value;
+  const maxfee  = document.getElementById('nu-maxfee').value;
+  const spend   = document.getElementById('nu-spend').value;
+  const resEl   = document.getElementById('nu-result');
+
+  if (!name || !email || !role) {
+    resEl.innerHTML = `<div class="alert alert-red" style="margin-top:12px">Name, email, and role are required.</div>`;
+    return;
+  }
+
+  try {
+    const res = await api('/api/users', 'POST', {
+      name, email, phone: phone || undefined,
+      role,
+      max_approvable_fee: maxfee ? Number(maxfee) : undefined,
+      spend_limit: spend ? Number(spend) : undefined,
+    });
+
+    if (res.error) {
+      resEl.innerHTML = `<div class="alert alert-red" style="margin-top:12px">${esc(res.error)}</div>`;
+      return;
+    }
+
+    resEl.innerHTML = `
+      <div class="alert alert-green" style="margin-top:12px">
+        ✓ ${esc(res.user.name)} created as ${esc(res.user.role.replace(/_/g,' '))}.
+      </div>
+      <div class="invite-link-box">
+        Invite Link (copy and send):<br>
+        <strong>${esc(res.invite_url)}</strong>
+      </div>`;
+
+    // Clear form
+    ['nu-name','nu-email','nu-phone','nu-maxfee','nu-spend'].forEach(id =>
+      document.getElementById(id).value = '');
+    document.getElementById('nu-role').value = '';
+
+    // Reload user table
+    loadUsers();
+    toast(`${res.user.name} added successfully`, 'success');
+  } catch (e) {
+    resEl.innerHTML = `<div class="alert alert-red" style="margin-top:12px">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+async function deactivateUser(userId, name) {
+  if (!confirm(`Deactivate ${name}? They will lose dashboard access immediately.`)) return;
+  try {
+    const res = await api(`/api/users/${userId}/deactivate`, 'POST');
+    if (res.error) { toast(res.error, 'error'); return; }
+    toast(`${name} deactivated`, 'success');
+    loadUsers();
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
+  }
+}
+
+async function showInviteLink(userId) {
+  try {
+    const res = await api(`/api/users/${userId}/invite`, 'POST');
+    if (res.error) { toast(res.error, 'error'); return; }
+    prompt('Copy invite link (expires 48 hours):', res.invite_url);
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
+  }
+}
+
+// ── MCTP Modal ───────────────────────────────────────
+
+function showMctpModal() {
+  openModal('modal-mctp');
+}
+
+function updateMctpPreview() {
+  const mot   = parseInt(document.getElementById('m-mot-score').value) || 0;
+  const cond  = parseInt(document.getElementById('m-cond-score').value) || 0;
+  const time  = parseInt(document.getElementById('m-time-score').value) || 0;
+  const price = parseInt(document.getElementById('m-price-score').value) || 0;
+  const total = mot + cond + time + price;
+
+  const numEl  = document.getElementById('mctp-score-num');
+  const statEl = document.getElementById('mctp-score-status');
+
+  numEl.textContent = total;
+  if (total >= 8) {
+    numEl.style.color   = 'var(--red)';
+    statEl.textContent  = '🔥 HOT — Routes to Brock';
+    statEl.style.color  = 'var(--red)';
+  } else if (total >= 5) {
+    numEl.style.color   = 'var(--amber)';
+    statEl.textContent  = '♨️ WARM — Routes to AM';
+    statEl.style.color  = 'var(--amber)';
+  } else {
+    numEl.style.color   = 'var(--muted)';
+    statEl.textContent  = 'COLD — Log for follow-up';
+    statEl.style.color  = 'var(--muted)';
+  }
+}
+
+async function submitMctp() {
+  const address = document.getElementById('m-address').value.trim();
+  if (!address) { toast('Address is required', 'error'); return; }
+
+  updateMctpPreview();
+
+  const payload = {
+    address,
+    beds:             document.getElementById('m-beds').value || undefined,
+    baths:            document.getElementById('m-baths').value || undefined,
+    sqft:             document.getElementById('m-sqft').value || undefined,
+    condition:        document.getElementById('m-condition').value || undefined,
+    motivation:       document.getElementById('m-motivation').value || undefined,
+    motivation_score: parseInt(document.getElementById('m-mot-score').value) || 0,
+    condition_score:  parseInt(document.getElementById('m-cond-score').value) || 0,
+    timeline:         document.getElementById('m-timeline').value || undefined,
+    timeline_score:   parseInt(document.getElementById('m-time-score').value) || 0,
+    asking_price:     document.getElementById('m-asking').value || undefined,
+    price_score:      parseInt(document.getElementById('m-price-score').value) || 0,
+    arv_mid:          document.getElementById('m-arv').value || undefined,
+    lao:              document.getElementById('m-lao').value || undefined,
+    buyer_max:        document.getElementById('m-buyermax').value || undefined,
+    fee_at_lao:       document.getElementById('m-feelao').value || undefined,
+    fee_at_walkup:    document.getElementById('m-feewu').value || undefined,
+    caller_notes:     document.getElementById('m-notes').value || undefined,
+    next_action:      document.getElementById('m-nextaction').value || undefined,
+    follow_up_date:   document.getElementById('m-followup').value || undefined,
+  };
+
+  try {
+    const res = await api('/api/leads/mctp', 'POST', payload);
+    if (res.error) {
+      document.getElementById('mctp-result').innerHTML =
+        `<div class="alert alert-red">${esc(res.error)}</div>`;
+      return;
+    }
+
+    const isHot = res.mctp_total >= 8;
+    document.getElementById('mctp-result').innerHTML = `
+      <div class="alert alert-${isHot ? 'red' : res.mctp_total >= 5 ? 'amber' : 'green'}">
+        ✓ Logged — Score: <strong>${res.mctp_total}/10</strong> —
+        <strong>${res.status.toUpperCase()}</strong>
+        ${res.routed_to ? `<br>Routed to: ${res.routed_to.replace(/_/g,' ')} for approval.` : ''}
+      </div>`;
+
+    toast(`MCTP logged — ${res.status.toUpperCase()} (${res.mctp_total}/10)`,
+          isHot ? 'error' : 'success');
+
+    // Reload approval badge
+    loadApprovalBadge();
+  } catch (e) {
+    document.getElementById('mctp-result').innerHTML =
+      `<div class="alert alert-red">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+// ── Approval Actions ─────────────────────────────────
+
+function openApproveModal(approvalId, action) {
+  pendingApprovalId    = approvalId;
+  pendingApproveAction = action;
+  const title = document.getElementById('approve-modal-title');
+  const btn   = document.getElementById('approve-confirm-btn');
+  if (action === 'approve') {
+    title.textContent   = 'Approve Lead';
+    btn.textContent     = '✓ Approve & Send Offer Script';
+    btn.className       = 'btn btn-green';
+  } else {
+    title.textContent   = 'Reject Lead';
+    btn.textContent     = '✗ Reject';
+    btn.className       = 'btn btn-danger';
+  }
+  openModal('modal-approve-notes');
+}
+
+async function confirmApprove() {
+  const notes = document.getElementById('approve-notes').value;
+  const url   = `/api/approval/${pendingApprovalId}/${pendingApproveAction}`;
+
+  try {
+    const res = await api(url, 'POST', { notes });
+    if (res.error) { toast(res.error, 'error'); return; }
+
+    closeModal('modal-approve-notes');
+
+    if (pendingApproveAction === 'approve' && res.offer_script) {
+      // Show offer script
+      const wrap = document.getElementById('approvals-wrap');
+      if (wrap) {
+        wrap.insertAdjacentHTML('afterbegin', `
+          <div class="approval-card priority-normal" style="border-color:var(--green)">
+            <div class="ac-title" style="color:var(--green)">✓ Approved — ${esc(res.address||'')}</div>
+            <div class="ac-meta">Offer script generated and sent to caller.</div>
+            <div class="offer-script-box">${esc(res.offer_script)}</div>
+          </div>`);
+      }
+    }
+
+    toast(pendingApproveAction === 'approve' ? 'Approved! Offer script sent.' : 'Rejected.',
+          pendingApproveAction === 'approve' ? 'success' : 'error');
+    loadApprovals();
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
+  }
+}
+
+function openDealAnalyzer() {
+  toast('Open start_deal_analyzer.bat to launch the Deal Analyzer.', 'success');
+}
+
+// ── Utilities ────────────────────────────────────────
+
+async function api(path, method = 'GET', body = null) {
+  const token = localStorage.getItem('odin_token');
+  const opts  = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const res  = await fetch(API + path, opts);
+  const data = await res.json();
+  return data;
+}
+
+function parseJwt(token) {
+  const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+  return JSON.parse(atob(base64));
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  el.style.display = '';
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className   = `show ${type}`;
+  setTimeout(() => el.classList.remove('show', type), 3000);
+}
+
+function esc(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function card(label, value, color) {
+  const cls = color ? `big-num ${color}` : 'big-num';
+  return `<div class="card"><h4>${esc(label)}</h4><div class="${cls}">${value}</div></div>`;
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+// MCTP score auto-updates
+['m-mot-score','m-cond-score','m-time-score','m-price-score'].forEach(id => {
+  document.getElementById(id).addEventListener('change', updateMctpPreview);
+});
+
+// Enter key on login
+document.getElementById('login-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+</script>
+</body>
+</html>

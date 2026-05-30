@@ -1,0 +1,1174 @@
+======================================================================
+  PC DIAGNOSTIC AGENT REPORT
+  Scan ID : scan_2026-05-27_19-31-22
+  Date    : 2026-05-27 19:32:31
+  Mode    : DRY RUN
+  Host    : DESKTOP-F3UL77S
+  OS      : Windows 11 AMD64
+======================================================================
+
+PERFORMANCE
+----------------------------------------------------------------------
+  CPU Usage  : 63.9%
+  RAM Usage  : 87.4%  (13.7 GB / 15.7 GB)
+  Disk C:\   : 43.2%  (270.4 GB free of 476.2 GB)  Health: UNKNOWN
+
+STARTUP AUDIT
+----------------------------------------------------------------------
+  Total entries : 215
+  Flagged       : 205
+
+  Name                                     Source               Flags                     Publisher
+  ---------------------------------------- -------------------- ------------------------- ------------------------------
+  SecurityHealth                           HKLM\Run             ORPHANED                  Unknown
+  RtkAudUService                           HKLM\Run             KNOWN_SAFE                Microsoft Windows Hardware Com
+  WavesSvc                                 HKLM\Run             KNOWN_SAFE                Microsoft Windows Hardware Com
+  msedge_cleanup_{F3017226-FE2A-4295-8BDF- HKLM\RunOnce         KNOWN_SAFE                Microsoft Corporation
+  OneDrive                                 HKCU\Run             —                         Microsoft Corporation
+  Docker Desktop                           HKCU\Run             ORPHANED                  Unknown
+  MicrosoftEdgeAutoLaunch_3540C6631EB708D4 HKCU\Run             KNOWN_SAFE                Microsoft Corporation
+  Proton VPN                               HKCU\Run             ORPHANED                  Unknown
+  Proton Drive                             HKCU\Run             —                         Unknown
+  Delete Cached Update Binary              HKCU\RunOnce         —                         Microsoft Windows
+  Delete Cached Standalone Update Binary   HKCU\RunOnce         —                         Microsoft Windows
+  Uninstall 26.074.0420.0001               HKCU\RunOnce         —                         Microsoft Windows
+  \App_Brock                               TaskScheduler        ORPHANED                  Unknown
+  \Git for Windows Updater                 TaskScheduler        ORPHANED                  Unknown
+  \Okta Verify Activation Task             TaskScheduler        ORPHANED                  Unknown
+  \Okta Verify Activation Task             TaskScheduler        ORPHANED                  Unknown
+  \OneDrive Reporting Task-S-1-5-21-220628 TaskScheduler        ORPHANED                  Unknown
+  \OneDrive Standalone Update Task-S-1-5-2 TaskScheduler        ORPHANED                  Unknown
+  \OneDrive Startup Task-S-1-5-21-22062833 TaskScheduler        —                         Microsoft Corporation
+  \Microsoft\Windows\.NET Framework\.NET F TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\.NET Framework\.NET F TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Active Directory Righ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\AppID\PolicyConverter TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\AppID\VerifiedPublish TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ApplicationData\appur TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ApplicationData\appur TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ApplicationData\Clean TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ApplicationData\DsSvc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\AppListBackup\Backup  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\AppListBackup\BackupN TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Autochk\Proxy         TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\BitLocker\BitLocker E TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\BitLocker\BitLocker M TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Bluetooth\UninstallDe TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\BrokerInfrastructure\ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\capabilityaccessmanag TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Chkdsk\ProactiveScan  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Chkdsk\SyspartRepair  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CloudExperienceHost\C TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CloudRestore\Backup   TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CloudRestore\Backup   TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CloudRestore\Restore  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ConsentUX\UnifiedCons TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ConsentUX\UnifiedCons TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Containers\CmCleanup  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Customer Experience I TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Customer Experience I TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Data Integrity Scan\D TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Data Integrity Scan\D TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Data Integrity Scan\D TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Data Integrity Scan\D TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Defrag\ScheduledDefra TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Device Information\De TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Device Information\De TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Device Information\De TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Recommended TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Recommended TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Recommended TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Recommended TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Scheduled   TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\UnexpectedC TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DirectXDataba TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DirectXDataba TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DXGIAdapterCa TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DXGIAdapterCa TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DXGIAdapterCa TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DiskCleanup\SilentCle TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DiskFootprint\Diagnos TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DiskFootprint\Storage TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DUSM\dusmtask         TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\EDP\EDP App Launch Ta TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\EDP\EDP Auth Task     TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\EDP\EDP Inaccessible  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\EDP\StorageCardEncryp TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ExploitGuard\ExploitG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ExploitGuard\ExploitG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ExploitGuard\ExploitG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Feedback\Siuf\DmClien TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Feedback\Siuf\DmClien TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\FileHistory\File Hist TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\OneSettings TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\OneSettings TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\OneSettings TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\InputSettingsRe TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\LocalUserSyncDa TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\MouseSyncDataAv TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\PenSyncDataAvai TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\syncpensettings TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\TouchpadSyncDat TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\Restor TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\ScanFo TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\ScanFo TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\ScanFo TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\ScanFo TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\International\Synchro TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\International\Synchro TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Kernel\La57Cleanup    TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\LanguageComponentsIns TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\LanguageComponentsIns TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Location\WindowsActio TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Maintenance\WinSAT    TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Management\Provisioni TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Management\Provisioni TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Maps\MapsToastTask    TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MemoryDiagnostic\Proc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MemoryDiagnostic\Proc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MemoryDiagnostic\Proc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MemoryDiagnostic\Proc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MUI\LPRemove          TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Multimedia\SystemSoun TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Network Connectivity  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Network Connectivity  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Network Connectivity  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\NlaSvc\WiFiTask       TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\PerformanceTrace\Requ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\PI\SecureBootEncodeUE TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\PI\SecureBootEncodeUE TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\PI\SecureBootEncodeUE TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Plug and Play\Device  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Plug and Play\Device  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Plug and Play\Device  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Plug and Play\Sysprep TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Power Efficiency Diag TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Printing\EduPrintProv TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Printing\PrinterClean TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ReFsDedupSvc\Initiali TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Registry\RegIdleBacku TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Security\Pwdless\Inte TaskScheduler        ORPHANED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Servicing\StartCompon TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\CreateObjectTas TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\FamilySafetyMon TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\FamilySafetyRef TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\IndexerAutomati TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\ThemesSyncedIma TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SpacePort\SpaceAgentT TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SpacePort\SpaceAgentT TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SpacePort\SpaceManage TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SpacePort\SpaceManage TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\StateRepository\Maint TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Storage Tiers Managem TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Subscription\EnableLi TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Subscription\EnableLi TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Subscription\EnableLi TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sustainability\PowerG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sustainability\PowerG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sustainability\Sustai TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sysmain\ResPriStaticD TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sysmain\WsSwapAssessm TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SystemRestore\SR      TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Task Manager\Interact TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\TextServicesFramework TaskScheduler        ORPHANED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Time Synchronization\ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Time Synchronization\ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Time Synchronization\ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Time Zone\Synchronize TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\UPnP\UPnPHostConfig   TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\USB\Usb-Notifications TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\USB\Usb-Notifications TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\USB\Usb-Notifications TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\USB\Usb-Notifications TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WCM\WiFiTask          TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WDI\ResolutionHost    TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Defender\Wind TaskScheduler        UNSIGNED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Windows Defender\Wind TaskScheduler        UNSIGNED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Windows Defender\Wind TaskScheduler        UNSIGNED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Windows Defender\Wind TaskScheduler        UNSIGNED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Filtering Pla TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Media Sharing TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsColorSystem\Ca TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsColorSystem\Ca TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsUpdate\Schedul TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsUpdate\Schedul TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsUpdate\Schedul TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsUpdate\Schedul TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Wininet\CacheTask     TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WlanSvc\CDSSync       TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WlanSvc\MoProfileMana TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WlanSvc\MoProfileMana TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Work Folders\Work Fol TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Work Folders\Work Fol TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WwanSvc\NotificationT TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WwanSvc\OobeDiscovery TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WwanSvc\OobeDiscovery TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WwanSvc\OobeDiscovery TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\XblGameSave\XblGameSaveTask   TaskScheduler        ORPHANED                  Unknown
+
+JUNK SCAN
+----------------------------------------------------------------------
+  Files found  : 19945
+  Staged       : 19945  (2.89 GB)
+  Skipped      : 0 in-use, 6574 recent, 0 symlinks
+
+  Original Path                                                          Category         Size
+  ---------------------------------------------------------------------- ---------------- ------------
+  C:\Users\Brock\AppData\Local\Temp\.daba57ffd7df99f7-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.daba5ff7a6d7dcef-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.daba5fffcef77e7f-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.daba77f6cff7da7f-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.daba97a69eff3d3f-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.daba97aff6f75ce7-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.dabab7b6cef7bd27-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.dabad7aeefdfdbbf-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.dabb17e7a6f7dbaf-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.dabe1fb6d7d77d27-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.dabf37be8efff8af-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\.dabf7fbeb7f77dff-00000000.node      Temp             1.2 MB
+  C:\Users\Brock\AppData\Local\Temp\00c5aef5-f73b-4221-a762-6b49c75f2e96 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\019e7ea1-102b-4ba4-a2cf-360e61ece6fb Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\027f61e7-d2ff-4d2a-b91e-df63994a7c51 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\03830487-b398-409a-82c9-ccd83ebdcf6c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\03a26b6a-474d-4b26-bbb1-e3364b3285ce Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\03cdaae2-389a-4c28-bb80-3f3263126d1f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\055a307d-71d6-4de8-8358-55f716f2a7ed Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\05c14362-b301-4eaf-b1e5-c4ab08d234ab Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\05d42ec0-50c9-4597-8f9b-bb841465a7da Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\078ed137-094a-4793-a014-68deeed793b5 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\07a09540-6cab-49e3-b9d4-e71794c50a02 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\07cd5174-a0f5-47d0-a853-a638c458f91e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\07d1cc21-d18b-49a2-8b2b-b0951cc5728b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\0921227b-7d81-4ad3-a0ee-83465192bfa7 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\09910b7d-e819-44c3-bf8a-b94e992a07cd Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\09bb854c-7820-46c5-8e8b-668e6a7287cb Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\0a2bbda2-7694-46e1-a07a-df3e414f845f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\0b54b8a4-bc45-428f-aa32-496b4a25d579 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\0bf5c6bb-a559-4761-93e4-666e33115f1d Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\0de2ff64-4559-4f9e-9668-767d25014e30 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\0dfd07da-1581-4ada-90aa-20749de74fd8 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\0e546fe0-3d6b-4909-88e1-c2e7a7a913a5 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\0f695641-664d-43d6-8a14-97f28938b823 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\120f0daf-f23b-41e4-a788-8a7d9418032b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1371568b-3075-4cc9-a3e1-8716880bbd97 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\146bd766-3f04-4c01-8ca0-432a9545b4bd Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\14a68ab7-ad48-4475-b8f7-a97897ded527 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\14fa25a1-45c7-48f3-8685-23fb188f208f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\151d7506-ed8c-4779-84b0-f13123277776 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\152aea10-171a-4e7b-8aa7-4888ff61e69a Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\156f369d-ad5f-444f-a6d8-c567a32c90f7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\15be302b-9a42-4194-9af8-d06006114599 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1690f7db-623a-4920-80be-ffdd31ecacb7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\16d2fee5-64ff-467f-8df7-ab2384c57c1b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\17136064-df9e-4dc7-b17e-4b609c48039a Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\17577e3f-019f-4385-829f-f709b0a8c099 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\17946919-db9e-4cae-a5f6-1ba3d365984b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\17947b5c-41e8-43a4-a2b1-a1756dbaf4f9 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\17a6db82-fe67-4f07-97bd-8fdf4c18d012 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\17e63d98-c7d5-401c-9745-736ba193c070 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\18f290b2-e8ba-4d67-b645-5f6b3aac8e8e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\1976af03-34b0-4c7f-8ab9-d943ae88561a Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\19fbff63-b642-4a13-bc4a-dbd9b25a7099 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1a03eaab-c162-42e2-8d1e-6e754bba92f2 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1a2f9249-31f7-489d-8feb-9cbacf5e827d Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1a384cc4-f176-4b3e-a1d5-e16f28f6ca9b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1a8acedc-4a9d-45ae-a4fb-621ebf02a880 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1a9d7abd-6d8b-4d54-ac87-5bebf34b3d05 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1ac5b2e9-8567-4e52-b46e-4cdc7e8b43b7 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1aef5920-42c3-4767-b33f-d8e25fda4c62 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\1b446b0c-c0d5-4e28-a11f-33a0da0f449f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1b8bfed8-640f-478c-bb18-dae2094580f9 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\1c19f19e-880e-42e4-aed2-693c3bbd41f0 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1cc4dc10-dc98-4ca4-a5f5-bae4269a7933 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1d158377-dc06-4288-bf19-54035ffea23f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\1e6f0bf1-fa8e-473c-ab88-b60cde5e5f1c Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\1eafc52d-fedb-41ff-9a1d-e51303a33abc Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\1f00b723-c217-409d-abee-4fc4248f62b6 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\1f105813-7355-41ca-b2a0-d033d71d5a78 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\200c4229-02f2-4109-97d1-4afca609ed30 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2019b8eb-9652-4b3b-8ccb-18fcce2a51f7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\204ea05a-61f5-4a41-a286-dd4f61991dae Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\209a93db-52f7-4f28-83ba-3a2230643a06 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\21376f6c-efc4-43da-9ef2-fd07ea9dffb1 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\216312f3-81f6-4ae0-a124-bf79d2657187 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\21e95dfe-6b26-4ba1-86a5-7ccc2f6e405d Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\22794abb-064f-4d18-acdf-be2d23af16e7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\22bcc64d-53d6-4b21-b670-ec6802a01755 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\236134c8-dc63-4df6-a795-78ed7fef5938 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\23f49a40-92f1-42d3-9eb5-5d4f24937316 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\24517fed-7e7d-4752-8d8b-23cf3d4a0f7b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\24b0d504-e801-4ce2-ad5c-dcf78b26b776 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\25075bf4-a837-4a54-b7f1-a7c4b17d6f8a Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\252a7fc6-a691-49ac-a427-cfe4ec157bae Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\25fe14c4-c300-42b5-a24a-dd14845c36e2 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\264810e2-2c26-43c3-9254-53aff274eba4 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\26a2b042-8505-4b5e-aaf9-8969f42cc8cc Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\28545992-3829-4d3b-b950-fe415bb539bd Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\28b0054a-316a-4fd3-a2a7-ab36e6696e86 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\28d218ae-91b9-4ca6-aadd-602f7c719a9c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2906c2e5-41bc-489b-ab0c-3ba7b789f270 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\293387de-ee0b-451f-814d-fdd3e53d751f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\294d1403-05c2-4274-8b68-a2637fb9cb19 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\29c4223f-c26c-43ec-9d6c-09d7f88b8dbe Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2a944c8b-0b11-4de4-ad5c-43f21e027da6 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2acb1214-3a99-43bc-86a1-07116a1dddb0 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2b340a6f-c2bc-4ab1-a3b9-9168a02baeae Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2bbe7636-3a15-41ee-b07a-62e12e5d904e Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2c5c7f36-cdf2-4550-be8e-c05a670c9f56 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2c75837b-a6a2-4712-a8b1-9dcc30ea243e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2cab8b93-8eb3-4691-9d9d-765ddb94dc08 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2cd3cacc-1520-4ebb-8a0a-117aa543b3ba Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2cf2f345-1526-4fd2-a893-aad494191009 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2d73f67e-403e-40ba-8d1d-ec11567eea8e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2d92bc03-1006-427b-ad57-d9ec34835c29 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2de69bf0-c3fe-4636-a7ab-e8eb0d625311 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2df7275f-2cd6-4bd5-9c14-c0a3b7b756af Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2e2a3ac2-5c8d-4370-b477-63194108cda9 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\2e6d84b1-1705-4789-849d-9f479cb53890 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2f8e36a2-9096-4159-8cfc-f264acdb7e6b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2fb9659c-14a4-4a90-bad4-853fe8cfc0b4 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\2fbda85f-b7d5-4dae-ade5-1d443e0ab400 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3068b36e-74bf-4031-b3fe-201b227e140b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\30697f37-5624-4a87-8f09-fbb1a9fc11bc Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\30945351-0d50-4a80-acf4-7d02f8f3bc02 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\30c279c4-0130-451e-924d-a0e6a96ebbf9 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\30e586d2-e9b5-4fdd-b2d7-c4346710e79c Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\3100d4c8-78b6-41dd-a007-9a4c8859eca8 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\31a1c617-215a-42cb-b9f9-18c90ae73aad Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\31b25ee6-39c1-4c37-92f6-0db6cffc78c9 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\31b5f8d9-1916-4900-ae5f-8f87fe0df788 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\32414d81-cf7d-4e81-93ae-bf8a0f5224f3 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3260737e-1ea7-4875-841d-3127d735439e Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\327bfe9e-45d9-4412-9353-c661c26797b3 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\32bdf290-aa4a-4c99-9858-ffd72cc06232 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\33bd1243-b4b9-4bed-8fe7-1445443c4f18 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\34498011-5ffc-4824-bc7f-07c2285c0bbf Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\34515cdd-5365-4e68-9334-1d5a75e306a3 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\345a9d27-b29d-4b18-8b99-bc5c4a3bbf31 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3520dcaf-69a2-44cf-aa8f-b92e64088017 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\36537d83-943a-457d-84cd-12acc4377c73 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\36f26da0-2804-49f3-a546-97c39ec0f327 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\382e6500-ae79-4017-adbe-30e426a0144c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3c0c4469-eed1-4c52-bb2c-fe9731880cd6 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3cfbf5ba-0c0e-459e-ac57-69af90e70acf Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3d26e9b7-f270-4615-ab94-f04aca555b07 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\3d28ee29-a7fb-4cd8-a573-bfac8c2023d0 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\3dabb25f-a260-47f1-a70d-be1141314949 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\3dd4e433-40b6-43da-9254-22a7dfe173bb Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3e7a7de4-00dd-4c60-af77-01008011606d Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3ecc4f30-ae2b-4d44-9141-a7bca7b235f3 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\3f987715-31ae-4922-850e-3325c23d18e9 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\40e8d24c-0891-45e8-ad32-65c1241ba5ca Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\418e4569-143b-47f8-aef2-047b36730336 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\41ae928e-7f07-42a2-b43c-b53785152351 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\420f89ed-e708-465e-81c6-261f2351f6c3 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\425094ee-c468-4473-9efa-57ab254c357b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\43cddd4d-b0ea-49f0-a169-346759865edf Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\441d1f59-07f3-4870-b84f-3152797236d2 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\444856e8-7041-4c6a-be87-92fda19ea34c Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\44eb8344-4d8d-46ec-88e0-28391552a38f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\452bd10c-b3a3-47b1-ad60-26a2677dbcbf Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\46209b2f-841d-4c0e-b7e4-0d0bc05e82df Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\46eb00ea-17d4-44ae-931a-54f9de2f432d Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\478f342b-7d28-41c3-bf8a-247997bde6e7 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\47e88f72-2a76-402d-ad15-ce7268437881 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\48989a58-2e5a-4631-8165-838876a0896f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\48ec5329-2c5d-4801-8482-503c4ec0bf8a Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\49165322-c60f-49a6-afe3-b701bfacfe64 Temp             3.3 MB
+  C:\Users\Brock\AppData\Local\Temp\494ac53d-b4f1-4b2c-a180-d38e5ad6be08 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\49733ead-694e-4683-82c1-77b21e496327 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\49ac5880-cc27-45df-922f-712532c6424f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\4a5e1fc6-b41e-478d-ba89-19cb0c37ed7c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\4a7700c6-4f97-4c3e-9b39-7335be60bc84 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\4aab3603-c215-4da6-b673-b335ebf0a8ea Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\4b958b1b-487f-46c4-b9ef-2cf2c85da497 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\4bae7793-35f6-44a6-994d-a740a97b818f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\4bb6197e-3537-4515-87e8-839085b9c820 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\4be5ff53-90bc-42f4-b48a-b7442f815655 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\4bf4a286-4150-4b98-8e1f-5c41cf5cc388 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\4c00339b-68bd-4d4b-9317-0022372c7304 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\4d4032ce-af70-4456-adc4-fce4e3fbd73f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\4e60df99-eae6-4ba9-b351-15ccabd7cb8d Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\4e944ffb-dbdb-48f7-9475-3bf697ac681f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\4ede4a71-51f0-4ad8-a5a3-952684595fd9 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\4f895984-1de6-40a5-a967-b15a45d676fb Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5049c71d-ad94-4811-aa92-43f24b2070d1 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\50536ebe-a38f-42b4-9719-0cbaa000126f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\507790da-9325-418d-bcfb-a221a1822ad4 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\50b5f4e7-d41c-4d56-9fbc-6e9e1055356c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\51a99b53-25a6-4569-be08-bb63dccf4699 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\51f3c987-87bb-48af-b134-b7c5e558dcba Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\52aea4aa-7794-4c51-8374-d91d8c50be43 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\52e14f38-dc01-4e88-a743-e1654389924c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\53670160-7677-4ea0-b74a-76be0972d008 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\539a2ba1-e0ba-4ca1-9fef-adbf3ea2ed5e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\539bae5f-fc88-4913-a923-786e48fceb71 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\53f5e3fd-52e1-4928-959b-21104c02222a Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\540d7fc2-7d08-4904-bce9-d6bce3c77bcc Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\54ca05a4-415e-4a57-b059-2aa894246af8 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\55089867-e722-4b73-afc6-ba4c3465e784 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5540619d-e626-4fe7-856b-b6cfc44f985d Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\555e31e1-88bb-4d26-ac51-4b128f61f3e3 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5677bbc9-e7c2-49d9-b78c-ed5c84f9209b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\56a38c35-4246-4c01-a449-84958e451598 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\56af5ef1-defe-46b8-b572-440e22f8ec0b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\56de3a88-8e81-42a3-b047-f08792cff960 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\58173bf4-834b-4cfb-b27c-a7a8af790d92 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\5851ee5e-66c4-4840-a36f-2dade0e0f787 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\58e25f74-38a3-4340-b024-e31533e9cf92 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\59981d69-2d67-4eb9-9ed4-ac600bcabe31 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\59d6003e-8fd9-48b4-8651-093bdc86bb90 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\5a1246bf-5b8a-4a4d-97d3-bb79bb04f40a Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5a6a7ddf-94ea-45a5-9b25-280784221dab Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5a93f9d2-09b1-4a1a-a8bd-4d74f0b83739 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5adbb788-6d8c-4dae-975a-7faae534fdfd Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5afe6ca8-082c-4f3d-be3a-a10c869712fd Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5bf63c70-147c-47a5-9fa3-20ff216b6714 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\5bfa0348-e425-45e9-82f1-ae31bf6f86f2 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\5c5d47a2-f974-4f90-916d-6b951767e55f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5d44577e-fb68-45d3-b8b6-9b0aadb3d115 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5d8752b8-e08b-4bf5-80fc-8ab3c1bc58d1 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\5e1ca6eb-0a56-4d3a-85f8-4d18c7bedf4d Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\5e909069-f592-47b8-a0cb-2e4f0eb24d3d Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5edf9603-de20-49eb-a519-3d65723a6aea Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5ef88fbb-5759-4a9c-8513-ed083d08c9c7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5f4cc8f2-9276-40f7-9436-9d88bb2ba57c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\5ff0c687-2dd6-4af3-b1d2-e38243c8d5da Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\602cbcd6-88f4-4b8a-ab59-10fd3e9b2cc7 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\60c80d5d-5883-4871-8aa7-8d4fbdd5a9e9 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6102c2e0-fb1a-44ec-835e-95f514ebe974 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\61a508c3-7dde-474b-ab53-b2e0dc856736 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\62a7fd79-9f53-47bc-820d-ea0f9bb1ce52 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\62c2bf64-3a82-4ccf-9eff-5c087c5f28de Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\62ff2350-f981-4a1b-bb73-f847360ecd92 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6326b038-12d9-4957-9d89-6c904232747b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\634fa23b-c60d-401e-ac06-4fb2b112f5f8 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\640479fb-77fd-4722-9640-e2315c25a068 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6410e8c8-49f3-4627-8902-aed41aa1fc6e Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\642737b7-5ec9-4db0-82c2-88291481f265 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\64470d82-6440-4050-91d3-dcf8637f3646 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\64dd1fb3-d305-458e-83a4-d916765d3af2 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\651c3883-04f9-476c-8ae0-352379290ca1 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6541a3c0-69d8-4e75-a570-fc16b57dc536 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6557bfcf-e91e-4c80-9e71-cb8893ae2098 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\65cee173-f119-473e-b27b-ebff9b1ee186 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\66652aab-f106-4bfb-a970-bf2e235c0e18 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\66e7f7ff-a3f1-4529-90b6-912725ad65a0 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\674f277e-678a-4a6d-90da-4110da662a63 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6765b5b9-7772-451b-9686-e5cc5f19e8a2 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\67fb1114-4a27-49c2-b294-9d7c674e747e Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\6849752f-8214-477d-99e7-47c795c53f80 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6a29600b-b8bc-4452-bb85-de552ee804b4 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6a630faa-be7c-4c3c-a852-8f942172117e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\6b109744-7ae6-4029-9249-f02683258d1c Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\6b39daed-674f-486d-a17d-a85eedc85ec3 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\6b6312d1-c421-4ab8-aeb3-d0fc79f1318f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\6b74b470-0402-414a-aa99-ce0f19cdc857 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\6bf6d476-8ff6-4344-85a5-519d414ab4fc Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\6c067c69-d57c-4c84-80bc-1d50b8996a0e Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\6c878712-be9b-446b-9f0a-4617dce1fd90 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\6db1fc31-103f-47c5-bfa1-2d2720516850 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\6e759781-689f-4ea7-b7c9-77775e6e4d9d Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\700dcc4e-535b-4970-bf8f-a68720e33bef Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7010519c-6dde-40e3-99bc-ed1b003f5ff1 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\70215f6e-2857-4f4b-96d3-8a143b051876 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\709f64a4-3e86-488c-9e94-818f3de15627 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\70a4c3b2-e4e3-4e34-a199-8d7fe38b67b4 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\712841ea-3183-46de-ad9e-5eb713460eea Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\716ec8fc-8f12-4e0f-8a28-24946b8fad7b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\71973e9f-f211-4d71-81c8-d2674a96ef95 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\72b06613-14e0-4541-a163-a1b01b88222e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\734a1e94-d726-432f-9a21-1847b1d72022 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\754959b7-e20d-4a1e-97d1-8f3f40587328 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\75757792-b18e-4a60-ada7-2ca5643e3621 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\7577a1ba-14be-4502-85a5-ed643a072ebc Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\76cec3a2-b7b3-4786-89b1-df5f67c85582 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\773e053f-f321-4fe9-ad08-465529236ded Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\776a0a09-c413-4b88-b81c-ce490a51e084 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\77e9c4b3-3128-4ddc-8cb0-7d3240a48fa4 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\787e3040-a49f-4b7e-ac65-6e4f0ea3c120 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\78be19b1-24f5-412a-b0ba-8a75c77d0cf0 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\78d792a4-b419-44d5-984e-2efd4dc9037e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\79692684-a1e8-43c5-8037-6d3c21120355 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\79c013e6-edd2-47a1-bc49-ad4d916a8279 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7a25b3e3-aaa9-4341-830e-c10af8f1fced Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\7ac30bfe-5741-42d2-a9ac-c0eca0703a4b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\7afa00cf-4edb-468b-a9f4-4812871f0874 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\7b3ffaef-6f14-4292-b0f7-dc341a5df1a8 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7b51193f-7660-4735-910a-46ba9908b80f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7ba7acf6-9af1-430e-9713-5d1ede7c08b2 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7bafe407-af18-4483-99a3-939396411b32 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7c317980-f4b5-41c7-af65-8f3f346e6684 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7c79a0a5-c3a0-4409-ab75-c5ca8de07292 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\7ce6cc16-1d9e-47c7-96bf-7cd44f6b02a0 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7cfaf4d0-1b8b-4ef4-9bdc-09348c2658fe Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7d2b61e3-d893-4338-86b0-c466d4420c24 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\7dc286f8-5ae4-4197-9658-3fd2e79821bb Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\7f53a02a-5d5f-47cd-b9e6-23c3b336cab4 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\7fe8a5f9-48ab-4c71-9216-9811ab65388d Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\802d6302-aab2-4f26-84d4-1230ee4eac5b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\805d27c1-24fb-47cc-8063-46e5ec3f06ca Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\8088c318-7857-43ac-badf-b212ef2c9ad3 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\80960269-331b-4625-9346-c582a3f55628 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\81a88c69-3b49-4f19-8ca5-ed572c32a48f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\8347516a-c01d-440b-a314-305a3354ba84 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\83569cee-1e9e-4536-ae62-640f4cde02bd Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\83feea73-c4d0-4e60-8e0f-22b101f5c80c Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\84f5d530-2f8b-4a68-ba31-2cbaf92c45d1 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\85bfbb8b-a017-4db1-982c-361cab06f798 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\877f5e4a-9f9a-4ac6-b347-aea4087097a7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\87c7747d-dee4-458c-9d22-4071da3b67e6 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\8965b9a5-f667-41bf-bf48-8a19f9f72670 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\896cef15-56a9-495f-814f-697a7c838c72 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\897e2f22-75c2-4aad-aa77-78610444a1fb Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\8b12ff53-6f23-4b45-9f59-d9691e5d3637 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\8b2bea64-2b9a-4edc-9dac-477bb308e84c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\8cf9dcc1-6eee-44cc-a72b-a289890f120f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\8d023bef-ef40-4fb8-8b8f-4cd73fadd6d9 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\8d3e0181-afa8-4b02-9be5-837fb4ced098 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\8da4e501-d3a9-432a-988b-281e71dcdf27 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\8daa7cbd-329b-41f8-9c24-41315a357684 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\8e31f13b-736e-4858-83f9-d921a0c96c24 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\8e96b26d-0929-4a0c-990c-d2b39e7af37b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\8edb1dc7-98a3-43ef-b2b1-81a3bc495b16 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\90326c2d-2980-45d2-a344-a4d7df3889af Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\9104a590-b34c-44c2-b1e9-a9ee6a3a93c0 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\911c9692-11c4-44a6-8f39-784be792a986 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\9134a2ec-500a-4d88-8695-8fbcc5682b5b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\91fc9a65-ef28-4035-b469-973635de6b0a Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\946d5634-5318-4b68-8448-c0bb9402cec3 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\9475a4d9-d5cc-422d-8f3e-69eea37b28aa Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\94d2fca0-10f2-430b-ae43-1fd5d393c5f0 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\95539f40-d2d8-452e-8ee7-d4490c91f8d5 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\96954bd5-1885-43f8-ac8f-f91b86dc8c08 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\972749c2-9446-435b-bb10-db870465c3d8 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\976edfc6-3fb2-4b4f-a97f-14050db7d83b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\98d27e0e-1b82-4582-8336-603020d4cd8a Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\98db5b3a-227a-472f-8f1f-c24a534d1ae4 Temp             1.3 MB
+  C:\Users\Brock\AppData\Local\Temp\98f8b93a-8d68-4c23-b327-8fb91934f37c Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\99c019ab-eb03-4377-a184-93f63c7a46fa Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\9ba6faea-a851-4fc6-a5a7-e32b5842fd4e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\9c6608e3-2b23-417b-992a-24f04a5c0190 Temp             33.7 KB
+  C:\Users\Brock\AppData\Local\Temp\9cc22311-eae4-4c4b-b6b6-fef84b7bef16 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\9cf348c6-7074-483c-9857-efc51b192ac1 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\9dcd2710-1c70-407b-ab8c-755c46513e15 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\9e457341-1483-45ff-ad8b-239a53b2b0f4 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\9e870c7c-adfe-4cf2-b057-9b70eed7b890 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\9f5fd419-680c-4687-98ec-70fe72631d90 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a1f8d6f4-5a41-4a43-8b06-ec3b872ba791 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a2594f66-c08c-4694-831f-05dcbd30c857 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\a29f3dc9-f9fd-4627-a634-f11cf0bd6a88 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\a33b86eb-3c7a-4e87-9ae8-dd5de292919e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a3951879-c7f5-4b15-9184-a13692e7cebd Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a44ad043-42f5-43ae-bc2f-f9f6a6d8949a Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a4a14d1e-2801-473b-a5af-49ef5c5c64b1 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a4a6eaad-28f1-47c8-8de4-e847ede0b68e Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\a4e0a062-94b3-4b5f-8524-f8a024b0f826 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a58829a9-9648-42e1-a35e-30234283651f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a5a24f27-4a72-4175-b537-b5cc3c7caa68 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a5f14dbc-ef58-4a17-a57c-89cd5bb9d4aa Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a65fa596-6f78-42b5-82f9-9ad371a48f9b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a6966528-6ec8-4492-8b58-618e8e4f2b99 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a768d7fb-a450-4f13-b353-d01346197048 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\a884c760-bf01-4bdb-b273-125d59eee83b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a993244a-a55d-4495-a3a0-f38116c3cf86 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\a993bbdb-0da3-499f-b5e3-a51241ed8ee4 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\ab34aba4-9380-4fa2-a646-0658c58e315e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\ab642711-011f-49bd-a34a-2b7278057ee4 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\ab6f7898-87fd-41ab-93f0-1c968af3e1e5 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\ab9c91c4-9148-4440-b7b2-849f290a5574 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\ac6c629f-98cd-4968-9a09-7c76485b20c7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\accacd50-d9ef-4770-a8b4-c95538b18144 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\ad44cd3a-2e3d-4a6a-a7c7-acc227bc08ad Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\ad7445e8-3db2-404d-860d-8f65998ca209 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\adbc33a7-363d-4cd5-95ca-e1d386b658b3 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\afece79f-7613-4d93-bf6c-3be63d8ce9ba Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b03bd086-574f-41b8-8daa-b2cfec971870 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b1d62738-6d66-47a3-ae78-d41c4cc1a17e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\b328fcec-c994-437a-a982-c3dc5740e834 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b454d894-7e70-4d65-857a-1771538c6bf9 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b45cab41-4048-48e8-8b75-7ff8c0a7c632 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b58953e7-4197-4a56-9f26-863a92edac92 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b5c51bd6-272c-444b-937a-4f4a08ad4cca Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b669c782-b316-4695-88d8-cac59f618b99 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b71c1e6a-7de8-4a4f-a814-62deee86ec87 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b7bd8986-4a60-488f-ad77-c56045f79317 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\b7ed0383-d906-417c-90a4-1449a32dc818 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\b897057d-9b97-4746-93b2-51002721c3ec Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b920891f-0d70-499d-bfe0-33469bcffae8 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\b95f60dc-f021-47b6-bb53-764d1d5639a8 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\b9703823-efa8-41ad-a741-7496458eb8fa Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\b9d620d0-eedf-44ce-bd38-e714feadc87d Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\ba1c014a-c02a-4a7e-88fc-d9cf560d25a6 Temp             3.6 MB
+  C:\Users\Brock\AppData\Local\Temp\ba6b2ea6-0653-40b2-abe1-bb6a9e5c4710 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\ba723a87-9c7d-4987-9c7c-6c86f037c3d0 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\bb447e76-aff3-4a65-b615-83119f1cb1a8 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\bbde9ab2-1c12-4de9-a0a4-ee7de97d71ca Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\bc5bc6e0-f88f-489b-bc12-c7206bc569da Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\bcb20488-4ca8-4c72-a1c7-e3b910f9cce7 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\bd5cadfa-e5b7-4a27-be4a-a3a7e7daf42b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\bda259d3-23d7-4f93-a20a-c4cde69ba4bd Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\bded55f9-0c95-4605-a87a-056dcd8df63b Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\bf84f118-2881-4a54-82f4-257df2f82221 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c0839578-15b5-4168-8830-38d56dce4bad Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c09b85ae-e891-43bf-b6d6-cfbf1f1590ea Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c0ea5af5-b055-46e5-b1d2-165141f2cd87 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c19c47d0-7617-4ea9-a2f5-f618ecd3b405 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c1d9404a-a558-4af7-a83d-58c3483c2e70 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c2e5a266-0bb8-48de-84fc-d678723f4d4e Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c3f967a9-19c3-421e-be29-d775d53eefe6 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c41f1942-adbb-41ff-b860-6049d44519e4 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c4bb3f83-e692-4999-a0e9-2a20864b65fa Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c4bed9d4-9143-4b1b-b6af-2746b98e1174 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c551543f-f53b-419c-be15-d67411780dce Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c58d8793-517f-4936-986e-30dbbb4aef29 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c5a9b158-5bb1-4703-8dd2-8befb2710a0b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c5b92867-db3a-4052-bed0-15bbe4eb31f5 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c62b1b94-b5c4-4890-902b-ade6f02ce1b3 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c6898a49-f201-4aed-906a-99b9dfd37d64 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c6913da5-d368-4245-af0a-56baf7be63f7 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c698e07a-3630-4046-aa0f-3528f8ccf713 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c6ba576c-f36c-4214-b658-0a4d4c8144aa Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c6ef01e2-c885-40b2-abd3-a69b39bbd9ee Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c7a8eeec-d9f2-4aa7-b60b-a1f2d2bcd5a9 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c7c1e5f1-a740-49f0-b1d5-3557abebfa04 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c81da2bd-d66e-477d-a69c-c87b0883776e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c858ea5a-ec6c-43c5-ae7a-f43db00900df Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\c8838a86-b0e1-4998-ab4f-c5fb1928f01e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\c8f669a4-861e-4857-9fc9-7485fa6895fa Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\caad8af7-f518-467f-a613-186bb55f9ae7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\cb84acb0-1e2f-45e5-a45a-c13855287f54 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\cb8aabeb-8eb5-4547-941b-62b29c2207be Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\cbb3600f-726e-4349-8f8d-8c3ae1250250 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\cbfdd336-6462-4038-9396-d335f057dc3b Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\ccfc5e24-22b2-4025-8f5d-bbf3d4495e85 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\ceada50c-7ff1-4581-8ba4-ae947a59cdfe Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\cfe0e3b5-91a0-4b03-99b5-6a504d848dc2 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\cfe265aa-d83a-44c1-9ff1-dae3aee48ae1 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\channels.json                        Temp             2.8 KB
+  C:\Users\Brock\AppData\Local\Temp\claude-3295-cwd                      Temp             46 B
+  C:\Users\Brock\AppData\Local\Temp\d06053b2-d891-4d9e-8553-d9494e44d63c Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d16cf912-58b9-46d9-a90b-6a5d1eaf56ca Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d1afca97-6ce9-4a9a-b200-d3c0e9e31190 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d1b382da-92a1-4c18-8e10-b849f06778a6 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d25658fb-9c05-4d06-ba02-dda6b34b45b4 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d2f76b15-0d13-40c0-946e-91ec237c9143 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d3465516-40b5-4fbe-b73c-76bc68c5b854 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d34f67df-bdca-4f54-a11f-41b9fac61644 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d394f26e-100f-44a0-b2fe-51f070b636be Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d3af68ba-5b57-42a2-a41d-ac74e81d38ef Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d3ddcdec-163d-4cd5-8e1c-175b513ad237 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d49d349e-12bb-486a-96c5-155438442bcf Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d4ed1c5f-5a53-46b2-9ac8-2b0305513009 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d55af976-d9d2-468f-9c7d-d9a171dcd937 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d645cbcb-531a-4813-aa10-318de252e0ec Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d64b6de2-1851-45c6-bb50-f080d433e419 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d6afa7c0-d7f9-4f08-b6d6-43252566d7c3 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d711610a-d502-4367-8360-ccd7771e9643 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d752da88-8ffa-4918-9c20-479a40623c29 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d7ac228b-e71f-41e0-8eb5-1b753c4aeb21 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d7f7ed79-879d-4710-aae0-a4d16881d912 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\d82b92b4-8317-4a17-8f00-f83cc7b477a7 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\d949f200-c675-417a-b8f2-102297718880 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\da4c5ed6-933a-48a3-8502-c6aa579e01d5 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\da4ea04a-41ee-41ab-8505-de9c638a9171 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\dab3040e-153d-48ec-8a09-1a83ae10c0d6 Temp             1.1 MB
+  C:\Users\Brock\AppData\Local\Temp\db54a783-6290-49bc-88e9-2aa33251169e Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\db56e728-aa86-4773-8858-7a073b5d8ede Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\db6ed7f7-5cf0-4621-aff7-b3fd97cbc3ac Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\dc285502-39ce-43a5-84ce-f949be2752af Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\dc470fbc-0a78-41e2-acd5-dede3bc53474 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\dc6d94ab-309a-4608-863e-b1c07509a62f Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\dcfaf833-0462-491e-9745-749b9e3e6b36 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\dcffdc0e-276e-45d0-894a-af9a66e22cec Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\dd0d3ef1-b124-4dcf-b438-0a3a3f9bcc7d Temp             1.5 KB
+  C:\Users\Brock\AppData\Local\Temp\dd1701d8-e1cf-43be-b258-f166d2237c38 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\dd_vcredist_amd64_20260525154432.log Temp             6.4 KB
+  C:\Users\Brock\AppData\Local\Temp\de31188d-6856-4a77-a9a3-6ba25f3f8d01 Temp             300.5 KB
+  C:\Users\Brock\AppData\Local\Temp\de8c89fa-9b67-47dd-aa09-2aabad8c79a1 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\decb2564-1def-4c93-8c75-62c409dbd4ad Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL68D6.tmp                          Temp             91.8 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL68E8.tmp                          Temp             183.8 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL68E9.tmp                          Temp             685.5 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL68EA.tmp                          Temp             15.8 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL68EB.tmp                          Temp             185.5 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL95E2.tmp                          Temp             91.8 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL95E4.tmp                          Temp             183.8 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL95E5.tmp                          Temp             685.5 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL95E6.tmp                          Temp             15.8 KB
+  C:\Users\Brock\AppData\Local\Temp\DEL95E7.tmp                          Temp             185.5 KB
+  C:\Users\Brock\AppData\Local\Temp\dfaaa9e3-4486-4401-8ed9-0f5d7f2a567f Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\dfbc3653-1154-4f66-a15a-8096a6e91bc3 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\e08f9784-753f-43a1-91dd-2e946f07dfad Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\e12eadd8-106e-45c2-bb96-10e24bf7a8ec Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e1e86e20-3b09-4175-bfa1-0b9d361eef8e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e2cb4343-9477-40c0-b877-691766c3e22a Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e30cfeb1-2276-44fa-8b37-f700dbf1dc0d Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e35e0985-0cd2-4d29-b896-90f80ee437aa Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e39e6be7-cd7b-4e56-85a9-6732e1f97f63 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e57e4254-f28c-493c-80da-df1d3ea0a939 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\e5fc5325-737f-4e9c-b732-45ccab497c78 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e60f75f9-7fe7-4b78-a9a1-ce160dde7d05 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e6827ec9-50cf-46ad-bd6a-c11296e07ad9 Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e69fdaca-432e-4a5e-ac64-24738e008ca6 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\e700de21-4aa3-490f-8b9e-9683be17188e Temp             242.7 KB
+  C:\Users\Brock\AppData\Local\Temp\e74d00a9-0126-419d-aecd-5fa29adacd96 Temp             147.2 KB
+  C:\Users\Brock\AppData\Local\Temp\e750b75c-7113-43da-bcc0-2eb23f956bbb Temp             147.2 KB
+  ... and 19445 more files (see MANIFEST.json)
+
+DEFENDER SCAN
+----------------------------------------------------------------------
+  CLEAN  (exit code 0)
+
+RECOMMENDATIONS
+----------------------------------------------------------------------
+  [WARN]  RAM usage is 87.4% (13.7 GB / 15.7 GB used)
+          -> Close unused applications or consider a RAM upgrade.
+  [WARN]  Startup entry 'SecurityHealth' points to a missing file: %windir%\system32\SecurityHealthSystray.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry 'Docker Desktop' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry 'Proton VPN' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\App_Brock' points to a missing file: C:\Users\Brock\AppData\Local\jvm\bin\javam.exe"
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Git for Windows Updater' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Okta Verify Activation Task' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Okta Verify Activation Task' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\OneDrive Reporting Task-S-1-5-21-2206283366-3271691069-3200214668-1001' points to a missing file: %localappdata%\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\OneDrive Standalone Update Task-S-1-5-21-2206283366-3271691069-3200214668-1001' points to a missing file: %localappdata%\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\.NET Framework\.NET Framework NGEN v4.0.30319' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\.NET Framework\.NET Framework NGEN v4.0.30319 64' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Active Directory Rights Management Services Client\AD RMS Rights Policy Template Management (Manual)' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\AppID\PolicyConverter' points to a missing file: %windir%\system32\appidpolicyconverter.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\AppID\VerifiedPublisherCertStoreCheck' points to a missing file: %windir%\system32\appidcertstorecheck.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\MareBackup' points to a missing file: Multiple
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser' points to a missing file: %windir%\system32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser Exp' points to a missing file: %windir%\system32\compattelrunner.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\PcaPatchDbTask' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\SdbinstMergeDbTask' points to a missing file: %windir%\system32\sdbinst.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\SdbinstMergeDbTask' points to a missing file: %windir%\system32\sdbinst.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\StartupAppTask' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ApplicationData\appuriverifierdaily' points to a missing file: %windir%\system32\AppHostRegistrationVerifier.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ApplicationData\appuriverifierinstall' points to a missing file: %windir%\system32\AppHostRegistrationVerifier.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ApplicationData\CleanupTemporaryState' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ApplicationData\DsSvcCleanup' points to a missing file: %windir%\system32\dstokenclean.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\AppListBackup\Backup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\AppListBackup\BackupNonMaintenance' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Autochk\Proxy' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\BitLocker\BitLocker Encrypt All Drives' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\BitLocker\BitLocker MDM policy Refresh' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Bluetooth\UninstallDeviceTask' points to a missing file: BthUdTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\BrokerInfrastructure\BgTaskRegistrationMaintenanceTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\capabilityaccessmanager\maintenancetasks' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask-Roam' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask-Roam' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Chkdsk\ProactiveScan' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Chkdsk\SyspartRepair' points to a missing file: %windir%\system32\bcdboot.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CloudExperienceHost\CreateObjectTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CloudRestore\Backup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CloudRestore\Backup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CloudRestore\Restore' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ConsentUX\UnifiedConsent\UnifiedConsentSyncTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ConsentUX\UnifiedConsent\UnifiedConsentSyncTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Containers\CmCleanup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Customer Experience Improvement Program\Consolidator' points to a missing file: %SystemRoot%\System32\wsqmcons.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Customer Experience Improvement Program\UsbCeip' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Data Integrity Scan\Data Integrity Check And Scan' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Data Integrity Scan\Data Integrity Check And Scan' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Data Integrity Scan\Data Integrity Scan' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Data Integrity Scan\Data Integrity Scan for Crash Recovery' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Defrag\ScheduledDefrag' points to a missing file: %windir%\system32\defrag.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Device Information\Device' points to a missing file: %windir%\system32\devicecensus.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Device Information\Device' points to a missing file: %windir%\system32\devicecensus.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Device Information\Device User' points to a missing file: %windir%\system32\devicecensus.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\RecommendedTroubleshootingScanner' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\RecommendedTroubleshootingScanner' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\RecommendedTroubleshootingScanner' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\RecommendedTroubleshootingScanner' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\Scheduled' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\UnexpectedCodepath' points to a missing file: %windir%\system32\UCConfigTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DirectXDatabaseUpdater' points to a missing file: %windir%\system32\directxdatabaseupdater.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DirectXDatabaseUpdater' points to a missing file: %windir%\system32\directxdatabaseupdater.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DXGIAdapterCache' points to a missing file: %windir%\system32\dxgiadaptercache.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DXGIAdapterCache' points to a missing file: %windir%\system32\dxgiadaptercache.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DXGIAdapterCache' points to a missing file: %windir%\system32\dxgiadaptercache.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DiskCleanup\SilentCleanup' points to a missing file: %windir%\system32\cleanmgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DiskFootprint\Diagnostics' points to a missing file: %windir%\system32\disksnapshot.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DiskFootprint\StorageSense' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DUSM\dusmtask' points to a missing file: %SystemRoot%\System32\dusmtask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\EDP\EDP App Launch Task' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\EDP\EDP Auth Task' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\EDP\EDP Inaccessible Credentials Task' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\EDP\StorageCardEncryption Task' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ExploitGuard\ExploitGuard MDM policy Refresh' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ExploitGuard\ExploitGuard MDM policy Refresh' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ExploitGuard\ExploitGuard MDM policy Refresh' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Feedback\Siuf\DmClient' points to a missing file: %windir%\system32\dmclient.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Feedback\Siuf\DmClientOnScenarioDownload' points to a missing file: %windir%\system32\dmclient.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\FileHistory\File History (maintenance mode)' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataFlushing' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataFlushing' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataFlushing' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataReceiver' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataReporting' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\OneSettings\RefreshCache' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\OneSettings\RefreshCache' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\OneSettings\RefreshCache' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\InputSettingsRestoreDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\LocalUserSyncDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\MouseSyncDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\PenSyncDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\syncpensettings' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\TouchpadSyncDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\RestoreDevice' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\ScanForUpdates' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\ScanForUpdates' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\ScanForUpdates' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\ScanForUpdatesAsUser' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\International\Synchronize Language Settings' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\International\Synchronize Language Settings' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Kernel\La57Cleanup' points to a missing file: %windir%\system32\la57setup.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\LanguageComponentsInstaller\Installation' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\LanguageComponentsInstaller\ReconcileLanguageResources' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Location\WindowsActionDialog' points to a missing file: %windir%\System32\WindowsActionDialog.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Maintenance\WinSAT' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Management\Provisioning\Cellular' points to a missing file: %windir%\system32\ProvTool.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Management\Provisioning\Logon' points to a missing file: %windir%\system32\ProvTool.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Maps\MapsToastTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MUI\LPRemove' points to a missing file: %windir%\system32\lpremove.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Multimedia\SystemSoundsService' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Network Connectivity Status Indicator\NcsiIdentifyUserProxies' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Network Connectivity Status Indicator\NcsiIdentifyUserProxies' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Network Connectivity Status Indicator\NcsiIdentifyUserProxies' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\NlaSvc\WiFiTask' points to a missing file: %SystemRoot%\System32\WiFiTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\PerformanceTrace\RequestTrace' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\PI\SecureBootEncodeUEFI' points to a missing file: %WINDIR%\system32\SecureBootEncodeUEFI.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\PI\SecureBootEncodeUEFI' points to a missing file: %WINDIR%\system32\SecureBootEncodeUEFI.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\PI\SecureBootEncodeUEFI' points to a missing file: %WINDIR%\system32\SecureBootEncodeUEFI.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Plug and Play\Device Install Group Policy' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Plug and Play\Device Install Reboot Required' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Plug and Play\Device Install Reboot Required' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Plug and Play\Sysprep Generalize Drivers' points to a missing file: %SystemRoot%\System32\drvinst.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Power Efficiency Diagnostics\AnalyzeSystem' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Printing\EduPrintProv' points to a missing file: %windir%\system32\eduprintprov.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Printing\PrinterCleanupTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ReFsDedupSvc\Initialization' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Registry\RegIdleBackup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Security\Pwdless\IntelligentPwdlessTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Servicing\StartComponentCleanup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\CreateObjectTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\FamilySafetyMonitor' points to a missing file: %windir%\System32\wpcmon.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\FamilySafetyRefreshTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\IndexerAutomaticMaintenance' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\ThemesSyncedImageDownload' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SpacePort\SpaceAgentTask' points to a missing file: %windir%\system32\SpaceAgent.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SpacePort\SpaceAgentTask' points to a missing file: %windir%\system32\SpaceAgent.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SpacePort\SpaceManagerTask' points to a missing file: %windir%\system32\spaceman.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SpacePort\SpaceManagerTask' points to a missing file: %windir%\system32\spaceman.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\StateRepository\MaintenanceTasks' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Storage Tiers Management\Storage Tiers Management Initialization' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Subscription\EnableLicenseAcquisition' points to a missing file: %SystemRoot%\system32\ClipRenew.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Subscription\EnableLicenseAcquisition' points to a missing file: %SystemRoot%\system32\ClipRenew.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Subscription\EnableLicenseAcquisition' points to a missing file: %SystemRoot%\system32\ClipRenew.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sustainability\PowerGridForecastTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sustainability\PowerGridForecastTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sustainability\SustainabilityTelemetry' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sysmain\ResPriStaticDbSync' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sysmain\WsSwapAssessmentTask' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SystemRestore\SR' points to a missing file: %windir%\system32\srtasks.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Task Manager\Interactive' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\TextServicesFramework\MsCtfMonitor' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Time Synchronization\ForceSynchronizeTime' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Time Synchronization\ForceSynchronizeTime' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Time Synchronization\SynchronizeTime' points to a missing file: %windir%\system32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Time Zone\SynchronizeTimeZone' points to a missing file: %windir%\system32\tzsync.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\UPnP\UPnPHostConfig' points to a missing file: sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\USB\Usb-Notifications' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\USB\Usb-Notifications' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\USB\Usb-Notifications' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\USB\Usb-Notifications' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WCM\WiFiTask' points to a missing file: %SystemRoot%\System32\WiFiTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WDI\ResolutionHost' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Filtering Platform\BfeOnServiceStartTypeChange' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Media Sharing\UpdateLibrary' points to a missing file: %ProgramFiles%\Windows
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsColorSystem\Calibration Loader' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsColorSystem\Calibration Loader' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsUpdate\Scheduled Start' points to a missing file: %systemroot%\System32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsUpdate\Scheduled Start' points to a missing file: %systemroot%\System32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsUpdate\Scheduled Start' points to a missing file: %systemroot%\System32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsUpdate\Scheduled Start' points to a missing file: %systemroot%\System32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Wininet\CacheTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WlanSvc\CDSSync' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WlanSvc\MoProfileManagement' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WlanSvc\MoProfileManagement' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Work Folders\Work Folders Logon Synchronization' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Work Folders\Work Folders Maintenance Work' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WwanSvc\NotificationTask' points to a missing file: %SystemRoot%\System32\WiFiTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WwanSvc\OobeDiscovery' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WwanSvc\OobeDiscovery' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WwanSvc\OobeDiscovery' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\XblGameSave\XblGameSaveTask' points to a missing file: %windir%\System32\XblGameSaveTask.exe
+          -> Safe to disable or remove this startup entry.
+  [INFO]  215 startup items detected (recommended: <15)
+          -> Review and disable non-essential startup entries in Task Manager > Startup.
+  [INFO]  Startup entry '\Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance' is unsigned (C:\ProgramData\Microsoft\Windows)
+          -> Verify this is a trusted application. If unknown, research before keeping.
+  [INFO]  Startup entry '\Microsoft\Windows\Windows Defender\Windows Defender Cleanup' is unsigned (C:\ProgramData\Microsoft\Windows)
+          -> Verify this is a trusted application. If unknown, research before keeping.
+  [INFO]  Startup entry '\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan' is unsigned (C:\ProgramData\Microsoft\Windows)
+          -> Verify this is a trusted application. If unknown, research before keeping.
+  [INFO]  Startup entry '\Microsoft\Windows\Windows Defender\Windows Defender Verification' is unsigned (C:\ProgramData\Microsoft\Windows)
+          -> Verify this is a trusted application. If unknown, research before keeping.
+  [INFO]  19945 junk files (2.89 GB) staged in PotentialDelete
+          -> Review PotentialDelete folder, then run --confirm-delete to free space.
+
+======================================================================
+END OF REPORT
+======================================================================

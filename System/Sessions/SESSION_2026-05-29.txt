@@ -1,0 +1,77 @@
+SESSION SUMMARY — 2026-05-29
+======================================================================
+
+## What Was Done
+
+### 1. Transcript Deep Scan — Architecture Decision
+- Diagnosed SESSION_RESUME file was badly outdated (listed 27 files, reality was 754 already scanned)
+- Previous session had already run extract_insights.py, scanned 711 DM + 43 Skool FWR files, inserted 19 memories
+- 150 additional entries existed in ODIN knowledge from transcripts\ODIN_MEMORY_INSERTS_2026-05-28.txt (not yet inserted)
+- Attempted 4 parallel Claude Code agents (100 files each) — hit session usage wall + Write permission blocks
+- Decision: local Python offline-first approach (no API cost, no session burns)
+
+### 2. Transcript Knowledge Base — BUILT (Migration 019)
+- New architecture: store full transcripts in PostgreSQL with full-text search (tsvector)
+- Beats extraction: 100% content preserved, ODIN queries on demand, no AI needed for storage
+- Files created:
+    build_transcript_dump.py   — offline, reads 1,014 files → writes transcript_dump.sql (~5 min, no internet)
+    push_transcript_dump.py    — online, pushes dump to Railway DB (~2-3 min)
+    api/migrations/019_transcript_knowledge.sql — table + GIN tsvector index + auto-update trigger
+- Slack command added: `search knowledge <query>` → full-text search, returns top 5 excerpts with highlighted matches
+
+### 3. Finance Bot — Brock-Only Access Guard
+- Problem: any ODIN user (Eddie, Katelyn) could run finance commands and see Brock's bank data
+- Fix: single guard block in app.py checks sender_uid against BROCK_SLACK_UID before all 8 finance actions
+- BROCK_SLACK_UID=U0B5C32BJ6B set in Railway env vars
+- Anyone else gets: "🔒 Finance commands are private." — no data exposed
+- Deployed via railway up --detach
+
+### 4. FWR Batch 2 — 150 Entries Captured
+- extract_stage_fwr2.txt has 150 entries before usage wall hit
+- Covers: government list tactics, DNC legal protection (Coffee v. Fast Easy Offer), iOS 26 workaround,
+  land wholesaling demand-first, FSBO scripts, conversion rate KPIs, XLeads settings, short voicemail hack,
+  good cop/bad cop offer framing, probate strategies, creative finance structures
+
+
+## Key Files
+- build_transcript_dump.py:  C:\Users\Brock\OneDrive\Desktop\Master Folder\ODIN\
+- push_transcript_dump.py:   C:\Users\Brock\OneDrive\Desktop\Master Folder\ODIN\
+- Migration 019:             C:\Users\Brock\OneDrive\Desktop\Master Folder\ODIN\api\migrations\019_transcript_knowledge.sql
+- FWR partial extract:       C:\Users\Brock\OneDrive\Desktop\Master Folder\ODIN\extract_stage_fwr2.txt (150 entries)
+- FWR1/DM1/DM2 staging:     extract_stage_fwr1.txt, extract_stage_dm1.txt, extract_stage_dm2.txt (empty — not yet run)
+
+
+## Pending / Next Steps
+1. TRANSCRIPT KNOWLEDGE BASE (priority):
+   Step 1 (offline): py build_transcript_dump.py
+   Step 2 (online):  py push_transcript_dump.py
+   Step 3:           railway up --detach  (to deploy search knowledge command)
+   Verify in Slack:  search knowledge objection handling
+
+2. INSERT 150 FWR ENTRIES from extract_stage_fwr2.txt into ODIN memories DB
+   (These are staged but not yet inserted — use node insert pattern or new batch script)
+
+3. TELLER.IO CREDS still needed for finance bot:
+   railway variables --service odin-api set TELLER_ACCESS_TOKEN=xxx
+   railway variables --service odin-api set TELLER_CERT_B64=xxx
+   railway variables --service odin-api set TELLER_KEY_B64=xxx
+   Then Slack: finance sync → mark biz card <name> → invest
+
+4. BLAST READY when you want to fire:
+   blast tags:he,tax-delinquent workflow:e5dd5ab7-92b5-4111-8a32-164f9214d5f0 limit:100
+
+5. KATELYN: decide first automation (email outreach or Etsy)
+
+6. APEX REMAINING:
+   Revenue Tracking 60%→80% — log first real event: revenue log spoke:real_estate amount:X type:income desc:...
+   Decision Queue  55%→75% — log first real decision
+   Voice Briefing  55%→75% — phone call delivery
+
+
+## ODIN DB State
+- Migrations 001–019 (019 pending push of transcript_dump)
+- Finance guard: LIVE (Brock-only)
+- Heartbeat jobs: 14 active (including finance_daily_sync at 7am ET)
+- Transcript knowledge: table created, data push pending
+
+======================================================================

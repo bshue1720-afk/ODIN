@@ -1,0 +1,244 @@
+AI AUTOMATION AUDIT — FULL LAUNCH SOP
+Prepared by ODIN | 2026-05-30
+======================================================================
+
+OFFER SUMMARY
+----------------------------------------------------------------------
+Product      : AI Automation Audit
+Price        : $497 (entry) → $2,500–$5,000 (build) → $300–$750/mo (retainer)
+Deliverable  : Scored PDF report + Loom video walkthrough + 30-min debrief call
+Turnaround   : 5 business days from payment
+ODIN's role  : Generates the entire audit report via `audit <business type>`
+Your role    : Record 10-min Loom, run the debrief call, close the build
+
+
+THE PITCH FRAME (never lead with "AI" — lead with dollar loss)
+----------------------------------------------------------------------
+DO NOT SAY:
+  "I offer AI automation and workflow optimization services."
+
+SAY THIS:
+  "The average [roofing company / plumbing shop / dental office] in Columbus
+   loses $45,000–$120,000 a year to missed calls and slow follow-up.
+   We find exactly where yours is leaking in one week — and show you
+   what it would cost to stop it."
+
+Pain by niche (use these numbers in outreach):
+  Roofing/Plumbing : Average $67K/yr lost to missed calls. 85% of missed
+                     callers never call back. First responder wins the job 78% of the time.
+  Dental           : Front desk spending $3,000–$6,000/mo on tasks AI handles.
+                     Insurance verification, scheduling, reactivation = 3 hrs/day of staff time.
+  Auto Repair      : Avg ticket $350. 15 missed calls/week = $2,700/week gone.
+  Law Firms        : First intake response time determines 70% of conversions.
+                     Avg case value $2,000–$15,000. Slow intake = direct revenue loss.
+
+
+NICHE PRIORITY (Columbus leads already pulled — 20 Tier 0 ready)
+----------------------------------------------------------------------
+Rank  Niche        File        Why First
+  1   Roofing      leads_007   Highest urgency. Avg job $5K–$15K. Missed call = big loss.
+  2   Dental       leads_005   High WTP. $2K–$5K/mo retainer potential. Strong ROI story.
+  3   Auto Repair  leads_004   Easiest to explain ROI. Lower friction to close.
+  4   Law Firms    leads_006   Highest transaction value. Longer close but massive upside.
+
+Remaining niches to snipe (run @sniping-agent, 5 Tier 0 each):
+  - Plumbers (highest pain profile of any niche — do this first after roofing)
+  - Electricians
+  - Med spas / aesthetic clinics
+  - HVAC (NOTE: excluded from Valdr Ops per CLAUDE.md — PartSync Pro territory)
+
+
+PRICING STRUCTURE
+----------------------------------------------------------------------
+Tier  Name              Price      What They Get
+  1   Automation Audit  $497       Scored PDF (7 categories, 0–100) + Loom walkthrough
+                                   + 30-min debrief call. Delivered in 5 business days.
+  2   Quick Win Build   $2,500     1 automation built and deployed (e.g. missed-call
+                                   text-back, AI follow-up sequence). Includes setup,
+                                   testing, and 30-day monitoring.
+  3   Full Build        $5,000     Top 2–3 automations from the audit roadmap.
+                                   Full deployment + Twilio/XLeads integration.
+  4   Monthly Retainer  $300–750   Ongoing monitoring + 1 new automation per month.
+                                   Cancel anytime (no contracts in cold outreach —
+                                   introduce retainer only on the debrief call).
+
+Revenue math:
+  10 audits/mo at $497         = $4,970/mo
+  3 of 10 convert to build     = +$7,500–$15,000
+  5 clients on retainer        = +$1,500–$3,750/mo
+  Month 3 total realistic      = $14,000–$23,720/mo
+
+
+COLD EMAIL TEMPLATE (SPEAR format — under 50 words)
+----------------------------------------------------------------------
+Subject: Question about your missed calls
+
+Hey [First Name],
+
+Quick question — do you know how many calls [Business] misses each week,
+and what happens to those people after?
+
+I audit this for [niche] companies in Columbus. Most are surprised by the number.
+
+Worth a 5-minute look?
+
+— Brock
+
+----------------------------------------------------------------------
+NOTE: This is a NEW template for the AI audit offer (different from the
+locked Valdr Ops Lead Shield template). Use this for audit outreach only.
+----------------------------------------------------------------------
+
+
+STEP-BY-STEP SOP
+======================================================================
+
+PHASE 1 — OUTREACH (Days 1–7)
+----------------------------------------------------------------------
+Step 1: Load Columbus leads (leads_004 through leads_007)
+         Files: projects/vauldr-ops/leads/
+         Total ready: 20 Tier 0 leads
+
+Step 2: Send cold email batch 1 (roofing first — highest urgency)
+         Use email template above
+         Personalize: [First Name], [Business], correct niche dollar stat
+         Send: 5 per day max (deliverability)
+         Track: multi-channel-outreach-tracker.csv
+
+Step 3: Day 3 follow-up (for non-openers)
+         "Hey [Name] — wanted to make sure this didn't get buried.
+          Still curious what your missed call number looks like?  — Brock"
+
+Step 4: Day 7 final touch (for non-responders)
+         "Last one from me — if timing is off, no problem. When things
+          slow down and you want to see where calls are going, I'm here.  — Brock"
+
+Step 5: Parallel — run @sniping-agent for plumbers Columbus (5 Tier 0)
+         Prompt: "5 tier 0 plumbers columbus ohio — company emails verified,
+         decision makers, missed-call pain. Include email source and confidence."
+
+
+PHASE 2 — AUDIT DELIVERY (Days 3–14, triggered by interest reply)
+----------------------------------------------------------------------
+Step 1: Reply received — respond within 2 hours
+         "Perfect — I'll run the audit this week and send it over.
+          Takes me about 5 days. I'll include a video walkthrough so
+          it actually makes sense. What's the best email for the report?"
+
+Step 2: Collect payment — send Stripe link ($497)
+         Link: https://buy.stripe.com/cNi28r6POdE06xFg4QeEo00
+         Do not start audit until payment clears.
+
+Step 3: Run the audit in ODIN
+         Slack: `audit [business type] columbus ohio`
+         ODIN generates: scored PDF (automation score, touchpoints, build list)
+         Time: ~2 minutes
+
+Step 4: Customize the report
+         Add their business name, address, phone
+         Replace generic findings with their specific situation
+         (Check their Google reviews for missed-call complaints — copy exact quotes)
+         Add the dollar loss calculation:
+           Missed calls/week (estimate from niche avg) x avg job value x 12 = annual loss
+
+Step 5: Record Loom (10–15 min)
+         Open the PDF, screen-record
+         Walk through: "Here's your score... here's what's costing you the most...
+         here's what fixing this would look like..."
+         Keep it conversational — this is what closes the upsell
+
+Step 6: Deliver
+         Email: PDF attachment + Loom link + calendar link for 30-min debrief
+         Subject: "Your AI Automation Audit — [Business Name]"
+         Body: "Hey [Name], your audit is ready. Score: [X]/100.
+                Biggest opportunity I found: [one-line hook].
+                Full breakdown in the PDF + I recorded a 10-min walkthrough.
+                Let's review it together — grab a time: [cal link]"
+
+
+PHASE 3 — CLOSE (Days 7–21)
+----------------------------------------------------------------------
+Step 1: Debrief call (30 min)
+         Min 1–5:   "Did you get a chance to look it over? What surprised you?"
+         Min 5–15:  Walk through top 2–3 findings. Quantify the loss.
+                    "That one automation alone recovers $X/month. Setup is $2,500,
+                     break-even in [X] weeks."
+         Min 15–25: "I want to propose we fix the top two — missed call recovery
+                     and [#2 from audit]. Here's what that looks like..."
+         Min 25–30: "If the numbers work, we can have it live in 2 weeks.
+                     What questions do you have?"
+         NEVER mention contracts or commitment on this call.
+         Close on next step: "Let me send you a one-page summary of what we'd build."
+
+Step 2: Send one-page proposal (same day, within 2 hours of call)
+         Not a contract — a summary: what gets built, timeline, price, guarantee.
+         "30-day money-back guarantee if the automation doesn't recover its cost."
+         One-page max. No legal language.
+
+Step 3: Follow up Day 3 if no response
+         "Hey [Name] — just checking in on the proposal. Any questions
+          or pushback I can address?"
+
+Step 4: Close — collect 50% upfront, 50% on delivery
+         Once paid: begin build
+
+
+PHASE 4 — BUILD + RETAINER (Days 14–30)
+----------------------------------------------------------------------
+Step 1: Build the automation using ODIN + XLeads + Twilio
+         Most common first build: missed-call text-back (Lead Shield)
+         ODIN already has this configured — it's the core Valdr Ops product
+
+Step 2: Deliver and test
+         Set up, show them live demo, confirm it's firing
+
+Step 3: Introduce retainer on the delivery call
+         "Now that this is live, I monitor it monthly and add the next automation
+          from your audit roadmap. That's $[X]/month. Want to keep going?"
+         Present as continuation, not new sale.
+
+Step 4: Document as a case study
+         Get permission. Record metrics (calls recovered, revenue recovered).
+         Use as social proof for next outreach batch.
+
+
+WHAT ODIN DOES (automation map for this business)
+======================================================================
+
+NOW — ODIN handles automatically:
+  - Generates audit report (Slack: `audit <business type>`)
+  - Generates full PDF business plan (Slack: `plan <business>`)
+  - Tracks leads and outreach (XLeads CRM)
+  - SMS follow-up sequences (Twilio via XLeads)
+  - Email drafting (`draft email <contact>` in Slack)
+  - Proposal generation (email_drafter agent)
+  - Pipeline reporting (9pm daily heartbeat)
+  - Decision queue (flags stale deals, surfaces next action)
+
+FUTURE — ODIN could build:
+  - Auto-generate customized audit PDF per prospect (scraped from Google Business Profile)
+  - Auto-record a templatized Loom script based on audit findings
+  - Stripe webhook to trigger audit generation on payment
+  - Client portal showing their automation metrics post-build
+  - Automated proposal delivery after debrief call
+
+
+KEY NUMBERS TO KNOW (memorize for calls)
+======================================================================
+  85% of missed callers never call back
+  78% of jobs go to whoever responds first
+  Average plumber loses $67K/year to missed calls
+  Average dental front desk = $3,000–$6,000/mo in automatable labor
+  First-responder advantage: 78% win rate on inbound leads
+  Audit-to-build conversion rate (industry): up to 80% when audit is genuinely useful
+  Every audit generates 3–5 follow-on projects (3–8x the audit fee)
+  Month 3 realistic revenue: $14,000–$23,720/mo (10 audits + 3 builds + 5 retainers)
+
+
+NEXT 3 ACTIONS (execute in this order)
+======================================================================
+  1. Send first 5 cold emails today — start with leads_007 (roofing)
+  2. Run @sniping-agent for Columbus plumbers (5 Tier 0)
+  3. Set up Stripe payment link for $497 audit (or use existing)
+
+======================================================================

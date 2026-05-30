@@ -1,0 +1,57 @@
+SESSION: 2026-05-24b
+FOCUS: Layer 2 Memory — built and deployed
+
+===== WHAT WAS DONE =====
+
+1. BUILD AUDIT
+   - Verified all 7 ODIN layers against actual codebase
+   - Confirmed Layer 2 Memory was the only missing piece
+   - All other layers confirmed built: Brain, Gateway, Skills (8 modules),
+     Heartbeat (5 jobs), Security, Voice (Maya)
+   - Phase 4 infra confirmed complete; first automation still pending Katelyn's choice
+
+2. LAYER 2 MEMORY — BUILT
+   Files created:
+     api/migrations/004_memories.sql
+       - memories table (id, user_id, key, value, source, importance, timestamps)
+       - Unique index on (user_id, key) — upsert by key
+       - ALTER TABLE users ADD COLUMN slack_uid VARCHAR(100)
+       - Seeded: Katelyn = U0B6MSYBY72, Brock = U0B5C32BJ6B
+
+     api/utils/memory.py
+       - load(user_id, get_db) — fetch top 12 memories by importance
+       - format_for_prompt(rows) — returns context block for system prompt
+       - upsert(user_id, facts, get_db) — insert or update facts
+       - extract_and_save(user_id, msg, reply, get_db) — Haiku extracts facts post-reply
+       - 10 tracked keys: current_business, income_goal, available_hours, skills,
+         startup_budget, preferred_platform, business_status, last_business_discussed,
+         automation_preference, blockers
+
+   Files modified:
+     api/utils/business_advisor.py
+       - chat() now accepts memory_context param
+       - Injects memory block into system prompt if present
+
+     api/app.py
+       - import utils.memory as memory added
+       - slack_events handler: loads memories before advisor.chat()
+       - slack_events handler: calls extract_and_save() after reply (silent fail)
+
+3. DEPLOYMENT
+   - Migration 004 run successfully against Railway PostgreSQL
+   - railway up --detach — deployed, health check passed
+   - Cost: $0/month (reuses existing Railway DB)
+
+===== OPEN ITEMS =====
+1. XLeads workflow ID → blast (he + tax delinquent, limit 100)
+2. Katelyn's first automation — email or Etsy (her choice, may already be built)
+
+===== ARCHITECTURE STATE =====
+All 7 layers now complete:
+  Layer 1 Brain     ✅
+  Layer 2 Memory    ✅ (this session)
+  Layer 3 Gateway   ✅
+  Layer 4 Skills    ✅
+  Layer 5 Heartbeat ✅
+  Layer 6 Security  ✅
+  Layer 7 Voice     ✅

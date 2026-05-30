@@ -1,0 +1,79 @@
+SESSION SUMMARY — 2026-05-29c
+======================================================================
+
+## What Was Done
+
+### 1. Blast Fired
+- 100 contacts enrolled (tags: he + tax-delinquent, workflow: sms-blast-bulk)
+- blast_campaign_id: e6684814-2db2-4026-b9bf-766f87bf3e35
+- Blast decision (D1) auto-closed as approved
+- 2 decisions remaining: Memphis zip expansion (D2) + Valdr reactivation (D3)
+
+### 2. Bug Fixes (all deployed)
+- `decision` (singular) now triggers queue — was only matching `decisions`
+- `approve 1` / `approve 2` / `approve 3` — resolves by position number to actual UUID
+- `decline 1/2/3` same
+- `approve decision` / `decline decision` — now also accepts plain `approve <id>` / `decline <id>`
+- Blast DB logging: _run_blast thread was calling get_db() which fails outside request context.
+  Fixed to open a fresh psycopg2 connection directly using DATABASE_URL or fallback credentials.
+  blast_campaign_id for current blast manually inserted since it fired before fix.
+- find knowledge: was routing to XLeads contact search (parser conflict with `search` prefix).
+  Fixed by renaming command to `find knowledge` and adding exclusion to contact search parser.
+- Knowledge search response upgraded from raw excerpts to Claude Haiku synthesis.
+
+### 3. Buyer Link — COMPLETED
+- link_buyers.py rewritten: bulk-fetches all XLeads contacts in cursor pages (fast), matches locally
+- 2,079 XLeads contacts fetched, 300 matched to ODIN buyer records by phone
+- 300 buyers now have xleads_contact_id in DB (of 8,655 total)
+- 8,246 buyers have no XLeads contact — expected, they're cash buyers not sellers
+- buyer_onboarding_scan heartbeat can now send welcome SMS to these 300 buyers
+
+
+## DB State
+- Migrations 001–021 all run
+- blast_campaigns: 1 row (campaign e6684814, 100 sent)
+- buyers: 300 with xleads_contact_id (up from 0)
+- decision_queue: 2 pending (D2 Memphis, D3 Valdr)
+- transcript_knowledge: 1,014 rows (795 FWR + 219 DM)
+- memories: 251 rows (101 user + 150 transcript_fwr)
+- Unique index on leads.xleads_contact_id
+
+
+## Heartbeat Jobs (15 total)
+  6am   — morning_briefing
+  7am   — finance_daily_sync
+  8am   — buyer_onboarding_scan
+  9am   — revenue_sync (NEW — auto-logs won XLeads opportunities)
+  9pm   — pipeline_report
+  30min — reply_scanner
+  2hr   — followup_queue + decision_queue_scan
+  4hr   — opportunity_sync + task_delegation_scan + kpi_auto_update
+  Mon 7am  — weekly_kpi
+  Sun 8pm  — weekly_ceo_review
+  Wed 10am — resurrect_scan
+  1hr   — sms_health_monitor
+
+
+## Full Slack Command Reference (as of 2026-05-29c)
+  BLAST:       blast tags:X workflow:X limit:100 | blast stats | blast results
+  DECISIONS:   decisions | decision | approve 1 | decline 2 | log decision spoke:X issue:"..." ...
+  REVENUE:     revenue | revenue log spoke:X amount:Y type:income desc:... | revenue sync
+  OFFERS:      scorecard <address> arv:X ... | draft offer <address> | offer status <address>
+  KNOWLEDGE:   find knowledge <query>
+  BUYERS:      buyers | buyers onboarding | onboard <name> cid:<id>
+  FINANCE:     finance | finance sync | balance | subscriptions | spending | biz card | invest
+  LEADS:       leads | mctp <seller> M:X C:X T:X P:X | status <address> | follow up <address> ...
+  PIPELINE:    stats | review | scorecard | resurrect
+  CONTACTS:    contacts <name> | contact <id> | text <id> <msg>
+  TASKS:       tasks | task done <title> | assign task <title> to <who>
+  SYSTEM:      decisions | approvals | approve <id> | reject <id> | workflows | spokes
+  KNOWLEDGE:   find knowledge <query> | search knowledge <query>
+
+
+## Next Actions
+  1. `decisions` — review D2 (Memphis expansion) + D3 (Valdr reactivation)
+  2. `blast stats` — check for early replies
+  3. Log first revenue event when deal closes
+  4. Katelyn first automation (skipped)
+
+======================================================================

@@ -1,0 +1,336 @@
+════════════════════════════════════════════════════════════════════════════════
+O.D.I.N. — ORCHESTRATED DECISION INTELLIGENCE NETWORK
+Complete System Summary — For Claude Sandbox Context
+Last Updated: 2026-05-24
+════════════════════════════════════════════════════════════════════════════════
+
+WHAT IS ODIN
+━━━━━━━━━━━━
+ODIN is a fully custom business operations hub built for Brock Shue (Shue Box LLC),
+a Memphis TN real estate wholesaling company. It is a Flask/PostgreSQL web application
+hosted on Railway.app. ODIN connects GoHighLevel (called "XLeads"), Slack, Discord,
+and the Anthropic Claude API into a unified command center operated primarily through
+Slack DMs.
+
+LIVE URL: https://odin-api-production-e85d.up.railway.app
+
+THE THREE BUSINESSES ODIN SERVES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Shue Box LLC — Memphis TN real estate wholesaling (PRIMARY — ODIN's main focus)
+   - Virtual wholesale, no license needed
+   - Buy box: Memphis metro, 3/2 SFR, ARV $80k-$200k, assignment fee $10k-$30k
+   - 1,770 seller contacts in XLeads, zips 38109/38111/38118
+   - 8,705 cash buyers in DB (4,882 Memphis metro, 298 active flippers)
+
+2. Katelyn's Business (wife) — Phase 4 automation engine built for her
+   - Role: business_standard
+   - Business advisor via Slack DM (Claude-powered)
+   - 4-agent suite (scout, income, builder, auditor)
+   - First automation (email outreach or Etsy) still pending her choice
+
+3. Future: PartSync Pro (HVAC contractor SaaS) — on hold
+
+ARCHITECTURE
+━━━━━━━━━━━━
+Database:  Railway PostgreSQL (Postgres-9BFG)
+           Public proxy: kodama.proxy.rlwy.net:55551
+           DB name: railway | User: postgres
+Hosting:   Railway.app — project: natural-analysis
+API:       Python Flask — api/app.py
+Auth:      JWT (24hr, localStorage)
+Dashboard: Single HTML SPA — dashboard/index.html (served by Flask at /)
+Shell:     Node.js pg module at ODIN/node_modules/pg for DB CLI access
+
+7-LAYER SYSTEM ARCHITECTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Layer 1 Brain:     Claude API (Anthropic SDK) — Haiku for scoring, Sonnet for advisor
+Layer 2 Memory:    PostgreSQL-backed (memories table) — loads/saves facts per user per conversation
+Layer 3 Gateway:   XLeads (GHL) + Slack + Discord webhooks
+Layer 4 Skills:    8 RE skill modules (all built)
+Layer 5 Heartbeat: APScheduler — 6 scheduled jobs inside Flask
+Layer 6 Security:  Railway env vars (no secrets in code)
+Layer 7 Voice:     Maya — XLeads Voice AI agent, 29+ calls
+
+7 USER ROLES (access hierarchy)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+super_admin        — Brock only. Unlimited access.
+re_partner         — Full RE access. Can approve deals under $15k.
+acquisition_manager — Team lead. Assigns leads, approves warm (5-7).
+caller             — MCTP logging, assigned leads only.
+disposition_agent  — Contracted deals + buyer list.
+business_standard  — Katelyn. Assigned spoke only (her businesses).
+virtual_assistant  — Tasks only.
+
+CURRENT USERS
+━━━━━━━━━━━━━
+Brock   — shueboxllc@gmail.com — super_admin — Slack UID: U0B5C32BJ6B
+Katelyn — katelynrxo@gmail.com — business_standard — Slack UID: U0B6MSYBY72
+Eddie   — heritrejo30@gmail.com — caller — Invited 2026-05-24 (expires 2026-05-31)
+          Full name: Heriberto Trejo | Bird dog / JV signed
+          Upgrade path: caller → re_partner after first closed deal
+
+MCTP SCORING FRAMEWORK
+━━━━━━━━━━━━━━━━━━━━━━
+MCTP = Motivation + Condition + Timeline + Price (0-10 total)
+  Motivation  0-3  (why are they selling?)
+  Condition   0-2  (property condition)
+  Timeline    0-3  (how urgently do they need to sell?)
+  Price       0-2  (are they realistic on price?)
+
+Hot  = 8-10  — Route to approval queue, alert Brock immediately
+Warm = 5-7   — Alert Brock, route to acquisition manager
+Cold = 0-4   — Log and follow up later
+
+DATABASE TABLES (all on Railway PostgreSQL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+agent_actions         — all agent/user activity log
+approval_queue        — pending deal approvals
+businesses            — Katelyn's businesses
+buyers                — 8,705 cash buyers (investor data)
+custom_fields         — XLeads custom field definitions (cached)
+invite_tokens         — user invite links
+leads                 — seller lead pipeline with full MCTP data
+memories              — Layer 2 memory (per-user facts for advisor)
+pipeline_stages       — all 5 XLeads pipelines + stages
+products              — Katelyn's products
+property_lookup_cache — Shelby County Assessor data (30-day TTL)
+tasks                 — Katelyn's business tasks
+users                 — 7-role user system
+workflow_registry     — 41+ XLeads workflows catalogued
+
+KEY FILES
+━━━━━━━━━
+api/app.py                       — Flask routes (60+ routes), all command handlers
+api/utils/permissions.py         — check_permission_role(role, action, resource)
+api/utils/approval_router.py     — route_approval(action_type, data, user_id, get_db)
+api/utils/slack_templates.py     — per-role Slack notifications
+api/utils/xleads.py              — XLeads/GHL API client (58 routes, 14 categories)
+api/utils/slack_commands.py      — parse_command(), HELP_TEXT
+api/utils/business_advisor.py    — Claude-powered advisor (Haiku/Sonnet)
+api/utils/business_scout.py      — scout agent
+api/utils/income_calculator.py   — income model agent
+api/utils/business_builder.py    — builder agent
+api/utils/automation_auditor.py  — auditor agent
+api/utils/it_agent.py            — IT support agent
+api/utils/lao_calculator.py      — Lowest Acceptable Offer calculator
+api/utils/arv_analyzer.py        — ARV analyzer (Memphis market data, 9+ zip codes)
+api/utils/offer_calculator.py    — Full deal math (ARV, rehab, LAO, walkup, fee)
+api/utils/lead_scorer.py         — MCTP scoring via Claude Haiku
+api/utils/script_generator.py    — MCTP call script generator
+api/utils/buyer_matcher.py       — Matches buyers to deals (DB-backed, 8,705 buyers)
+api/utils/content_engine.py      — LinkedIn + email content from deal data
+api/utils/email_drafter.py       — Seller/buyer email drafter
+api/utils/heartbeat.py           — APScheduler (6 jobs)
+api/utils/memory.py              — Layer 2 memory (load/upsert/extract_and_save)
+api/utils/property_lookup.py     — Shelby County Assessor scraper + cache
+api/utils/comps_scraper.py       — Redfin public comps (auto-appended to analyze)
+api/utils/discord_notify.py      — Discord webhook notifier
+api/utils/google_calendar.py     — Google Calendar (needs one-time OAuth setup)
+api/utils/gmail_client.py        — Gmail API (needs one-time OAuth setup)
+
+SLACK COMMAND CENTER — COMPLETE COMMAND LIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+All commands work via Slack DM to ODIN or @mention in a channel.
+Routing: known commands run immediately. Unknown text → business advisor (Claude).
+
+BLASTING (Brock only)
+  blast tags:high-equity,tax-delinquent workflow:<id> limit:100
+  blast query:"Memphis 38111" workflow:<id>
+
+MESSAGING
+  text <contact_id> <message>               — send SMS via XLeads
+  email <contact_id> subject:... body:...   — send email via XLeads
+
+LEADS & PIPELINE
+  leads                     — hot + warm leads from ODIN DB
+  approvals                 — pending approval queue
+  approve <id>              — approve + generate offer script
+  reject <id> <reason>
+
+CONTACTS
+  contacts <search>         — search XLeads contacts
+  contact <id>              — full contact detail
+  ignore <id>               — tag Do-Not-Contact + remove from all workflows
+
+CONTRACTS
+  contract <id> template:<template_id>
+
+BUYERS
+  buyers                    — stats + top Memphis flippers
+  buyers flipper            — active flippers
+  buyers memphis            — TN/MS buyers
+  buyers <name or city>
+
+WORKFLOWS & NUMBERS
+  workflows                 — ODIN registry + XLeads live list
+  workflow add name:<n> id:<xleads_id> purpose:<desc>
+  numbers                   — list phone numbers
+  buy number 901            — search available 901 numbers
+  confirm buy +19015551234  — purchase (charges apply)
+
+RE SKILLS (Layer 4)
+  analyze <address> beds:3 baths:2 sqft:1534 zip:38111 condition:medium
+    → Full deal math: ARV, rehab, LAO, walk-up max, assign price, fee
+    → Redfin comps auto-appended (recent solds within 0.5 miles)
+  score <call notes>        — MCTP score from free-text notes
+  script <seller> <address> — MCTP call script
+  match <address> arv:165000 assign:90000  — rank buyers for the deal
+  draft email seller John, context...
+  content <deal summary>    — LinkedIn posts + email content
+
+CALL LOGGING (Eddie / callers)
+  mctp John 4314 Leatherwood M:2 C:1 T:2 P:1 notes:motivated divorce wants 90k
+    → Logs to leads table, alerts Brock if hot/warm, mirrors to Discord
+
+XLEADS DATA
+  tags                      — all XLeads tags
+  fields                    — all custom fields (DB-cached)
+  field sync                — re-sync from XLeads API
+
+PROPERTY LOOKUP
+  lookup 4314 Leatherwood Ave Memphis
+    → Shelby County Assessor: owner, mailing, assessed/market value, tax status
+    → Flags absentee owners (motivated seller signal)
+    → Cached 30 days
+
+CALENDAR & EMAIL (needs one-time Google OAuth setup)
+  schedule John 4314 Leatherwood tomorrow 2pm
+  schedule John 4314 Leatherwood Friday 10am notes:wants 85k
+  calendar today / calendar week
+  gmail John 4314 Leatherwood    — draft + send from shueboxllc@gmail.com
+  gmail custom to:x@y.com subject:... body:...
+  gmail inbox
+
+BUSINESS AGENTS (Brock + Katelyn)
+  scout printables etsy
+  income <business> hours:10 budget:200
+  build <business>
+  audit <business>
+  plan <business>           — runs all 4 agents in sequence
+
+IT SUPPORT
+  debug <problem>           — Claude diagnoses + fixes any issue
+  tech <problem>
+
+MAYA VOICE AI
+  maya                      — show current config
+  DO NOT use 'maya update'  — edit manually in XLeads builder
+
+HEARTBEAT JOBS (automatic — no commands needed)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+06:00 daily CT   — Morning briefing → #odin-brock (follow-ups due, pipeline, approvals)
+21:00 daily CT   — Pipeline report (by status, new today, pending approvals)
+Every 30 min     — Seller reply scanner (XLeads conversation check)
+Every 2 hours    — Overdue follow-up queue alert
+Every 4 hours    — XLeads opportunity sync (pipeline snapshot → #odin-brock)
+Monday 07:00 CT  — Weekly KPI report (new leads, hot/warm, contracted, closed)
+
+INBOUND WEBHOOK (XLeads → ODIN)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+URL: https://odin-api-production-e85d.up.railway.app/api/xleads/inbound
+Registered as "Customer Replied" webhook in XLeads.
+Workflow UUID: 9184a227-6bdc-4894-8a3d-d26ed44ec555
+
+When a seller texts back:
+1. Negative reply (STOP, not interested) → auto-tag Do-Not-Contact, remove from all workflows
+2. Positive/neutral reply →
+   a. Auto-MCTP score via Claude Haiku
+   b. Auto-tag Hot/Warm/Cold in XLeads
+   c. Pull last 5 conversation messages for context
+   d. Post alert to #odin-brock with score, history, quick-reply commands
+   e. Mirror to Discord if score >= 5
+
+XLEADS / GHL INTEGRATION
+━━━━━━━━━━━━━━━━━━━━━━━━━
+API scopes: Contacts, Conversations, Workflows, Opportunities, Calendars,
+Phone Numbers (buy/list), Voice AI, Conversation AI, Agent Studio,
+Contracts, Campaigns, Tags, Custom Fields, Social Planner
+58 routes across all 14 categories in api/utils/xleads.py
+
+Voice AI — Maya:
+  Agent: "Shue Box LLC Inbound Voice AI"
+  ID: 69f17fef91786b81e3040308
+  29+ calls. Warm, empathetic persona. Collects motivation/timeline/price.
+  CRITICAL: Never use 'maya update' Slack command — edit manually in XLeads UI only.
+
+WORKFLOW REGISTRY (41 workflows catalogued)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Blast workflow: "SMS Text Blaster (BULK DM)"
+  UUID: e5dd5a67-92b5-4111-8a32-16495214d5f0
+  Template: "Hey {{contact.first_name}}, not sure if this is the right number,
+             but is this the owner of {{contact.address1}}?
+             Reply STOP to unsubscribe. Thanks, Brock"
+
+BLAST STATUS: Need to register UUID in ODIN then run:
+  blast tags:he,tax-delinquent workflow:e5dd5a67-92b5-4111-8a32-16495214d5f0 limit:100
+
+BUYER DATABASE
+━━━━━━━━━━━━━━
+8,705 total buyers | 4,882 Memphis metro (TN/MS) | 298 active flippers
+Source: XLeads CSVs (3 files, 10,422 rows processed)
+Fields: name, company, email, phone, market, city, state, zip,
+        is_flipper, is_landlord, is_note_holder, is_lender, is_distressed,
+        portfolio_owned, portfolio_value, flipped_count, flipped_avg_profit,
+        is_dnc, is_litigator, active, notes
+
+ARV ANALYZER ZIP CODES (Memphis market data built-in)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+38109, 38111, 38118 (primary target zips)
+38115 (Hickory Hill), 38125 (SE Memphis), 38128 (Raleigh)
+38016 (Cordova TN), 38671 (Southaven MS), 38654 (Olive Branch MS)
+
+DISCORD INTEGRATION
+━━━━━━━━━━━━━━━━━━━
+Server: ODIN Discord (Brock + Eddie both have access)
+Webhook: DISCORD_WEBHOOK_BROCK + DISCORD_WEBHOOK_EDDIE (same channel currently)
+Triggers: Hot/warm inbound seller replies, Eddie's MCTP confirmations
+
+ENV VARS (Railway — all set)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATABASE_URL, JWT_SECRET_KEY, BASE_URL
+SLACK_BOT_TOKEN, SLACK_CHANNEL_BROCK (C0B6MR6SXNU), SLACK_CHANNEL_WIFE (C0B5X6KUBNY)
+SLACK_SIGNING_SECRET
+ANTHROPIC_API_KEY
+XLEADS_API_KEY, XLEADS_LOCATION_ID, XLEADS_BASE_URL
+KATELYN_SLACK_UID = U0B6MSYBY72
+DISCORD_WEBHOOK_BROCK, DISCORD_WEBHOOK_EDDIE
+
+PHASE STATUS
+━━━━━━━━━━━━
+Phase 1: MVP — DONE
+Phase 2: XLeads integration — DONE
+Phase 3: Full system live — DONE (2026-05-23)
+Phase 4: Katelyn automation engine — Infrastructure DONE, first automation pending
+
+WHAT IS NOT YET DONE
+━━━━━━━━━━━━━━━━━━━━
+1. First SMS blast — workflow UUID needs to be registered, then run blast command
+   Command: workflow add name:sms-blast-bulk id:e5dd5a67-92b5-4111-8a32-16495214d5f0 purpose:Outbound bulk SMS blast
+   Then:    blast tags:he,tax-delinquent workflow:e5dd5a67-92b5-4111-8a32-16495214d5f0 limit:100
+
+2. Google Calendar — code built, needs one-time OAuth setup on local machine
+   Steps: console.cloud.google.com → enable Calendar API → OAuth credentials → run setup script
+
+3. Gmail — code built, needs same Google OAuth setup + enable Gmail API
+
+4. Katelyn's first automation — email outreach or Etsy (her choice)
+
+5. KATELYN_SLACK_UID verified and working ✅
+
+ARCHITECTURE RULES (always follow these)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Every table has user_id FK
+- Every endpoint calls check_permission_role() before executing
+- Every agent action logs to agent_actions table
+- API keys in Railway env vars — never hardcoded
+- JWT auth on all dashboard endpoints
+- Database: Railway PostgreSQL | Hosting: Railway.app | Language: Python Flask
+- Deploy: cd ODIN && railway up
+- DB CLI: node scripts/run_node_query.js (uses node_modules/pg)
+- DB proxy: kodama.proxy.rlwy.net:55551
+
+SESSION PROTOCOL
+━━━━━━━━━━━━━━━━
+Always read ODIN/System/STATUS.txt first when starting a new session.
+Migration files are in api/migrations/ (001-009 run so far).
+For context: See project_odin.txt in memory folder.

@@ -1,0 +1,400 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  O.D.I.N. — ORCHESTRATED DECISION INTELLIGENCE NETWORK
+  Master Context Prompt  |  Last Updated: 2026-05-26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+═══════════════════════════════════════════════════════════════════════════
+  WHAT IS ODIN?
+═══════════════════════════════════════════════════════════════════════════
+
+ODIN is a self-operating business intelligence and automation system built
+for a single operator (Brock Shue) to run multiple revenue-generating
+businesses with minimal hands-on effort.
+
+It is NOT a real estate tool. Real estate is one spoke among several.
+ODIN is designed to manage ANY business — real estate wholesaling,
+home services automation (Valdr Ops), product businesses, SaaS, agency
+work, or any future venture. The framework is intentionally spoke-agnostic.
+
+The command center is Slack. ODIN listens, executes, and reports there.
+Discord provides a secondary voice channel (daily briefings read aloud).
+The backend is Python Flask + PostgreSQL hosted on Railway.app.
+
+ODIN's primary functions:
+  • Receive and score inbound leads automatically
+  • Fire follow-up SMS/email on schedule without human intervention
+  • Surface decisions, approvals, and tasks proactively
+  • Track KPIs and revenue across all spokes in real time
+  • Run daily/weekly intelligence briefings
+  • Auto-execute routine tasks via AI (Claude Haiku)
+  • Manage a team (currently Brock + Eddie + AI agents)
+  • Onboard buyers, clients, and partners through automated pipelines
+
+The human's job is to set goals, review exceptions, and make high-stakes
+decisions. ODIN handles everything else.
+
+───────────────────────────────────────────────────────────────────────────
+  ARCHITECTURE
+───────────────────────────────────────────────────────────────────────────
+
+  API/Backend:  Python Flask — api/app.py (all routes)
+  Database:     Railway PostgreSQL (Postgres-9BFG)
+  Hosting:      Railway.app — project: natural-analysis
+  Live URL:     https://odin-api-production-e85d.up.railway.app
+  Deploy:       railway up --detach from ODIN/ root
+  Workers:      --workers 1  ← CRITICAL: APScheduler breaks with 2+
+  Auth:         JWT (24hr, localStorage)
+  Dashboard:    Single HTML SPA — dashboard/index.html (served by Flask at /)
+
+  Key files:
+    api/app.py                    — all Flask routes + Slack command handlers
+    api/utils/heartbeat.py        — APScheduler (13 autonomous jobs)
+    api/utils/slack_commands.py   — parse_command() parser + HELP_TEXT
+    api/utils/permissions.py      — check_permission_role(role, action, resource)
+    api/utils/xleads.py           — XLeads/GHL umbrella (58 routes, 14 categories)
+    api/utils/discord_notify.py   — Discord webhook (post_tts() for voice)
+    api/utils/business_advisor.py — Claude-powered advisor (Brock + Katelyn)
+    api/utils/agent_log.py        — shared agent logging
+
+  Integrations:
+    XLeads (GoHighLevel) — CRM, SMS, contacts, workflows, Voice AI, pipelines
+    Slack               — primary control surface (commands + all alerts)
+    Discord             — secondary alerts + daily briefing TTS
+    Google              — Gmail + Calendar (OAuth complete)
+    Anthropic Claude    — advisor, auto-execution, agent tasks
+
+  DB Tables (migrations 001–017):
+    agent_actions, agent_logs, approval_queue, blast_campaigns, businesses,
+    buyers, custom_agents, custom_fields, decision_queue, invite_tokens,
+    kpi_targets, leads, memories, pipeline_stages, products,
+    property_lookup_cache, revenue_events, spokes, tasks, users,
+    workflow_registry
+
+───────────────────────────────────────────────────────────────────────────
+  USERS
+───────────────────────────────────────────────────────────────────────────
+
+  Brock   — shueboxllc@gmail.com  — super_admin       — Slack: U0B5C32BJ6B
+  Katelyn — katelynrxo@gmail.com  — business_standard — Slack: U0B6MSYBY72
+  Eddie   — heritrejo30@gmail.com — re_partner         — Slack: U0B5CTBLKCP
+    Full name: Heriberto Trejo | Discord: 811799891588022302
+    can_approve_deals = TRUE | receives all inbound + hot/warm MCTP alerts
+    NOTE: Eddie self-assigns tasks only — never auto-assigned by ODIN
+
+  Voice AI (Maya):
+    Agent: "Shue Box LLC Inbound Voice AI" — ID: 69f17fef91786b81e3040308
+    Edit in XLeads builder ONLY — never via 'maya update' Slack command
+
+═══════════════════════════════════════════════════════════════════════════
+  THE GOAL
+═══════════════════════════════════════════════════════════════════════════
+
+The goal is to achieve as close to full APEX as possible across every
+dimension of business operations.
+
+APEX = a business that operates, grows, and improves without requiring
+the owner's constant attention. Every business ODIN manages should move
+toward APEX. ODIN itself is the engine that makes APEX possible.
+
+The secondary goal: use ODIN to launch new businesses with minimal
+friction. A new spoke should be able to be added to ODIN and have
+lead capture, follow-ups, revenue tracking, KPI visibility, and a
+briefing cadence running within hours — not weeks.
+
+The owner's time should be spent on:
+  → Decisions only ODIN cannot make
+  → Relationships and deal-making
+  → Defining what the next business should be
+  → Reviewing exceptions flagged by ODIN
+
+Everything else — follow-up sequences, status reporting, KPI tracking,
+task delegation, onboarding flows, opportunity scanning — should run
+without intervention.
+
+═══════════════════════════════════════════════════════════════════════════
+  WHAT IS APEX?
+═══════════════════════════════════════════════════════════════════════════
+
+APEX is a 10-dimension framework measuring how autonomous a business is.
+A business at 100% APEX generates revenue and operates without the owner
+needing to be present day-to-day.
+
+Each dimension measures a specific layer of business automation:
+
+  DIMENSION 1 — LEAD QUALIFICATION
+    Does ODIN automatically score, tag, and route every inbound lead?
+    100% = zero manual triage. Every lead scored and tagged before Brock sees it.
+
+  DIMENSION 2 — OFFER GENERATION
+    Can ODIN produce a complete offer package from a single command?
+    100% = ARV, rehab estimate, LAO, buyer match, and deal scorecard generated
+    automatically from an address.
+
+  DIMENSION 3 — SMS OUTBOUND
+    Can ODIN fire bulk SMS campaigns on command with zero manual setup?
+    100% = blast runs, sequences enroll, opt-outs handled — all via Slack command.
+
+  DIMENSION 4 — FOLLOW-UP AUTO
+    Does ODIN automatically fire follow-up messages on scheduled dates?
+    100% = Brock sets a date and action once. ODIN fires it. No reminders needed.
+
+  DIMENSION 5 — KPI VISIBILITY
+    Does ODIN know the real-time health of every business metric?
+    100% = live dashboard, traffic lights (green/yellow/red), auto-alerts when
+    metrics fall below targets. No manual data entry.
+
+  DIMENSION 6 — TEAM DELEGATION
+    Does ODIN automatically assign, track, escalate, and execute tasks?
+    100% = tasks created with owner + deadline, ODIN re-pings on overdue,
+    AI-executable tasks run themselves, Brock only sees escalations.
+
+  DIMENSION 7 — REVENUE TRACKING
+    Does ODIN know the MTD P&L for every spoke at any moment?
+    100% = every income and expense event logged, spoke targets set,
+    morning briefing includes revenue snapshot, no spreadsheets.
+
+  DIMENSION 8 — DECISION QUEUE
+    Does ODIN surface pending decisions in 1-3-1 format and auto-execute
+    after a deadline?
+    100% = every decision logged with options + recommendation. Approved or
+    auto-executed at 48hrs. Nothing stalls silently.
+
+  DIMENSION 9 — VOICE BRIEFING
+    Does ODIN deliver a spoken daily briefing without Brock opening a screen?
+    100% = daily briefing delivered as a phone call. Eyes-free operation.
+
+  DIMENSION 10 — BUYER/CLIENT ONBOARDING
+    Does ODIN automatically onboard new buyers, clients, or partners?
+    100% = new contact enters a pipeline stage, gets a welcome message,
+    progresses through qualification steps, and lands in 'active' with
+    zero manual coordination.
+
+═══════════════════════════════════════════════════════════════════════════
+  CURRENT APEX STATUS — ~80%  (as of 2026-05-26)
+═══════════════════════════════════════════════════════════════════════════
+
+  Dimension              | Score | What's Live
+  ─────────────────────────────────────────────────────────────────────────
+  Lead Qualification     |  80%  | MCTP auto-scoring on every inbound reply,
+                         |       | auto-tags Hot/Warm/Cold in XLeads, routes
+                         |       | hot/warm to approval queue + Slack alert
+  ─────────────────────────────────────────────────────────────────────────
+  Offer Generation       |  70%  | Scorecard command (ARV + rehab + LAO +
+                         |       | buyer demand + verdict), offer_calculator,
+                         |       | buyer_matcher. Gap: no automated comp pull
+  ─────────────────────────────────────────────────────────────────────────
+  SMS Outbound           |  70%  | Blast command ready (workflow registered),
+                         |       | XLeads send_sms wired for individual sends.
+                         |       | Gap: blast not yet fired in production,
+                         |       | no drip sequence automation yet
+  ─────────────────────────────────────────────────────────────────────────
+  Follow-Up Auto         |  85%  | LIVE: heartbeat fires SMS on follow_up_date
+                         |       | when xleads_contact_id is set. Dedupe guard.
+                         |       | Gap: leads without contact ID still manual
+  ─────────────────────────────────────────────────────────────────────────
+  KPI Visibility         |  85%  | LIVE: kpi_auto_update() runs every 4hrs,
+                         |       | computes all 10 KPIs via SQL, sets traffic
+                         |       | lights. Scorecard command shows live data.
+                         |       | Gap: no spoke targets set yet (data entry)
+  ─────────────────────────────────────────────────────────────────────────
+  Team Delegation        |  75%  | LIVE: auto-assign by keyword, escalation
+                         |       | pings, ODIN auto-executes flagged tasks via
+                         |       | Haiku. Gap: no task creation triggers yet
+                         |       | from inbound events (still manual creation)
+  ─────────────────────────────────────────────────────────────────────────
+  Revenue Tracking       |  60%  | Table + commands LIVE. Gap: no real events
+                         |       | logged yet, spoke targets need to be set.
+                         |       | Morning briefing pulls $0 until data entry
+  ─────────────────────────────────────────────────────────────────────────
+  Decision Queue         |  55%  | Table + 2hr scan + commands LIVE. Auto-
+                         |       | executes at 48hrs. Gap: no decisions have
+                         |       | been logged yet — needs active use to prove
+                         |       | the loop works
+  ─────────────────────────────────────────────────────────────────────────
+  Voice Briefing         |  55%  | Discord TTS LIVE (reads briefing aloud when
+                         |       | Discord app is open with audio on).
+                         |       | Gap: no phone call delivery — requires
+                         |       | outbound call API (Twilio or similar)
+  ─────────────────────────────────────────────────────────────────────────
+  Buyer Onboarding       |  40%  | LIVE: onboarding_stage pipeline on buyers
+                         |       | table, daily scan welcomes new buyers with
+                         |       | contact ID set, stuck-buyer alerts.
+                         |       | Gap: qualification + active stage automation
+                         |       | not built; Valdr Ops client onboarding TBD
+  ─────────────────────────────────────────────────────────────────────────
+  OVERALL               | ~80%  |
+
+═══════════════════════════════════════════════════════════════════════════
+  THE GAP — WHAT'S STILL NEEDED TO CLOSE APEX
+═══════════════════════════════════════════════════════════════════════════
+
+Listed in priority order (highest ROI / lowest effort first):
+
+────────────────────────────────────────────────────────────────────
+  1. REVENUE TRACKING  60% → 80%
+────────────────────────────────────────────────────────────────────
+  What's missing:
+    - No real revenue events logged yet (table exists, it's empty)
+    - No spoke revenue targets set in kpi_targets
+    - Morning briefing shows $0 MTD until first event is logged
+
+  What to build:
+    - Log the first real event: `revenue log spoke:real_estate amount:X type:income desc:...`
+    - Set spoke targets: update kpi_targets rows for real_estate (target: $20k/mo)
+      and valdr_ops (target: $1,500 MRR)
+    - Optional: auto-log revenue when XLeads opportunity closes (webhook trigger)
+
+────────────────────────────────────────────────────────────────────
+  2. DECISION QUEUE  55% → 75%
+────────────────────────────────────────────────────────────────────
+  What's missing:
+    - Queue is built but has never been used in production
+    - No habit of logging decisions to ODIN yet
+
+  What to build:
+    - Log first real decision: any pending business choice → `decisions` to view
+    - Validate the 48hr auto-execute loop in production
+    - Optional: auto-create decision entries from certain inbound events
+      (e.g., hot lead approved → decision: "send contract or schedule call?")
+
+────────────────────────────────────────────────────────────────────
+  3. VOICE BRIEFING  55% → 75%
+────────────────────────────────────────────────────────────────────
+  What's missing:
+    - Discord TTS works but requires Discord app open with audio
+    - No phone call delivery — briefing doesn't reach Brock eyes-free
+
+  What to build:
+    - Twilio outbound call: morning_briefing() generates text, Twilio reads it
+      via TwiML <Say> verb at 6am CT
+    - Cost: ~$0.01/call via Twilio Programmable Voice
+    - Alternatively: ElevenLabs + Twilio for higher-quality voice
+
+────────────────────────────────────────────────────────────────────
+  4. BUYER/CLIENT ONBOARDING  40% → 70%
+────────────────────────────────────────────────────────────────────
+  What's missing:
+    - Only 'new' → 'welcomed' transition is automated (welcome SMS)
+    - 'welcomed' → 'qualified' has no trigger or criteria
+    - Valdr Ops client onboarding (different from RE buyer onboarding)
+      has not been built yet
+
+  What to build:
+    - Define qualification criteria per spoke
+      RE buyers: has_bought_before, portfolio_size, reply to qualification SMS
+      Valdr Ops clients: intake form submitted, first payment received
+    - Build qualification SMS sequence (2-3 messages after welcome)
+    - Stage progression triggers from XLeads conversation events
+
+────────────────────────────────────────────────────────────────────
+  5. SMS OUTBOUND  70% → 90%
+────────────────────────────────────────────────────────────────────
+  What's missing:
+    - Blast has never been fired in production
+    - No drip sequence automation (enroll a lead in a multi-day sequence)
+
+  What to do:
+    - Fire first blast: `blast tags:he,tax-delinquent workflow:e5dd5ab7-92b5-4111-8a32-164f9214d5f0 limit:100`
+    - Validate opt-out handling + reply routing
+    - Build: drip sequence command (`drip <name> workflow:<id> contact:<id>`)
+
+────────────────────────────────────────────────────────────────────
+  6. OFFER GENERATION  70% → 85%
+────────────────────────────────────────────────────────────────────
+  What's missing:
+    - Comps pulled manually from Zillow/PropStream (no API integration)
+    - ARV confidence relies on zip-level data, not true comp analysis
+
+  What to build:
+    - PropStream or BatchData API integration for live comp pulls
+    - Auto-comp: when a lead is scored Hot, ODIN auto-runs scorecard
+
+────────────────────────────────────────────────────────────────────
+  7. LEAD QUALIFICATION  80% → 95%
+────────────────────────────────────────────────────────────────────
+  What's missing:
+    - MCTP scoring happens on inbound replies but not on new lead import
+    - No re-scoring trigger when a lead's status changes
+
+  What to build:
+    - Batch score existing leads (one-time run)
+    - Re-score trigger on lead update via webhook
+
+────────────────────────────────────────────────────────────────────
+  8. TEAM DELEGATION  75% → 90%
+────────────────────────────────────────────────────────────────────
+  What's missing:
+    - Tasks still created manually (no auto-creation from inbound events)
+
+  What to build:
+    - Auto-create task when: hot lead approved, decision queued, blast fires
+    - Task templates per spoke/event type
+
+────────────────────────────────────────────────────────────────────
+  PHASE 4 REMAINING (Katelyn)
+────────────────────────────────────────────────────────────────────
+  Infrastructure: COMPLETE
+  Remaining: first automation (email outreach or Etsy — her choice)
+
+═══════════════════════════════════════════════════════════════════════════
+  AUTONOMOUS HEARTBEAT — 13 JOBS
+═══════════════════════════════════════════════════════════════════════════
+
+  Time              | Job                    | Purpose
+  ──────────────────────────────────────────────────────────────────────
+  6am daily CT      | morning_briefing()     | APEX briefing: decisions →
+                    |                        | tasks → approvals → red KPIs
+                    |                        | → MTD revenue. Quiet mode:
+                    |                        | rotates 7 biz opportunities.
+                    |                        | Posts Slack + Discord TTS.
+  8am daily CT      | buyer_onboarding_scan()| Welcomes new buyers w/ CID,
+                    |                        | alerts on stuck pipeline
+  9pm daily CT      | pipeline_report()      | Full deal pipeline snapshot
+  Every 30 min      | reply_scanner()        | XLeads inbound SMS check
+  Every 2 hours     | followup_queue()       | Auto-fires scheduled SMS;
+                    |                        | alerts on overdue w/o CID
+  Every 2 hours     | decision_queue_scan()  | Surfaces stalled decisions;
+                    |                        | auto-executes at 48hr mark
+  Every 4 hours     | opportunity_sync()     | XLeads pipeline snapshot
+  Every 4 hours     | task_delegation_scan() | Auto-assign, escalate, execute
+  Every 4 hours     | kpi_auto_update()      | Recomputes all 10 KPI values
+  Monday 7am CT     | weekly_kpi()           | KPI traffic light report
+  Sunday 8pm CT     | weekly_ceo_review()    | Full 9-section CEO review
+  Wednesday 10am CT | resurrect_scan()       | Dead leads 30+ days → re-engage
+  Every hour        | sms_health_monitor()   | Opt-outs + deliverability check
+
+═══════════════════════════════════════════════════════════════════════════
+  ACTIVE SPOKES
+═══════════════════════════════════════════════════════════════════════════
+
+  real_estate    — Owner: Brock | Memphis TN virtual wholesale
+                   1,770 contacts in XLeads | 8,655 buyers in DB
+                   Target: $20k/mo | Current pipeline: active
+
+  katelyn_business — Owner: Katelyn | TBD (email outreach or Etsy)
+                   Infrastructure complete, first automation pending
+
+  valdr_ops (future spoke) — Missed call text-back for local service biz
+                   114 leads, Twilio webhook, MVP phase
+
+═══════════════════════════════════════════════════════════════════════════
+  CONTEXT RULES FOR CLAUDE
+═══════════════════════════════════════════════════════════════════════════
+
+  1. Always read ODIN/System/STATUS.txt first before any session.
+  2. Credentials and Railway CLI details → memory/reference_odin_access.txt
+  3. APEX-first: build ODIN as a general OS. Do NOT add spoke-specific logic
+     unless the APEX framework is complete. RE/Valdr Ops are spokes, not core.
+  4. Workers must stay at 1 (--workers 1 in Procfile). APScheduler is
+     incompatible with multi-worker deployments.
+  5. Every new table needs user_id FK. Every endpoint calls
+     check_permission_role() before executing. Every agent action logs
+     to agent_actions table.
+  6. Node pg migration pattern for CLI DB changes:
+       node -e "const {Client}=require('./node_modules/pg'); ..."
+       using kodama.proxy.rlwy.net:55551 credentials
+  7. Deploy: railway up --detach from ODIN/ root.
+     .railwayignore excludes: transcripts/, node_modules/, Logs/, System/
+  8. Context ~80% full → alert user, offer to save session summary.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

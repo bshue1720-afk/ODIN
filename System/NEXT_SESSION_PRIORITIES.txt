@@ -1,0 +1,26 @@
+NEXT SESSION PRIORITIES
+Last updated: 2026-05-30
+======================================================================
+
+🔴 PRIORITY 1 — FIX: Email issues in ODIN
+   Brock flagged email problems at end of 2026-05-30 session.
+   Investigate: email_triage.py, Gmail OAuth token, outreach agent,
+   any email-related Slack commands (gmail inbox, draft email, etc.)
+   Check Railway logs for email-related errors first.
+
+🟡 PRIORITY 2 — EXECUTE: Send Columbus roofing emails
+   5 emails written, ready to copy-paste. leads_007.txt.
+   Send from shueboxllc@gmail.com, 5 min apart.
+
+🟡 PRIORITY 3 — SNIPE: Columbus plumbers
+   Run @sniping-agent: "5 tier 0 plumbers columbus ohio —
+   company emails verified, decision makers, missed-call pain."
+
+🟡 PRIORITY 4 — SETUP: Calendly 30-min debrief link
+   Needed before first audit reply comes in.
+
+🟠 PRIORITY 5 — HOUSEKEEPING
+   Move C:\Users\Brock\Downloads\202610501438-01-0001.pdf
+   → Master Folder/System/Legal/
+
+======================================================================

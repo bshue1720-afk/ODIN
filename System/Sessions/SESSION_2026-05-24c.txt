@@ -1,0 +1,35 @@
+SESSION: 2026-05-24c
+FOCUS: Added Eddie (Heriberto Trejo) to ODIN + Slack
+
+===== WHAT WAS DONE =====
+
+1. USER CREATED IN ODIN
+   Name:      Heriberto Trejo (goes by Eddie)
+   Email:     heritrejo30@gmail.com
+   Role:      caller
+   DB ID:     1ed5bf67-bda4-48f0-a7ad-3c4b4a135fe9
+   Namespace: heriberto_trejo
+   can_approve_deals: false
+   Inserted directly into Railway PostgreSQL (no JWT needed)
+
+2. INVITE TOKEN GENERATED
+   Token:     SjWCc_TanZJ8itrh2QjG7cZPtRGSpjhx_1u61ULeoPg
+   URL:       https://odin-api-production-e85d.up.railway.app/set-password?token=SjWCc_TanZJ8itrh2QjG7cZPtRGSpjhx_1u61ULeoPg
+   Expires:   2026-05-31
+   Status:    Sent to Brock to forward to Eddie
+
+3. SLACK
+   Workspace: odin-lzz2278.slack.com
+   Channel:   #odin-brock
+   Status:    Pending Brock sending invite
+
+===== CONTEXT =====
+- Eddie is a bird dog / JV partner (agreement signed)
+- Currently texting leads, calls starting soon
+- Future upgrade: caller → re_partner after first closed deal closes
+- No approval authority at current role
+
+===== OPEN ITEMS =====
+- Brock to forward invite URL to Eddie
+- Brock to invite Eddie to Slack #odin-brock
+- Eddie to set password before 2026-05-31

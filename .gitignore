@@ -1,0 +1,33 @@
+# Google OAuth credentials (live tokens — keep local only)
+api/credentials/google_token.json
+api/credentials/google_oauth.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+*.egg-info/
+
+# Node
+node_modules/
+api/node_modules/
+package-lock.json
+api/package-lock.json
+
+# Large local-only directories
+Lib/
+skool_transcriber/
+transcripts/
+Retired/
+
+# Generated files
+business_plans/
+transcript_dump.sql
+transcript_dump.log
+*.sql.bak
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

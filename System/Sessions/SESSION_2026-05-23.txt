@@ -1,0 +1,104 @@
+SESSION: 2026-05-23 (EVENING — continuation, context compacted mid-session)
+PHASE: Phase 3 — FULLY LIVE + Slack Command Center + XLeads Umbrella
+OUTCOME: Slack routing bug fixed, Maya Voice AI identified + voice updated, leads confirmed
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT WAS DONE THIS SESSION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. SLACK ROUTING BUG — FIXED + DEPLOYED
+   Problem: All Slack DMs routing to Business Advisor instead of command parser.
+   Root cause: detect_intent() always returns 'chat' as fallback — routing condition
+               was ambiguous when KATELYN_SLACK_UID env var not set.
+   Fix: Command parser runs FIRST. If action != 'unknown', execute directly.
+        Business advisor only fires for truly unrecognized input.
+   File: api/app.py (~line 2776)
+   Status: DEPLOYED + CONFIRMED WORKING (maya command tested + responded correctly)
+
+2. MAYA PROMPT — UPDATED (warmer tone per Brock's style preference)
+   Old: short, blunt, transactional
+   New: warm, empathetic, patient — "make selling feel easy and stress-free"
+   File: api/app.py — MAYA_PROMPT constant (~line 43)
+   Note: This prompt is in ODIN but should NOT be pushed to XLeads via 'maya update'
+         because the XLeads Voice AI agent already has a better full prompt.
+
+3. VOICE AI AGENT — IDENTIFIED
+   Agent name: "Shue Box LLC Inbound Voice AI"
+   Agent ID:   69f17fef91786b81e3040308
+   URL:        .../ai-agents/voice-ai/builder/69f17fef91786b81e3040308
+   Model:      GPT 5
+   Voice:      Was "Hope" (sounded robotic) → Brock changed to new voice this session
+   Calls:      29 successful inbound calls logged
+   Status:     Has full detailed prompt already — DO NOT overwrite with ODIN's simple prompt
+
+4. MAYA IDENTITY PARAGRAPH (Brock adding manually in Voice AI builder)
+   Drop into CORE IDENTITY section after "You speak like a normal human — not a script.":
+
+   "Your name is Maya. You're warm, patient, and easy to talk to — people feel like
+   they're talking to a real person who genuinely cares, not a sales call. You lead
+   with empathy. If someone sounds stressed, overwhelmed, or hesitant, slow down and
+   acknowledge that before anything else. A lot of the people you talk to are dealing
+   with something hard — financial pressure, a life change, a house they don't know
+   what to do with — and your job is to make them feel heard first, helped second."
+
+   Then: Save + Deploy in Voice AI builder. Test with "Start Web Call".
+
+5. LEADS LIST CONFIRMED — READY TO BLAST
+   Total contacts: 1,770 in XLeads
+   Zip codes: 38109, 38111, 38118
+   Tags: leadpipes-export (full list), he (high equity), tax delinquent,
+         powerdialer, disable dnd, ai list
+   Best sub-list: contacts tagged "he" + "tax delinquent"
+   Blast syntax ready — BLOCKED on: need a workflow ID from XLeads
+
+6. VOICE + STYLE PREFERENCE — SAVED TO MEMORY
+   Brock prefers warm, polite, relatable tone over strict/formal.
+   Applies to: Maya persona, seller SMS copy, ODIN Slack outputs, all outreach.
+
+7. XLEADS CONVERSATION AI BOT
+   "XLeads Texting Bot" is active — handled Christopher Bearden's SMS (said no → auto-DNC)
+   Separate from Voice AI. Both running.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CURRENT SYSTEM STATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Flask API:    LIVE — https://odin-api-production-e85d.up.railway.app
+Slack:        WORKING — DMs parsed + routed correctly
+XLeads:       CONNECTED — 58 routes across all 14 API categories
+Voice AI:     ACTIVE — 29 calls, voice updated, Maya paragraph pending manual add
+Leads:        1,770 contacts ready in XLeads (38109/38111/38118)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PENDING / NEXT STEPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IMMEDIATE:
+[ ] Add Maya identity paragraph to Voice AI builder (manual — text above)
+[ ] Save + Deploy the updated Voice AI agent in XLeads
+[ ] Test Maya with "Start Web Call" in builder
+[ ] Deploy latest app.py to Railway: cd ODIN && railway up --detach
+
+TO START BLASTING:
+[ ] Build or identify a workflow/drip sequence in XLeads for seller outreach
+[ ] Get workflow ID (from URL when viewing workflow in XLeads → Automation)
+[ ] Publish "Customer Replied → Webhook" automation (was in Draft)
+[ ] Then run: blast tags:he,tax-delinquent workflow:<ID> limit:100
+
+OPTIONAL / LATER:
+[ ] Set KATELYN_SLACK_UID in Railway env var (improves Katelyn chat routing)
+[ ] Fix xleads.list_voice_agents() — returns "Unnamed" instead of real names
+[ ] Hardcode maya update to target agent ID 69f17fef91786b81e3040308
+
+8 RE SKILL MODULES NOT YET BUILT:
+  arv_analyzer, lao_calculator, lead_scorer, script_generator,
+  offer_calculator, content_engine, email_drafter, buyer_matcher
+
+HEARTBEAT (n8n on Railway) — 5 scheduled workflows — NOT STARTED
+MEMORY LAYER (mem0 + Pinecone) — NOT STARTED
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SESSION START PROTOCOL (next session)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Read ODIN/System/STATUS.txt
+2. Read this file
+3. Say "resume ODIN" or name the specific task

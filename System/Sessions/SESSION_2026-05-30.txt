@@ -1,0 +1,107 @@
+SESSION SUMMARY — 2026-05-30
+======================================================================
+
+## FULL SESSION LOG
+
+### Context Recovered from Lost Earlier Session
+- leads_004: 5 Tier 0 auto repair leads, Columbus OH
+- leads_005: 5 Tier 0 dental leads, Columbus OH
+- leads_006: 5 Tier 0 law firm leads, Columbus OH
+- leads_007: 5 Tier 0 roofing leads, Columbus OH
+- ODIN_for_HVAC_v2.pdf + generator built
+- email_triage.py, telegram_notify.py, twilio_voice.py added to ODIN
+
+### Hook Fixes (session saving)
+- Fixed PreCompact hook: now reads JSONL transcript directly (last 40 messages)
+- Added Stop hook: fires on any session close (including accidental), saves last 60 messages
+- Both save to System/Session_Saves/ and System/Compaction_Backups/
+- fpdf2 added to api/requirements.txt (was crashing Railway on startup)
+
+### AI Audit — Full Launch Package
+- ODIN `audit` command = automation_auditor.py — generates scored PDF in ~2 min
+- Market research completed (24 sources)
+- Pricing: $497 audit → $2,500–$5,000 build → $300–$750/mo retainer
+- SOP written: projects/vauldr-ops/docs/AI_AUDIT_SOP.txt
+- 5 personalized cold emails written for leads_007 (roofing) — ready to send
+- Niche priority: roofing → dental → auto repair → law firms → plumbers (next snipe)
+
+### Business Infrastructure Set Up (Shue Box LLC)
+- EIN: 42-1965232 (saved to System/Legal/BUSINESS_CREDENTIALS.txt)
+- Relay business checking: Account 200002723656 | Routing 064209588 | Thread Bank
+- Stripe: SHUE BOX LLC, payout connected to Relay
+- Payment link (AI Automation Audit $497): https://buy.stripe.com/cNi28r6POdE06xFg4QeEo00
+- Formation doc: C:\Users\Brock\Downloads\202610501438-01-0001.pdf (move to System/Legal/)
+
+### ODIN — Ideas + Plan + PDF Feature
+- `ideas` — 5 ideas (Brock: automation-first; Katelyn: witchy/cozy/beauty aesthetic)
+- `more ideas` — different batch
+- `plan <business>` — 4 agents + generates 7-page PDF business plan
+- PDF generator: api/utils/business_plan_pdf.py → saved to ODIN/business_plans/
+- Brock + Katelyn now have completely separate system prompts in business_scout.py
+
+### Katelyn's ODIN — Chatbot Mode
+- Full system prompt rewrite in business_advisor.py — warm, witchy, aesthetic-aware
+- No commands needed — she types naturally ("give me ideas", "I want something on Etsy")
+- Hard blocks: RE, B2B, corporate, anything outside her aesthetic
+- `ideas` for Katelyn routes to advisor.chat() not scout agent
+- Her aesthetic locked in memory: user_katelyn.txt updated
+- Deployed to Railway
+
+### Next Actions
+1. Send 5 roofing emails (leads_007) — emails written, ready to go
+2. Run @sniping-agent for Columbus plumbers (5 Tier 0)
+3. Set up Calendly 30-min debrief link
+4. Move formation PDF from Downloads to System/Legal/
+5. Have Katelyn test new chatbot-style ideas in her Slack channel
+
+======================================================================
+
+## CONTINUATION SESSION — 2026-05-30 (afternoon)
+
+### Email Rewrites
+- All 21 Columbus plumbing emails rewritten — varied subjects + 6 body variants
+- No more identical "Question about your phone calls" template
+- File: ODIN/projects/ai-audit/email-drafts-columbus-plumbing.txt
+
+### AI Audit Separated from Valdr Ops
+- AI Audit is standalone $497 offer (7 categories, not just missed calls)
+- Moved: AI_AUDIT_SOP.txt + emails + leads 004-007 → ODIN/projects/ai-audit/
+
+### File Reorganization — ODIN cleanup
+- Moved to ODIN/: transcripts/, transcript_downloader.py, knowledge folders, PDFs
+- Archived: _FOR_REVIEW/ARCHIVED/Vauldr Ops - Desktop Stray/
+
+### Transcript Downloader Fixed
+- Killed runaway processes (2 days running)
+- Bug 1: "video unavailable" was returning BLOCKED → now UNAVAILABLE (skips, no retry)
+- Bug 2: while True had no progress guard → added no-progress break
+- File: ODIN/transcript_downloader.py
+
+### SQL Injection Fixes — app.py (5 criticals)
+- Added import psycopg2.sql
+- Fixed L1719 (leads), L2787 (buyers), L3471 (users — psycopg2.sql.Identifier), L3592+L3596 (buyers select)
+- NEEDS DEPLOY: railway up --detach from ODIN/
+
+### Monitor Bots Updated
+- Hallucination monitor: migration count 17→21, added 5 new tables
+- Coder monitor: added watch() mode — live session scanning for SQL injection + secrets
+- Commands: py run.py check --watch (facts) | py run.py review --watch (code quality)
+
+### Remote Control — NOT YET WORKING
+- Issue: @anthropic-ai/claude-code NOT installed via npm (only Railway CLI + xlsx)
+- claude.exe in Master Folder = desktop app binary, not CLI
+- Fix (run in PowerShell as Admin):
+    npm install -g @anthropic-ai/claude-code
+    claude  (login with OAuth — NOT API key)
+    cd "C:\Users\Brock\OneDrive\Desktop\Master Folder"
+    claude --remote-control "ODIN Master"
+- Then scan QR code in Claude mobile app (same account)
+
+### Still Open
+[ ] Deploy app.py SQL fixes → railway up --detach
+[ ] Rotate DB password in Railway (leaked in 14 local scripts)
+[ ] Katelyn first automation (her choice)
+[ ] Remote Control setup (see above)
+
+======================================================================
+Last updated: 2026-05-30 end of afternoon session

@@ -1,0 +1,49 @@
+ODIN PHASE 3 — ARCHITECTURAL DECISIONS
+Last Updated: 2026-05-23
+
+DECISION: Retire Python/Supabase/Ohio ODIN entirely
+Reason: Sunk cost. Memphis market, Phase 0 tools already built.
+Impact: All prior bots, Netlify dashboard, Supabase tables are archived — not referenced.
+
+DECISION: Multi-role user system before approval system
+Reason: Every other component (approval flow, Slack, Heartbeat, dashboards) depends
+on user_id + role. Build order: Users → Approvals → Slack → Heartbeat.
+
+DECISION: Flask (not FastAPI or Node)
+Reason: Existing Python ecosystem, psycopg2 familiarity, simple Railway deployment.
+
+DECISION: JWT auth (24hr expiry, stored in localStorage)
+Reason: Stateless, works with Railway. Not session cookies (avoids CSRF complexity).
+
+DECISION: Single HTML file dashboard (served by Flask)
+Reason: No React build step, no separate static hosting. Flask serves index.html
+at /, dashboard makes fetch() calls to /api/*. Zero CORS issues.
+
+DECISION: Deal Analyzer stays local (shue_box_tools.html)
+Reason: Phase 0 tool, no Railway needed. Phase 3 dashboard has a link to it.
+Future: Dashboard version will call same LAO engine via /api/deals/analyze.
+
+DECISION: 7 roles (not 3 or 5)
+Reason: Covers all current and anticipated team members — wife, callers, AM, partner,
+dispo. Building it right once avoids rewrite when team grows.
+
+DECISION: super_admin = Brock only, cannot be assigned to others
+Reason: Security and control. Only Brock can add users, change settings, approve large deals.
+
+DECISION: Approval routing checks for AM → Partner → super_admin in that order
+Reason: Delegation chain. Reduces Brock's inbox as team grows. Hot leads (8+) can
+optionally be approved at AM level and escalated, or go direct to Brock if no AM exists.
+
+DECISION: Offer script generated server-side on approval
+Reason: Consistent tone and formula. Caller gets exact script to read — no improvisation
+on pricing. Script uses LAO (not buyer max) as the opening offer.
+
+DECISION: MCTP score formula (max 10)
+Motivation: 0-3 (divorce/hardship/death=3, job change=2, normal=1, flexible=0)
+Condition:  0-2 (full rehab=2, moderate=1, good=0)
+Timeline:   0-3 (under 30 days=3, 1-2mo=2, 2-6mo=1, flexible=0)
+Price:      0-2 (negotiable=2, somewhat=1, firm=0)
+Hot=8+, Warm=5-7, Cold=0-4
+
+DECISION: psycopg2 (not SQLAlchemy)
+Reason: Simpler, no ORM overhead, explicit SQL matches the schema-first approach.

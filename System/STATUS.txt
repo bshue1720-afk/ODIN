@@ -1,0 +1,387 @@
+ODIN PHASE 3 — CURRENT STATUS
+Last Updated: 2026-05-29 (Transcript Knowledge Base, Finance Guard, Migration 019)
+
+===== PHASE =====
+Phase 3 + Phase 4 Infrastructure — FULLY LIVE
+
+===== LATEST SESSION =====
+System/Sessions/SESSION_2026-05-29.txt
+Session 2026-05-24: Phase 4 infra complete, phone buy flow wired, PreCompact hook added
+Session 2026-05-24b: Layer 2 Memory built — memories table, memory.py, wired into advisor
+Session 2026-05-24c: Eddie (Heriberto Trejo) added as caller — invite sent, Slack #odin-brock
+Session 2026-05-24d: Fixed double-reply bug — ignore Slack retry header in slack_events
+Session 2026-05-24e: Intelligence pack — custom fields, property lookup, tags, Eddie MCTP log, opportunity sync, conversation history on inbound
+Session 2026-05-24f: Bug fixes + new commands — mctp caller lookup fixed (uses slack_uid), workflow_add error detail improved, `status` command added, `follow up` command added
+Session 2026-05-24g: Google OAuth complete — Gmail + Calendar authorized, token saved, deployed
+Session 2026-05-24h: APEX Alignment + Spoke System — Migration 010, spokes table, 6 new commands,
+  2 new heartbeat jobs, Brock CEO system prompt, spoke-aware advisor routing
+Session 2026-05-24i: Blast fix (POST search + debug_blast cmd), agent logging (migration 013),
+  custom agent builder (add agent / agents / disable agent), Discord all-reply alerts,
+  SMS health monitor (hourly), advisor reasoning upgrade (no hardcoded list)
+Session 2026-05-25a: Discord bot invited to server, Eddie upgraded to re_partner (can approve deals),
+  Eddie Slack UID + notifications wired, transcript downloader built (Dan Martell + FlipWithRick)
+
+===== DEPLOYMENT STATE =====
+Railway project: natural-analysis (bshue1720-afk's Projects)
+Flask API:       LIVE — https://odin-api-production-e85d.up.railway.app
+Database:        Postgres-9BFG — Online, all migrations run
+Deploy from:     ODIN/ root — Procfile uses `cd api && gunicorn app:app`
+
+Env vars confirmed (2026-05-24):
+  DATABASE_URL, JWT_SECRET_KEY, BASE_URL
+  SLACK_BOT_TOKEN, SLACK_CHANNEL_BROCK, SLACK_CHANNEL_WIFE, SLACK_SIGNING_SECRET
+  ANTHROPIC_API_KEY
+  XLEADS_API_KEY, XLEADS_LOCATION_ID, XLEADS_BASE_URL
+  KATELYN_SLACK_UID = U0B6MSYBY72
+
+===== USERS =====
+Brock   — shueboxllc@gmail.com   — super_admin       — Active
+Katelyn — katelynrxo@gmail.com   — business_standard — Active (password set 2026-05-23)
+Eddie   — heritrejo30@gmail.com  — re_partner         — Active (upgraded 2026-05-25)
+  Full name: Heriberto Trejo | Goes by: Eddie
+  Slack UID: U0B5CTBLKCP (heritrejo30) | Discord ID: 811799891588022302 (heri_trejo)
+  can_approve_deals = TRUE (re_partner role)
+  Receives: all inbound alerts, opt-out alerts, hot/warm MCTP alerts
+  Brock Slack UID: U0B5C32BJ6B
+  Katelyn Slack UID: U0B6MSYBY72
+
+===== SLACK =====
+Workspace:  https://odin-lzz2278.slack.com
+App ID:     A0B5X5ZRU4U
+#odin-brock C0B6MR6SXNU — hot lead alerts + deal approvals
+#odin-wife  C0B5X6KUBNY — Katelyn's notifications
+
+===== DATABASE TABLES =====
+agent_actions, approval_queue, businesses, buyers, invite_tokens,
+leads, memories, pipeline_stages, products, tasks, users, workflow_registry
+Migration files: 001–013 run
+Migration 013 (2026-05-24): agent_logs table — every agent run logged with status/duration/errors
+Migration 012 (2026-05-24): custom_agents table — stores Claude-generated agent code
+Migration 011 (2026-05-24): blast_campaigns table for SMS health monitoring
+Migration 008 (2026-05-24): buyers expanded + pipeline_stages seeded
+Migration 009 (2026-05-24): custom_fields + property_lookup_cache tables
+Migration 010 (2026-05-24h): spokes table + spoke column on leads/tasks/businesses/agent_actions
+  Spokes seeded: real_estate (owner: Brock), katelyn_business (owner: Katelyn)
+
+===== BUYER DATABASE =====
+8,655 total buyers imported from XLeads CSVs (3 files, 10,422 rows processed)
+  Memphis metro (TN/MS): 4,864 buyers
+  Active flippers:       295 buyers
+  Dupes removed:         1,324
+  No contact info:       476 skipped
+Slack: `buyers` — show stats + top Memphis flippers
+Slack: `buyers flipper` / `buyers memphis` / `buyers <name>`
+Match command now queries real DB, ordered TN/MS first, flippers first
+
+===== GATEWAY — XLEADS =====
+XLeads API: CONNECTED — 58 routes across all 14 API scope categories
+  Contacts, Conversations, Workflows, Opportunities, Calendars,
+  Phone Numbers (list/search/BUY/delete), Voice AI/Maya,
+  Conversation AI, Agent Studio, Contracts, Campaigns, Tags,
+  Custom Fields, Social Planner
+
+===== ODIN INTELLIGENCE UPGRADES (2026-05-24) =====
+- Auto-MCTP scoring on every inbound reply (score shown in Slack alert, auto-tags Hot/Warm/Cold)
+- Buyer DB: 8,655 buyers — `match` command now uses real investor data (flips, portfolio, type)
+- ARV analyzer: 6 additional Memphis metro zip codes added (38115, 38125, 38128, 38016, 38671, 38654)
+- Pipeline stages: all 5 XLeads pipelines + stages seeded in DB (Wholesaling/Disps/JV/PPL/On-Market)
+- `buyers` Slack command: search/filter by type, geography
+- buyer_matcher: shows flipper count, portfolio stats, investor type per buyer
+
+===== WHAT IS WORKING =====
+- Login, JWT auth, role-based dashboard
+- Lead pipeline + MCTP scoring (Hot=8+, Warm=5-7, Cold=0-4)
+- Hot/warm lead routing → approval queue → Slack notifications
+- User management (invite, deactivate, role change)
+- Activity log
+- Katelyn's witch/pink galaxy studio UI
+- XLeads → ODIN Slack gateway
+- Slack command center (58+ commands, routed before advisor)
+- Business advisor + 4-agent suite (scout/income/builder/auditor) + IT agent
+- Inbound webhook (/api/xleads/inbound) — Customer Replied ONLINE
+  + Auto-MCTP scoring + auto-tag Hot/Warm/Cold in XLeads
+  + Last 5 conversation messages shown in Slack alert (context for AI)
+  + seller_name→caller_name bug fixed in lead_scorer call
+- Phone numbers/contracts: GHL does NOT expose REST API endpoints for these
+  → `numbers`, `buy number`, `contract` Slack commands now return clear UI redirect message
+  → Manage in XLeads UI directly
+- PreCompact hook — auto-saves transcript to System/Compaction_Backups/ on every compaction
+- `tags` command — lists all XLeads tags
+- `fields` / `field sync` commands — custom fields cache (migration 009, DB-backed)
+- `lookup <address>` — Shelby County Assessor property data (owner, value, tax status)
+  + property_lookup_cache table (30-day TTL)
+- `mctp <seller> <address> M:X C:X T:X P:X notes:<...>` — Eddie call logging from Slack
+  + auto-alerts Brock if hot/warm, logs to leads table
+- Opportunity sync heartbeat (every 4 hours) — XLeads pipeline snapshot → #odin-brock
+- `status` command — pipeline snapshot, integration health, overdue follow-up alerts
+- `follow up <address> date:<YYYY-MM-DD> action:<text>` — update lead follow-up from Slack
+- mctp caller lookup fixed: now uses sender's Slack UID (was grabbing first caller by role)
+- workflow_add errors now show exception type for easier debugging
+- Google Calendar + Gmail LIVE — OAuth complete (2026-05-24g), token saved to api/credentials/google_token.json
+  `schedule John 4314 Leatherwood tomorrow 2pm` | `calendar today` | `gmail John 4314 Leatherwood` | `gmail inbox`
+
+===== SESSION 2026-05-24h — APEX ALIGNMENT + SPOKE SYSTEM =====
+
+NEW MIGRATIONS:
+  010_add_spoke_system.sql — spokes table, spoke column on leads/tasks/businesses/agent_actions
+    Spokes seeded: real_estate (Brock), katelyn_business (Katelyn)
+
+NEW SLACK COMMANDS:
+  `spokes` — list all active spokes with owner + last activity
+  `status <address>` — one-line deal status for any lead (score, lao, fee, last contact, next action)
+  `review` — on-demand full weekly CEO review (also auto-fires Sunday 8pm CT)
+  `stats` / `stats week` / `stats month` / `stats spoke:X` — full deal funnel with Brock vs Eddie split
+  `resurrect` — dead/cold leads 30+ days with AI-generated re-engagement texts (cap: 10)
+  `scorecard <address> arv:X ...` — pre-offer due diligence (ARV confidence, rehab risk, buyer demand, LAO, verdict)
+
+NEW HEARTBEAT JOBS (total: 8):
+  Sunday 8pm CT   — weekly_ceo_review() → #odin-brock (9 sections)
+  Wednesday 10am CT — resurrect_scan() → silent check, alerts if candidates exist
+
+ADVISOR ROUTING:
+  Brock → BROCK_SYSTEM_PROMPT (CEO/APEX framing, RE-first, tight answers)
+  Katelyn → existing SYSTEM_PROMPT (her business framing)
+  Spoke passed from slack_events based on is_katelyn flag
+
+BUG FIXES:
+  `active` column (not `is_active`) corrected in status command + stats command + heartbeat callers query
+
+===== VOICE AI (MAYA) =====
+Agent: "Shue Box LLC Inbound Voice AI" — ID: 69f17fef91786b81e3040308
+29+ calls. Identity paragraph added. Voice updated.
+DO NOT use 'maya update' Slack command — edit manually in XLeads builder only.
+
+===== LEADS =====
+1,770 contacts in XLeads — zips 38109, 38111, 38118
+Best blast sub-list: tags "he" + "tax delinquent"
+BLAST STATUS: Need a separate OUTBOUND SMS workflow (built in XLeads UI, then register with ODIN)
+  Customer Replied workflow (inbound): 9184a227-6bdc-4894-8a3d-d26ed44ec555 — REGISTERED in ODIN
+  Once blast workflow created: workflow add name:blast-cold id:<id> purpose:Outbound cold text sequence
+  Then: blast tags:he,tax-delinquent workflow:<ID> limit:100
+
+===== WORKFLOW REGISTRY =====
+Slack: `workflows` — list registry + XLeads live workflows
+Slack: `workflow add name:<n> id:<xleads_id> purpose:<desc>` — register any new workflow
+DB table: workflow_registry (migration 005, 2026-05-24)
+Migration 006 (2026-05-24): 41 workflows seeded from full XLeads inventory
+  Seeded: customer-replied → 9184a227-6bdc-4894-8a3d-d26ed44ec555 (only UUID confirmed)
+  All others: xleads_id = NULL (need UUID from clicking into each workflow in XLeads)
+
+BLAST WORKFLOW: sms-blast-bulk = "SMS Text Blaster (BULK DM)" — Published, 176 enrolled
+  UUID: e5dd5ab7-92b5-4111-8a32-164f9214d5f0 — REGISTERED in ODIN (2026-05-24)
+  READY TO BLAST: blast tags:he,tax-delinquent workflow:e5dd5ab7-92b5-4111-8a32-164f9214d5f0 limit:100
+
+Folders: Acquisitions, Cold-Calling, Disps, Email, JV, On-Market, PPL, SMS
+
+===== PHASE 4 — KATELYN AUTOMATION ENGINE =====
+Infrastructure: COMPLETE
+
+✅ /api/slack/events wired + SLACK_SIGNING_SECRET set
+✅ ANTHROPIC_API_KEY set — business advisor live
+✅ Migration 003 run — businesses, tasks, products tables in DB
+✅ KATELYN_SLACK_UID = U0B6MSYBY72 set in Railway
+✅ Katelyn's account active + Slack joined
+
+Remaining:
+  [ ] First automation — email outreach or Etsy (Katelyn's choice)
+
+===== SESSION 2026-05-26 — APEX INFRASTRUCTURE =====
+Goal: Spoke-agnostic APEX framework — ODIN as general OS, not RE-specific.
+
+PROCFILE FIX: --workers 2 → --workers 1
+  APScheduler requires single worker. This was WHY morning briefings weren't firing.
+
+MIGRATION 014: api/migrations/014_apex_infrastructure.sql
+  Tables added: decision_queue, revenue_events, kpi_targets
+  KPI targets seeded: 10 core metrics across general/real_estate/valdr_ops spokes
+  RUN: node run_migration.js 014_apex_infrastructure.sql (or Railway console)
+
+MORNING BRIEFING REWRITE (heartbeat.py):
+  - Now APEX-general: decisions → tasks → approvals → KPI alerts → revenue snapshot
+  - When quiet: rotates 7 low-startup (<$50) high-ROI business opportunities daily
+  - Posts to Slack + Discord TTS (Discord reads it aloud when app is open)
+  - Businesses rotating: AI Review Response, Missed Call Text-Back, Newsletter Ghost-Writing,
+    Social Media Ghost-Writing, Valdr Ops model, Job Application Service, Listing Copy
+
+DECISION QUEUE (heartbeat.py + app.py):
+  - decision_queue_scan() runs every 2 hours — surfaces stalled decisions proactively
+  - Auto-executes recommended option after 48hrs, logs it, notifies Slack
+  - New Slack commands: `decisions` | `approve decision <id>` | `decline decision <id>`
+
+REVENUE TRACKING (app.py):
+  - New Slack commands: `revenue` (MTD per spoke) | `revenue log spoke:X amount:Y type:income desc:Z`
+  - Works for any spoke — real_estate, valdr_ops, general
+
+KPI SCORECARD (app.py):
+  - New Slack command: `scorecard` (shows all KPI targets with traffic lights)
+  - Note: `scorecard <address>` still works for RE deal due diligence (different parser)
+
+DISCORD TTS (discord_notify.py):
+  - post_tts() added — strips markdown, posts with tts:true flag
+  - Discord reads the morning briefing aloud when app is open with audio on
+
+===== SESSION 2026-05-26b — FOLLOW-UP AUTO =====
+MIGRATION 015: api/migrations/015_followup_auto.sql — DEPLOYED + RAN
+  leads.xleads_contact_id TEXT — links ODIN lead to XLeads contact
+  leads.followup_fired_at TIMESTAMP — dedupe guard (fires once per day)
+  + index idx_leads_followup_auto on (follow_up_date, xleads_contact_id)
+
+followup_queue() rewritten: auto-fires SMS when follow_up_date = today + contact ID set
+  → xleads.send_sms(xleads_contact_id, next_action)
+  → clears follow_up_date, stamps followup_fired_at, logs to agent_actions
+  → alerts on overdue leads WITHOUT contact ID (asks user to cid: link them)
+
+Slack: `follow up <address> date:YYYY-MM-DD action:<text> cid:<xleads_contact_id>`
+APEX: Follow-Up Auto 60% → 85%
+
+===== SESSION 2026-05-26c — TEAM DELEGATION =====
+MIGRATION 016: api/migrations/016_task_delegation.sql — DEPLOYED + RAN
+  tasks.assignee TEXT DEFAULT 'brock' — 'brock', 'eddie', or 'odin'
+  tasks.escalated_at TIMESTAMP — dedupe: escalates max 1x/24hr per task
+  tasks.auto_executable BOOLEAN DEFAULT FALSE — ODIN attempts execution via Haiku
+
+task_delegation_scan() heartbeat every 4hrs:
+  → Auto-assigns unassigned tasks by spoke+keyword rules (to 'odin' or 'brock' only)
+  → Eddie: self-assigns only — never auto-assigned (he owns what he creates)
+  → ODIN auto_executable overdue → Haiku executes + marks done
+  → Brock overdue 2+ days → escalation ping
+
+Slack: `tasks` | `tasks eddie/odin/brock` | `task done <title>` | `assign task <title> to <who>`
+APEX: Team Delegation 50% → 75%
+
+===== SESSION 2026-05-26d — KPI AUTO-UPDATE + BUYER ONBOARDING =====
+MIGRATION 017: api/migrations/017_buyer_onboarding.sql — DEPLOYED + RAN
+  buyers.onboarding_stage TEXT DEFAULT 'new' (new→welcomed→qualified→active→inactive)
+  buyers.onboarding_started_at TIMESTAMP
+  buyers.xleads_contact_id TEXT
+  + indexes idx_buyers_onboarding_stage, idx_buyers_xleads_contact_id
+
+kpi_auto_update() heartbeat every 4hrs:
+  Computes current_value for all 10 seeded KPIs via SQL
+  Sets status: green (80%+ of target) | yellow (50–79%) | red (<50%)
+  `scorecard` command now shows live numbers instead of zeros
+
+buyer_onboarding_scan() heartbeat daily 8am:
+  Welcomes 'new' stage buyers with xleads_contact_id set → sends welcome SMS
+  Alerts on stuck buyers (welcomed 7+ days, no progression)
+  SAFE: only fires when xleads_contact_id IS NOT NULL (8,655 existing buyers protected)
+
+Slack: `buyers onboarding` | `onboard <name> cid:<id>`
+APEX: KPI Visibility 65% → 85% | Buyer Onboarding 0% → 40%
+
+===== APEX STATUS (2026-05-26d) — ~80% =====
+  Lead Qualification:   80% — MCTP auto-scoring on inbound
+  Offer Generation:     70% — Scorecard + LAO + ARV via Slack
+  SMS Outbound:         70% — Blast registered, ready to fire
+  Follow-Up Auto:       85% — AUTO-FIRES via heartbeat (xleads_contact_id + follow_up_date)
+  KPI Visibility:       85% — kpi_auto_update() writes live values every 4hrs, traffic lights LIVE
+  Team Delegation:      75% — auto-assign + escalation + ODIN auto-execute LIVE
+  Revenue Tracking:     60% — revenue_events table + /revenue command LIVE, data entry needed
+  Decision Queue:       55% — table + 2hr heartbeat + commands LIVE, needs active use
+  Voice Briefing:       55% — Discord TTS LIVE, phone call delivery not yet built
+  Buyer Onboarding:     40% — onboarding_stage pipeline, welcome SMS, daily scan LIVE
+
+HEARTBEAT JOBS (13 total):
+  6am daily      — morning_briefing()
+  8am daily      — buyer_onboarding_scan()
+  9pm daily      — pipeline_report()
+  Every 30 min   — reply_scanner()
+  Every 2 hours  — followup_queue() + decision_queue_scan()
+  Every 4 hours  — opportunity_sync() + task_delegation_scan() + kpi_auto_update()
+  Monday 7am     — weekly_kpi()
+  Sunday 8pm     — weekly_ceo_review()
+  Wednesday 10am — resurrect_scan()
+  Every hour     — sms_health_monitor()
+
+DB TABLES (migrations 001–017):
+  agent_actions, agent_logs, approval_queue, blast_campaigns, businesses, buyers,
+  custom_agents, custom_fields, decision_queue, invite_tokens, kpi_targets, leads,
+  memories, pipeline_stages, products, property_lookup_cache, revenue_events,
+  spokes, tasks, users, workflow_registry
+
+===== SESSION 2026-05-28 — FINANCE BOT =====
+Migration 018: bank_accounts, transactions, subscriptions, finance_snapshots tables
+Spoke: financial_health added (owner: Brock)
+KPI targets seeded: Monthly Spend Budget, Active Subscriptions, Biz Card Available Balance, Monthly Business Revenue
+Heartbeat: finance_daily_sync() at 7am ET (14th job)
+New Slack commands: finance, finance sync, balance, subscriptions, spending, biz card, invest, mark biz card
+File: api/utils/finance_bot.py — Teller.io mTLS client, sync_accounts, sync_transactions, detect_subscriptions, analyze_biz_card_investment (Claude Sonnet)
+
+TELLER.IO CREDS NEEDED (user getting them):
+  TELLER_ACCESS_TOKEN — from Teller Connect enrollment
+  TELLER_CERT_B64     — base64 of certificate PEM
+  TELLER_KEY_B64      — base64 of private key PEM
+  Set: railway variables --service odin-api set TELLER_ACCESS_TOKEN=xxx
+  After creds set: Slack `finance sync`, then `mark biz card <name>` for the $5k card
+
+===== SESSION 2026-05-29b — TRANSCRIPT KB + APEX UPGRADES =====
+Finance bot: LIVE + Brock-only guard. Teller creds set.
+Transcripts: 1,014 in DB (795 FWR + 219 DM). Migration 019 live. `find knowledge <query>` works.
+FWR memories: 150 entries inserted into memories table (source: transcript_fwr). Total: 251 memories.
+Revenue Tracking: Migration 020, revenue_sync() heartbeat 9am ET, `revenue sync` Slack command. 60%→80%.
+Decision Queue: `log decision` command + 3 real decisions seeded. 55%→75%.
+Blast Stats: `blast stats` command — sent/reply/opt-out rates + MCTP breakdown per campaign.
+Offer Generation: `draft offer <address>` — Claude-drafted letter from lead data. `offer status <address>`.
+  Scorecard now saves lead record + prompts `draft offer` on GO/CAUTION verdict.
+Buyer Onboarding: link_buyers.py script — dry run then --apply to bulk-link ODIN buyers to XLeads contact IDs.
+SMS Outbound Tracking: Inbound webhook now upserts leads + stamps blast_campaign_id. Migration 021. 70%→85%.
+  Unique index on leads.xleads_contact_id added.
+
+===== APEX STATUS (2026-05-29b) — ~88% =====
+  Lead Qualification:   80% — MCTP auto-scoring on inbound
+  Offer Generation:     85% — scorecard → draft offer letter → offer tracking (offer_status, offer_amount)
+  SMS Outbound:         85% — blast stamped to leads, blast stats command, MCTP breakdown per campaign
+  Follow-Up Auto:       85% — AUTO-FIRES via heartbeat
+  KPI Visibility:       85% — kpi_auto_update() writes live values every 4hrs
+  Team Delegation:      75% — auto-assign + escalation + ODIN auto-execute LIVE
+  Revenue Tracking:     80% — revenue_sync() heartbeat + `revenue sync` on-demand
+  Decision Queue:       75% — log decision + 3 real decisions seeded
+  Voice Briefing:       55% — Discord TTS LIVE, phone call delivery skipped
+  Buyer Onboarding:     40% — link_buyers.py ready, run to populate xleads_contact_ids
+
+===== SESSION 2026-05-29c — BLAST FIRED + BUG FIXES + BUYER LINK =====
+Blast: FIRED — 100 contacts enrolled (tags: he + tax-delinquent, workflow: sms-blast-bulk)
+  blast_campaign manually inserted to DB (thread context bug fixed for future blasts)
+  blast_campaign_id: e6684814-2db2-4026-b9bf-766f87bf3e35
+Decision fixes: `decision` (singular) now works. `approve 1/2/3` resolves by position. Deployed.
+Buyer link: 300 buyers matched to XLeads contact IDs (of 8,655 total — rest not in XLeads yet)
+  link_buyers.py --apply ran. 300 buyers now have xleads_contact_id. Welcome SMS can now fire for these.
+  Remaining 8,246 have no XLeads contact (expected — they're cash buyers, not sellers)
+Blast decision auto-closed (already fired). 2 decisions remaining.
+
+===== NEXT ACTIONS =====
+  [ ] Review 2 remaining decisions: `decisions` in Slack
+        D2: Memphis zip expansion (deeper vs expand to Germantown/Collierville/Bartlett/Arlington)
+        D3: Valdr Ops reactivation date (tie to first RE deal closing?)
+  [ ] Monitor blast: `blast stats` — watch for replies as they come in
+  [ ] Log first revenue event when deal closes: `revenue log spoke:real_estate amount:X type:income desc:...`
+  [ ] Run `revenue sync` once a deal closes in XLeads (auto-logs it)
+  [ ] Katelyn: first automation (skipped for now)
+
+===== ODIN LAYERS STATUS =====
+Layer 1 Brain:     ✅ Claude API (Anthropic SDK)
+Layer 2 Memory:    ✅ Built (PostgreSQL-backed, no external services — 2026-05-24)
+                     memories table, memory.py (load/upsert/extract_and_save)
+                     Wired into advisor: loads context before call, extracts facts after
+                     Migration 004 run. slack_uid added to users table.
+Layer 3 Gateway:   ✅ XLeads + Slack + Webhooks
+Layer 4 Skills:    ✅ All 8 RE skill modules built (2026-05-24)
+                     lao_calculator, arv_analyzer, offer_calculator, lead_scorer,
+                     script_generator, buyer_matcher, content_engine, email_drafter
+Layer 5 Heartbeat: ✅ Built via APScheduler in Flask (2026-05-24)
+                     6am briefing, 9pm pipeline, 30min reply scan,
+                     2hr follow-up queue, 4hr opportunity sync, Monday KPI report,
+                     Sunday CEO review, Wednesday resurrect scan,
+                     Hourly SMS health monitor (opt-out + deliverability)
+Layer 6 Security:  ✅ Railway env vars
+Layer 7 Voice:     ✅ Maya live (29+ calls)
+
+===== ARCHITECTURE RULES =====
+- Every table has user_id FK
+- Every endpoint calls check_permission_role() before executing
+- Every agent action logs to agent_actions table
+- API keys in Railway env vars — never hardcoded
+- JWT auth on all dashboard endpoints
+- Database: Railway PostgreSQL | Hosting: Railway.app | Language: Python Flask
+- Node pg module at ODIN/node_modules/pg for CLI DB access
+- DB public proxy: kodama.proxy.rlwy.net:55551

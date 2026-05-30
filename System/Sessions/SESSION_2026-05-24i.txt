@@ -1,0 +1,136 @@
+ODIN SESSION — 2026-05-24i
+Started: ~8:00 PM CT | Ended: ~10:50 PM CT
+Theme: SMS Blast Fix + Full GHL API Audit + Discord Bot
+
+════════════════════════════════════════════════════════
+WHAT WAS FIXED / BUILT
+════════════════════════════════════════════════════════
+
+1. SMS BLAST — 3 ROOT CAUSES DIAGNOSED AND FIXED
+   ─────────────────────────────────────────────
+   Problem A: Tag format mismatch
+     XLeads stores "he, tax delinquent" as ONE single tag (comma-space is part of name)
+     ODIN was searching for two separate tags "he" and "tax delinquent" → 0 matches
+     Fix: compound tag detection in search_contacts() — checks both individual AND compound form
+     Confirmed: 1,088/1,770 contacts have this compound tag
+
+   Problem B: Wrong workflow UUID
+     Registered: e5dd5a67-92b5-4111-8a32-16495214d5f0 (had 2 wrong characters)
+     Actual GHL: e5dd5ab7-92b5-4111-8a32-164f9214d5f0
+     Fix: DB updated via Node pg, STATUS.txt corrected
+
+   Problem C: Wrong API endpoint for workflow enrollment
+     Was using: POST /contacts/{id}/workflow/{wf_id}/subscribe  → 404
+     Correct:   POST /contacts/{id}/workflow/{wf_id}             → 201
+     Fix: trigger_workflow() and remove_from_workflow() in xleads.py updated
+
+   RESULT: 100/100 contacts enrolled, 0 failed. Blast LIVE.
+   Workflow: SMS Text Blaster (BULK DRIP) — fires at 8 AM per workflow Time of Day gate
+
+2. GHL API FULL AUDIT — ALL 14 CATEGORIES
+   ─────────────────────────────────────────
+   Discovered that GHL uses completely different endpoint paths than initially assumed.
+   Correct paths found by testing live API:
+
+   Phone Numbers:
+     List: GET /phone-system/numbers/location/{locationId}  ← was /phone-number/
+     Search/Buy/Delete: NOT available via GHL REST API (UI only)
+
+   Contracts/Proposals:
+     Templates: GET /proposals/templates?locationId={id}       ← was /documents-contracts/templates
+     List sent: GET /proposals/document?locationId={id}        ← was /documents-contracts/
+     Send:      POST /proposals/document/send (needs sentBy)   ← was /documents-contracts/{id}/send
+
+   Conversation AI:
+     List:   GET /conversation-ai/agents/search  (NO locationId param!)
+     Get:    GET /conversation-ai/agents/{id}
+     Update: PUT /conversation-ai/agents/{id}  (needs personality, goal, instructions)
+     Bot found: "XLeads Texting Bot" — ID: N5mNQS19BBzDed2SPLzH
+
+   Social Planner:
+     Accounts: GET /social-media-posting/{locationId}/accounts
+     Posts:    POST /social-media-posting/{locationId}/posts (needs accountIds array)
+
+   All 4 categories now correctly wired in xleads.py.
+
+   Minor fixes also applied:
+   - remove_contact_tags(): now catches 422 silently (tag not found)
+   - get_calendar_events(): all 3 params now required (GHL enforces calendarId+startTime+endTime)
+   - `numbers` Slack command: now shows 3 actual phone numbers (+14196374962, +19014109570, +19015060852)
+   - `contract` Slack command: now lists templates and sends correctly
+
+3. DISCORD BOT — ODIN#9534 ONLINE
+   ─────────────────────────────────
+   Built: api/utils/discord_bot.py
+   - Runs in background thread inside Railway Flask process
+   - Listens to DMs and @mentions (or dedicated channel via DISCORD_COMMAND_CHANNEL_ID)
+   - Routes all messages through parse_command() — same as Slack
+   - Responses captured via _handle_discord_command() + _discord_queues intercept
+   - All 58+ commands work identically to Slack
+
+   Response capture mechanism:
+   - _handle_discord_command() creates virtual channel ID (discord:uuid)
+   - _slack_post() detects discord: prefix and collects to _discord_queues dict instead of Slack
+   - Discord bot receives the collected text and sends to Discord
+
+   Bot credentials:
+   - App ID: 1508296830763667526
+   - Bot token: set in Railway as DISCORD_BOT_TOKEN
+   - Message Content Intent: enabled in Discord Developer Portal
+   - Status: ONLINE as ODIN#9534
+
+   Dependencies added to requirements.txt:
+   - discord.py==2.3.2
+   - audioop-lts==0.2.1 (Python 3.13 compatibility fix)
+
+   To set a dedicated command channel (no @mention needed):
+   railway variables --service odin-api set DISCORD_COMMAND_CHANNEL_ID=<channel_id>
+
+   To restrict to specific Discord users:
+   railway variables --service odin-api set DISCORD_AUTHORIZED_IDS=<user_id1>,<user_id2>
+
+════════════════════════════════════════════════════════
+DEPLOYMENT STATE
+════════════════════════════════════════════════════════
+Railway: natural-analysis → odin-api — LIVE
+Last deploy: 2026-05-25 ~02:48 UTC
+All migrations: 001–013 (no new migrations this session)
+Gunicorn + Discord bot thread both running
+
+════════════════════════════════════════════════════════
+WORKFLOW REGISTRY — CORRECTED UUIDs
+════════════════════════════════════════════════════════
+sms-blast-bulk: e5dd5ab7-92b5-4111-8a32-164f9214d5f0  ← CORRECTED
+customer-replied: 9184a227-6bdc-4894-8a3d-d26ed44ec555
+
+════════════════════════════════════════════════════════
+KEY GHL FACTS DISCOVERED THIS SESSION
+════════════════════════════════════════════════════════
+- Tags on contacts returned by GET /contacts/ list endpoint (NOT missing)
+- Compound tags stored with comma-space: "he, tax delinquent" is 1 tag, not 2
+- GHL pagination uses nextPageUrl in meta (not skip param)
+- GHL workflow enrollment: POST /contacts/{id}/workflow/{wf_id} (no /subscribe)
+- Phone number list: /phone-system/numbers/location/{locationId}
+- Proposals: /proposals/ not /documents-contracts/
+- Conv AI: /conversation-ai/agents/ with no locationId param
+- Social: /social-media-posting/{locationId}/accounts (locationId in path)
+- search_contacts() now uses cursor pagination via meta.nextPageUrl
+
+════════════════════════════════════════════════════════
+BLAST STATUS
+════════════════════════════════════════════════════════
+100 contacts enrolled in SMS Text Blaster (BULK DRIP)
+Tags: "he, tax delinquent"
+Workflow fires at 8 AM per Time of Day gate
+Next blast available: blast tags:he,tax-delinquent workflow:e5dd5ab7-92b5-4111-8a32-164f9214d5f0 limit:100
+1,088 total contacts match this tag (only 100 sent this round)
+
+════════════════════════════════════════════════════════
+NEXT ACTIONS
+════════════════════════════════════════════════════════
+[ ] Invite ODIN Discord bot to server using OAuth2 URL (bot scope + read/send perms)
+[ ] Test Discord commands: DM bot or @ODIN <command>
+[ ] Optionally set DISCORD_COMMAND_CHANNEL_ID for dedicated channel
+[ ] Monitor 8 AM blast results (XLeads conversations + ODIN Discord/Slack alerts)
+[ ] First Katelyn automation (email or Etsy — never started, her choice)
+[ ] APEX gaps: proactive decision queue, KPI targets, task delegation, financial spoke, voice briefing

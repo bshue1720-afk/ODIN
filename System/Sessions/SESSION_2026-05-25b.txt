@@ -1,0 +1,118 @@
+SESSION: 2026-05-25b
+Focus: Monitor Bots + Transcript Knowledge Base + New Business / Katelyn Planning
+============================================================
+
+===== WHAT WAS BUILT =====
+
+1. MONITOR BOTS — Master Folder\monitor-bots\
+   5 Python agents, zero external dependencies (except Agent 5 which needs anthropic).
+   All commands documented in monitor-bots\COMMANDS.txt
+
+   Agent 1 — Hallucination Monitor
+     py run.py check "text"
+     Fact-checks Claude output against ODIN ground truth (STATUS.txt).
+     Catches: wrong URLs, invalid migration numbers, wrong user roles, unknown tables,
+     unknown UUIDs, undocumented env vars, file paths that don't exist on disk.
+
+   Agent 2 — Professional Coder
+     py run.py review path\to\file.py [--profile odin|default]
+     Static analysis: hardcoded secrets, SQL injection, command injection, debug flags,
+     bare excepts, long functions, ODIN-specific auth rules (check_permission_role, user_id).
+     Outputs score /10 with CRITICAL / WARNING / INFO breakdown.
+
+   Agent 3 — Context Guardian
+     py run.py watch   (runs in its own terminal, always on while coding)
+     Polls Master Folder every 10 seconds. Logs all file changes to logs/guardian_YYYYMMDD.jsonl.
+     Snapshots every 5 minutes. Reviewer sub-agent audits each snapshot (SQL migration without
+     STATUS.txt update, etc.). Detects compaction events and prints recovery prompt automatically.
+     py run.py snapshot  — force snapshot now
+     py run.py recover   — print latest recovery prompt
+
+   Agent 4 — APEX Monitor
+     py run.py apex-check "task description"   — score 0-10, verdict + what to build instead
+     py run.py apex-scorecard                  — full gap report, ODIN at 43% APEX completion
+     APEX dimensions + current % hardcoded from STATUS.txt as of 2026-05-25.
+
+   Agent 5 — Transcript Scanner
+     py run.py scan-transcripts           — scan new transcripts once
+     py run.py scan-transcripts --watch   — run every 3 hours continuously
+     py run.py scan-transcripts --watch --interval 1   — custom interval
+     Requires: anthropic installed (it is), ANTHROPIC_API_KEY set as system env var (NOT YET SET)
+     TO DO: run `setx ANTHROPIC_API_KEY "sk-ant-..."` in a terminal to set permanently.
+     Uses Claude Haiku per transcript (~$0.001/file).
+     Compares against SCANNED_MANIFEST.txt — never re-processes a file.
+     Appends to: ODIN_systems_insights.txt, business_growth_insights.txt,
+                 personal_growth_mindset.txt, new_business_creation.txt
+
+2. KNOWLEDGE BASE — built by background agents scanning all 290 Dan Martell transcripts
+   Location: Master Folder\ODIN knowledge from transcripts\
+             Master Folder\Business growth from transcripts\
+
+   Files created:
+     ODIN knowledge from transcripts\ODIN_systems_insights.txt   — 17 APEX/systems themes
+     ODIN knowledge from transcripts\TOP_PRIORITIES.txt          — 15 ranked builds, 10-week roadmap
+     ODIN knowledge from transcripts\SCANNED_MANIFEST.txt        — all 290 files logged
+     Business growth from transcripts\business_growth_insights.txt
+     Business growth from transcripts\personal_growth_mindset.txt
+     Business growth from transcripts\new_business_creation.txt  — new businesses, SaaS, Katelyn
+
+===== KEY FINDINGS — ODIN PRIORITIES =====
+
+ODIN is at 43% APEX completion. Recommended 10-week build order:
+  Week 1-2:  Scorecard (KPI targets table, traffic lights, DRI per metric, /scorecard command)
+  Week 3-4:  Decision Queue (1-3-1 rule, decision_queue table, auto-execute after 48hrs)
+  Week 5-6:  Buyer Onboarding (7-day sequence, onboarding_stage field, Day 0/1/3/7 flow)
+  Week 7-8:  Revenue Tracking (revenue table, /revenue command, $20k goal counter)
+  Week 9-10: Voice Briefing (daily 7am digest once scorecard + revenue exist)
+
+===== KEY FINDINGS — NEW BUSINESS + KATELYN =====
+
+Dan Martell's APEX model: one business per month, one human + AI infrastructure each.
+ODIN is the shared infrastructure. Each spoke = "one human + ODIN", not a team.
+
+Business validation rules (universal):
+  - Two-Box Filter: high-income buyer? growing market? Both must be yes.
+  - AI Startup Ladder: Validate → Pre-sell → Deliver manually → Build. No exceptions.
+  - Founding 50: 50% off, annual billing, 50 early adopters before scaling.
+  - Score any idea: speed to first dollar, learning curve, gross margin 40%+, sellability.
+
+Valdr Ops immediate actions:
+  - Launch Founding 50 program to 114 existing leads ($749 setup + $99/mo)
+  - Find ONE partner channel (accountants, HVAC distributors, Chamber of Commerce)
+  - Build churn capture (Typeform on cancel) BEFORE scaling
+  - Model gross margin per client — target 65%+
+
+Katelyn context saved to memory:
+  - Has ADHD, dopamine-driven, will chase novelty and want to pivot at week 3-6
+  - Best business fits: content repurposing, ghost writing, creative services (fast feedback)
+  - Avoid: slow-feedback businesses (SaaS dev, SEO, long-build audience)
+  - ODIN's role for her: external prefrontal cortex — surface her commitment when pivot urge hits
+  - Build her spoke with short cycles, visible progress, celebration milestones
+  - Give her ONE next action at a time, not a roadmap
+
+===== PENDING (not started) =====
+  [ ] Set ANTHROPIC_API_KEY as system env var: setx ANTHROPIC_API_KEY "sk-ant-..."
+  [ ] Run scan-transcripts --watch once key is set (will find 0 new files today, ready for future)
+  [ ] Build ODIN Scorecard (Priority #8, Week 1-2)
+  [ ] Build ODIN Decision Queue with 1-3-1 format (Priority #4)
+  [ ] Build Buyer Onboarding 7-day sequence (Priority #1)
+  [ ] Launch Valdr Ops Founding 50 program
+  [ ] Katelyn: ikigai exercise → pick one business → Audit-to-Deal Week 1
+
+===== FILES CHANGED THIS SESSION =====
+  Created: monitor-bots\run.py
+  Created: monitor-bots\agents\__init__.py
+  Created: monitor-bots\agents\hallucination_monitor.py
+  Created: monitor-bots\agents\professional_coder.py
+  Created: monitor-bots\agents\context_guardian.py
+  Created: monitor-bots\agents\apex_monitor.py
+  Created: monitor-bots\agents\transcript_scanner.py
+  Created: monitor-bots\requirements.txt
+  Created: monitor-bots\COMMANDS.txt
+  Created: ODIN knowledge from transcripts\ODIN_systems_insights.txt
+  Created: ODIN knowledge from transcripts\TOP_PRIORITIES.txt
+  Created: ODIN knowledge from transcripts\SCANNED_MANIFEST.txt
+  Created: Business growth from transcripts\business_growth_insights.txt
+  Created: Business growth from transcripts\personal_growth_mindset.txt
+  Created: Business growth from transcripts\new_business_creation.txt
+  Memory: user_katelyn.txt (new), project_danmartell_insights.txt (updated)

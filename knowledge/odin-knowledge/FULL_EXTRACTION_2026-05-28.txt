@@ -1,0 +1,381 @@
+FULL KNOWLEDGE EXTRACTION — 2026-05-28
+Sources: 4 new Skool FWR transcripts + 18 selected Dan Martell YouTube transcripts
+Extracted by: Claude Code (claude-sonnet-4-6)
+Note: All content in CURATED_INSIGHTS_2026-05-28.txt was NOT duplicated here.
+======================================================================
+
+
+==============================================================================
+REAL ESTATE — WHOLESALING SPECIFIC
+==============================================================================
+
+## [REAL ESTATE] — Conditioning Sellers (Preemptive Strike / Framing)
+**Source:** 2026-05-28_Conditioning Sellers.txt (Rick Ginn)
+**Key insight:** The "conditioning statement" is delivered BEFORE the appointment — both by phone AND in person — to eliminate the "friend zone / maybe zone." Exact script: "Mr. Seller, before I come see the house, I don't want to waste your time. I'm going to come in, take a look at the property, and when we're done, you'll have a decision to make: either a definitive YES or a definitive NO. We want to make that decision on the day of the appointment. Can I get your commitment to give me that yes-or-no decision?" ZIP YOUR LIP after asking. If they get stuck in maybe AFTER you've conditioned them, call them out: "Remember before we met, we both agreed to make a definitive decision. What's holding you up? What information are you missing?"
+**Numbers/benchmarks:** Rick spent first 2.5 years in the friend zone. This single technique is described as "the difference between being average and being a great wholesaler."
+**ODIN memory key:** re_conditioning_agreement_script
+**Apply:** When Brock asks for seller appointment prep, ODIN returns the conditioning script verbatim. Also include in the "script seller" Slack command output.
+
+---
+
+## [REAL ESTATE] — Seller Communication: Non-Verbal Mastery
+**Source:** 2026-05-28_Seller Conversations.txt (Rick Ginn)
+**Key insight:** 65% of decision-making is based on NON-VERBAL communication, not words. Four pillars:
+1. TONALITY — Never be monotone. Vary pace, pitch, enthusiasm. Sellers feel authenticity through inflection.
+2. SPEED — Mirror the seller's pace exactly. Soft-spoken seller = you go soft. Fast talker = match speed.
+3. POSTURE — Stand or sit upright always. Posture is the one exception to mirroring (never mirror poor posture). Confidence comes through the spine.
+4. WORD TIMING — After making a verbal offer, go completely silent. Even 2 minutes of silence is fine. NEVER fill the space. If they counter and you want to accept, STILL pause for the same amount of time they took to respond. They need to feel they negotiated hard. "Firing off quick comments shows true intentions — you're giving a reaction, not a response."
+**Numbers/benchmarks:** 65% of decision-making = non-verbal. Word timing is described as "everything in the conversation."
+**ODIN memory key:** re_seller_nonverbal_communication
+**Apply:** Include in "script seller" output and pre-appointment coaching. ODIN should remind Brock of the silence rule whenever coaching on offer presentations.
+
+---
+
+## [REAL ESTATE] — Follow-Up Cadence (Detailed Timeframe Buckets)
+**Source:** 2026-05-28_Seller Conversations.txt (Rick Ginn)
+**Key insight:** Detailed follow-up cadence from Rick's CRM system (more granular than previously captured):
+  - 0-30 days: DAILY contact (these are your hottest leads)
+  - 30-60 days: Weekly
+  - 60-90 days: Bi-weekly (every 2 weeks)
+  - 90-180 days: Every 30 days
+  - 180+ days: Every 45 days
+December is uniquely powerful for follow-up — end of year triggers decisions. People make New Year's resolutions, want to move on before year-end.
+**Numbers/benchmarks:** 70% of deals come from follow-up. Rick personally did this business solo for 7 years without AI automation.
+**ODIN memory key:** re_followup_cadence_exact
+**Apply:** Use these exact intervals in ODIN's follow-up automation heartbeat. The existing memory had 0-30/30-90/90-180/180+ — this replaces with the finer 30-60/60-90 split. Add December flag to seller leads.
+
+---
+
+## [REAL ESTATE] — Double Closing (When Assignment Won't Work)
+**Source:** 2026-05-28_Double Closing.txt (Rick Ginn)
+**Key insight:** When assignment of contract is blocked (state law, realtor restriction, difficult seller/buyer/tenant), use double closing. Two separate HUD closings on same day. Legal in all states — once you own it (even for 1 minute), you have the right to sell it. Title company does both closings. Best funding method: use your cash buyer's escrow funds. Cash buyer puts $5k deposit + remainder 3-7 days before closing → title company uses those funds to close the A-to-B transaction first, then B-to-C closes immediately after. Cash buyer signs a consent directive. This circumvents hard money loans entirely. Request a back-to-back closing discount from title company (often 50% off second closing fee, sometimes free).
+**Numbers/benchmarks:** Minimum profit needed: $10,000+ (double closing fees = ~1.5-2% of purchase price). Hard money: focus on points (not interest rate) + prepayment penalty. A 4-point loan on $100K = $4K upfront fee. Avoid 6-month prepayment penalty if closing in 90 days.
+**ODIN memory key:** re_double_closing_process
+**Apply:** When Brock encounters a deal that can't be assigned, ODIN should walk him through double closing steps. Also add to objection library: "What if seller/title won't allow assignment?" → double closing answer.
+
+---
+
+## [REAL ESTATE] — Wholetailing Strategy
+**Source:** 2026-05-28_Wholetailing.txt (Rick Ginn)
+**Key insight:** Wholetailing = buying the property and selling slightly below retail within 90 days max to maximize profit vs. standard assignment fee. ONLY applies to less than 10% of deals. Qualification criteria: (1) high-demand property type in your specific market, (2) minimal cosmetic repairs only (no foundation/electric/roof), (3) profit target = minimum 2x assignment fee, ideally 2.5x. 90-day rule is IRON — if you go to day 91, you are now in fix-and-flip territory, which is a different business. Buyer requirements: cash OR conventional with 20% down + waived appraisal contingency (to defeat the appraisal contingency trap). No FHA (91-day seasoning requirement kills the deal). No VA unless using mortgage broker. Sell just below retail — price aggressively, only get one shot.
+**Numbers/benchmarks:** Repairs max: $10-20K (each $5K = ~1 week of crew time). Timeline: 2 weeks repairs + 10 days to find buyer + 7-14 days inspection + 30-45 day close = 90 days gone instantly. 20% down buyer = can survive appraisal at $240K on a $300K property.
+**ODIN memory key:** re_wholetailing_rules
+**Apply:** When evaluating deals, ODIN can flag "wholetail candidate" if: high-demand area, cosmetic repairs only, estimated assignment fee is $20K+, and market demand is strong. Should NOT be the default recommendation.
+
+
+==============================================================================
+SAAS / AGENCY — PRICING
+==============================================================================
+
+## [SAAS] — Van Westendorp Pricing Survey
+**Source:** 2026-05-25_5 SaaS Pricing Strategies That Will Boost Your Revenue in 2026.txt (Dan Martell)
+**Key insight:** Van Westendorp survey reveals true willingness-to-pay, pricing sensitivity, and preferred value metrics from your actual customers. Often reveals that customers want per-seat pricing instead of all-inclusive flat rate — even when the founder thinks "simple = better." Tells you rank order of features customers value (informs how to package tiers). Should be done BEFORE finalizing pricing tiers.
+**Numbers/benchmarks:** Dan's clients added $200M+ in new recurring revenue after implementing these 5 strategies combined.
+**ODIN memory key:** saas_pricing_van_westendorp
+**Apply:** If Brock asks about Valdr Ops or PartSync pricing, ODIN should recommend the Van Westendorp survey before locking in any tier structure.
+
+---
+
+## [SAAS] — Histogram Feature Analysis for Pricing Tiers
+**Source:** 2026-05-25_5 SaaS Pricing Strategies That Will Boost Your Revenue in 2026.txt (Dan Martell)
+**Key insight:** Pull a database query to see what % of customers use each feature. Features used only by enterprise clients → move to top tier only (forces upgrade). Features with broad usage across tiers → keep in all tiers or make a paid add-on. Example: Salesforce integration used only by big companies → lock it to top tier, because Salesforce users have money. QuickBooks integration used across all tiers → make it a $20/mo add-on for any tier.
+**Numbers/benchmarks:** Moving features to appropriate tiers is described as capable of doubling revenue without adding any new features.
+**ODIN memory key:** saas_pricing_histogram_analysis
+**Apply:** When Brock is building Valdr Ops pricing tiers, suggest running a feature usage analysis before finalizing which features go in which tier.
+
+---
+
+## [SAAS] — Tiered Pricing Psychology (3 Tiers Minimum)
+**Source:** 2026-05-25_5 SaaS Pricing Strategies That Will Boost Your Revenue in 2026.txt (Dan Martell)
+**Key insight:** Every SaaS needs at least 3 pricing tiers. The TOP tier exists as a price anchor — it makes the middle tier look cheap. The BOTTOM tier lets smaller customers enter your world without going to a competitor, then they grow into higher tiers. Design natural "pull forward" caps at each tier (number of seats, contacts, etc.) that force upgrade when they hit the limit. Even if all 3 tiers are the same product, you can differentiate simply by support level (premium support on top, email-only on bottom).
+**Numbers/benchmarks:** Not having a lower price tier = losing 20-30% of potential revenue from customers who'd join at a lower price and grow over time.
+**ODIN memory key:** saas_pricing_tiered_psychology
+**Apply:** Valdr Ops should have 3 tiers minimum. ODIN should flag this if Brock ever mentions a single-price model.
+
+---
+
+## [SAAS] — Outcome-Based vs. Functional Value Metrics
+**Source:** 2026-05-25_5 SaaS Pricing Strategies That Will Boost Your Revenue in 2026.txt (Dan Martell)
+**Key insight:** Two types of value metrics for pricing: (1) Outcome-based = charge a % of the value delivered (e.g., credit card recovery SaaS charges % of recovered revenue above baseline). Scales infinitely and aligns incentives. (2) Functional-based = limit seats, contacts, storage, usage — natural upgrade triggers as customer grows. For Valdr Ops, a functional value metric could be: number of missed calls captured per month, or number of AI appointments booked. Outcome-based for Valdr Ops could be: charge 10-20% of revenue generated from recovered missed calls.
+**Numbers/benchmarks:** Outcome-based model can scale from $10K/mo revenue to $10M/mo for the same product without changing anything.
+**ODIN memory key:** saas_pricing_value_metrics
+**Apply:** During Valdr Ops pricing discussions, ODIN should propose both value metric models and let Brock evaluate.
+
+---
+
+## [SAAS] — Upsells and Cross-Sells ("Monetizing the Sawdust")
+**Source:** 2026-05-25_5 SaaS Pricing Strategies That Will Boost Your Revenue in 2026.txt (Dan Martell)
+**Key insight:** Partner with adjacent companies to sell their product to your customers, keep 30-50% of revenue with zero delivery overhead. The "sawdust" = byproduct of your existing customer base that can be monetized. For Valdr Ops: partner with a CRM company, SEO agency, or review management tool and offer it as an add-on. For PartSync Pro: partner with HVAC supply companies (Johnstone Supply, Wesco) for referral revenue.
+**Numbers/benchmarks:** Channel partner cross-sell can grow revenue to cover CAC for paid customer acquisition channels.
+**ODIN memory key:** saas_upsells_cross_sells_sawdust
+**Apply:** When Brock is maximizing LTV per client, ODIN should suggest the sawdust monetization strategy and list adjacent partners to contact.
+
+---
+
+## [SAAS] — Why Not to Show Pricing on Website (Early Stage)
+**Source:** 2026-05-25_5 Key Reasons You Might Not Want To Show Pricing On Your Website.txt (Dan Martell)
+**Key insight:** 5 reasons to hide pricing early: (1) Deals get complex as you scale — don't lock yourself in. (2) Enterprise needs discount flexibility without public pricing to anchor against. (3) $800K deals are sold completely differently than $100K deals — price is a detail, not the lead. (4) Enterprise buyers care more about deployment speed, integrations, and support than price. (5) Public low pricing makes you look cheap to enterprise prospects. Recommendation: "Call us" or "Schedule a demo" page with no price visible.
+**Numbers/benchmarks:** Dan built a multi-million dollar company at age 24 (Spheric Technologies) without ever publishing pricing. Closed P&G by having pricing flexibility.
+**ODIN memory key:** saas_pricing_hide_early_stage
+**Apply:** If Valdr Ops or PartSync ever targets mid-market or enterprise clients, ODIN should advise removing public pricing from the website.
+
+---
+
+## [SAAS] — SaaS Sales Pipeline: 4 Roles
+**Source:** 2026-05-25_4 Steps to Build a SaaS Sales Pipeline.txt (Dan Martell)
+**Key insight:** 4 roles that cover the full SaaS sales pipeline: (1) SDR (Sales Development Rep) — handles inbound, qualifies leads before they get to sales. Speed to lead: call within minutes of form fill. (2) BDR (Business Development Rep) — outbound, finds and qualifies new prospects, hands to AE. (3) AE (Account Executive) — quota carrier, closes deals. Must use a sales process (MEDDIC preferred over old-school BANT). (4) CSM (Customer Success Manager) — post-close, activation, expansion, prevents churn. Handles 1-2M ARR per CSM. Hire order: CSM first (takes activation off founder), then SDR, then AE.
+**Numbers/benchmarks:** MEDDIC = Metrics, Economic buyer, Decision criteria, Decision process, Identify pain, Champion. Works better than BANT for SaaS. CSM handles $1-2M ARR per person.
+**ODIN memory key:** saas_sales_pipeline_4roles
+**Apply:** As Valdr Ops scales, ODIN should recommend this hiring sequence. Also use MEDDIC framework when qualifying enterprise Valdr Ops prospects.
+
+---
+
+## [SAAS] — The 3 Questions Every SaaS Sales Process Must Answer
+**Source:** 2026-05-25_3 Questions To Answer In Your SaaS Sales Process.txt (Dan Martell)
+**Key insight:** If your sales team can't answer these 3 questions clearly, they'll lose deals: (1) Why do anything? = Why should this prospect investigate your product at all? Give them a compelling "why now" to even take the first call. (2) Why your solution vs. competitors? = Don't hide from competition. Acknowledge alternatives (including "do nothing" and "spreadsheet workarounds"), then explain why yours is better. (3) Why NOW vs. investing elsewhere in their business? = Create urgency through time-based incentives or consequences of inaction.
+**Numbers/benchmarks:** All top 250 SaaS companies (Montclare SaaS 250) have a defined, repeatable sales process.
+**ODIN memory key:** saas_sales_3_questions
+**Apply:** Build these 3 answers into Valdr Ops and PartSync sales scripts. ODIN should output them when Brock asks for sales call prep.
+
+---
+
+## [SAAS] — 5 Reasons SaaS Startups Fail
+**Source:** 2026-05-25_5 Reasons Why Most SaaS Startups Fail.txt (Dan Martell)
+**Key insight:** The 5 killers are: (1) Market problems — built without validating that a real, painful market exists. Early adopters = people who already solved the problem in a hack way (spreadsheets, internal tools). (2) Business model failure — wrong pricing model for the customer type (e.g., global site license vs. per-user). (3) Poor management — co-CEO model never works ("when two are accountable, nobody is"). (4) Running out of cash — not a money problem, a milestone management problem. 90-day milestone sprints to unlock next funding or revenue level. (5) Product problems — buggy software at scale even with great customers = tidal wave.
+**Numbers/benchmarks:** Co-CEO success rate = extremely rare. 90 days = the true fidelity window for planning milestones.
+**ODIN memory key:** saas_failure_5_reasons
+**Apply:** ODIN can use this as a diagnostic checklist when Brock reports friction or stagnation in Valdr Ops or PartSync.
+
+---
+
+## [SAAS] — Shortening Enterprise Sales Cycle: 3VC Framework + BAMFAM
+**Source:** 2026-05-25_5 Strategic Steps To Shorten The Sales Cycle for Enterprise Clients.txt (Dan Martell)
+**Key insight:** Two critical tools: (1) 3VC Audit: Volume (how many deals entering pipeline), Value (deal size distribution), Velocity (how fast deals move), Conversion (% closing per stage). Most founders who complain about long sales cycles have never audited these 4 numbers. (2) BAMFAM = Book A Meeting From A Meeting. Never end a call without scheduling the next one, and give them a reason to show up ("On that call I'll share the 5 top competitors in your industry crushing this problem — even if you don't move forward with us"). Multi-thread accounts: ask "Who else was involved last time you bought software?" → get those names → reach out directly. POC (paid proof of concept) = break big enterprise deal into a $10-25K pilot with 5-12 people first.
+**Numbers/benchmarks:** 3VC audit is the first tool. Multi-threading gets 3-5 internal champions. POC reduces 16-month sales cycles to 2-3 months.
+**ODIN memory key:** saas_sales_3vc_bamfam
+**Apply:** If Brock reports a stalled Valdr Ops or PartSync deal, ODIN should ask about each 3VC metric and suggest BAMFAM + multi-threading.
+
+---
+
+## [SAAS] — Customer Value Extraction Ladder
+**Source:** 2026-05-25_5 Ways To Leverage Customers For Business Growth.txt (Dan Martell)
+**Key insight:** Customer journey: Red (signed up, not using) → Yellow (using, not habit) → Green (happy paying) → Purple (referring). Seed the referral request in the original contract: "If we deliver these outcomes, you agree to refer 2 people like yourself." Brag it up: when a customer wins, amplify it, celebrate with them, THEN make the ask while they're in the high. Sequence of asks by tier: written testimonial first → podcast interview → video testimonial → ambassador → sales reference. Automate the opener: trigger email at 15th product activity. Put testimonials in marketing materials — don't let them collect dust in the CRM.
+**Numbers/benchmarks:** Hundreds of testimonials collected and never used = common mistake. Purple customers = the most valuable, not the most obvious to cultivate.
+**ODIN memory key:** saas_customer_value_extraction
+**Apply:** Build this ladder into Valdr Ops client success flow. ODIN should remind Brock to seed the referral ask in the onboarding contract.
+
+---
+
+## [SAAS] — 6 SaaS Business Functions + KPIs
+**Source:** 2026-05-25_6 Core Business Functions of a SaaS Company And The Metrics To Measure.txt (Dan Martell)
+**Key insight:** Six functions + their KPIs: (1) Product: North Star Metric, activation rate, NPS. (2) Engineering: active defects, velocity, % test coverage. (3) Marketing: MQLs, unique visitors, CAC per channel. (4) Sales: # demos/week, win rate, new MRR, average revenue per account. (5) Customer Success: time to first response, expansion MRR, NPS. (6) Ops/Finance: eNPS (employee NPS), SaaS Metrics 2.0 (David Skok's framework), contribution margin. Max 7 direct reports rule. North Star Metric = the one number that captures both customer value AND business value simultaneously (AirBnB = bookings per night).
+**Numbers/benchmarks:** 7 direct reports maximum. CSM handles $1-2M ARR. Weekly Sync = the cadence that holds all 6 functions together.
+**ODIN memory key:** saas_6functions_kpis
+**Apply:** ODIN's weekly CEO review should include these 6 functions as a health check framework. Especially useful as Valdr Ops scales to first 10+ clients.
+
+
+==============================================================================
+BUSINESS SYSTEMS — OPERATIONS & DELEGATION
+==============================================================================
+
+## [BUSINESS SYSTEMS] — 5 Team Meeting Cadence (Company OS)
+**Source:** 2026-05-25_5 Team Meetings You Need To Grow Your Business.txt (Dan Martell)
+**Key insight:** The complete operating system meeting cadence: (1) Daily stand-up: 3 things done yesterday / 3 things today / blockers. Max 30 seconds per person. (2) Weekly sync: scorecard review + quarterly rocks status + issue resolution. Celebrate wins publicly. (3) Monthly review: show-and-tell on projects, all green/yellow/red status update. Don't wait for perfection — show progress. (4) Quarterly planning: 90-day sprint. Off-site if possible. Lessons from previous quarter → reset next 90 days. (5) Yearly strategic planning: 10-year target → 3-year vision → 1-year goals. This is where big strategic pivots belong — never in weekly or monthly meetings. Dan built Spheric Technologies to fastest-growing company in Canada and exited at age 28 using this system.
+**Numbers/benchmarks:** 90-day sprint = human planning fidelity limit. "Teams that pulse together faster grow faster." Quarterly off-site = minimum 1 day.
+**ODIN memory key:** business_meeting_cadence_OS
+**Apply:** ODIN already has heartbeat jobs. This gives the meeting-level framework above them. ODIN's Monday briefing = weekly sync equivalent. Should include scorecard, rocks status, and a win to celebrate.
+
+---
+
+## [BUSINESS SYSTEMS] — Replacement Ladder: Path to $1M in 60 Days
+**Source:** 2026-05-25_Zero to Million Dollar Business in 60 Days.txt (Dan Martell)
+**Key insight:** The Replacement Ladder has 5 rungs: (1) Admin/assistant — take all admin off founder's plate first. (2) Clone yourself — document delivery so you're not required for every client. (3) Automate lead gen — social + content → inbound → automated DM sequence. (4) Scale sales — hire someone else to take sales calls; this is the "freedom step" because as long as you're on sales calls the business stops when you sleep. (5) Leadership — hire department heads with profit-sharing or equity to align them as owners not renters. Business model selection: must have high gross margins (40%+) or you can't reinvest fast enough to grow.
+**Numbers/benchmarks:** 40% gross margin = minimum for a scalable business. Profit sharing or equity = owner mindset vs. renter mindset. Sales delegation = "freedom step."
+**ODIN memory key:** business_replacement_ladder_detailed
+**Apply:** This gives Brock a clear path for each business. For Valdr Ops: Brock is at rung 3-4. ODIN should track which rung each project is at and advise accordingly.
+
+---
+
+## [BUSINESS SYSTEMS] — Onboarding New Hires: 5 Steps
+**Source:** 2026-05-25_5 Ways to Successfully Onboard New Hires.txt (Dan Martell)
+**Key insight:** The 5 steps to keep new hires: (1) Orientation — company vision, values, accountability chart, where they sit on the map. (2) Training system — "Program document": every department has one document with all processes, playbooks, FAQs, best practices. New hire reads every link before touching anything. (3) 90-day goals — give them a clear picture of what success looks like in first 3 months. People stay when they feel like they're winning. (4) Assign a buddy — someone NOT their direct report, who checks in socially. Key stat: if they don't make a new friend in first 2 weeks, high probability they leave in 6 months. (5) Schedule 1-on-1s — Day 1, Week 1, 2 weeks, then monthly for 90 days. Even a 3-minute check-in call changes performance.
+**Numbers/benchmarks:** No new friend in 2 weeks = high (~80%) chance of leaving by 6 months. 90 days = clarity window for new hires.
+**ODIN memory key:** business_onboarding_5steps
+**Apply:** When Brock hires for Valdr Ops or any project, ODIN should output this 5-step onboarding checklist.
+
+---
+
+## [BUSINESS SYSTEMS] — 4 Team Building Principles
+**Source:** 2026-05-25_4 Steps to Building a High-Performance Team.txt (Dan Martell)
+**Key insight:** (1) Hire and train a lot — "What if I train them and they leave?" "What if you don't and they stay?" Most founders give employees just enough to do the job. Train them to think, not just execute. (2) Align goals — ask every new hire: "In 10 years we can't be working together — what does your life look like?" Their answer reveals their deep driver. Great leaders align company needs with employee dreams. (3) Learning and development plans — build explicit skill development paths. Open your personal network to your team. (4) Leadership ceiling — no business will grow past the growth of the leader. "Your rest of your team is held back by YOU. You need to become a $100M leader to build a $100M company."
+**Numbers/benchmarks:** Dan's companies grew at 150% YoY at Spheric after implementing these principles. "Train them, don't tell them" — Zig Ziglar: "You don't build a business, you build the people and the people build the business."
+**ODIN memory key:** business_team_building_4principles
+**Apply:** ODIN should reference these when Brock discusses adding people to any project. Especially the leadership ceiling — if a project feels stuck, ask if Brock is at his leadership ceiling for that domain.
+
+---
+
+## [BUSINESS SYSTEMS] — 3 Diagnostic Questions for Stuck Businesses
+**Source:** 2026-05-25_3 Great Business Questions To Cut To The Core Of Your Issues.txt (Dan Martell)
+**Key insight:** Three questions to cut through fog: (1) Scale — "10x test": If the business grew 10x tomorrow, what would break first? That's where to invest now. (2) Strategy — "New owner question": If someone bought your business tomorrow, what's the FIRST thing they'd change? Ask your whole leadership team this. The accumulated baggage you've been protecting might be the biggest drag. (3) People — "Hire back question": If you laid off everyone and could rehire, who would you enthusiastically bring back? People you hesitate on = transition them out now. They're in the wrong company and that's holding them back too. Also: Max 7 direct reports. First 7 hires should all be people who can manage others — because you'll need to build teams under them as you scale.
+**Numbers/benchmarks:** 7 direct reports = maximum. First hires should be people-managers, not sole contributors, if you plan to scale past 30% monthly.
+**ODIN memory key:** business_3_diagnostic_questions
+**Apply:** These are ODIN's CEO coaching questions. When Brock says "I feel stuck" or "I don't know what to focus on," ODIN should run through all 3 questions.
+
+
+==============================================================================
+MONEY / FINANCE
+==============================================================================
+
+## [FINANCE] — The Buyback Rate Formula
+**Source:** 2026-05-25_$100M CEO Explains: Money Habits Keeping You Broke.txt (Dan Martell)
+**Key insight:** Buyback rate = (Annual income ÷ 2,000) ÷ 4. This gives the max hourly rate Brock should pay to outsource any task. At $100K income: $100/2000 = $50/hr ÷ 4 = $12.50/hr buyback rate. At $200K: $25/hr buyback rate. Any task that can be outsourced for less than the buyback rate = immediate outsource. Rationale: 4x ROI required on buying back an hour (that hour then gets reinvested into higher-leverage work).
+**Numbers/benchmarks:** 2,000 working hours/year = standard. Buyback rate = 1/4 of hourly rate. This determines which tasks to delegate immediately.
+**ODIN memory key:** finance_buyback_rate_formula
+**Apply:** ODIN should calculate Brock's buyback rate at his current income level and reference it when evaluating whether to hire vs. automate vs. keep a task.
+
+---
+
+## [FINANCE] — 9 Money Rules of the Top 1%
+**Source:** 2026-05-25_9 Money Rules of the Top 1%.txt (Dan Martell)
+**Key insight:** Key rules not previously captured: (1) Automate financials — when money comes in, it flows immediately to correct buckets (tax, savings, invest) without ever seeing it. Pay yourself as little as possible in early years. (2) 10% rule — live on 10% of income; work toward it even if you start at 40-60%. (3) Prioritize investments first — broke people buy things, middle class gets loans for things, wealthy invest in income-generating assets. (4) 6-month nest egg (liquid) — never in stocks/bonds. Cash-equivalent accessible in 48 hours. (5) Don't over-leverage — 47% of people carry CC debt at 22% interest. Consumer debt = slavery. (6) Risk-return quadrant: high risk/high return (crypto), low risk/low return (index funds), and the target: low risk/high return = business you know well with value-add opportunity. (7) Build a personal P&L — household = business. Income minus expenses = profit or loss. Hire a house manager if needed.
+**Numbers/benchmarks:** 47% of people carry credit card debt at average 22% interest. 6-month liquid emergency fund. Live on 10% (goal, not starting point). Dan invested $1.7M in coaches/seminars over career → generated thousands of times return.
+**ODIN memory key:** finance_top1pct_rules
+**Apply:** When Brock asks about cash management, investing, or personal finance decisions, ODIN references these rules. Particularly relevant as deal income starts coming in from RE.
+
+---
+
+## [FINANCE] — Cash Flow Rule: Finance Customers with Their Own Money
+**Source:** 2026-05-25_30 Brutal Business Truths.txt / Zero to Million (Dan Martell)
+**Key insight:** "Cash flow is critical — don't finance your customers." If you have fixed costs, have customers pay upfront to cover those costs. Don't use a line of credit or investors to fund customer delivery — that means you're essentially bankrolling their business. For services: get paid before you start work. For software: annual upfront pricing (not monthly) improves cash flow dramatically. For real estate: earnest money deposit from buyer before you come off market.
+**Numbers/benchmarks:** Annual upfront pricing = 12 months of cash in the bank on day 1 of each client relationship.
+**ODIN memory key:** finance_cashflow_customer_financing
+**Apply:** When Brock is setting up Valdr Ops pricing, ODIN should recommend annual payment option at a discount (10-20% off) to improve cash position.
+
+---
+
+## [FINANCE] — High Gross Margin = Business Model Selection Criteria
+**Source:** 2026-05-25_Zero to Million Dollar Business in 60 Days.txt (Dan Martell)
+**Key insight:** Warren Buffett: great businesses have high margins. If your gross margin (revenue minus cost of delivery) is below 40%, you can't reinvest fast enough to grow without external capital. SaaS businesses can reach 40-50% operating margins at efficiency. RE wholesaling = near 100% gross margin (no product cost). Valdr Ops = high margin if not paying for human labor. When evaluating any new business or opportunity, gross margin is the first filter.
+**Numbers/benchmarks:** 40% = minimum viable gross margin for bootstrap growth. SaaS = 40-50% potential at scale. 40% gross margin client example: Dan called this a "problem" — they needed to re-evaluate model.
+**ODIN memory key:** finance_gross_margin_filter
+**Apply:** ODIN should reference gross margin as a first-filter metric whenever Brock evaluates a new opportunity or side project.
+
+---
+
+## [FINANCE] — $50 Fix-It Rule (Autonomous Decisions)
+**Source:** 2026-05-25_30 Brutal Business Truths.txt (Dan Martell)
+**Key insight:** Give everyone in your organization (and ODIN) the power to solve any problem under $50 without asking — just notify afterward. This eliminates decision bottlenecks. ODIN equivalent: if a problem can be fixed for under $50 of Brock's time (at his buyback rate), ODIN should just handle it and report back.
+**Numbers/benchmarks:** $50 threshold. Notify after, don't ask before.
+**ODIN memory key:** business_50_fix_it_rule
+**Apply:** ODIN should use this framework when deciding whether to escalate an issue to Brock vs. resolving autonomously.
+
+
+==============================================================================
+MINDSET / PRODUCTIVITY
+==============================================================================
+
+## [MINDSET] — Energy Management vs. Time Management
+**Source:** 2026-05-25_13 Simple Rules of Business.txt + 9 Money Rules (Dan Martell)
+**Key insight:** You don't manage time — you manage energy. Structure your calendar to match your energy type: mornings = creative/strategic work (tap into "creator energy"), afternoons = meetings and conversations (social energy). When Dan had kids and shifted to 5:30am wake-up, he restructured his entire day around energy, not tasks. "You can get more done in 4 focused hours than most people do in 12." First task every morning = connect with your "creator" — sit with the big problems, strategize, let solutions emerge before the day's friction begins.
+**Numbers/benchmarks:** 4 focused hours > 12 unfocused hours. Dan scaled from 80-100 hr weeks (low output) to less than 40 hr weeks (40-50x output) by managing energy not hours.
+**ODIN memory key:** mindset_energy_vs_time
+**Apply:** ODIN's morning briefing should be delivered before Brock's distractions start. Ask "what is the big creative problem Brock should tackle first today?" rather than just listing tasks.
+
+---
+
+## [MINDSET] — Impatient with Action, Patient with Results
+**Source:** 2026-05-25_13 Simple Rules of Business.txt (Dan Martell)
+**Key insight:** Two speeds: (1) patient with the TIMELINE (10 years = fine), (2) ruthlessly impatient with DAILY ACTIVITY. Attack the activity every day, every hour. The goal is to make the outcome INEVITABLE through consistent daily action. "The man who loves walking will walk further than the one who loves the destination." Apply to RE: don't stress about no deals yet — stress about whether cold calls/texts/follow-ups happened TODAY.
+**Numbers/benchmarks:** This is described as the distinction that separates the 2% who succeed from the 98% who quit after 4 months.
+**ODIN memory key:** mindset_patience_framework
+**Apply:** When Brock expresses frustration about no RE deals yet, ODIN should invoke this framework: "Are you patient with the timeline but impatient on today's activity?"
+
+---
+
+## [MINDSET] — Incompetence as Superpower
+**Source:** 2026-05-25_13 Simple Rules of Business.txt (Dan Martell)
+**Key insight:** "Be incompetent" = intentionally stop doing things you're capable of so others must own them. When Dan's GM asked what to put on the office shelves, Dan just stared at him until the GM said "Oh, got it — my responsibility." If you keep being the most capable person who jumps in, your team will never develop ownership. "If you want to be rich, be lazy. If you want to be wealthy, be incompetent." Stop teaching people how to do their job — train them on the philosophy and principles, then let them figure out execution. Every time you do their job, you're signaling you don't trust them.
+**Numbers/benchmarks:** This "be incompetent" concept is the mechanism behind the 10-80-10 delegation rule (set context 10%, let them execute 80%, add fingerprint 10%).
+**ODIN memory key:** mindset_incompetence_superpower
+**Apply:** ODIN should reference this if Brock says he's doing work that a team member or tool should be doing. "Are you being competent when you should be being incompetent?"
+
+---
+
+## [MINDSET] — Deliberate Practice: Model Before Modifying
+**Source:** 2026-05-25_30 Brutal Business Truths.txt (Dan Martell)
+**Key insight:** "Model and modify." When learning something new, do it EXACTLY as taught before modifying. Dan's coaching clients who "tweak" the process before getting results always fail. The modification is where learning dies. Only modify after you have traction and data. Apply to RE: Rick and Zach's scripts should be used word-for-word until Brock closes 3+ deals. Apply to Valdr Ops: Dan's sales frameworks should be executed verbatim before A/B testing.
+**Numbers/benchmarks:** Dan says this is the #7 most important business truth from 27 years.
+**ODIN memory key:** mindset_model_before_modify
+**Apply:** When Brock asks to customize a script or system before using it, ODIN should invoke this rule: use it as-is for 30 days, then iterate.
+
+---
+
+## [MINDSET/PRODUCTIVITY] — The MAPS AI Prompting Framework
+**Source:** 2026-05-28_How to actually make money with AI in 2026.txt (Dan Martell)
+**Key insight:** MAPS = Mission (outcome, not task) / Ask (one specific request) / Parameters (context, ICP, what's worked before) / Shape (output format — CSV, markdown, bullets, length). Use voice input for Parameters — you can speak 3x faster than typing. Agentic AI (the "power drill") = direct entire workflows end-to-end with just the outcome goal. Rule of 3 Rs for automation: Repetitive (weekly+), Rule-based (same inputs/outputs), Return (saves more time than it takes to build). Human on the loop = let agent complete full workflow, then inspect and guide — don't micromanage every step.
+**Numbers/benchmarks:** Speak 3x faster than type — use voice for long prompts. Rule of 3Rs: repetitive (1x/week+), rule-based, generates return.
+**ODIN memory key:** business_maps_ai_framework
+**Apply:** ODIN should use the MAPS framework structure internally when generating complex outputs. Also coach Brock on this if he asks how to prompt AI effectively.
+
+---
+
+## [MINDSET] — Delayed Gratification as Wealth Compressor
+**Source:** 2026-05-25_$100M CEO Explains: Money Habits Keeping You Broke.txt (Dan Martell)
+**Key insight:** "A yes to your impulse is a no to your dreams." Delayed gratification is described as MORE powerful than compound interest as a wealth tool. Strategy: tie big purchases to achievement goals (Dan tied his first McLaren to completing 75 Hard). Walk around with $10K cash in your pocket for 12 months without spending it — breaks the scarcity-to-spending reflex. "The only winning move is not to play the game" of status goods.
+**Numbers/benchmarks:** Dan didn't buy luxury goods for 20 years of building. At 38, bought his first supercar. $20K ski trip at 21 = worst ROI of his life vs. road trip with brother = same memory.
+**ODIN memory key:** mindset_delayed_gratification
+**Apply:** When Brock considers a large personal purchase before hitting a revenue milestone, ODIN can reference this framework: "What goal could this purchase be tied to as a reward instead?"
+
+---
+
+## [MINDSET] — Sell Before You Build
+**Source:** 2026-05-25_30 Brutal Business Truths.txt (Dan Martell)
+**Key insight:** "My default as soon as I have an idea is to run to find a customer. I sell before I've ever built anything." Building without a buyer is speculation. A paying stranger (not friend/cousin) = proof of product-market fit. Under-promise, over-deliver, add 10% more than expected. This is "going pro." One clear customer → one clear product → one clear marketing channel → one clear sales channel. Follow ONE course until successful. Distraction = wealth destroyer.
+**Numbers/benchmarks:** FOCUS = Follow One Course Until Successful. "Most wealth is destroyed by being distracted — not by failing."
+**ODIN memory key:** mindset_sell_before_build
+**Apply:** If Brock mentions a new idea or project he's building before having a customer, ODIN should invoke this: "Have you sold it yet? Who's the first paying stranger?"
+
+---
+
+## [MINDSET] — Advice Quality Filter: Mentors vs. Coaches vs. Peers
+**Source:** 2026-05-25_$100M CEO Explains: Money Habits Keeping You Broke.txt (Dan Martell)
+**Key insight:** Only take advice from 3 sources: (1) Mentors — people who've already done what you want to do. Not parents. (2) Coaches — deep specialist expertise in the specific area. (3) Peers — people 1-2 years ahead of you (bring certainty about what's working NOW). Everyone else: listen politely, then ignore. "You would never take workout tips from an overweight fitness coach." Dan invested $1.7M in mentors and coaches over his career and considers it his highest ROI investment.
+**Numbers/benchmarks:** $1.7M in coaching = exponentially higher return than S&P 500 on same capital. Coach investment multiplied income by roughly 1,000x.
+**ODIN memory key:** mindset_advice_quality_filter
+**Apply:** ODIN is Brock's coach layer. ODIN should only recommend frameworks from verified high-performers (Rick Ginn, Dan Martell, etc.) — not general internet advice.
+
+
+==============================================================================
+PENDING NEW ODIN BUILDS (from this extraction session)
+==============================================================================
+
+### REAL ESTATE (NEW)
+[ ] Add conditioning_agreement_script to ODIN — deliver before every seller appointment via "script seller" Slack command
+[ ] Add non-verbal seller communication coaching note to appointment prep output
+[ ] Update follow-up cadence to 30-60 day / 60-90 day / 90-180 / 180+ buckets (more granular)
+[ ] Add December "year-end follow-up surge" flag to all leads in 60-180 day buckets
+[ ] Add double_closing_steps to ODIN — triggered when assignment is blocked ("can't assign" objection)
+[ ] Add wholetail_candidate_flag to deal evaluation: high-demand area + cosmetic repairs only + assignment fee $20K+
+
+### SAAS / VALDR OPS (NEW)
+[ ] Add 3 SaaS sales questions to Valdr Ops pitch brief ("why do anything / why us / why now")
+[ ] Add MEDDIC qualifier checklist to Valdr Ops sales call prep
+[ ] Add BAMFAM reminder to every Valdr Ops sales note ("did you book the next meeting from this meeting?")
+[ ] Build value extraction ladder for Valdr Ops: seed referral in onboarding contract → brag up first win → request testimonial → request referral
+[ ] Add annual pricing option recommendation to Valdr Ops setup (10-20% discount for annual upfront)
+[ ] Add 6 SaaS KPI functions to ODIN Valdr Ops health check: demos/week, win rate, new MRR, expansion MRR, NPS, eNPS
+
+### BUSINESS SYSTEMS (NEW)
+[ ] Add 3 CEO diagnostic questions to ODIN coaching: 10x test, new owner question, hire-back question
+[ ] Build buyback rate calculator into ODIN — Brock inputs current income, gets his buyback rate threshold
+[ ] Add $50 fix-it rule to ODIN agent permissions — below $50 equivalent, resolve and report; above, escalate
+[ ] Add MAPS framework reference to ODIN agent brief — use internally for all complex output generation
+
+### FINANCE (NEW)
+[ ] Add gross margin filter to ODIN opportunity evaluator: <40% gross margin = flag before proceeding
+[ ] Add customer cash flow rule: recommend annual pricing + upfront payment for all Valdr Ops clients
+
+### MINDSET (NEW)
+[ ] Add "model before modify" rule to ODIN coaching — block modification of scripts until 30-day trial complete
+[ ] Add "sell before build" check to any new project idea Brock proposes — return "do you have a paying stranger yet?"
+

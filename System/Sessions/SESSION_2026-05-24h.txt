@@ -1,0 +1,109 @@
+SESSION: 2026-05-24h
+DATE: 2026-05-24
+LABEL: APEX Alignment + Spoke System + CEO Tools
+
+════════════════════════════════════════════════════════════════
+WHAT WAS DONE THIS SESSION
+════════════════════════════════════════════════════════════════
+
+── EARLIER IN DAY (sessions f + g) ──
+
+Session f — Bug fixes + new commands:
+  - Fixed mctp caller lookup (was first-caller-by-role, now uses sender Slack UID)
+  - Fixed workflow_add error logging (now shows exception type)
+  - Added `status` command — system health, integration checks, overdue follow-ups
+  - Added `follow up <address> date:X action:X` — update lead follow-up from Slack
+  - Fixed `active` vs `is_active` column name in users table queries
+
+Session g — Google OAuth:
+  - Google Cloud project "ODIN" created (project: odin-497317)
+  - Gmail API + Google Calendar API enabled
+  - OAuth consent screen configured (shueboxllc@gmail.com as test user)
+  - Credentials downloaded → saved as api/credentials/google_oauth.json
+  - py api/utils/gmail_client.py --setup run → token saved to api/credentials/google_token.json
+  - Deployed — Gmail + Calendar commands now LIVE in Slack
+
+── MAIN SESSION (session h) ──
+
+BUILD 1 — SPOKE SYSTEM:
+  Migration 010_add_spoke_system.sql:
+    - spokes table (id, name, slug, owner_user_id, active, created_at)
+    - spoke column added to: leads, tasks, businesses, agent_actions (default: real_estate)
+    - businesses default: katelyn_business
+    - Seeded: real_estate (owner: Brock), katelyn_business (owner: Katelyn)
+  `spokes` Slack command — lists active spokes with owner + last activity
+  morning_briefing heartbeat — spoke-aware (RE first, Katelyn second)
+  Advisor routing — Brock gets BROCK_SYSTEM_PROMPT (CEO/APEX, RE-first, tight answers)
+                    Katelyn gets existing business advisor prompt
+  spoke passed from slack_events based on is_katelyn flag
+
+BUILD 2 — WEEKLY CEO REVIEW:
+  heartbeat.weekly_ceo_review() — Sunday 8pm CT auto-fire + on-demand via `review`
+  9 sections: pipeline snapshot, what moved, stuck leads (Haiku next actions),
+    pending approvals, Eddie activity ($1,800 fee flag), blast status,
+    top 3 priorities (days×score×fee ranking), The One Thing (Haiku), One Question (Haiku)
+  Logs to agent_actions on Slack trigger
+
+BUILD 3 — FUNNEL STATS:
+  `stats` / `stats week` / `stats month` / `stats spoke:X`
+  Full funnel: contacts reached → MCTPs → warm → hot → contracted → closed → fees
+  Brock vs Eddie split, best zips by avg MCTP score
+  Logs to agent_actions
+
+BUILD 4 — DEAD LEAD RESURRECTION:
+  `resurrect` — pulls dead/cold leads or 30+ days no activity (cap: 10)
+    Haiku generates personalized re-engagement text per lead
+  heartbeat.resurrect_scan() — Wednesday 10am CT silent check
+    Posts alert to #odin-brock if candidates found
+  Logs to agent_actions
+
+BUILD 5 — PRE-OFFER SCORECARD:
+  `scorecard <address> arv:X beds:X baths:X sqft:X zip:X condition:X [year:X]`
+  5 sections: ARV confidence, rehab risk (pre-1950 flag), buyer demand (DB query),
+    LAO math (uses lao_calc.calculate()), deal verdict (Go/Proceed/Pass + Haiku reason)
+  Logs to agent_actions
+
+BUILD 6 — ONE-LINE DEAL STATUS:
+  `status <address>` → deal_status action (fuzzy match on leads table)
+  Returns: address, score/tier, status, assigned, LAO, fee, days since last contact,
+    buyer count in market, AI-generated next action (Haiku, or existing next_action field)
+  Logs to agent_actions
+
+NEW HEARTBEAT JOBS (total: 8):
+  Sunday 8pm CT  — weekly_ceo_review()
+  Wednesday 10am — resurrect_scan()
+
+NEW HELPERS:
+  _haiku() in app.py — Claude Haiku wrapper for Slack command handlers
+  _haiku() in heartbeat.py — same, for scheduled jobs
+  BROCK_SYSTEM_PROMPT in business_advisor.py — CEO framing, RE-first, action-oriented
+
+MEMORY SAVED:
+  project_eddie.txt — Eddie/Brock relationship, JV structure, $1,800 fee, upgrade path
+  MEMORY.md updated with Eddie entry + updated ODIN entry
+
+════════════════════════════════════════════════════════════════
+DEPLOYMENT STATE AT SESSION END
+════════════════════════════════════════════════════════════════
+Railway: DEPLOYED (build ID: 6d03172e-3d7a-4590-aa2a-472573e3cff2)
+Migration 010: RUN
+All 8 heartbeat jobs: SCHEDULED
+DB tables: agent_actions, approval_queue, businesses, buyers, custom_fields,
+           invite_tokens, leads, memories, pipeline_stages, products,
+           property_lookup_cache, spokes, tasks, users, workflow_registry
+
+════════════════════════════════════════════════════════════════
+KNOWN PENDING / NEXT ACTIONS
+════════════════════════════════════════════════════════════════
+1. Get SMS blast workflow UUID from XLeads (click into "SMS Text Blaster (BULK DM)")
+   Then: workflow add name:sms-blast-bulk id:<uuid> purpose:Outbound bulk SMS blast
+   Then: blast tags:he,tax-delinquent workflow:<uuid> limit:100
+
+2. Katelyn's first automation (email outreach or Etsy — her choice)
+
+3. Eddie's Slack UID — confirm he accepted the invite, get his UID, add to DB
+
+4. Test new commands in Slack:
+   `spokes` | `review` | `stats` | `resurrect`
+   `scorecard 4314 Leatherwood arv:165000 beds:3 baths:2 sqft:1400 zip:38111 condition:medium`
+   `status 4314 Leatherwood`

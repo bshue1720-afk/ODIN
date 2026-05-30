@@ -1,0 +1,36 @@
+Business Name: A.B.S. Auto Service
+Decision-Maker: Brian Hoover
+Email: service@autoserviceabs.com
+Phone: (614) 299-6669
+Website: https://autoserviceabs.com
+Tier: 0
+
+Business Name: Buckeye Complete Auto Care
+Decision-Maker: Todd Baldridge
+Email: todd@buckeyecompleteauto.com
+Phone: (614) 262-0721
+Website: https://www.buckeyecompleteauto.com
+Tier: 0
+
+Business Name: Luke's Auto
+Decision-Maker: Luke Walker
+Email: contact@lukesautoservice.com
+Phone: (614) 885-2880
+Website: https://lukesautoservice.com
+Tier: 0
+
+Business Name: Tom & Jerry's Auto Service
+Decision-Maker: Jerry Schwan
+Email: info@tomandjerrysauto.com
+Phone: (614) 488-8507
+Website: https://www.tomandjerrysauto.com
+Tier: 0
+
+Business Name: Alternative Auto Care
+Decision-Maker: Chris Cozad
+Email: customerservice@alternativeautocare.com
+Phone: (614) 294-0580
+Website: https://alternativeautocare.com
+Tier: 0
+
+Total Leads: 5 | Tier 0: 5 | Tier 1: 0 | Tier 2: 0 | Tokens Used: ~14,200

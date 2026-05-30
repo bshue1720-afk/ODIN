@@ -1,0 +1,36 @@
+Business Name: Clintonville Dental Group
+Decision-Maker: Dr. Kevin Albert
+Email: info@clintonvilledentalgroup.com
+Phone: (614) 261-7210
+Website: https://www.clintonvilledentalgroup.com
+Tier: 0
+
+Business Name: Whittaker Dental Group
+Decision-Maker: Dr. Erin Whittaker
+Email: scheduling@flossyourteeth.com
+Phone: (614) 267-4243
+Website: http://www.flossyourteeth.com
+Tier: 0
+
+Business Name: Advanced Dental Wellness
+Decision-Maker: Dr. Mark Raisch
+Email: office@adwcolumbus.com
+Phone: (614) 636-4089
+Website: https://www.advanceddentalwellness.com
+Tier: 0
+
+Business Name: Bauer Dental Group
+Decision-Maker: Dr. Matthew Paulson
+Email: info@columbusdentists.net
+Phone: (614) 451-1110
+Website: https://columbusdentists.net
+Tier: 0
+
+Business Name: Columbus Family Dental Care
+Decision-Maker: Dr. David Dixon
+Email: info@columbusfamilydentalcare.com
+Phone: (614) 878-1397
+Website: https://www.columbusfamilydentalcare.com
+Tier: 0
+
+Total Leads: 5 | Tier 0: 5 | Tier 1: 0 | Tier 2: 0 | Tokens Used: ~12,400

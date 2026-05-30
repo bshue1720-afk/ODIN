@@ -1,0 +1,396 @@
+ODIN — XLEADS WORKFLOW REFERENCE
+Compiled: 2026-05-24 from full XLeads automation screenshot inventory
+Total workflows documented: 42 (41 seeded + 1 new: Cold Call Intake Form)
+
+UUIDs extracted from URL bar in each screenshot where visible.
+NOTE: Some UUIDs are partial/approximate due to screenshot resolution.
+Always verify by clicking into workflow in XLeads and checking URL.
+
+FORMAT: Name | ODIN Registry Key | UUID (from URL) | Trigger | Steps Summary
+═══════════════════════════════════════════════════════════════════════════════
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER: SMS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+AI SMS BOT
+  Key:     sms-ai-bot
+  UUID:    60e2a4f1-926f-4b7d-b25f-7b1fc0a32d (partial — verify)
+  Status:  Published | Draft toggle shown
+  Trigger: Custom Tag added (tag includes "is any bot")
+  Steps:   SMS → Wait → Conversation AI →
+             Branch A (Contact Reply): END
+             Branch B (Time Out 4 min): END
+  Notes:   AI auto-responder using GHL Conversation AI. Fires on tag.
+
+AI SMS BOT (Landlords)
+  Key:     sms-ai-bot-landlords
+  UUID:    769c6679-c083-46d8-b25f-30bd5e8bada2 (partial — verify)
+  Status:  Published
+  Trigger: Custom Tag added (tag includes "is any landlord")
+  Steps:   SMS → Wait → Conversation AI →
+             Branch A (Contact Reply): END
+             Branch B (Time Out 4 min): END
+  Notes:   Same structure as AI SMS BOT but tuned for landlord leads.
+
+Copy - SMS Text Blaster (BULK DM)   ← DRAFT COPY of the original
+  Key:     N/A (draft copy, do not use for blasting)
+  UUID:    f8ed31c-7a68-454f-a5c2-bbd71a2c1c39 (partial — verify)
+  Status:  DRAFT
+  Trigger: Contact Tag ("sms-blaster")
+  Steps:   Starts at 8am → Drop Per Day limit →
+           Time of Day window check →
+           Between 8am–5pm branches →
+           Tag condition tree (5+ branches: Homeselling, Morning, two others, None) →
+           SMS or Follow Up per branch → END
+  Notes:   This is a draft COPY. The live original is "SMS Text Blaster (BULK DM)".
+           Complex tag-based routing with time windows and daily send limits.
+           THIS IS THE BLAST STRUCTURE — original UUID still needed.
+
+SMS Drop - No Answer
+  Key:     sms-drop-no-answer
+  UUID:    a8036dc-f844-4fe8-8e8c-bd6c09bdd982 (partial — verify)
+  Status:  Published | 176 enrolled
+  Trigger: Call Details (Call Direction = Outgoing, Call Status contains "no answer")
+  Steps:   SMS (1 message) → END
+  Notes:   Simple drop: missed outbound call → sends one follow-up SMS automatically.
+
+SMS Text Blaster (BULK DM) — ORIGINAL
+  Key:     sms-blast-bulk
+  UUID:    NOT CAPTURED — no detail screenshot of the original (only the Copy draft)
+  Status:  Published | 176 enrolled
+  Trigger: Same structure as Copy above (tag-based, time window)
+  Notes:   *** PRIMARY BLAST WORKFLOW ***
+           Click into this in XLeads → copy UUID from URL → run in Slack:
+           workflow add name:sms-blast-bulk id:<uuid> purpose:Outbound bulk SMS blast
+
+SMS Text Blaster (BULK DM) - Nerd Mode  ← Hard Mode variant
+  Key:     sms-blast-bulk-hard-mode
+  UUID:    3d2b11d9-fc70-4369-a9b5-6aefad7b08f8 (partial — verify)
+  Status:  DRAFT
+  Trigger: Same as original
+  Steps:   Very wide/complex — many parallel branches (50+ nodes visible at 20% zoom)
+  Notes:   Extended version of the bulk blast with additional conditions. Draft only.
+
+Twilio Validation
+  Key:     twilio-validation
+  UUID:    f1137d831-c083-4a68-8335-ca990e0cedb (partial — verify)
+  Status:  Published
+  Trigger: Number Validation (Number is content of Twilio variable)
+  Steps:   Enable/Disable DND → END
+  Notes:   Validates Twilio numbers on contact creation. Auto-enables/disables DND.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER: ACQUISITIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+AI Qualified Seller to Deal Board
+  Key:     acq-ai-qualified-seller
+  UUID:    d882a63-4b7c-49fc-aab8-2d892e3ab8c1 (partial — verify, may be missing leading char)
+  Status:  Published
+  Trigger: Contact Tag (tag folder includes "acquisition")
+  Steps:   Create or Update Opportunity → END
+  Notes:   One-step: AI-qualified seller tag fires → creates opp on Deal Board.
+           Simple and powerful — this is the AI → pipeline handoff.
+
+Automated Missed Call Text-Back
+  Key:     acq-missed-call-textback
+  UUID:    806628f8-2094-4fe5-ad80-6286deba0b8a (partial — verify)
+  Status:  Published
+  Trigger: Missed incoming call
+  Steps:   Multi-step SMS sequence (several steps visible, zoomed out)
+  Notes:   Fires when seller calls and you miss it. Sends auto-text within minutes.
+
+E-Sign to Seller
+  Key:     acq-esign-to-seller
+  UUID:    1f8d88d4-47a4-46da-8525-16ac5d17131 (partial — verify)
+  Status:  Published
+  Trigger: Pipeline Stage Changed
+           (In pipeline = "Wholesaling", stage = "Send Contract to Seller")
+  Steps:   Send Documents & Contracts → END
+  Notes:   Auto-sends seller contract when deal moved to "Send Contract" stage.
+
+Follow Up (Weekly) → Pipeline
+  Key:     acq-followup-weekly
+  UUID:    f01f7f49-2b70-4f83-b68a-7c2412124342 (partial — verify)
+  Status:  Published
+  Trigger: (pipeline-based, weekly cadence)
+  Steps:   Long multi-step drip (many steps, zoomed out at 24%)
+  Notes:   Weekly follow-up sequence for leads in acquisition pipeline.
+
+Recipe - Appointment Confirmation + Reminder
+  Key:     acq-appt-confirmation
+  UUID:    9b22a43e-e190-4f7e-a97b-7933200f83ab (partial — verify)
+  Status:  Draft
+  Trigger: (appointment-based)
+  Steps:   Long sequence (many steps visible at 10% zoom)
+  Notes:   Pre-built XLeads recipe. Appointment confirmation + day-before reminder.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER: COLD CALLING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+AI Follow Up (Outbound)
+  Key:     cc-ai-followup-outbound
+  UUID:    47ce3380-5875-4be7-a988-a657409cf9e4 (partial — verify)
+  Status:  Published
+  Trigger: Custom Tag (tag folder includes "acquisition")
+  Steps:   Add to Power Dialer → Wait → Call → Wait → Call (multi-attempt)
+  Notes:   Outbound call follow-up using power dialer. Re-dials after wait periods.
+
+AI Follow Up Weekly
+  Key:     cc-ai-followup-weekly
+  UUID:    d7016813-a685-4b59-a1ce-ab44597941c3 (partial — verify)
+  Status:  Published
+  Trigger: (scheduled/weekly)
+  Steps:   Long drip sequence (many steps, zoomed out at 20%)
+  Notes:   Weekly AI-assisted follow-up for cold call leads.
+
+Cold Calling - Fast Five
+  Key:     N/A (draft in original catalog)
+  UUID:    8c2b5875-a998-4924-4b68-e4d870bcc359 (partial — verify)
+  Status:  Draft (saved)
+  Trigger: (call-based)
+  Steps:   Multi-step sequence (many steps, zoomed out at 20%)
+  Notes:   Fast Five = 5 rapid contact attempts. Draft — not yet published.
+
+Double Tap (Increase Contact Rates)
+  Key:     cc-double-tap
+  UUID:    e49f5a31-031e-40d0-9134-4e58b27b9f0d (partial — verify)
+  Status:  Published
+  Trigger: (manual or tag)
+  Steps:   SMS → Wait → SMS (2 touches)
+  Notes:   Two-touch SMS sequence. Simple — just increases contact rate by double-tapping.
+
+Power Dialer
+  Key:     cc-power-dialer
+  UUID:    f5k7ca0-c7b0-4875-b1b3-ba85168bf0e0 (partial — verify)
+  Status:  Published | 9,513 total enrolled | 800 active
+  Trigger: Custom Tag + Call Dispositions
+  Steps:   Add to Power Dialer → Contact List → END
+  Notes:   MAIN DIALING ENGINE. 9,513 contacts have been through this.
+           Enrolls contacts into GHL power dialer queue.
+
+ROS Triple Tap (listed as ROS Quick Tap in folder)
+  Key:     cc-ros-quick-tap
+  UUID:    5793a320-e159-40a4-852c-ac9e250a7171 (partial — verify)
+  Status:  Published
+  Trigger: (manual/tag)
+  Steps:   Very long sequence (many SMS/call steps, 20% zoom)
+  Notes:   Triple-tap outreach sequence. ROS = Reach Out System.
+
+Remove Dialer
+  Key:     cc-remove-dialer
+  UUID:    7cb81a57-423f-8d2a-375b24f959b0 (partial — verify)
+  Status:  Published | 276 enrolled
+  Trigger: Call Details (Call Direction = Outgoing, Call Status contains "completed")
+  Steps:   Remove Tag → END
+  Notes:   When a call completes successfully, removes contact from dialer queue.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER: DISPS (DISPOSITIONS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dispo Deal Blaster (Warm Buyers)
+  Key:     disps-deal-blaster
+  UUID:    7b93221e-697b-4fa8-9429-21c07047d482 (partial — verify)
+  Status:  Published
+  Trigger: (manual / deal stage)
+  Steps:   Long multi-step blast sequence (many steps, 20% zoom)
+  Notes:   Blasts contracted deal to your warm buyer list. Trigger when deal is under contract.
+
+E-Sign Assignment to Cash Buyer
+  Key:     disps-esign-assignment
+  UUID:    e2f445e6-6345-42c5-a74e-2a0e5b1ea123 (partial — verify)
+  Status:  Published
+  Trigger: Pipeline Stage Changed
+           (In pipeline = "Wholesaling", stage = "Send Assignment...")
+  Steps:   Send Documents & Contracts → END
+  Notes:   Auto-sends assignment contract when pipeline stage changes. Mirror of E-Sign to Seller.
+
+Cold Buyer Outreach
+  Key:     disps-cold-buyer-outreach
+  UUID:    c17d7996-9314-4888-91c8-01205a31094b (partial — verify)
+  Status:  Published
+  Trigger: (manual/tag)
+  Steps:   Long drip sequence (many steps, 20% zoom)
+  Notes:   Cold outreach to build/expand buyer list. Multi-touch sequence.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER: EMAIL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Email Blaster
+  Key:     email-blaster
+  UUID:    46a2da45-2b66-418a-8690-76f09a735788 (partial — verify)
+  Status:  DRAFT
+  Trigger: Contact Tag + conditions
+  Steps:   Multi-step (visible at 40% zoom — email sends + waits)
+  Notes:   Draft only. Not yet published. Email equivalent of SMS blaster.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER: JV (JOINT VENTURE)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ukulal E-Sign JV
+  Key:     jv-esign
+  UUID:    9e633b1c-cbce-47e0-b6f8-6ff826740f88 (partial — verify)
+  Status:  Published
+  Trigger: Pipeline Stage Changed
+  Steps:   Wait → Send something → Add Tag → Wait → Additional steps → END
+  Notes:   JV agreement e-sign flow. Fires when JV stage changes.
+
+Deal Underwriter
+  Key:     jv-deal-underwriter
+  UUID:    550d0188-f8ae-4989-9245-c1e432c545c7 (partial — verify)
+  Status:  Published
+  Trigger: (manual/deal stage)
+  Steps:   Complex multi-step analysis sequence (20% zoom, many branches)
+  Notes:   Routes deal through JV underwriting review process.
+
+Failed Underwriting Test
+  Key:     jv-failed-underwriting  (not in original seed — add if needed)
+  UUID:    94f9a4a2-e2f7-4434-8685-448ce6a38eb4 (partial — verify)
+  Status:  Published
+  Trigger: (underwriting result)
+  Steps:   Multi-step fallback sequence (20% zoom)
+  Notes:   Fires when deal fails underwriting. Alternate path from Deal Underwriter.
+
+New JV Lead Text
+  Key:     jv-new-lead-text
+  UUID:    3b876523-af47-40c8-bd80-8d7cd723251d (partial — verify)
+  Status:  Published
+  Trigger: Pipeline Stage Changed
+           (In pipeline = "JV", stage = "Approved to...")
+  Steps:   SMS → END
+  Notes:   Simple one-touch: JV lead approved stage → fires SMS notification.
+
+(Auto) PPL - Send Assignment to Cash Buyer  [appears in JV folder]
+  Key:     jv-send-assignment
+  UUID:    ee4f84a8-9fdf-4181-8a05-23c2b4292943 (partial — verify)
+  Status:  Published
+  Trigger: Pipeline Stage Changed
+           (In pipeline = ?, stage = "Send Assig...")
+  Steps:   Send Documents & Contracts → END
+  Notes:   Auto assignment send. Similar to disps-esign-assignment but for JV/PPL.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER: PPL (PAY PER LEAD)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PPL Follow Up (Daily)
+  Key:     ppl-followup-daily
+  UUID:    016fcabc-74a1-4d83-be5e-0d4854b03cc7 (partial — verify)
+  Status:  Published
+  Trigger: (scheduled/daily)
+  Steps:   Long daily touchpoint sequence (many steps, 20% zoom)
+  Notes:   Daily follow-up drip for PPL leads.
+
+PPL Follow Up (Monthly)
+  Key:     ppl-followup-monthly
+  UUID:    9e4823a2-0364-4412-94c1-d5a8f23dd8ff (partial — verify)
+  Status:  Published
+  Trigger: (scheduled/monthly)
+  Steps:   Long monthly cadence sequence (20% zoom)
+  Notes:   Long-term monthly nurture for PPL leads that haven't converted.
+
+PPL Follow Up (Weekly)
+  Key:     ppl-followup-weekly
+  UUID:    c28fb2c5-0b64-4412-94c1-d5ab923dd8ff (partial — verify)
+  Status:  Published
+  Trigger: (scheduled/weekly)
+  Steps:   Long weekly cadence sequence (20% zoom)
+  Notes:   Weekly follow-up for PPL leads.
+
+PPL No Answer (Cold Call Lead)
+  Key:     ppl-no-answer-cold
+  UUID:    6a8e0520-d590-47d8-b789-198f73aeee93 (partial — verify)
+  Status:  Published
+  Trigger: (missed call / no answer on cold call)
+  Steps:   Multi-step sequence (many steps, 20% zoom)
+  Notes:   Fires when a cold call PPL lead doesn't answer. SMS + follow-up sequence.
+
+PPL No Answer (Non-Cold Call Lead)
+  Key:     ppl-no-answer-non-cold
+  UUID:    553aef80-769a-4637-8f89-4816deb3c0be (partial — verify)
+  Status:  Published
+  Trigger: (missed call / no answer on warm/inbound lead)
+  Steps:   Multi-step sequence (many steps, 20% zoom)
+  Notes:   Same as above but for non-cold-call PPL leads. Different messaging tone.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+UNLISTED / UNCATEGORIZED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cold Call Intake Form  *** NEW — NOT IN ORIGINAL SEED ***
+  Key:     cc-intake-form (needs to be added to registry)
+  UUID:    fb801445-205d-4315-b140-2c2a6d1a81a (partial — verify)
+  Status:  Published
+  Trigger: Custom Tag + form submission
+  Steps:   Multi-step intake → END (40% zoom)
+  Notes:   Intake workflow for new cold call leads. Likely fires when a call form
+           is submitted. NOT in the folder screenshots — may live at root level.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+ODIN USAGE GUIDE — WHICH WORKFLOW TO USE FOR WHAT
+═══════════════════════════════════════════════════════════════════════════════
+
+BLAST 1,770 LEADS (he + tax delinquent):
+  → sms-blast-bulk ("SMS Text Blaster BULK DM") — get UUID first
+  → blast tags:he,tax-delinquent workflow:<uuid> limit:100
+
+WHEN SELLER REPLIES TO SMS:
+  → customer-replied (9184a227-6bdc-4894-8a3d-d26ed44ec555) — ALREADY LIVE
+  → Posts to ODIN /api/xleads/inbound → AI triage → Slack alert
+
+AI AUTO-RESPOND TO INBOUND SMS:
+  → sms-ai-bot (tag trigger) or sms-ai-bot-landlords
+
+WHEN SELLER MISSES YOUR CALL:
+  → acq-missed-call-textback (auto-fires on missed outbound call)
+  → sms-drop-no-answer (simpler version — one SMS)
+
+MOVE SELLER TO DEAL BOARD (after AI qualifies):
+  → acq-ai-qualified-seller (tag fires → creates opportunity)
+
+SEND CONTRACT TO SELLER:
+  → acq-esign-to-seller (pipeline stage trigger → auto sends doc)
+
+BLAST DEAL TO BUYERS:
+  → disps-deal-blaster (manual trigger when under contract)
+
+SEND ASSIGNMENT TO BUYER:
+  → disps-esign-assignment (pipeline stage trigger → auto sends)
+
+BUILD BUYER LIST (cold):
+  → disps-cold-buyer-outreach (multi-touch drip)
+
+POWER DIALING COLD LEADS:
+  → cc-power-dialer (enroll → queues in GHL dialer)
+  → cc-remove-dialer (auto-removes when call completes)
+  → cc-double-tap (2-touch SMS to increase pickup rate before calling)
+
+WEEKLY SELLER FOLLOW-UP:
+  → acq-followup-weekly
+  → cc-ai-followup-weekly
+
+═══════════════════════════════════════════════════════════════════════════════
+IMMEDIATE ACTIONS NEEDED
+═══════════════════════════════════════════════════════════════════════════════
+
+1. GET UUID FOR "SMS Text Blaster (BULK DM)":
+   XLeads → Automations → SMS folder → click "SMS Text Blaster (BULK DM)"
+   Copy UUID from URL → Slack: workflow add name:sms-blast-bulk id:<uuid> purpose:Outbound bulk SMS blast
+
+2. ADD Cold Call Intake Form to registry:
+   Slack: workflow add name:cc-intake-form id:fb801445-205d-4315-b140-2c2a6d1a81a purpose:Cold call lead intake form
+
+3. VERIFY partial UUIDs above before using in blast commands.

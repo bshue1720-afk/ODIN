@@ -1,0 +1,161 @@
+ODIN MEMORY INSERTS — 2026-05-28
+Format: Ready to paste into DB insert or Claude briefing
+Complement to: CURATED_INSIGHTS_2026-05-28.txt (do not duplicate those entries)
+======================================================================
+
+
+KEY: re_conditioning_agreement_script
+VALUE: The conditioning statement is delivered BEFORE every seller appointment — both by phone AND in person — to eliminate the "friend/maybe zone." Exact script: "Mr. Seller, before I come see the house, I don't want to waste your time. I'm going to take a look at the property, and when we're done, you'll have a decision to make: a definitive YES or a definitive NO. Can I get your commitment to give me that yes-or-no decision?" Zip your lip after asking. If they stall AFTER conditioning: "Remember before we met, we agreed to a yes-or-no decision. What information are you missing?" Rick Ginn spent 2.5 years in the friend zone before learning this. Deliver this script on the initial phone call AND reinforce at the start of the appointment. Both times.
+CATEGORY: RE
+SOURCE: 2026-05-28_Conditioning Sellers.txt
+
+
+KEY: re_seller_nonverbal_communication
+VALUE: 65% of a seller's decision is based on NON-VERBAL communication. Four pillars: (1) TONALITY — vary pitch, pace, enthusiasm; never be monotone. (2) SPEED — mirror the seller's pace exactly; match soft-spoken sellers quietly, fast talkers at speed. (3) POSTURE — always upright/confident; this is the ONE thing you do NOT mirror if they have poor posture. (4) WORD TIMING — after making a verbal offer, go COMPLETELY SILENT. Even 2 full minutes. Never fill the silence. If they counter and you want to accept, still pause for the same amount of time they took — they must feel they negotiated you down. "Fire off quick comments and you're showing your reactions, not your responses."
+CATEGORY: RE
+SOURCE: 2026-05-28_Seller Conversations.txt
+
+
+KEY: re_followup_cadence_exact
+VALUE: The exact follow-up schedule by timeframe bucket (more granular than 30/90/180): 0-30 days = daily contact (hottest leads, highest urgency). 30-60 days = weekly. 60-90 days = bi-weekly (every 2 weeks). 90-180 days = every 30 days. 180+ days = every 45 days. December is uniquely powerful — year-end triggers decisions as people make New Year's resolutions and want to close unresolved situations. 70% of deals come from follow-up, not first contact. Rick ran this solo for 7 years before AI automation existed.
+CATEGORY: RE
+SOURCE: 2026-05-28_Seller Conversations.txt
+
+
+KEY: re_double_closing_process
+VALUE: When assignment of contract is blocked (state law, realtor contract, difficult party), use a double closing: two separate HUD closings on the same day. Legal in all states — once you own property for even 1 minute, you have full right to sell. Best funding: use cash buyer's own escrow funds (buyer signs consent directive, title company floats the A-to-B close first, then B-to-C immediately after). No hard money required if buyer consents. Title company often discounts second closing 50% or more for back-to-back. Minimum deal profit for double close: $10K+ (closing fees = 1.5-2% of purchase price). If going hard money route: focus on POINTS (not interest rate) and prepayment penalties.
+CATEGORY: RE
+SOURCE: 2026-05-28_Double Closing.txt
+
+
+KEY: re_wholetailing_rules
+VALUE: Wholetailing = buy and sell slightly below retail within 90 days. Qualifies only on less than 10% of deals. Requirements: high-demand property type in local market + cosmetic repairs only (no roof/foundation/electric) + minimum 2x assignment fee profit (ideally 2.5x). 90-day rule is absolute — day 91 means you're fix-and-flipping, a different business. Buyer must be cash OR conventional with 20% down + waived appraisal contingency. No FHA (91-day seasoning kills you). Repairs budget: max $10-20K (each $5K = 1 week crew time). Price just below retail, aggressively — you only get one shot. Sell the VISION after light cosmetic cleanup: pressure wash, dumpster, fresh paint, appliances.
+CATEGORY: RE
+SOURCE: 2026-05-28_Wholetailing.txt
+
+
+KEY: saas_pricing_5_strategies
+VALUE: Five SaaS pricing strategies that can double revenue without new features: (1) Van Westendorp survey — reveals willingness-to-pay, price sensitivity, and which features customers value most by rank order. Run this before finalizing tiers. (2) Histogram feature analysis — database query showing % of customers using each feature; move enterprise-only features to top tier, make mid-use features paid add-ons. (3) Tiered pricing (3+ tiers minimum) — top tier is a price anchor; bottom tier captures customers who'd otherwise go to competitors; natural "pull forward" caps at each tier (seats, contacts, etc.). (4) Value metrics — functional (seats, contacts, usage limits) OR outcome-based (% of value recovered). Outcome-based scales infinitely. (5) Upsells/cross-sells ("sawdust monetization") — partner with adjacent vendors, keep 30-50% on referral with zero delivery cost.
+CATEGORY: SAAS
+SOURCE: 2026-05-25_5 SaaS Pricing Strategies.txt
+
+
+KEY: saas_sales_pipeline_4roles
+VALUE: Full SaaS sales pipeline requires 4 roles: (1) SDR (inbound qualifier) — speed-to-lead is critical, call within minutes of form fill. Job is to qualify before handing to AE. (2) BDR (outbound prospector) — finds target accounts, qualifies them, hands to AE. (3) AE (Account Executive) — quota-carrying closer; use MEDDIC framework (Metrics, Economic buyer, Decision criteria, Decision process, Identify pain, Champion) not old BANT. (4) CSM (Customer Success Manager) — post-close activation, expansion revenue, churn prevention; handles $1-2M ARR per person. Hire order for founders: CSM first (frees you from onboarding), then SDR, then AE. "If you don't have a process for selling, your customer will introduce you to their process for not buying."
+CATEGORY: SAAS
+SOURCE: 2026-05-25_4 Steps to Build a SaaS Sales Pipeline.txt
+
+
+KEY: saas_sales_3_questions
+VALUE: Every SaaS sales process must explicitly answer 3 questions or deals stall: (1) Why do ANYTHING? = Why investigate at all? Give a compelling "why now" for even the first call. (2) Why YOUR solution vs. competitors? = Acknowledge alternatives (including "do nothing" and "spreadsheet workarounds") and explain clearly why you win. (3) Why NOW vs. investing elsewhere? = Create urgency through consequence of inaction or time-based incentive. For Valdr Ops: (1) You're losing $X/mo in missed calls right now. (2) Unlike DIY answering services, our AI books appointments, not just takes messages. (3) Every week you wait is another week of lost revenue. All top 250 SaaS companies use a repeatable sales process.
+CATEGORY: SAAS
+SOURCE: 2026-05-25_3 Questions To Answer In Your SaaS Sales Process.txt
+
+
+KEY: saas_sales_3vc_bamfam
+VALUE: To shorten sales cycles: (1) Audit 3VC: Volume (deals in pipeline), Value (deal size), Velocity (speed through stages), Conversion (% close rate per stage). Most founders who say "sales cycles are too long" have never measured these 4 numbers. (2) BAMFAM = Book A Meeting From A Meeting — cardinal sin to end any call without scheduling the next one. Give them a reason to show up ("I'll bring you 5 competitor benchmarks even if you don't buy"). (3) Multi-thread accounts: ask "who was involved last time you bought software?" — get those names and reach out directly. (4) Sell a POC first ($10-25K paid pilot, 5-12 users) to break 16-month enterprise cycles down to 2-3 months.
+CATEGORY: SAAS
+SOURCE: 2026-05-25_5 Strategic Steps To Shorten The Sales Cycle.txt
+
+
+KEY: saas_customer_value_extraction
+VALUE: Customer journey: Red (signed up, not using) → Yellow (using, not habit) → Green (happily paying) → Purple (referring). Seed the referral in the ORIGINAL CONTRACT: "If we deliver these outcomes, you agree to refer 2 people like yourself." Sequence of asks by tier: written testimonial first → podcast/interview → video testimonial → ambassador referral → sales reference. "Brag it up" = when a customer wins, celebrate with them, get them reliving the moment, THEN make the ask. Automate the opener (trigger email at 15th product action). Put ALL testimonials in active marketing — most companies collect dozens and let them rot in the CRM.
+CATEGORY: SAAS
+SOURCE: 2026-05-25_5 Ways To Leverage Customers For Business Growth.txt
+
+
+KEY: saas_6functions_kpis
+VALUE: Six SaaS business functions and their core KPIs: (1) Product: North Star Metric (1 number capturing both customer + business value), activation rate, NPS. (2) Engineering: active defects, velocity, % test coverage. (3) Marketing: MQL count, unique visitors, CAC per channel. (4) Sales: demos/week, win rate, new MRR, avg revenue per account. (5) Customer Success: time-to-first-response, expansion MRR, NPS. (6) Ops/Finance: employee NPS (eNPS), SaaS Metrics 2.0 (David Skok framework), contribution margin. North Star example: AirBnB = bookings per night (customer wins + company wins simultaneously). Max 7 direct reports per leader.
+CATEGORY: SAAS
+SOURCE: 2026-05-25_6 Core Business Functions of a SaaS Company.txt
+
+
+KEY: business_meeting_cadence_OS
+VALUE: Complete company operating system meeting cadence: (1) Daily standup — yesterday's 3 wins / today's 3 priorities / blockers. Max 30 sec/person. (2) Weekly sync — scorecard + quarterly rocks + issue resolution + celebrate a win. (3) Monthly review — show-and-tell on active projects, green/yellow/red status. Don't wait for perfect — show progress. (4) Quarterly planning — 90-day off-site sprint; lessons from last quarter feed next. Humans can only reliably plan 90 days out. (5) Yearly strategic planning — 10-year target → 3-year vision → 1-year goals. All big strategic pivots (new lines of business, major direction changes) belong ONLY in annual planning, not weekly/monthly meetings.
+CATEGORY: BUSINESS_SYSTEMS
+SOURCE: 2026-05-25_5 Team Meetings You Need To Grow Your Business.txt
+
+
+KEY: business_replacement_ladder_detailed
+VALUE: The Replacement Ladder to $1M: (1) Admin/assistant first — remove all scheduling, email, administrative tasks from founder. (2) Clone delivery — document client onboarding/delivery so founder is not required for every client. (3) Automate lead gen — content/social → inbound → automated follow-up sequence. (4) Delegate sales — the "freedom step": as long as the founder is on sales calls, the business sleeps when the founder sleeps. (5) Leadership hires — department heads compensated with profit sharing or equity so they behave like owners not renters. Business model filter: must have 40%+ gross margin or growth requires too much capital. "A renter lets the lawn grow; an owner maintains the house."
+CATEGORY: BUSINESS_SYSTEMS
+SOURCE: 2026-05-25_Zero to Million Dollar Business in 60 Days.txt
+
+
+KEY: business_3_diagnostic_questions
+VALUE: Three CEO questions to cut through confusion: (1) 10x test (Scale): "If the business grew 10x tomorrow, what would break first?" — invest there NOW. (2) New owner question (Strategy): "If someone bought my business tomorrow, what's the FIRST thing they'd change?" — ask every leader this; the answer reveals the baggage you've been protecting. (3) Hire-back question (People): "If I laid everyone off and could hire back whoever I chose, who would I enthusiastically rehire?" — people you hesitate on need a transition plan. Also: max 7 direct reports; first 7 hires should all be people-managers, not sole contributors, because you'll need to build teams under them.
+CATEGORY: BUSINESS_SYSTEMS
+SOURCE: 2026-05-25_3 Great Business Questions To Cut To The Core Of Your Issues.txt
+
+
+KEY: business_onboarding_5steps
+VALUE: 5 steps to retain new hires: (1) Orientation — vision, values, accountability chart, where they fit on the map. (2) Program document — one master document per department containing all processes, playbooks, FAQs, best practices; new hire reads every link before starting. (3) 90-day goals — set a clear picture of what winning looks like in first 3 months; people stay when they feel like they're succeeding. (4) Buddy system — assign someone NOT their direct report to connect socially; if they don't make a friend in 2 weeks, high probability of leaving by 6 months. (5) Scheduled 1-on-1s — Day 1, Week 1, 2-week mark, then monthly; even a 3-minute check-in call changes retention and performance.
+CATEGORY: BUSINESS_SYSTEMS
+SOURCE: 2026-05-25_5 Ways to Successfully Onboard New Hires.txt
+
+
+KEY: finance_buyback_rate_formula
+VALUE: Buyback rate formula: Annual income ÷ 2,000 hours ÷ 4 = max hourly cost to outsource any task. At $100K income: $12.50/hr buyback rate. At $200K: $25/hr. At $400K: $50/hr. Any task outsource-able for less than the buyback rate = immediate delegate. The ÷4 factor requires a 4x ROI on buying back an hour (that freed hour must be reinvested into something generating 4x more value). Wealthy people spend money to save time; broke people spend time to save money. "The rich protect their time — they put a dollar value on it and use it as a filter for every request."
+CATEGORY: FINANCE
+SOURCE: 2026-05-25_$100M CEO Explains Money Habits Keeping You Broke.txt
+
+
+KEY: finance_top1pct_rules
+VALUE: Top 1% money rules: Automate finances so money flows to buckets (tax, invest, operating) without ever being seen. Pay yourself as little as possible in building years. Live on 10% of income (goal, not starting point; work down from 40-60%). Keep 6-month liquid emergency fund (cash equivalent, NOT stocks). 47% of Americans carry credit card debt at avg 22% interest — consumer debt = renting your future self's income. Risk-return quadrant: target LOW RISK / HIGH RETURN = businesses you know well with value-add opportunity. Build a personal P&L treating your household like a business. Wealthy people at scale hire estate managers to run their personal life — remove yourself from managing your own possessions.
+CATEGORY: FINANCE
+SOURCE: 2026-05-25_9 Money Rules of the Top 1%.txt
+
+
+KEY: finance_cashflow_customer_financing
+VALUE: "Don't finance your customers." If you have fixed costs, customers must pay upfront to cover them — don't use a line of credit or investor capital to fund customer delivery. That means you're bankrolling their operations. For Valdr Ops: offer annual pricing with 10-20% discount; this puts 12 months of revenue in the bank on day 1 per client. For RE: require earnest money deposit from cash buyer before coming off market. For any service: collect 50-100% upfront before starting work. Cash flow is the #1 cause of business death for companies that are actually growing (growing into insolvency because they're financing their own customers).
+CATEGORY: FINANCE
+SOURCE: 2026-05-25_Zero to Million Dollar Business in 60 Days.txt / 30 Brutal Business Truths.txt
+
+
+KEY: finance_gross_margin_filter
+VALUE: High gross margin is the #1 business model selection criterion. Warren Buffett: great businesses have high margins. Below 40% gross margin = you can't reinvest fast enough to bootstrap growth; will require external capital. SaaS target: 40-50%+ operating margin at efficiency. RE wholesaling: near-100% gross margin (no product cost, only time). Valdr Ops: high margin if not paying human labor for delivery. When evaluating any new opportunity, first question: "What is the gross margin?" If below 40%, the economics make scaling painful without capital injection. "If you don't have a high gross margin product, it requires too much capital to scale."
+CATEGORY: FINANCE
+SOURCE: 2026-05-25_Zero to Million Dollar Business in 60 Days.txt
+
+
+KEY: mindset_energy_vs_time
+VALUE: You don't manage time — you manage energy. Structure calendar around energy type, not task lists. Mornings = creative/strategic (connect with "creator" before distractions start — sit with the biggest open problems). Afternoons = meetings, conversations, social energy. Dan went from 80-100 hr/week (low output) to under 40 hrs/week (40-50x output) purely by managing energy not hours. "You can get more done in 4 focused hours than most people do in 12." For ODIN: morning briefing should arrive before distractions, asking "what is the big creative problem for today" not just the task list.
+CATEGORY: MINDSET
+SOURCE: 2026-05-25_13 Simple Rules of Business.txt
+
+
+KEY: mindset_patience_framework
+VALUE: Two separate time speeds: (1) PATIENT with the timeline (10 years is fine), (2) RUTHLESSLY IMPATIENT with daily activity. Make the outcome feel inevitable by attacking the activity stack every single day. "The man who loves walking will walk further than the one who loves the destination." Apply to RE: don't measure success by deals closed — measure by cold calls made, texts sent, follow-ups completed TODAY. The timeline takes care of itself if the daily activity is impatient. Most people quit after 2-4 months because they're impatient with the timeline and indifferent to daily action — exactly backwards.
+CATEGORY: MINDSET
+SOURCE: 2026-05-25_13 Simple Rules of Business.txt
+
+
+KEY: mindset_maps_ai_framework
+VALUE: MAPS = the framework for any AI prompt. M = Mission (outcome goal, not the task — "I need 30 customers/month" not "find me leads"). A = Ask (one specific, concrete request). P = Parameters (all context: ICP, what's worked before, constraints — use VOICE input, you speak 3x faster than typing). S = Shape (output format — CSV, markdown, bullets, length, tone). For agentic AI: set the mission/outcome, let the agent figure out HOW. "Human on the loop" = let the full workflow complete, then inspect and guide. Rule of 3 Rs for automation: Repetitive (weekly+) + Rule-based (same I/O) + Return (saves more time than build cost).
+CATEGORY: BUSINESS_SYSTEMS
+SOURCE: 2026-05-28_How to actually make money with AI in 2026.txt
+
+
+KEY: mindset_sell_before_build
+VALUE: "My default when I have an idea is to run find a customer — I sell before I've ever built anything." A paying STRANGER (not friend/cousin) = proof of product-market fit. Under-promise, over-deliver + 10% extra = "going pro" in the market. FOCUS = Follow One Course Until Successful: one clear customer, one clear product, one clear marketing channel, one clear sales channel — all four locked for a MINIMUM of one year before adding anything. "Most wealth is destroyed by distraction, not by failure." If Brock has a new idea, first question before any building: "Who is the first paying stranger and how will you find them?"
+CATEGORY: MINDSET
+SOURCE: 2026-05-25_30 Brutal Business Truths.txt
+
+
+KEY: mindset_model_before_modify
+VALUE: "Model and modify." When learning a new system, script, or process, execute it EXACTLY as taught before modifying anything. Modification before traction = the reason most coaching clients fail. The modification is where learning dies — you remove the variable that was actually working without knowing which variable it was. Apply to RE: use Rick/Zach scripts verbatim until 3+ deals closed. Apply to Valdr Ops sales: use Dan's 3-question framework verbatim for 30 days before A/B testing. Once you have results (traction + data), then iterate. Before results = follow the model exactly.
+CATEGORY: MINDSET
+SOURCE: 2026-05-25_30 Brutal Business Truths.txt
+
+
+KEY: mindset_advice_quality_filter
+VALUE: Only 3 valid advice sources: (1) Mentors = people who've done exactly what you want to do (not parents, not friends). They're your guide for big decisions. (2) Coaches = deep domain specialists with a blueprint for the specific skill/outcome. (3) Peers = people 1-2 years ahead of you on the same path — they bring current-market certainty. Everyone else: listen politely, ignore. "You wouldn't take workout tips from an overweight fitness coach." Dan invested $1.7M in mentors/coaches over 27 years — considers it his highest ROI investment by far, generating thousands of times more than the S&P 500 would have on that same capital.
+CATEGORY: MINDSET
+SOURCE: 2026-05-25_$100M CEO Explains Money Habits Keeping You Broke.txt
+
+
+KEY: business_50_fix_it_rule
+VALUE: "$50 fix-it rule": Anyone in your organization has authority to solve any problem under $50 without asking — they just report what they did and spent afterward. This eliminates decision-log bottlenecks. ODIN equivalent: if a problem can be resolved with less than $50 of Brock's time (at buyback rate) or less than $50 of actual cost, ODIN should resolve it autonomously and report in the next briefing rather than interrupting for approval. The rule assumes trust has been established and the person/system knows the values and priorities of the organization.
+CATEGORY: BUSINESS_SYSTEMS
+SOURCE: 2026-05-25_30 Brutal Business Truths.txt
+

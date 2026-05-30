@@ -1,0 +1,36 @@
+Business Name: Plunkett Cooney - Columbus Office
+Decision-Maker: David L. Van Slyke
+Email: dvanslyke@plunkettcooney.com
+Phone: (614) 629-3000
+Website: https://www.plunkettcooney.com
+Tier: 0
+
+Business Name: Harris & Engler Attorneys at Law
+Decision-Maker: Steven M. Harris
+Email: contactus@harrisengler.com
+Phone: (614) 610-9988
+Website: https://www.harrisengler.com
+Tier: 0
+
+Business Name: Anthony Law LLC
+Decision-Maker: Mike Anthony
+Email: admin@anthonylawllc.com
+Phone: (614) 340-0011
+Website: https://anthonylawllc.com
+Tier: 0
+
+Business Name: Emens Wolper Jacobs & Jasin Law Firm LPA
+Decision-Maker: Beatrice Wolper
+Email: info@ewjjlaw.com
+Phone: (614) 414-0888
+Website: https://ewjjlaw.com
+Tier: 0
+
+Business Name: Selph Law
+Decision-Maker: Theran Selph
+Email: info@selphlaw.com
+Phone: (614) 453-0971
+Website: https://www.selphlaw.com
+Tier: 0
+
+Total Leads: 5 | Tier 0: 5 | Tier 1: 0 | Tier 2: 0 | Tokens Used: ~12,400

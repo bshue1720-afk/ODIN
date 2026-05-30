@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ODIN — Eddie's Guide</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; background: #fff; font-size: 13px; line-height: 1.6; }
+  .page { max-width: 780px; margin: 0 auto; padding: 40px 50px; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; padding: 36px 40px; border-radius: 12px; margin-bottom: 32px; }
+  .header h1 { font-size: 28px; font-weight: 800; letter-spacing: 2px; }
+  .header .subtitle { font-size: 14px; color: #a0aec0; margin-top: 6px; }
+  .header .badge { display: inline-block; background: #e94560; color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-top: 10px; letter-spacing: 1px; }
+
+  /* Sections */
+  h2 { font-size: 16px; font-weight: 700; color: #0f3460; border-bottom: 2px solid #e94560; padding-bottom: 6px; margin: 28px 0 14px; text-transform: uppercase; letter-spacing: 1px; }
+  h3 { font-size: 13px; font-weight: 700; color: #16213e; margin: 16px 0 6px; }
+  p { margin-bottom: 10px; }
+
+  /* Command boxes */
+  .cmd { background: #1a1a2e; color: #7ec8e3; font-family: 'Courier New', monospace; font-size: 12px; padding: 10px 14px; border-radius: 6px; margin: 6px 0; border-left: 3px solid #e94560; }
+  .cmd .label { color: #a0aec0; font-size: 10px; display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .cmd .example { color: #7ec8e3; }
+  .cmd .comment { color: #4a5568; font-style: italic; }
+
+  /* Score table */
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  th { background: #0f3460; color: white; padding: 8px 12px; text-align: left; font-size: 12px; }
+  td { padding: 7px 12px; border-bottom: 1px solid #e2e8f0; font-size: 12px; }
+  tr:nth-child(even) td { background: #f7fafc; }
+
+  /* Alert boxes */
+  .alert { border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-size: 12px; }
+  .alert-red { background: #fff5f5; border-left: 4px solid #e94560; }
+  .alert-green { background: #f0fff4; border-left: 4px solid #38a169; }
+  .alert-blue { background: #ebf8ff; border-left: 4px solid #3182ce; }
+  .alert-yellow { background: #fffff0; border-left: 4px solid #d69e2e; }
+  .alert strong { display: block; margin-bottom: 4px; }
+
+  /* Steps */
+  .steps { counter-reset: step; }
+  .step { counter-increment: step; display: flex; gap: 14px; margin: 10px 0; align-items: flex-start; }
+  .step-num { background: #e94560; color: white; font-weight: 800; font-size: 12px; min-width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content { flex: 1; padding-top: 3px; }
+
+  /* Score tiers */
+  .tier { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; margin: 2px; }
+  .hot { background: #fff5f5; color: #c53030; border: 1px solid #fc8181; }
+  .warm { background: #fffaf0; color: #c05621; border: 1px solid #f6ad55; }
+  .cold { background: #ebf8ff; color: #2b6cb0; border: 1px solid #90cdf4; }
+
+  /* Two columns */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0; }
+
+  /* Footer */
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #718096; text-align: center; }
+
+  @media print {
+    body { font-size: 12px; }
+    .page { padding: 20px 30px; }
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    h2 { page-break-after: avoid; }
+    .cmd, table, .alert { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>ODIN — YOUR FIELD GUIDE</h1>
+    <div class="subtitle">Orchestrated Decision Intelligence Network — Shue Box LLC</div>
+    <div class="badge">EDDIE'S COPY — CALLER ROLE</div>
+  </div>
+
+  <!-- WHAT IS ODIN -->
+  <h2>What is ODIN?</h2>
+  <p>ODIN is Shue Box LLC's command center. It connects everything — our seller contacts in XLeads (our CRM), Slack, and AI — into one system that Brock runs the wholesaling business through. Your job as a caller feeds into ODIN every time you talk to a seller.</p>
+
+  <div class="alert alert-blue">
+    <strong>Your Role: Caller</strong>
+    You talk to sellers. You score their motivation using MCTP. You log your calls through Slack. ODIN routes everything from there — alerting Brock on hot leads, running deal math, finding buyers. You don't need to understand all of it. You just need to log your calls correctly.
+  </div>
+
+  <!-- HOW TO ACCESS -->
+  <h2>How to Access ODIN</h2>
+
+  <h3>Slack (your main interface)</h3>
+  <p>You'll get an invite to the <strong>odin-lzz2278.slack.com</strong> workspace. Once you're in, <strong>DM directly with ODIN</strong> (the bot) for all commands. You can also check the #odin-brock channel where Brock runs operations.</p>
+
+  <h3>Dashboard (optional — web)</h3>
+  <p>URL: <strong>https://odin-api-production-e85d.up.railway.app</strong><br>
+  Your login: <strong>heritrejo30@gmail.com</strong> — use the password you set from your invite link.</p>
+  <p>The dashboard shows your assigned leads and lets you log calls visually. But Slack is faster — use that.</p>
+
+  <!-- MCTP SCORING — THE MOST IMPORTANT SECTION -->
+  <h2>MCTP Scoring — Your #1 Job</h2>
+  <p>Every seller call gets a score. This tells Brock how motivated the seller is and whether to pursue the deal. Score every call, every time.</p>
+
+  <table>
+    <tr>
+      <th>Letter</th>
+      <th>What It Measures</th>
+      <th>Max Points</th>
+      <th>How to Score High</th>
+    </tr>
+    <tr>
+      <td><strong>M</strong> — Motivation</td>
+      <td>Why are they selling?</td>
+      <td>3</td>
+      <td>Divorce/death/foreclosure = 3. Downsizing = 1-2. "Just testing" = 0.</td>
+    </tr>
+    <tr>
+      <td><strong>C</strong> — Condition</td>
+      <td>Property condition</td>
+      <td>2</td>
+      <td>Needs major work = 2. Minor repairs = 1. Move-in ready = 0.</td>
+    </tr>
+    <tr>
+      <td><strong>T</strong> — Timeline</td>
+      <td>How fast do they need out?</td>
+      <td>3</td>
+      <td>30 days or less = 3. 60-90 days = 2. "No rush" = 0-1.</td>
+    </tr>
+    <tr>
+      <td><strong>P</strong> — Price</td>
+      <td>Are they realistic on price?</td>
+      <td>2</td>
+      <td>Open to wholesale offer = 2. Slightly high but flexible = 1. Way overpriced = 0.</td>
+    </tr>
+  </table>
+
+  <div style="margin: 14px 0;">
+    <span class="tier hot">🔥 HOT (8-10)</span> — Brock gets alerted immediately. Priority deal.<br>
+    <span class="tier warm">⚡ WARM (5-7)</span> — Brock gets alerted. Follow-up scheduled.<br>
+    <span class="tier cold">🧊 COLD (0-4)</span> — Logged. ODIN may follow up automatically later.
+  </div>
+
+  <!-- LOGGING A CALL -->
+  <h2>Logging a Call — The mctp Command</h2>
+  <p>After every seller call, log it in Slack like this:</p>
+
+  <div class="cmd">
+    <span class="label">Format</span>
+    <span class="example">mctp [Seller First Name] [Property Address] M:[0-3] C:[0-2] T:[0-3] P:[0-2] notes:[your notes]</span>
+  </div>
+
+  <div class="cmd">
+    <span class="label">Real Example — Hot Lead</span>
+    <span class="example">mctp John 4314 Leatherwood Ave Memphis M:3 C:2 T:3 P:1 notes:Divorce, needs out in 30 days, house needs full rehab, wants $80k but flexible</span>
+  </div>
+
+  <div class="cmd">
+    <span class="label">Real Example — Cold Lead</span>
+    <span class="example">mctp Sarah 892 Oak Street Memphis M:1 C:1 T:1 P:0 notes:Just curious, not motivated, wants full retail price</span>
+  </div>
+
+  <div class="alert alert-green">
+    <strong>What happens after you log:</strong>
+    ODIN calculates the score automatically, logs it to the database, and sends you a confirmation. If it's Hot or Warm, Brock gets an alert immediately in Slack AND Discord with your notes. ODIN may also run deal math automatically (ARV, what we can offer, potential profit).
+  </div>
+
+  <!-- OTHER USEFUL COMMANDS -->
+  <h2>Other Commands You'll Use</h2>
+
+  <h3>Get a call script for a seller</h3>
+  <div class="cmd">
+    <span class="example">script John 4314 Leatherwood Ave</span>
+    <span class="comment">// ODIN writes a personalized MCTP-based script for that seller + address</span>
+  </div>
+
+  <h3>Score from your notes (before logging)</h3>
+  <div class="cmd">
+    <span class="example">score Called John, motivated divorce, house needs full roof and HVAC, wants out in 3 weeks, asking $85k</span>
+    <span class="comment">// ODIN scores it and explains the breakdown</span>
+  </div>
+
+  <h3>Look up a property (free public records)</h3>
+  <div class="cmd">
+    <span class="example">lookup 4314 Leatherwood Ave Memphis</span>
+    <span class="comment">// Pulls owner name, assessed value, tax status from Shelby County records</span>
+  </div>
+
+  <h3>See your assigned leads</h3>
+  <div class="cmd">
+    <span class="example">leads</span>
+    <span class="comment">// Shows all hot + warm leads in the pipeline</span>
+  </div>
+
+  <h3>Find a contact in XLeads</h3>
+  <div class="cmd">
+    <span class="example">contacts John Leatherwood</span>
+    <span class="comment">// Search for a seller by name or address</span>
+  </div>
+  <div class="cmd">
+    <span class="example">contact abc123def456</span>
+    <span class="comment">// Pull full details by contact ID (phone, email, address, tags)</span>
+  </div>
+
+  <h3>Send a text to a seller</h3>
+  <div class="cmd">
+    <span class="example">text [contact_id] Hey John, following up on our call. Still interested in your Leatherwood property.</span>
+    <span class="comment">// Sends through XLeads — shows up as an SMS from our number</span>
+  </div>
+
+  <h3>See all available commands</h3>
+  <div class="cmd">
+    <span class="example">help</span>
+  </div>
+
+  <!-- XLEADS CONTEXT -->
+  <h2>XLeads — Our CRM</h2>
+  <p>XLeads (powered by GoHighLevel) is where all our seller contacts live. ODIN is connected to it — every command you run through Slack can trigger actions in XLeads. You don't need to log into XLeads directly. ODIN handles it.</p>
+
+  <div class="cols">
+    <div class="alert alert-blue">
+      <strong>What XLeads stores:</strong>
+      Every seller we've ever texted or called. Their phone, address, conversation history, and tags (Hot, Warm, Cold, Do-Not-Contact, etc.).
+    </div>
+    <div class="alert alert-yellow">
+      <strong>What ODIN does with it:</strong>
+      Auto-tags sellers based on your MCTP score. Logs your conversation notes. Routes hot leads to Brock. Removes opt-outs automatically.
+    </div>
+  </div>
+
+  <!-- INBOUND REPLIES -->
+  <h2>When Sellers Text Back</h2>
+  <p>Sellers are already in our XLeads system from blast campaigns. When one texts back:</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">ODIN receives the message automatically (via webhook)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">ODIN scores the message with AI (MCTP auto-score based on their words)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">Brock gets an alert in Slack AND Discord with the score and full conversation history</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">If they say STOP / not interested → ODIN auto-removes them from all campaigns</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">Brock or you follows up with: <code>text [contact_id] your message</code></div>
+    </div>
+  </div>
+
+  <!-- DISCORD -->
+  <h2>Discord Notifications</h2>
+  <p>You have access to the ODIN Discord server. Hot and Warm lead alerts automatically post there too — so even if you miss a Slack message, you'll see it in Discord.</p>
+
+  <div class="alert alert-green">
+    When you log a Hot or Warm lead via the <code>mctp</code> command, you'll get a confirmation in Slack AND Brock gets an alert in both Slack and Discord automatically.
+  </div>
+
+  <!-- DO'S AND DON'TS -->
+  <h2>Do's and Don'ts</h2>
+
+  <div class="cols">
+    <div>
+      <h3 style="color: #38a169;">✅ DO</h3>
+      <ul style="padding-left: 16px; font-size: 12px; line-height: 2;">
+        <li>Log every call with the <code>mctp</code> command</li>
+        <li>Include notes — the more detail the better</li>
+        <li>Use <code>script</code> before calling a seller</li>
+        <li>Use <code>lookup</code> to verify owner before calling</li>
+        <li>Score honestly — don't inflate scores</li>
+        <li>Check <code>leads</code> daily for your pipeline</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="color: #e94560;">❌ DON'T</h3>
+      <ul style="padding-left: 16px; font-size: 12px; line-height: 2;">
+        <li>Skip logging a call — every call matters</li>
+        <li>Promise sellers a price — log and let Brock decide</li>
+        <li>Contact a seller marked Do-Not-Contact</li>
+        <li>Try to access other users' leads</li>
+        <li>Share your login credentials</li>
+        <li>Make any changes in XLeads directly (use ODIN)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <h2>Quick Reference Card</h2>
+
+  <table>
+    <tr>
+      <th>What You Want to Do</th>
+      <th>Slack Command</th>
+    </tr>
+    <tr>
+      <td>Log a seller call</td>
+      <td><code>mctp [name] [address] M:X C:X T:X P:X notes:...</code></td>
+    </tr>
+    <tr>
+      <td>Get a call script</td>
+      <td><code>script [name] [address]</code></td>
+    </tr>
+    <tr>
+      <td>Score call notes</td>
+      <td><code>score [your notes from the call]</code></td>
+    </tr>
+    <tr>
+      <td>Look up property owner</td>
+      <td><code>lookup [address]</code></td>
+    </tr>
+    <tr>
+      <td>Find a seller in the system</td>
+      <td><code>contacts [name or address]</code></td>
+    </tr>
+    <tr>
+      <td>See full contact info</td>
+      <td><code>contact [contact_id]</code></td>
+    </tr>
+    <tr>
+      <td>Text a seller</td>
+      <td><code>text [contact_id] [message]</code></td>
+    </tr>
+    <tr>
+      <td>See your hot/warm leads</td>
+      <td><code>leads</code></td>
+    </tr>
+    <tr>
+      <td>See all commands</td>
+      <td><code>help</code></td>
+    </tr>
+  </table>
+
+  <!-- SUPPORT -->
+  <h2>Need Help?</h2>
+  <p>If something isn't working or you're not sure how to do something:</p>
+  <div class="cmd">
+    <span class="example">debug [describe the problem]</span>
+    <span class="comment">// Example: debug I'm getting an error when I try to log a call</span>
+  </div>
+  <p>Or message Brock directly. ODIN's IT agent (Claude AI) can diagnose most issues instantly.</p>
+
+  <div class="footer">
+    ODIN — Shue Box LLC | Memphis TN Real Estate Wholesaling | Confidential — Eddie's Copy
+  </div>
+
+</div>
+</body>
+</html>

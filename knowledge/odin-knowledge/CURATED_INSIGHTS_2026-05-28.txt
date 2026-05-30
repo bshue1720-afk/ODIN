@@ -1,0 +1,509 @@
+CURATED KNOWLEDGE EXTRACTION — 2026-05-28
+Sources: 711 new Dan Martell YouTube transcripts + 43 Skool FWR Wholesaling lessons
+Scanned by: Claude Code direct extraction
+======================================================================
+CATEGORIES:
+  A = ODIN Systems & Automation
+  B = Business Growth (Valdr Ops / PartSync Pro)
+  C = Real Estate (General)
+  D = Personal Growth / Mindset
+  E = Wholesaling Real Estate (Specific — highest priority)
+======================================================================
+
+
+## CATEGORY A — ODIN SYSTEMS & AUTOMATION
+----------------------------------------------------------------------
+
+### Replacement Ladder (Hiring Order)
+Source: "If I Wanted to Go From $0 to $100M" / "The Only 5 Skills"
+The correct hire sequence: Admin → Customer Success → Marketing → Sales → Executive Leadership.
+Most entrepreneurs skip to COO when they don't even have an admin. "If you don't have an assistant,
+you ARE one." Give admin access to inbox AND calendar (Richard Branson model — everything routed
+through Helen, 60-90 min breakfast daily to review only what she couldn't handle).
+ODIN application: ODIN should function as the admin layer — routing, filtering, and only escalating
+what needs Brock's attention. Every Slack alert should be pre-filtered by urgency.
+
+### Four Master Skills of Leverage
+Source: "The Only 5 Skills You Need to Build a $1B Company"
+  1. Capital — money creates opportunity
+  2. Code — software and automation
+  3. Content — SOPs, training, systems that scale without added effort
+  4. Collaboration — people
+"Time x Leverage = Output" — ODIN's entire purpose is maximizing leverage on Brock's time.
+
+### 10-80-10 Agent Delegation (already in memory — reinforced across 20+ new videos)
+Confirmed repeatedly: Ideation (10%) → Execution by agent (80%) → Human review/fingerprint (10%).
+Application: Every ODIN agent should own 80% execution, Brock only touches ideation + final review.
+
+### Complexity Ceiling Framework
+Source: "The Only 5 Skills"
+Every entrepreneur hits complexity ceilings. The response is: Audit calendar → Transfer tasks →
+Fill with higher-leverage work. NOT sabatical, NOT selling. Pain = signal to level up systems.
+ODIN build: Add a complexity ceiling check to the weekly_ceo_review heartbeat — prompt Brock to
+audit his calendar tasks vs. their buyback rate.
+
+### Gain Matrix (Director vs. Doer tagging — already captured, reinforced)
+Score every task: easy/hard for humans vs. easy/hard for computers.
+Output: Give / Accelerate / Integrate / Human Only.
+Apply before every new ODIN spoke or agent is built.
+
+### Sensor-Style Drift Monitoring (already in queue — reinforced)
+Beyond "is it alive" — detect drift:
+  - No seller reply in 7 days → auto follow-up trigger
+  - No leads pulled in 48h → Slack alert
+  - SMS delivery rate drops → flag immediately
+  - No KPI updates in 7 days → notify
+
+
+## CATEGORY B — BUSINESS GROWTH (Valdr Ops / PartSync Pro)
+----------------------------------------------------------------------
+
+### SaaS Churn = The 5 Reasons (Critical for Valdr Ops retention)
+Source: "The 5 Reasons SaaS Customers Churn"
+  1. No clear time to value (didn't get a win fast enough)
+  2. No usage habit formed
+  3. Wrong customer fit
+  4. No expansion path (customers outgrow you)
+  5. Poor support/onboarding
+Valdr Ops application: Client onboarding must produce a visible win (first AI-answered call,
+first booked appointment) within 48 hours. Week 1 = getting the first win, not setup.
+
+### Two Employees + AI = $1 Billion Revenue
+Source: "2 employees, AI and 1 BILLION in revenue"
+The model: owner + one operator + AI agents handling everything else. This is ODIN's exact model.
+No bloated team needed — leverage AI for execution, humans for judgment and relationships.
+
+### The 5 C's of SaaS Metrics (what to track for PartSync / Valdr Ops)
+Source: "The 5 C's of SaaS Metrics"
+  1. Customers (total + growth rate)
+  2. Churn (monthly %)
+  3. CAGR (growth over time)
+  4. CAC (customer acquisition cost)
+  5. CLTV (lifetime value)
+Key ratio: CLTV must be 3x+ CAC to have a healthy SaaS business.
+
+### Atlas-Style Voice AI (already in queue — reinforced across multiple videos)
+AI voice agent answers, qualifies, books within 2 minutes of missed call. Position as $300-500/mo
+add-on for Valdr Ops. Every video discussing "AI for local business" confirms this as A-tier.
+
+### Freemium Model Psychology (from "Freemium SaaS — The 4 Rules")
+Free tier creates habit, paid tier monetizes power users. The goal of free: get them dependent.
+Costco analogy (also confirmed in Skool): sell at cost, profit on membership/add-ons.
+PartSync application: Free tier (read-only dispatch view) → paid for AI routing + analytics.
+
+### 27 Years of Sales Advice (distilled)
+Source: "27 Years of No Bullsh*t Sales Advice in 16 Mins"
+  - Never send a proposal — schedule the review call instead
+  - First call: only qualify, never pitch
+  - Proposal = end of deal. Review call = beginning of deal
+  - The ask: "What would have to be true for you to move forward?"
+  - Follow-up cadence: same day, +3 days, +7 days, +14 days, +30 days
+
+### 6 Most Profitable AI Businesses in 2026
+Source: "$100M CEO Ranks Businesses" / "The 6 Most Profitable AI Businesses"
+  S-tier: AI agent development, AI consulting, voice AI reselling
+  A-tier: AI cybersecurity audits (HIPAA-adjacent SMBs), done-for-you AI outreach
+  Note: All of ODIN's existing spokes qualify as S-tier AI businesses.
+
+
+## CATEGORY C — REAL ESTATE (GENERAL)
+----------------------------------------------------------------------
+
+### "Real Estate Is Just a Symptom of Human Problems" (Rick Ginn core teaching)
+Source: Skool — Step by Step Closing Guide, Qualifying Sellers, Objections
+Every distressed property has a story behind it. Vacant = couldn't pay mortgage, foreclosure,
+probate, eviction. Tax delinquent = financial distress. The property is the symptom; the human
+problem is the root. Whoever gets to the truth fastest wins the deal.
+
+### Certainty Is the Product
+Source: Skool — Handling Objections
+Wholesalers sell certainty. Cash = no financing contingency, no inspection repair demands, no
+90-120 day MLS wait. When sellers push back on price, pivot to certainty: "I can't give you the
+highest offer, but I can give you the best offer — cash, 30 days, as-is, no surprises."
+Average house costs 12% to sell on MLS (6% commission + closing costs + repair requests +
+mortgage payments during listing). A wholesale offer at 80% of ARV often nets MORE than MLS.
+
+### Inspection Period = "Get Out of Jail Free"
+Source: Skool — What is Wholesaling
+30-45 day inspection period in every purchase contract allows exit for any reason, no questions
+asked. This is legal precedent (realtors use it routinely). Never tell a seller you MUST buy —
+always: "subject to inspection period." If no buyer found, cancel within inspection window.
+
+### Virtual Wholesaling Works
+Source: Skool — Virtual Wholesaling Lead Walkthrough, Boots on the Ground
+Boots on the ground: local contact walks the property on video call. Can be another wholesaler,
+handyman, or anyone local. Works for any market virtually. Memphis TN is a strong market — active.
+
+### MLS Deals vs. Wholesale Deals
+99% of MLS properties sell at retail. The 1% exception: confused sellers who belong in wholesale.
+Never compete on MLS. Off-market only. Cash buyers pay premium for off-market because they save
+$30-50K vs. MLS retail prices (Zach's example: cash buyer saves $40K, happily pays $20K finder fee).
+
+
+## CATEGORY D — PERSONAL GROWTH / MINDSET
+----------------------------------------------------------------------
+
+### Belief + Conviction (Rick Ginn — wholesaling secret)
+Source: Skool — Step by Step Closing Guide
+Belief alone isn't enough — it will be attacked. Conviction is the armor around your belief.
+New wholesalers will face: deficiencies, self-doubt, lack of experience, pressure to revert to
+old self. Conviction gets you through all four. Write your WHY on your bathroom mirror.
+"Sellers feel and connect with your conviction while confronting their own beliefs."
+If you waver, they won't trust you. If you have conviction, they gravitate to you.
+
+### Complexity Ceiling Recognition
+Source: "The Only 5 Skills You Need to Build a $1B Company"
+When pain increases, don't stall/sabotage/sell. That pain = hitting complexity ceiling = the
+right time to level up systems and delegation. The next level requires you to operate differently,
+not harder.
+
+### Identity First
+Source: "Your REALITY Is A Reflection Of Your IDENTITY" / "Your Reality Is The Collection..."
+You don't change behavior to change results. You change identity → behavior follows automatically.
+Decide who you ARE (a wholesaler, a CEO, a deal-closer) before the results exist.
+
+### "Easy Choices, Hard Life. Hard Choices, Easy Life."
+Reinforced across 30+ videos. The discomfort of cold calling, making offers, following up =
+compounding investment in future results.
+
+### Kill Old Version of Self (Rick Ginn)
+Source: Skool — Step by Step Closing Guide
+To grow in wholesaling, you have to sacrifice: weekend parties, comfort zone, some friendships.
+The people who knew the old you will resist the new you. That resistance is signal you're growing.
+"If you don't believe in yourself and don't have conviction, no matter what I teach you, it won't work."
+
+### I Quit Drinking for 4700 Days — What I Learned
+Source: Dan Martell
+Recovery + sobriety = the foundation of everything. Pain is the teacher. "Winners lost more
+than losers because they chose to make tough choices." Every hard season compounds forward.
+
+
+## CATEGORY E — WHOLESALING REAL ESTATE (SPECIFIC — HIGH PRIORITY)
+----------------------------------------------------------------------
+
+### THE MILLION DOLLAR COLD CALLING SCRIPT
+Source: Skool — Cold Calling (Zach)
+Two-line script — do NOT overcomplicate it:
+  Line 1: "Is this the owner of [123 Main Street]?"
+           (Throws them off — they think it's something real/important. Gets them to YES.)
+  Line 2: "Hey, this is [name]. I had a quick question — are you interested in selling that property?"
+Why it works: Opens with address (personal, specific) → breaks "no mindset" → puts them in yes mode.
+Use seller's name as many times as possible without being creepy — most dopamine-producing word.
+Cold calling is NOT acquisitions. It is ONLY to find interested sellers → put in CRM → close later.
+
+### MCTP QUALIFYING FRAMEWORK (confirmed by both Zach and Rick)
+Source: Skool — Qualifying Sellers, Cold Calling, Step by Step Closing Guide
+FOUR PILLARS (in order — do NOT skip to Price):
+  M — Motivation: "What is your reason for selling?" → ZIP YOUR LIP. Get the STORY.
+                  Real estate = symptom of human problem. Vacant/foreclosure/probate/job loss.
+                  If you don't get the story, you're a transactional wholesaler who loses on price.
+  C — Condition:  "Tell me about the current state of the house." Open-ended. Let THEM talk.
+                  80/20 rule: you talk 20%, they talk 80%. More they talk = more data = better deal.
+  T — Timeframe:  "In your ideal scenario, when are you looking to sell?"
+                  If vague, use: "If I bought your house — where would you be relocating to?"
+                  Their FIRST response = their truth. Bucket timeframes:
+                    <30 days = drop everything, close now
+                    30-90 days = NORMAL, most deals here
+                    90-180 days = lighter follow-up, once/month
+                    180+ days = long-term drip, move to CRM automation
+                  70% of deals come from FOLLOW-UP. Not the first contact.
+  P — Price:      "What do you NEED to get out from under this property?" (NOT "asking price")
+                  Never: "What are you asking?" "What do you want?" (triggers retail mindset)
+                  If unrealistic: "How'd you come up with that number?" then zip lip.
+                  Do MCT FIRST. Price only makes sense in context of the story.
+
+### ODN AVATAR — Your Ideal Seller
+Source: Skool — Step by Step Closing Guide (Rick)
+OFF MARKET | DIRECT TO SELLER | NEEDS TO SELL
+All three must be true. NOT: on MLS / through agent / just wants to sell.
+"Busy means broke" — chasing want-to-sell leads fills your calendar and empties your bank account.
+
+### OFFER FORMULA (MAO / LAO)
+Source: Skool — How to Calculate Offer Price
+MAO (Maximum Allowable Offer) = (ARV x 0.70) - Repairs
+LAO (Least Allowable Offer) = 70% of MAO (your FIRST offer, should be uncomfortable)
+Example: ARV $430K, Repairs $50K → MAO = $251K → LAO = ~$175K
+Lock up at LAO if possible. Assignment fee = difference between lock-up price and what buyer pays.
+Use Zach's free AI calculator (freewholesaling.com) or XLeads built-in MAO calculator.
+
+### SIX SELLER OBJECTIONS + CURES (Rick Ginn — masterclass)
+Source: Skool — Handling Common Objections
+OBJECTION 1: "What's your offer?" (before qualifying)
+  Underlying: controlling personality, wants to use your number against you
+  Cure: "For me to give you the best offer, I have to ask a few questions. May I?"
+        Car analogy: "Would you buy a car without test driving it? I can't offer without seeing it."
+  NEVER: give a number before MCTP. You will lose on price every time.
+
+OBJECTION 2: "I need to talk to so-and-so" (spouse/brother/partner)
+  Underlying: you don't have the decision maker in front of you
+  Cure: Conditioning agreement UP FRONT: "Will all decision makers be available?"
+  If they said yes, remind them: "You told me upfront you were the sole decision maker."
+  NEVER present to a non-decision maker. They will only relay the price, kill the deal.
+  "Telephone game" — by the time it gets to the decision maker, only the bad parts survive.
+
+OBJECTION 3: "I need to think about it"
+  Underlying: lack of motivation OR lack of trust in you (most common = trust)
+  Cure: Go back to conditioning agreement. Rebuild rapport. "What's concerning you most?"
+  "I think about it" = stall. Must progress every prospect. If not moving forward, they're
+  pulling info from you without giving any back. Hail Mary or move on.
+
+OBJECTION 4: "I need my lawyer to review it"
+  Underlying: testing you (9/10 times they don't have a lawyer). Low rapport.
+  Cure: EMBRACE IT. "That's a great idea." Ask: "Who's your lawyer? Can I send it directly?"
+  → Most go silent. No lawyer exists.
+  If real lawyer: use state-approved contract. Price-anchor with seller FIRST before sending.
+  "We're agreed on $200K, correct? No matter what the lawyer says about verbiage, we're good on price?"
+  Lawyers look at price and try to inflate. Anchor it before they see the contract.
+  What we do is legal and above board — don't be scared of lawyers. Be transparent.
+
+OBJECTION 5: "I got a higher offer"
+  Underlying: fishing for more money, or offer isn't real
+  Cure: "Why didn't you take it?" → Most higher offers are hearsay (Zillow, friend said, realtor)
+  Response: "I'm not going to give you the highest offer. I'm going to give you the best offer."
+  Go back to WHY they called you originally (notes in CRM). Remind them of the root problem.
+  Sell certainty: cash, as-is, 30 days, no repairs, no contingencies.
+  Neighbor offer = almost never real. Ask for proof of funds. They'll disappear.
+
+OBJECTION 6: "I'm considering listing with a realtor"
+  Underlying: uncertainty about you, possibly didn't qualify motivation properly
+  Cure: Use their timeframe against it. "Average DOM in this market is 72 days — that's 90-120 days
+  total from listing to close. You said you wanted this done in 45 days. Does that work?"
+  Remind: 12% cost to sell via MLS (6% commish + closing costs + repairs + carrying costs).
+  If they truly want full price: let them list, get a 25-33% marketing referral fee.
+  "I can't convince people to do what they don't want to do. I can only help people who need to sell."
+
+### MARKETING VOLUME BENCHMARKS
+Source: Skool — HOW MUCH MARKETING TO GET A DEAL
+  Driving for Dollars: ~500 leads per deal (will rise to 700 in 5-10 years)
+  Reverse DFD (ugly houses): ~400 leads per deal
+  Government lists (cold call/text): ~2,000-3,000 leads per deal
+  High equity lists: ~6,000 contacts per deal
+  Direct mail: ~4,000 postcards per deal
+  Digital bandit signs: ~500 posted per deal
+  Email blast: ~60,000 emails per deal
+
+### BEST LISTS FOR COLD CALLING (in order of quality)
+Source: Skool — Cold Calling
+  BEST: Government lists (code violations, evictions, tax delinquent, probate, vacant)
+  GOOD: Driving for dollars, Vacant (XLeads), High equity (with right filters)
+  AVOID: Pre-foreclosure list (over-saturated — 3x more callers than other lists. They don't pick up.
+          Text them instead. Do NOT call pre-foreclosures.)
+  AVOID: Bankruptcy, Divorce lists
+
+### COLD CALLING NUMBERS (KPIs to track)
+Source: Skool — Cold Calling
+  Contact rate: ~25% (1 in 4 answer). 75% don't pick up.
+  Lead rate: ~1 per 100 contacts (want to sell, cash offer interested)
+  "Second chance leads" — text the 75% who don't answer → 20% text response rate →
+    adds 15% more contacts → total reach goes from 25% to ~40%
+  Best calling times: 2pm - 7pm
+  Minimum commitment: 10 hours/week (2h/day, 5 days)
+  Dialer rule: 3 phone numbers per 10 hours of calling per week (rotate when marked spam)
+  Contact rate drops to 3-4%? You're spam-likely. Call your own number to check.
+
+### DIALER SYSTEM (free vs. paid)
+Source: Skool — Cold Calling, Software Stack
+  FREE: Google Voice (voice.google.com) — change numbers if marked spam
+  PAID cheap: XLeads auto dialer — ~$0.92/hour. 25h/week = $25/month.
+  PAID triple-line: XLeads Wave Dialer — $150/mo. 40-50% more efficient than single-line.
+  Mojo Dialer: same price as XLeads triple but $10/number vs. $1.50/number. Avoid.
+  RULE: MUST use a dialer (never call from personal phone — will be spam-likely permanently)
+
+### SKIP TRACING (free vs. paid)
+Source: Skool — Skiptracing Lists, Software Stack
+  FREE: TruePeopleSearch.com, CyberBackgroundChecks.com (enter address → get phone numbers)
+  FREE limit: manual entry, 1 address at a time. Not scalable beyond ~200 leads.
+  PAID: XLeads — 15,000 skip traces/month included. Starting at $81/month.
+  RULE: Use free for getting started. XLeads for scaling.
+
+### OFFER PROCESS (verbal then written)
+Source: Skool — Step by Step Closing Guide
+  NEVER: send contract first, then explain
+  CORRECT: verbal agreement on price first → confirm all terms verbally → THEN put in writing
+  Car analogy (objection script): "I'm a man of my word. When I give you an offer, I stick to it.
+  I need to see the house first before I can give you a real offer."
+
+### CONDITIONING AGREEMENT (pre-appointment framing)
+Source: Skool — Handling Objections, Step by Step Closing Guide, Qualifying Sellers
+Before every appointment/conversation, establish upfront:
+  "We're going to spend some time. We both agree to respect each other. At the end, you'll give me
+  a yes or no answer. Either way, I'll help you regardless."
+  Also: "Will all decision makers be available?" → get YES on record.
+  This pre-empts 3 of the 6 objections (think about it, decision maker, stalling).
+  Without conditioning agreement, sellers stay in "friend zone" — indefinite stalling.
+
+### CASH BUYER ACQUISITION
+Source: Skool — How to Find Cash Buyers, CASH BUYER WALKTHROUGHS + RULES, Why Can't Find Cash Buyers
+  FREE: Facebook RE investor groups, Zillow (search for cash purchased properties), local REI meetups
+  FREE: Call landlords from rental listings in your market (Zillow for rent, Craigslist)
+  PAID: XLeads — filter by market, shows top flippers + landlords + # properties flipped + profit
+  JV: Join Zach/Rick Discord — Maximilian Deer (MaxDispo.com), Luca — Dispo JV partners for Dallas
+  RULE: Build buyers list BEFORE you have a deal. Know 3-5 active buyers in your market by name.
+
+### DISPO (SELLING YOUR CONTRACT)
+Source: Skool — How to Sell Your Wholesaling Deals
+  Blast deal to buyers list immediately on locking up contract.
+  Include: address, ARV, asking price, repair estimate, photos
+  Collect earnest money deposit from buyer before removing from market.
+  Use JV partner (Zach's team) if stuck — split 50/50. Better to make 15K than miss the deal.
+  Title company handles closing — doesn't cost you anything.
+
+### TITLE COMPANY
+Source: Skool — Title Companies, Step by Step Closing Guide
+  Use wholesaler-friendly title companies only (not all will handle assignments).
+  Title company = neutral 3rd party. Handles all money flow. Closes the deal.
+  Your assignment fee paid AT CLOSING — title company sends it directly to you.
+  Ask title company to review contract instead of seller's lawyer — they'll do it for free.
+
+### CONTRACTS + LEGAL
+Source: Skool — Filling Out the Contract, How Taxes & LLC's Work
+  Two documents: Purchase Sale Agreement (with seller) + Assignment of Contract (to cash buyer)
+  Inspection period = your exit clause. 30-45 days. Legal to back out for any reason.
+  Use state-approved real estate contract (not wholesale-specific) for lawyer-concerned sellers.
+  Key clause: make sure contract is ASSIGNABLE (some standard contracts remove this — add it back).
+  E-sign: PandaDoc (free, not legally certified) or XLeads/DocuSign (legally certified, IP tracked).
+  XLeads e-sign is free with subscription. DocuSign is $30-40/month.
+
+### JV SYSTEM
+Source: Skool — JV System
+  Joint venture = bring in a partner to help close or dispo. Split deal 50/50.
+  Zach's team does JVs — you find the deal, they help close/dispo, 50/50 split.
+  Best use case: your first few deals, or large deals ($50K+) where you need Dispo help.
+  Never be too proud to JV. Half a deal > zero deal.
+
+### VIRTUAL WHOLESALING TOOLS
+Source: Skool — Virtual Wholesaling Lead Walkthrough, Software Stack
+  PandaDoc or XLeads for e-signatures
+  Google Voice for phone calls (virtual number)
+  XLeads Ninja Mode (GoHighLevel-based CRM) for all lead tracking and follow-up automation
+  Boots on ground: Craigslist "gig" post for local person to walk property on video call ($50-100)
+  Comps: Zillow/Redfin (most states) or XLeads MLS access (non-disclosure states: TX, LA, KS, WY)
+
+### 30-DAY ACTION PLAN (Zach's AI bot output)
+Source: Skool — Your Personal AI Wholesaling Coach
+  Days 1-7:   Pick market. Set up tools (CRM, skip trace, dialer). Pull first government list.
+              Start driving for dollars. Buy $30 of gas, drop sticky notes on 10-20 houses/day.
+              Start cold calling with Google Voice.
+  Days 8-14:  Call every lead pulled. Use cold calling script. Build cash buyers list.
+              Join Zach/Rick live calls. Attend local REI meetups (virtual equivalent: FB groups).
+  Days 15-21: Lock up first deal. Follow up daily on motivated sellers.
+              Send free contract (freewholesaling.com). Run comps. Make solid offer.
+  Days 22-28: Blast deal to buyers list. Use Facebook, Discord, call local landlords.
+              JV with Dispo expert in market if needed. Collect earnest money deposit.
+  Days 29-30: Send to title company. Get assignment fee in 2-3 weeks.
+
+### MEMPHIS TN SPECIFIC (Brock's market)
+  - Non-disclosure state status: check via XLeads MLS access (TX, LA, KS, WY confirmed non-disclosure;
+    verify TN status — may need XLeads for comps)
+  - Virtual wholesaling fully viable — boots on ground available via gig post
+  - Government lists available at county level (Shelby County Assessor/Register of Deeds)
+  - Active cash buyer market — Zillow shows strong investor activity in Memphis metro
+
+
+## CATEGORY A/E COMBINED — ODIN BUILDS FOR WHOLESALING
+----------------------------------------------------------------------
+Direct ODIN automation opportunities from Skool content:
+
+### 1. SMS Second-Chance Lead Automation (high ROI)
+When a lead doesn't answer cold call → auto-text fires.
+Adds ~15% more contacts (total reach from 25% → 40%).
+Build: ODIN heartbeat checks XLeads "no answer" logs → fires SMS template via Twilio.
+
+### 2. MCTP CRM Tags in ODIN
+Tag every lead with M/C/T/P scores after first qualifying call.
+Timeframe bucket (0-30, 30-90, 90-180, 180+) drives follow-up sequence.
+Build: Add MCTP fields to leads table. Drive follow-up cadence from T bucket.
+
+### 3. 70% of Deals Come From Follow-Up — Automate It
+Source: Skool — Qualifying Sellers
+Current: manual follow-up only.
+Build: ODIN auto-follow-up sequence by T bucket:
+  0-30 days: daily check-ins
+  30-90 days: every 3 days
+  90-180 days: weekly
+  180+ days: monthly drip (ODIN already has this pattern in SMS templates)
+
+### 4. Conditioning Agreement Template in ODIN
+Pre-written script for every seller appointment → Slack command "script seller" sends it.
+Includes: upfront agreement language, decision maker confirm, yes/no commit.
+
+### 5. Objection Response Library
+Slack command "objection [1-6]" returns exact rebuttal for each of the 6 objections.
+Especially: "objection offer" → car analogy script (pre-written).
+
+### 6. Marketing KPI Dashboard
+Track per list: calls made, contacts (answer rate), leads (interest rate), deals.
+Target: know which lists produce leads at best rate in Memphis TN market.
+Build: ODIN KPI table → weekly_kpi heartbeat aggregates from XLeads data (if API available).
+
+
+## PENDING BUILD ITEMS FOR ODIN (consolidated from all 5 categories)
+======================================================================
+
+### IMMEDIATE (Real Estate / Cat E)
+[ ] Add MCTP fields to leads table (motivation_score, condition_score, timeframe_bucket, price_gap)
+[ ] Build timeframe-driven follow-up automation (0-30 daily, 30-90 every 3 days, 90-180 weekly, 180+ monthly)
+[ ] Add "second chance lead" SMS automation — fire when cold call marked "no answer"
+[ ] Kill "just following up" texts — replace with MCTP-specific follow-up messages
+    (Are you still thinking about selling, or have plans changed? / Which matters more — price or speed?)
+[ ] Add "script seller" Slack command — returns full MCTP qualifying script + conditioning agreement
+[ ] Add "objection [1-6]" Slack command — returns exact rebuttal script for each objection
+[ ] Add MAO/LAO calculator to ODIN (ARV input + repairs → returns MAO and suggested LAO)
+
+### SHORT TERM (ODIN Systems / Cat A)
+[ ] Add complexity ceiling audit to weekly_ceo_review heartbeat
+[ ] Build Gain Matrix decision engine spoke (easy/hard for humans vs. computers)
+[ ] Sensor-style drift checks: no seller reply 7 days, no leads 48h, SMS delivery rate drop
+[ ] Add North Star KPI (one metric per project) to Monday 8am briefing
+[ ] Replacement ladder check: what tasks is Brock doing that ODIN could own?
+
+### SHORT TERM (Valdr Ops / Cat B)
+[ ] Rewrite Valdr Ops pitch: Problem → Promise → Timeline → Price → Guarantee
+[ ] Add onboarding win trigger: first AI-answered call within 48h of setup
+[ ] Value calculator for every sales call: missed calls/week × avg job value = monthly loss
+[ ] Never send proposal — always schedule review call
+
+### BACKLOG (PartSync Pro / Cat B)
+[ ] Pre-sell 3 HVAC contractors manually before rebuilding ("Founding Partner" framing)
+[ ] Contact Johnstone Supply / Wesco re: referral partnership
+[ ] Score PartSync features with Gain Matrix before any dev work
+
+
+## KEY NUMBERS TO REMEMBER
+======================================================================
+- 3,000 wholesale deals: Zach's credibility base (under age 30)
+- 3,500 wholesale deals: Rick Ginn's credibility base (23 years)
+- 2% of sellers want cash offer (98% want retail — don't waste time on 98%)
+- 25% average contact rate on cold calls (1 in 4 pick up)
+- 1 lead per 100 contacts (1% conversion to interested seller)
+- 70% of deals close from follow-up (not first contact)
+- 90-day timeframe = most deals (not 30-day urgency)
+- 12% cost to sell on MLS (6% + closing + repairs + carrying)
+- $0.92/hour XLeads auto dialer
+- 500 DFD leads per deal, 2,000-3,000 govt list contacts per deal
+- 10 hours/week cold calling minimum
+- 2pm-7pm = best cold calling times
+- MAO = (ARV × 0.70) - Repairs
+- LAO = 70% of MAO (first offer, should be uncomfortable)
+
+
+## SOURCES USED
+======================================================================
+Dan Martell YouTube (711 new transcripts, 2026-05-25 download date):
+  Key sources: "If I Wanted to Go From $0 to $100M", "The Only 5 Skills You Need to Build a $1B Company",
+  "27 Years of No Bullsh*t Business Advice", "27 Years of No Bullsh*t Sales Advice",
+  "The 5 Reasons SaaS Customers Churn", "2 employees, AI and 1 BILLION in revenue",
+  "The 6 Most Profitable AI Businesses to Start in 2026", "6 High Income Skills AI Won't Replace",
+  "Watch these 25 minutes if you want to grow your business in 2026",
+  "What it's Like to Live Like a $100M CEO"
+
+Skool FWR Wholesaling Community (43 lessons, Zach + Rick Ginn):
+  All 43 transcribed lessons read. Highest-value modules:
+  Cold Calling, Qualifying Sellers, Handling Common Objections, How to Calculate Offer Price,
+  Step by Step Closing Guide, How Much Marketing to Get a Deal, Software Stack,
+  Virtual Wholesaling Lead Walkthrough, CASH BUYER WALKTHROUGHS + RULES,
+  JV System, How to Find Cash Buyers, How to Sell Your Wholesaling Deals,
+  Filling Out the Contract, Title Companies, How to Find ARV, Driving for Dollars
+
+Total new transcripts scanned: 711 (Dan Martell) + 43 (Skool) = 754
+Manifest updated: yes (754 new entries appended)

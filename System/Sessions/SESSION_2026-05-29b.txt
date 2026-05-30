@@ -1,0 +1,88 @@
+SESSION SUMMARY — 2026-05-29b
+======================================================================
+
+## What Was Done
+
+### 1. Transcript Knowledge Base — COMPLETED
+- build_transcript_dump.py ran: 1,014 files, 0 errors, 47.5 MB SQL dump
+- push_transcript_dump.py ran: 1,014 transcripts in Railway DB (46.6 MB content)
+- Verified: 795 FWR + 219 DM, 0 nulls, 0 empty
+- transcript_dump.sql excluded from Railway uploads (.railwayignore) — fixes deploy timeouts
+- `find knowledge` command fixed (was routing to XLeads contact search due to parser conflict)
+- Knowledge search upgraded to Claude Haiku synthesis — returns actionable bullet-point answers with FWR/DM citations
+
+### 2. Finance Bot — CONFIRMED LIVE (no work needed)
+
+### 3. 150 FWR Memories Inserted
+- insert_fwr_memories.py built and run
+- 150 entries from extract_stage_fwr2.txt → memories table (source: transcript_fwr, importance: 3)
+- Total memories in DB: 251
+
+### 4. Revenue Tracking 60%→80%
+- Migration 020: xleads_opp_id dedup column on revenue_events
+- revenue_sync() heartbeat: daily 9am ET, auto-logs won XLeads opportunities
+- `revenue sync` Slack command: on-demand trigger
+- 15th heartbeat job
+
+### 5. Decision Queue 55%→75%
+- `log decision` Slack command: full parser + handler
+- 3 real decisions seeded: blast go/no-go, Memphis zip expansion, Valdr reactivation
+- Syntax: log decision spoke:X issue:"..." option1:"..." option2:"..." rec:"..." reason:"..."
+
+### 6. Blast Stats (Task 5)
+- `blast stats` / `blast results` Slack command
+- Shows: sent, failed, reply rate %, opt-out %, health status per campaign (last 30 days)
+- MCTP breakdown (hot/warm/cold) from leads linked to campaign
+
+### 7. Offer Generation 70%→85% (Task 6)
+- Migration 021: offer_drafted_at, offer_amount, offer_status on leads table
+- `draft offer <address>`: Claude Haiku generates seller offer letter from lead data
+- `offer status <address>`: shows offer stage + amounts
+- Scorecard now saves lead record + prompts draft offer on GO/CAUTION verdict
+- offer_status values: none | drafted | sent | countered | accepted | dead
+
+### 8. Buyer Onboarding 40%→70% (Task 7)
+- link_buyers.py: dry-run + --apply mode
+- Iterates ODIN buyers without xleads_contact_id, searches XLeads by phone
+- Auto-updates xleads_contact_id on match
+- Safe to re-run
+
+### 9. SMS Outbound 70%→85% (Task 8)
+- Migration 021: blast_campaign_id UUID FK on leads table
+- Inbound webhook (/api/xleads/inbound): now upserts lead record on every reply
+  - Stamps blast_campaign_id (most recent active campaign, last 7 days)
+  - Saves MCTP scores to leads table
+  - Unique index on leads.xleads_contact_id (safe — 0 dupes existed)
+- blast stats command shows MCTP breakdown per campaign once leads accumulate
+
+
+## Key Files Modified
+- api/app.py — blast_stats, draft_offer, offer_status handlers; scorecard lead save; inbound lead upsert
+- api/utils/slack_commands.py — blast stats, draft offer, offer status, log decision, revenue sync parsers
+- api/utils/heartbeat.py — revenue_sync() function + 15th scheduler job
+- api/migrations/020_revenue_sync.sql — xleads_opp_id dedup column
+- api/migrations/021_offer_blast_tracking.sql — offer tracking + blast_campaign_id on leads
+- link_buyers.py — buyer bulk-link script (run locally)
+- insert_fwr_memories.py — one-time memory insert (already run)
+- .railwayignore — added transcript_dump.sql to prevent 47MB upload on every deploy
+
+
+## Pending / Next Steps
+1. Review 3 decisions in Slack: `decisions`
+2. Fire blast: blast tags:he,tax-delinquent workflow:e5dd5ab7-92b5-4111-8a32-164f9214d5f0 limit:100
+3. After blast fires: `blast stats` to monitor
+4. Link buyers: set XLEADS_API_KEY + XLEADS_LOCATION_ID env vars, then:
+   py link_buyers.py          (dry run)
+   py link_buyers.py --apply  (write matches)
+5. Log first revenue event when deal closes
+6. Voice briefing (phone call delivery) — skipped by user choice
+
+
+## APEX Status (2026-05-29b) — ~88%
+  Offer Generation:  85% (up from 70%)
+  SMS Outbound:      85% (up from 70%)
+  Revenue Tracking:  80% (up from 60%)
+  Decision Queue:    75% (up from 55%)
+  All others unchanged
+
+======================================================================

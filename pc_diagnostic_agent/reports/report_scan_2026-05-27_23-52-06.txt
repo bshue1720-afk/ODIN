@@ -1,0 +1,1179 @@
+======================================================================
+  PC DIAGNOSTIC AGENT REPORT
+  Scan ID : scan_2026-05-27_23-52-06
+  Date    : 2026-05-28 00:47:03
+  Mode    : LIVE
+  Host    : DESKTOP-F3UL77S
+  OS      : Windows 11 AMD64
+======================================================================
+
+PERFORMANCE
+----------------------------------------------------------------------
+  CPU Usage  : 72.5%
+  RAM Usage  : 86.3%  (13.5 GB / 15.7 GB)
+  Disk C:\   : 42.1%  (276.0 GB free of 476.2 GB)  Health: UNKNOWN
+
+STARTUP AUDIT
+----------------------------------------------------------------------
+  Total entries : 216
+  Flagged       : 206
+
+  Name                                     Source               Flags                     Publisher
+  ---------------------------------------- -------------------- ------------------------- ------------------------------
+  SecurityHealth                           HKLM\Run             ORPHANED                  Unknown
+  RtkAudUService                           HKLM\Run             KNOWN_SAFE                Microsoft Windows Hardware Com
+  WavesSvc                                 HKLM\Run             KNOWN_SAFE                Microsoft Windows Hardware Com
+  msedge_cleanup_{F3017226-FE2A-4295-8BDF- HKLM\RunOnce         KNOWN_SAFE                Microsoft Corporation
+  OneDrive                                 HKCU\Run             —                         Microsoft Corporation
+  Docker Desktop                           HKCU\Run             ORPHANED                  Unknown
+  MicrosoftEdgeAutoLaunch_3540C6631EB708D4 HKCU\Run             KNOWN_SAFE                Microsoft Corporation
+  Proton VPN                               HKCU\Run             ORPHANED                  Unknown
+  Proton Drive                             HKCU\Run             —                         Proton AG
+  Delete Cached Update Binary              HKCU\RunOnce         —                         Microsoft Windows
+  Delete Cached Standalone Update Binary   HKCU\RunOnce         —                         Microsoft Windows
+  Uninstall 26.074.0420.0001               HKCU\RunOnce         —                         Microsoft Windows
+  DeletePotentialDelete                    HKCU\RunOnce         ORPHANED                  Unknown
+  \App_Brock                               TaskScheduler        ORPHANED                  Unknown
+  \Git for Windows Updater                 TaskScheduler        ORPHANED                  Unknown
+  \Okta Verify Activation Task             TaskScheduler        ORPHANED                  Unknown
+  \Okta Verify Activation Task             TaskScheduler        ORPHANED                  Unknown
+  \OneDrive Reporting Task-S-1-5-21-220628 TaskScheduler        ORPHANED                  Unknown
+  \OneDrive Standalone Update Task-S-1-5-2 TaskScheduler        ORPHANED                  Unknown
+  \OneDrive Startup Task-S-1-5-21-22062833 TaskScheduler        —                         Microsoft Corporation
+  \Microsoft\Windows\.NET Framework\.NET F TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\.NET Framework\.NET F TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Active Directory Righ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\AppID\PolicyConverter TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\AppID\VerifiedPublish TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Application Experienc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ApplicationData\appur TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ApplicationData\appur TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ApplicationData\Clean TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ApplicationData\DsSvc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\AppListBackup\Backup  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\AppListBackup\BackupN TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Autochk\Proxy         TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\BitLocker\BitLocker E TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\BitLocker\BitLocker M TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Bluetooth\UninstallDe TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\BrokerInfrastructure\ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\capabilityaccessmanag TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CertificateServicesCl TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Chkdsk\ProactiveScan  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Chkdsk\SyspartRepair  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CloudExperienceHost\C TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CloudRestore\Backup   TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CloudRestore\Backup   TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\CloudRestore\Restore  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ConsentUX\UnifiedCons TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ConsentUX\UnifiedCons TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Containers\CmCleanup  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Customer Experience I TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Customer Experience I TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Data Integrity Scan\D TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Data Integrity Scan\D TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Data Integrity Scan\D TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Data Integrity Scan\D TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Defrag\ScheduledDefra TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Device Information\De TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Device Information\De TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Device Information\De TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Recommended TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Recommended TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Recommended TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Recommended TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\Scheduled   TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Diagnosis\UnexpectedC TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DirectXDataba TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DirectXDataba TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DXGIAdapterCa TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DXGIAdapterCa TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DirectX\DXGIAdapterCa TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DiskCleanup\SilentCle TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DiskFootprint\Diagnos TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DiskFootprint\Storage TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\DUSM\dusmtask         TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\EDP\EDP App Launch Ta TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\EDP\EDP Auth Task     TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\EDP\EDP Inaccessible  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\EDP\StorageCardEncryp TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ExploitGuard\ExploitG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ExploitGuard\ExploitG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ExploitGuard\ExploitG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Feedback\Siuf\DmClien TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Feedback\Siuf\DmClien TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\FileHistory\File Hist TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\FeatureConf TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\OneSettings TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\OneSettings TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Flighting\OneSettings TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\InputSettingsRe TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\LocalUserSyncDa TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\MouseSyncDataAv TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\PenSyncDataAvai TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\syncpensettings TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\input\TouchpadSyncDat TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\Restor TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\ScanFo TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\ScanFo TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\ScanFo TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\InstallService\ScanFo TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\International\Synchro TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\International\Synchro TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Kernel\La57Cleanup    TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\LanguageComponentsIns TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\LanguageComponentsIns TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Location\WindowsActio TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Maintenance\WinSAT    TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Management\Provisioni TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Management\Provisioni TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Maps\MapsToastTask    TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MemoryDiagnostic\Proc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MemoryDiagnostic\Proc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MemoryDiagnostic\Proc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MemoryDiagnostic\Proc TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\MUI\LPRemove          TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Multimedia\SystemSoun TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Network Connectivity  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Network Connectivity  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Network Connectivity  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\NlaSvc\WiFiTask       TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\PerformanceTrace\Requ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\PI\SecureBootEncodeUE TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\PI\SecureBootEncodeUE TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\PI\SecureBootEncodeUE TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Plug and Play\Device  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Plug and Play\Device  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Plug and Play\Device  TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Plug and Play\Sysprep TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Power Efficiency Diag TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Printing\EduPrintProv TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Printing\PrinterClean TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\ReFsDedupSvc\Initiali TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Registry\RegIdleBacku TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Security\Pwdless\Inte TaskScheduler        ORPHANED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Servicing\StartCompon TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\CreateObjectTas TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\FamilySafetyMon TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\FamilySafetyRef TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\IndexerAutomati TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Shell\ThemesSyncedIma TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SpacePort\SpaceAgentT TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SpacePort\SpaceAgentT TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SpacePort\SpaceManage TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SpacePort\SpaceManage TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\StateRepository\Maint TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Storage Tiers Managem TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Subscription\EnableLi TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Subscription\EnableLi TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Subscription\EnableLi TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sustainability\PowerG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sustainability\PowerG TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sustainability\Sustai TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sysmain\ResPriStaticD TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Sysmain\WsSwapAssessm TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\SystemRestore\SR      TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Task Manager\Interact TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\TextServicesFramework TaskScheduler        ORPHANED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Time Synchronization\ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Time Synchronization\ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Time Synchronization\ TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Time Zone\Synchronize TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\UPnP\UPnPHostConfig   TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\USB\Usb-Notifications TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\USB\Usb-Notifications TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\USB\Usb-Notifications TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\USB\Usb-Notifications TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WCM\WiFiTask          TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WDI\ResolutionHost    TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Defender\Wind TaskScheduler        UNSIGNED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Windows Defender\Wind TaskScheduler        UNSIGNED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Windows Defender\Wind TaskScheduler        UNSIGNED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Windows Defender\Wind TaskScheduler        UNSIGNED, KNOWN_SAFE      Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Error Reporti TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Filtering Pla TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Windows Media Sharing TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsColorSystem\Ca TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsColorSystem\Ca TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsUpdate\Schedul TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsUpdate\Schedul TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsUpdate\Schedul TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WindowsUpdate\Schedul TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Wininet\CacheTask     TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WlanSvc\CDSSync       TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WlanSvc\MoProfileMana TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WlanSvc\MoProfileMana TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Work Folders\Work Fol TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\Work Folders\Work Fol TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WwanSvc\NotificationT TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WwanSvc\OobeDiscovery TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WwanSvc\OobeDiscovery TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\Windows\WwanSvc\OobeDiscovery TaskScheduler        ORPHANED                  Unknown
+  \Microsoft\XblGameSave\XblGameSaveTask   TaskScheduler        ORPHANED                  Unknown
+
+JUNK SCAN
+----------------------------------------------------------------------
+  Files found  : 10944
+  Staged       : 5919  (133.8 MB)
+  Skipped      : 5025 in-use, 8792 recent, 0 symlinks
+
+  Original Path                                                          Category         Size
+  ---------------------------------------------------------------------- ---------------- ------------
+  C:\Users\Brock\AppData\Local\Temp\019e7ea1-102b-4ba4-a2cf-360e61ece6fb Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\0e546fe0-3d6b-4909-88e1-c2e7a7a913a5 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\1e6f0bf1-fa8e-473c-ab88-b60cde5e5f1c Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\30fcf695-99b9-492a-9bf0-126d56850fd3 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\3d26e9b7-f270-4615-ab94-f04aca555b07 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\3f9ab4fd-7220-4750-8af4-d66e1c4cdb69 Temp             193.9 KB
+  C:\Users\Brock\AppData\Local\Temp\4bb6197e-3537-4515-87e8-839085b9c820 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\5ede3698-2b41-4a47-b3b4-6badd6c0c7d6 Temp             38.1 KB
+  C:\Users\Brock\AppData\Local\Temp\6c067c69-d57c-4c84-80bc-1d50b8996a0e Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\6db1fc31-103f-47c5-bfa1-2d2720516850 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\709f64a4-3e86-488c-9e94-818f3de15627 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\84568f40-a1a3-43a3-a8eb-fd26618c9b20 Temp             830.5 KB
+  C:\Users\Brock\AppData\Local\Temp\9c6608e3-2b23-417b-992a-24f04a5c0190 Temp             33.7 KB
+  C:\Users\Brock\AppData\Local\Temp\b23de63a-e2c3-4a7d-afb5-cbf0f028cd32 Temp             36.0 KB
+  C:\Users\Brock\AppData\Local\Temp\ba1c014a-c02a-4a7e-88fc-d9cf560d25a6 Temp             3.6 MB
+  C:\Users\Brock\AppData\Local\Temp\dab3040e-153d-48ec-8a09-1a83ae10c0d6 Temp             1.1 MB
+  C:\Users\Brock\AppData\Local\Temp\dd0d3ef1-b124-4dcf-b438-0a3a3f9bcc7d Temp             1.5 KB
+  C:\Users\Brock\AppData\Local\Temp\de31188d-6856-4a77-a9a3-6ba25f3f8d01 Temp             300.5 KB
+  C:\Users\Brock\AppData\Local\Temp\e79605f4-a4aa-426f-9879-526db94d263c Temp             756.5 KB
+  C:\Users\Brock\AppData\Local\Temp\f934d601-3fc2-400f-a610-d1534650e40d Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\wctCBCF.tmp                          Temp             27.7 KB
+  C:\Users\Brock\AppData\Local\Temp\lu12980brbmnp.tmp\lu12980brbmnw.tmp  Temp             295.3 KB
+  C:\Users\Brock\AppData\Local\Temp\lu12980brbmnp.tmp\lu12980brbmny.tmp  Temp             36.7 KB
+  C:\Users\Brock\AppData\Local\Temp\lu12980brbmnp.tmp\lu12980{1A57394A-0 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\lu12980brbmnp.tmp\lu12980{8937CB6B-9 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\lu12980brbmnp.tmp\lu12980{CEDA39A2-7 Temp             0 B
+  C:\Users\Brock\AppData\Local\Temp\claude\C--Users-Brock-OneDrive-Deskt Temp             0 B
+  C:\Windows\SoftwareDistribution\Download\8096fd030a2c5434a75c5d0101b78 WindowsUpdate    342.4 KB
+  C:\Windows\SoftwareDistribution\Download\c076716c0e414eca19c013632fba2 WindowsUpdate    77.4 KB
+  C:\Windows\SoftwareDistribution\Download\SharedFileCache\4681a92515a77 WindowsUpdate    12.8 MB
+  C:\Windows\SoftwareDistribution\Download\SharedFileCache\6842ce7d1de95 WindowsUpdate    12.7 MB
+  C:\Windows\SoftwareDistribution\Download\SharedFileCache\730b392f65967 WindowsUpdate    3.0 MB
+  C:\Windows\SoftwareDistribution\Download\SharedFileCache\829d688a30a8a WindowsUpdate    2.7 MB
+  C:\Windows\SoftwareDistribution\Download\SharedFileCache\97d1f446fda04 WindowsUpdate    10.6 KB
+  C:\Windows\SoftwareDistribution\Download\SharedFileCache\9b364165f7236 WindowsUpdate    10.6 KB
+  C:\Windows\SoftwareDistribution\Download\SharedFileCache\da9cbb9323af8 WindowsUpdate    2.7 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    2.7 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    4.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    12.7 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    145 B
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    111 B
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    19.3 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    6.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    6.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    108.4 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    104.3 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    131.2 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    82.6 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    2.7 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    993.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    5.2 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.1 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.1 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    488.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    67.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    102.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    99.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    21.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    22.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    13.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    199.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    19.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    46.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    46.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.1 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.1 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    46.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    44.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.1 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.1 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    44.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    44.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    15.9 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    45.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    51.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    51.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    51.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    51.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    49.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    52.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    49.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    49.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    51.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    49.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    50.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    51.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    16.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    3.5 MB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    458.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    365.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    46.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    79.0 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.7 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.2 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    76.8 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    17.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.5 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.3 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    10.4 KB
+  C:\Windows\SoftwareDistribution\Download\9853a52f189bae07e3210aba3212f WindowsUpdate    1.6 KB
+  ... and 10444 more files (see MANIFEST.json)
+
+DEFENDER SCAN
+----------------------------------------------------------------------
+  CLEAN  (exit code 0)
+
+RECOMMENDATIONS
+----------------------------------------------------------------------
+  [WARN]  RAM usage is 86.3% (13.5 GB / 15.7 GB used)
+          -> Close unused applications or consider a RAM upgrade.
+  [WARN]  Startup entry 'SecurityHealth' points to a missing file: %windir%\system32\SecurityHealthSystray.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry 'Docker Desktop' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry 'Proton VPN' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry 'DeletePotentialDelete' points to a missing file: cmd
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\App_Brock' points to a missing file: C:\Users\Brock\AppData\Local\jvm\bin\javam.exe"
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Git for Windows Updater' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Okta Verify Activation Task' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Okta Verify Activation Task' points to a missing file: C:\Program
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\OneDrive Reporting Task-S-1-5-21-2206283366-3271691069-3200214668-1001' points to a missing file: %localappdata%\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\OneDrive Standalone Update Task-S-1-5-21-2206283366-3271691069-3200214668-1001' points to a missing file: %localappdata%\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\.NET Framework\.NET Framework NGEN v4.0.30319' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\.NET Framework\.NET Framework NGEN v4.0.30319 64' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Active Directory Rights Management Services Client\AD RMS Rights Policy Template Management (Manual)' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\AppID\PolicyConverter' points to a missing file: %windir%\system32\appidpolicyconverter.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\AppID\VerifiedPublisherCertStoreCheck' points to a missing file: %windir%\system32\appidcertstorecheck.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\MareBackup' points to a missing file: Multiple
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser' points to a missing file: %windir%\system32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser Exp' points to a missing file: %windir%\system32\compattelrunner.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\PcaPatchDbTask' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\SdbinstMergeDbTask' points to a missing file: %windir%\system32\sdbinst.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\SdbinstMergeDbTask' points to a missing file: %windir%\system32\sdbinst.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Application Experience\StartupAppTask' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ApplicationData\appuriverifierdaily' points to a missing file: %windir%\system32\AppHostRegistrationVerifier.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ApplicationData\appuriverifierinstall' points to a missing file: %windir%\system32\AppHostRegistrationVerifier.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ApplicationData\CleanupTemporaryState' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ApplicationData\DsSvcCleanup' points to a missing file: %windir%\system32\dstokenclean.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\AppListBackup\Backup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\AppListBackup\BackupNonMaintenance' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Autochk\Proxy' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\BitLocker\BitLocker Encrypt All Drives' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\BitLocker\BitLocker MDM policy Refresh' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Bluetooth\UninstallDeviceTask' points to a missing file: BthUdTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\BrokerInfrastructure\BgTaskRegistrationMaintenanceTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\capabilityaccessmanager\maintenancetasks' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask-Roam' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CertificateServicesClient\UserTask-Roam' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Chkdsk\ProactiveScan' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Chkdsk\SyspartRepair' points to a missing file: %windir%\system32\bcdboot.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CloudExperienceHost\CreateObjectTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CloudRestore\Backup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CloudRestore\Backup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\CloudRestore\Restore' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ConsentUX\UnifiedConsent\UnifiedConsentSyncTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ConsentUX\UnifiedConsent\UnifiedConsentSyncTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Containers\CmCleanup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Customer Experience Improvement Program\Consolidator' points to a missing file: %SystemRoot%\System32\wsqmcons.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Customer Experience Improvement Program\UsbCeip' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Data Integrity Scan\Data Integrity Check And Scan' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Data Integrity Scan\Data Integrity Check And Scan' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Data Integrity Scan\Data Integrity Scan' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Data Integrity Scan\Data Integrity Scan for Crash Recovery' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Defrag\ScheduledDefrag' points to a missing file: %windir%\system32\defrag.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Device Information\Device' points to a missing file: %windir%\system32\devicecensus.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Device Information\Device' points to a missing file: %windir%\system32\devicecensus.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Device Information\Device User' points to a missing file: %windir%\system32\devicecensus.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\RecommendedTroubleshootingScanner' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\RecommendedTroubleshootingScanner' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\RecommendedTroubleshootingScanner' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\RecommendedTroubleshootingScanner' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\Scheduled' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Diagnosis\UnexpectedCodepath' points to a missing file: %windir%\system32\UCConfigTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DirectXDatabaseUpdater' points to a missing file: %windir%\system32\directxdatabaseupdater.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DirectXDatabaseUpdater' points to a missing file: %windir%\system32\directxdatabaseupdater.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DXGIAdapterCache' points to a missing file: %windir%\system32\dxgiadaptercache.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DXGIAdapterCache' points to a missing file: %windir%\system32\dxgiadaptercache.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DirectX\DXGIAdapterCache' points to a missing file: %windir%\system32\dxgiadaptercache.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DiskCleanup\SilentCleanup' points to a missing file: %windir%\system32\cleanmgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DiskFootprint\Diagnostics' points to a missing file: %windir%\system32\disksnapshot.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DiskFootprint\StorageSense' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\DUSM\dusmtask' points to a missing file: %SystemRoot%\System32\dusmtask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\EDP\EDP App Launch Task' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\EDP\EDP Auth Task' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\EDP\EDP Inaccessible Credentials Task' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\EDP\StorageCardEncryption Task' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ExploitGuard\ExploitGuard MDM policy Refresh' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ExploitGuard\ExploitGuard MDM policy Refresh' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ExploitGuard\ExploitGuard MDM policy Refresh' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Feedback\Siuf\DmClient' points to a missing file: %windir%\system32\dmclient.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Feedback\Siuf\DmClientOnScenarioDownload' points to a missing file: %windir%\system32\dmclient.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\FileHistory\File History (maintenance mode)' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\ReconcileFeatures' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataFlushing' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataFlushing' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataFlushing' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataReceiver' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\FeatureConfig\UsageDataReporting' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\OneSettings\RefreshCache' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\OneSettings\RefreshCache' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Flighting\OneSettings\RefreshCache' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\InputSettingsRestoreDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\LocalUserSyncDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\MouseSyncDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\PenSyncDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\syncpensettings' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\input\TouchpadSyncDataAvailable' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\RestoreDevice' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\ScanForUpdates' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\ScanForUpdates' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\ScanForUpdates' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\InstallService\ScanForUpdatesAsUser' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\International\Synchronize Language Settings' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\International\Synchronize Language Settings' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Kernel\La57Cleanup' points to a missing file: %windir%\system32\la57setup.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\LanguageComponentsInstaller\Installation' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\LanguageComponentsInstaller\ReconcileLanguageResources' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Location\WindowsActionDialog' points to a missing file: %windir%\System32\WindowsActionDialog.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Maintenance\WinSAT' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Management\Provisioning\Cellular' points to a missing file: %windir%\system32\ProvTool.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Management\Provisioning\Logon' points to a missing file: %windir%\system32\ProvTool.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Maps\MapsToastTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\MUI\LPRemove' points to a missing file: %windir%\system32\lpremove.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Multimedia\SystemSoundsService' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Network Connectivity Status Indicator\NcsiIdentifyUserProxies' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Network Connectivity Status Indicator\NcsiIdentifyUserProxies' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Network Connectivity Status Indicator\NcsiIdentifyUserProxies' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\NlaSvc\WiFiTask' points to a missing file: %SystemRoot%\System32\WiFiTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\PerformanceTrace\RequestTrace' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\PI\SecureBootEncodeUEFI' points to a missing file: %WINDIR%\system32\SecureBootEncodeUEFI.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\PI\SecureBootEncodeUEFI' points to a missing file: %WINDIR%\system32\SecureBootEncodeUEFI.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\PI\SecureBootEncodeUEFI' points to a missing file: %WINDIR%\system32\SecureBootEncodeUEFI.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Plug and Play\Device Install Group Policy' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Plug and Play\Device Install Reboot Required' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Plug and Play\Device Install Reboot Required' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Plug and Play\Sysprep Generalize Drivers' points to a missing file: %SystemRoot%\System32\drvinst.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Power Efficiency Diagnostics\AnalyzeSystem' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Printing\EduPrintProv' points to a missing file: %windir%\system32\eduprintprov.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Printing\PrinterCleanupTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\ReFsDedupSvc\Initialization' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Registry\RegIdleBackup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Security\Pwdless\IntelligentPwdlessTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Servicing\StartComponentCleanup' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\CreateObjectTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\FamilySafetyMonitor' points to a missing file: %windir%\System32\wpcmon.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\FamilySafetyRefreshTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\IndexerAutomaticMaintenance' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Shell\ThemesSyncedImageDownload' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SpacePort\SpaceAgentTask' points to a missing file: %windir%\system32\SpaceAgent.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SpacePort\SpaceAgentTask' points to a missing file: %windir%\system32\SpaceAgent.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SpacePort\SpaceManagerTask' points to a missing file: %windir%\system32\spaceman.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SpacePort\SpaceManagerTask' points to a missing file: %windir%\system32\spaceman.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\StateRepository\MaintenanceTasks' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Storage Tiers Management\Storage Tiers Management Initialization' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Subscription\EnableLicenseAcquisition' points to a missing file: %SystemRoot%\system32\ClipRenew.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Subscription\EnableLicenseAcquisition' points to a missing file: %SystemRoot%\system32\ClipRenew.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Subscription\EnableLicenseAcquisition' points to a missing file: %SystemRoot%\system32\ClipRenew.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sustainability\PowerGridForecastTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sustainability\PowerGridForecastTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sustainability\SustainabilityTelemetry' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sysmain\ResPriStaticDbSync' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Sysmain\WsSwapAssessmentTask' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\SystemRestore\SR' points to a missing file: %windir%\system32\srtasks.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Task Manager\Interactive' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\TextServicesFramework\MsCtfMonitor' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Time Synchronization\ForceSynchronizeTime' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Time Synchronization\ForceSynchronizeTime' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Time Synchronization\SynchronizeTime' points to a missing file: %windir%\system32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Time Zone\SynchronizeTimeZone' points to a missing file: %windir%\system32\tzsync.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\UPnP\UPnPHostConfig' points to a missing file: sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\USB\Usb-Notifications' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\USB\Usb-Notifications' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\USB\Usb-Notifications' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\USB\Usb-Notifications' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WCM\WiFiTask' points to a missing file: %SystemRoot%\System32\WiFiTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WDI\ResolutionHost' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Error Reporting\QueueReporting' points to a missing file: %windir%\system32\wermgr.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Filtering Platform\BfeOnServiceStartTypeChange' points to a missing file: %windir%\system32\rundll32.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Windows Media Sharing\UpdateLibrary' points to a missing file: %ProgramFiles%\Windows
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsColorSystem\Calibration Loader' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsColorSystem\Calibration Loader' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsUpdate\Scheduled Start' points to a missing file: %systemroot%\System32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsUpdate\Scheduled Start' points to a missing file: %systemroot%\System32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsUpdate\Scheduled Start' points to a missing file: %systemroot%\System32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WindowsUpdate\Scheduled Start' points to a missing file: %systemroot%\System32\sc.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Wininet\CacheTask' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WlanSvc\CDSSync' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WlanSvc\MoProfileManagement' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WlanSvc\MoProfileManagement' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Work Folders\Work Folders Logon Synchronization' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\Work Folders\Work Folders Maintenance Work' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WwanSvc\NotificationTask' points to a missing file: %SystemRoot%\System32\WiFiTask.exe
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WwanSvc\OobeDiscovery' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WwanSvc\OobeDiscovery' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\Windows\WwanSvc\OobeDiscovery' points to a missing file: COM
+          -> Safe to disable or remove this startup entry.
+  [WARN]  Startup entry '\Microsoft\XblGameSave\XblGameSaveTask' points to a missing file: %windir%\System32\XblGameSaveTask.exe
+          -> Safe to disable or remove this startup entry.
+  [INFO]  216 startup items detected (recommended: <15)
+          -> Review and disable non-essential startup entries in Task Manager > Startup.
+  [INFO]  Startup entry '\Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance' is unsigned (C:\ProgramData\Microsoft\Windows)
+          -> Verify this is a trusted application. If unknown, research before keeping.
+  [INFO]  Startup entry '\Microsoft\Windows\Windows Defender\Windows Defender Cleanup' is unsigned (C:\ProgramData\Microsoft\Windows)
+          -> Verify this is a trusted application. If unknown, research before keeping.
+  [INFO]  Startup entry '\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan' is unsigned (C:\ProgramData\Microsoft\Windows)
+          -> Verify this is a trusted application. If unknown, research before keeping.
+  [INFO]  Startup entry '\Microsoft\Windows\Windows Defender\Windows Defender Verification' is unsigned (C:\ProgramData\Microsoft\Windows)
+          -> Verify this is a trusted application. If unknown, research before keeping.
+  [INFO]  5919 junk files (133.8 MB) staged in PotentialDelete
+          -> Review PotentialDelete folder, then run --confirm-delete to free space.
+  [INFO]  5025 files skipped (in use or permission denied)
+          -> Close open applications and re-run to capture more junk files.
+
+======================================================================
+END OF REPORT
+======================================================================

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ODIN — Full System Overview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; background: #fff; font-size: 13px; line-height: 1.6; }
+  .page { max-width: 780px; margin: 0 auto; padding: 40px 50px; }
+
+  .header { background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); color: white; padding: 40px; border-radius: 14px; margin-bottom: 36px; position: relative; overflow: hidden; }
+  .header::before { content: 'ODIN'; position: absolute; right: -10px; top: -20px; font-size: 120px; font-weight: 900; opacity: 0.05; letter-spacing: -5px; }
+  .header h1 { font-size: 30px; font-weight: 900; letter-spacing: 3px; }
+  .header .full-name { font-size: 11px; color: #9f7aea; letter-spacing: 2px; margin-top: 4px; text-transform: uppercase; }
+  .header .subtitle { font-size: 14px; color: #a0aec0; margin-top: 10px; max-width: 560px; }
+  .header .tags { margin-top: 14px; }
+  .header .tag { display: inline-block; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin: 2px; letter-spacing: 1px; }
+
+  /* Person banners */
+  .person-banner { padding: 22px 28px; border-radius: 12px; margin: 32px 0 18px; }
+  .brock-banner { background: linear-gradient(135deg, #0f3460 0%, #16213e 100%); color: white; }
+  .katelyn-banner { background: linear-gradient(135deg, #2d1b69 0%, #6b21a8 60%, #a855f7 100%); color: white; }
+  .person-banner h2 { font-size: 20px; font-weight: 900; letter-spacing: 1px; border: none; margin: 0 0 6px; padding: 0; color: white; text-transform: uppercase; }
+  .person-banner .role { font-size: 11px; opacity: 0.7; letter-spacing: 2px; text-transform: uppercase; }
+  .person-banner .tagline { font-size: 13px; opacity: 0.9; margin-top: 8px; }
+
+  h2 { font-size: 15px; font-weight: 800; color: #2d3748; border-left: 4px solid #9f7aea; padding-left: 12px; margin: 26px 0 12px; text-transform: uppercase; letter-spacing: 1px; }
+  h2.brock { border-left-color: #3182ce; }
+  h2.katelyn { border-left-color: #a855f7; }
+  h3 { font-size: 13px; font-weight: 700; color: #2d3748; margin: 16px 0 6px; }
+  p { margin-bottom: 10px; color: #4a5568; font-size: 12.5px; }
+
+  .cmd { background: #1a1a2e; color: #e2e8f0; font-family: 'Courier New', monospace; font-size: 11.5px; padding: 9px 14px; border-radius: 6px; margin: 4px 0; }
+  .cmd .note { color: #718096; font-style: italic; font-size: 10px; }
+  code { background: #edf2f7; color: #2d3748; font-family: 'Courier New', monospace; font-size: 11px; padding: 2px 6px; border-radius: 3px; }
+
+  .alert { border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-size: 12px; }
+  .alert-purple { background: #faf5ff; border-left: 4px solid #9f7aea; }
+  .alert-blue   { background: #ebf8ff; border-left: 4px solid #3182ce; }
+  .alert-green  { background: #f0fff4; border-left: 4px solid #38a169; }
+  .alert-orange { background: #fffaf0; border-left: 4px solid #ed8936; }
+  .alert-pink   { background: #fff5f7; border-left: 4px solid #ed64a6; }
+  .alert strong { display: block; font-size: 13px; color: #2d3748; margin-bottom: 6px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+  th { background: #2d3748; color: white; padding: 8px 12px; text-align: left; font-size: 11px; letter-spacing: 0.5px; }
+  th.brock-th { background: #0f3460; }
+  th.katelyn-th { background: #6b21a8; }
+  td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  tr:nth-child(even) td { background: #f7fafc; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
+  .col-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; }
+  .col-card h3 { margin-top: 0; font-size: 13px; }
+
+  .layers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+  .layer { border-radius: 8px; padding: 12px 14px; border: 1px solid #e2e8f0; }
+  .layer .lnum { font-size: 9px; font-weight: 800; color: #9f7aea; letter-spacing: 1px; }
+  .layer .lname { font-size: 12px; font-weight: 700; color: #2d3748; }
+  .layer .ldesc { font-size: 11px; color: #718096; margin-top: 3px; }
+  .live { color: #38a169; font-size: 10px; font-weight: 700; margin-top: 6px; }
+  .soon { color: #d69e2e; font-size: 10px; font-weight: 700; margin-top: 6px; }
+
+  .timeline { margin: 14px 0; }
+  .phase { display: flex; gap: 12px; margin: 10px 0; align-items: flex-start; }
+  .dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .dot-done   { background: #38a169; }
+  .dot-active { background: #9f7aea; box-shadow: 0 0 0 3px rgba(159,122,234,0.25); }
+  .dot-future { background: #e2e8f0; border: 2px solid #cbd5e0; }
+  .phase-title { font-weight: 700; font-size: 12.5px; color: #2d3748; }
+  .phase-detail { font-size: 11px; color: #718096; margin-top: 2px; }
+
+  .agent-card { border-radius: 10px; padding: 16px; margin: 10px 0; border: 1px solid #e9d8fd; background: #faf5ff; }
+  .agent-card .agent-name { font-size: 14px; font-weight: 800; color: #6b21a8; margin-bottom: 4px; }
+  .agent-card .agent-trigger { font-size: 11px; color: #718096; margin-bottom: 8px; font-family: 'Courier New', monospace; background: #1a1a2e; color: #e2e8f0; padding: 4px 10px; border-radius: 4px; display: inline-block; }
+  .agent-card .agent-desc { font-size: 12px; color: #4a5568; }
+  .agent-card .agent-output { font-size: 11px; color: #6b21a8; margin-top: 8px; font-weight: 600; }
+
+  .example-flow { background: #f7fafc; border-radius: 10px; padding: 16px; margin: 12px 0; border: 1px solid #e2e8f0; }
+  .example-flow .flow-title { font-weight: 700; color: #2d3748; font-size: 13px; margin-bottom: 10px; }
+  .flow-step { display: flex; gap: 10px; margin: 6px 0; align-items: flex-start; font-size: 12px; }
+  .flow-arrow { color: #9f7aea; font-weight: 700; flex-shrink: 0; }
+
+  .business-idea { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; margin: 8px 0; }
+  .business-idea .bi-name { font-weight: 700; color: #2d3748; font-size: 13px; }
+  .business-idea .bi-detail { font-size: 11px; color: #718096; margin-top: 2px; }
+
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #a0aec0; text-align: center; }
+
+  @media print {
+    body { font-size: 11.5px; }
+    .page { padding: 20px 28px; }
+    .header, .person-banner, .agent-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    h2, h3 { page-break-after: avoid; }
+    table, .agent-card, .cols { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>ODIN</h1>
+    <div class="full-name">Orchestrated Decision Intelligence Network</div>
+    <div class="subtitle">Your personal AI-powered business operating system — real estate, business creation, automation, and beyond. This is what ODIN does for you today and everything it's being built to do.</div>
+    <div class="tags">
+      <span class="tag">BROCK — SUPER ADMIN</span>
+      <span class="tag">KATELYN — BUSINESS ENGINE</span>
+      <span class="tag">PHASE 3 + 4 LIVE</span>
+    </div>
+  </div>
+
+  <!-- WHAT ODIN IS -->
+  <h2>What ODIN Is</h2>
+  <p>ODIN is a fully custom AI operating system built for Shue Box LLC. It replaces the need to juggle XLeads, spreadsheets, email, a CRM, a scheduler, and a calculator separately. <strong>Everything runs through Slack</strong> — one message, instant results. ODIN connects your CRM (XLeads/GoHighLevel), Claude AI, Slack, Discord, Google Calendar, Gmail, public property records, Redfin, and your entire buyer database into one unified system.</p>
+  <p>It runs itself when you're not watching — scoring inbound seller replies, firing morning briefings, checking your follow-up queue, syncing your deal pipeline — all automatically, on a schedule, while you're at work.</p>
+
+  <div class="alert alert-blue">
+    <strong>The Bigger Picture</strong>
+    ODIN isn't just a real estate tool. It's an infrastructure layer that can run any business you or Katelyn want to build. The same AI that scores seller leads and finds cash buyers also scouts business ideas, models income, builds launch plans, and automates operations. You're building the engine once. Every new business just plugs in.
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  KATELYN SECTION                              -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <div class="person-banner katelyn-banner">
+    <div class="role">Business Standard — Her Own Engine</div>
+    <h2>Katelyn</h2>
+    <div class="tagline">ODIN is your personal AI business partner. It helps you find the right business to build, plan it, launch it, and automate as much of it as possible — all from Slack.</div>
+  </div>
+
+  <h2 class="katelyn">Katelyn's ODIN — The Full Picture</h2>
+
+  <p>Katelyn's side of ODIN is a complete business creation and automation engine. It's not just a chatbot — it's a system that takes you from "I have an idea" all the way to "this business is running and making money," with AI doing the research, planning, modeling, and eventually the repetitive work.</p>
+
+  <div class="alert alert-purple">
+    <strong>How Katelyn Uses ODIN</strong>
+    Open Slack. DM ODIN. Ask anything, or run any command. ODIN already knows who you are and what you're working on — it remembers your businesses, your goals, and your progress from every previous conversation. You never have to re-explain context. Just keep going.
+  </div>
+
+  <h2 class="katelyn">Step 1 — Finding the Right Business to Build</h2>
+  <p>Not sure what business to start, or want to validate an idea before investing time in it? This is where ODIN starts.</p>
+
+  <div class="agent-card">
+    <div class="agent-name">Business Scout</div>
+    <div class="agent-trigger">scout [keywords or idea]</div>
+    <div class="agent-desc">Tell ODIN what you're thinking about — or just a topic area — and it evaluates options and ranks them for you. It scores each idea on: how much money to start, how many hours per week it realistically takes, income potential at 3 and 6 months, competition level, and how well it fits your actual situation (your skills, interests, budget, and available time).</div>
+    <div class="agent-output">What you get back: Top 3 ranked business ideas with a score, startup cost estimate, monthly income potential, and honest reasoning for each. No fluff — real numbers and real tradeoffs.</div>
+  </div>
+
+  <div class="example-flow">
+    <div class="flow-title">Example Conversations</div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div><code>scout etsy printables digital products</code> — Katelyn types this</div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>ODIN: "Option 1: Digital Planners (Score 8.4/10) — $0 to start, $300–900/mo by month 3, low competition in niche categories like ADHD planners or teacher planners..." (continues with full analysis)</div></div>
+    <div class="flow-step" style="margin-top: 10px;"><div class="flow-arrow">→</div><div><code>scout online business hours:15 budget:300</code></div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>ODIN: Scopes ideas specifically to 15 hrs/week and $300 budget — narrows options to realistic matches</div></div>
+  </div>
+
+  <h2 class="katelyn">Step 2 — Modeling the Money</h2>
+  <p>Before you commit to anything, see exactly what the income looks like — month by month, at your actual hours and budget.</p>
+
+  <div class="agent-card">
+    <div class="agent-name">Income Calculator</div>
+    <div class="agent-trigger">income [business name] hours:15 budget:300</div>
+    <div class="agent-desc">Models realistic revenue at your hours and budget. Shows you month 1, month 3, month 6, and month 12 projections — not best-case fantasy numbers, but realistic ramp with honest assumptions stated. Also tells you what the main income levers are (what you'd need to do to double it) and where the ceiling is for that model.</div>
+    <div class="agent-output">What you get back: Month-by-month income projections, breakeven point, the 2-3 things that move the needle fastest, and a realistic ceiling for the business model.</div>
+  </div>
+
+  <div class="example-flow">
+    <div class="flow-title">Example</div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div><code>income digital planners on etsy hours:12 budget:200</code></div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>Month 1: ~$80 (learning, first listings). Month 3: ~$400 (SEO starting to work, 8–12 listings). Month 6: ~$900 (repeat buyers, seasonal picks up). Month 12: $1,400–2,200 (if you build a catalog of 30+ products).</div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>Main levers: Listing count, SEO keyword targeting, seasonal product timing.</div></div>
+  </div>
+
+  <h2 class="katelyn">Step 3 — Building the Launch Plan</h2>
+  <p>Once you've picked a business and seen the income model, ODIN builds your exact week-by-week action plan.</p>
+
+  <div class="agent-card">
+    <div class="agent-name">Business Builder</div>
+    <div class="agent-trigger">build [business name]</div>
+    <div class="agent-desc">Creates a detailed week-by-week task breakdown to launch the business from scratch. Every task has a priority, an estimated time, and a sequence so you always know what to do next. Built specifically around your available hours and budget — it won't tell you to spend $1,000 on tools if your budget is $200.</div>
+    <div class="agent-output">What you get back: Weeks 1–8 task list, prioritized and sequenced. What to do, in what order, roughly how long each step takes.</div>
+  </div>
+
+  <div class="example-flow">
+    <div class="flow-title">Example Output for "Digital Planners"</div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div><strong>Week 1:</strong> Research 20 top-selling planner types on Etsy. Pick your niche. Free Canva account. Design 3 test products. (~5 hrs)</div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div><strong>Week 2:</strong> Open Etsy shop. Write keyword-rich listings for all 3. Price at $3–5. First 10 mockup images. (~4 hrs)</div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div><strong>Week 3–4:</strong> Create 5 more products. Start Pinterest board. Ask 3 friends to buy and review. (~6 hrs/week)</div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div><strong>Week 5–8:</strong> Scale to 20 products. Target seasonal keywords. Track what's selling and double down.</div></div>
+  </div>
+
+  <h2 class="katelyn">Step 4 — Automation Audit</h2>
+  <p>Once the business is live, ODIN maps every task and identifies what it can take off your plate.</p>
+
+  <div class="agent-card">
+    <div class="agent-name">Automation Auditor</div>
+    <div class="agent-trigger">audit [business name]</div>
+    <div class="agent-desc">Goes through every recurring task in your business and categorizes it: what stays manual (requires your creativity/judgment), what ODIN can automate (email responses, content posting, reporting, customer follow-ups), and what tools handle the rest. Gives you a map of exactly what your automated version of the business looks like vs what you do today.</div>
+    <div class="agent-output">What you get back: Full task map (manual vs automated), estimated hours saved per week, and a list of exactly what to build in ODIN to make it happen.</div>
+  </div>
+
+  <h2 class="katelyn">The One-Command Full Business Brief</h2>
+  <div class="cmd" style="background: #2d1b69; border-left: 3px solid #a855f7;">plan [business name or idea]</div>
+  <p>Runs all 4 agents back to back: Scout → Income → Builder → Auditor. You get the full picture — is it worth it, what will it make, how to launch it, what ODIN can automate — in one Slack message chain. The fastest way to evaluate a business idea seriously.</p>
+
+  <div class="example-flow">
+    <div class="flow-title">Full Example: <code>plan handmade jewelry on etsy</code></div>
+    <div class="flow-step"><div class="flow-arrow">1</div><div><strong>Scout:</strong> Handmade jewelry ranks #1 of ideas evaluated — $50–150 startup (materials), $500–1,200/mo potential by month 4, moderate competition but high differentiation possible through branding.</div></div>
+    <div class="flow-step"><div class="flow-arrow">2</div><div><strong>Income:</strong> Month 1: $120. Month 3: $480. Month 6: $900. Month 12: $1,500–2,400 with repeat buyers. Main lever: Your photography + Instagram.</div></div>
+    <div class="flow-step"><div class="flow-arrow">3</div><div><strong>Builder:</strong> Week 1: Source materials + open Etsy. Week 2: 5 hero listings + first photos. Week 3–4: Instagram + Pinterest. Week 5+: Scale what sells.</div></div>
+    <div class="flow-step"><div class="flow-arrow">4</div><div><strong>Auditor:</strong> ODIN can automate: thank-you message sequence, review request follow-ups, weekly sales reporting, Instagram caption drafting, email outreach to wholesalers.</div></div>
+  </div>
+
+  <h2 class="katelyn">The Business Advisor — Your AI Partner</h2>
+  <p>This is the most personal part of Katelyn's ODIN. When you just want to think out loud, ask a question, or get advice — you don't need a command. Just talk to ODIN like you'd talk to a business partner who knows you.</p>
+
+  <div class="alert alert-pink">
+    <strong>Layer 2 Memory — ODIN Knows You</strong>
+    Every conversation Katelyn has with ODIN, it extracts and saves key facts: what businesses she's working on, her revenue goals, what she's tried, what worked, what didn't, what she's stressed about. Next session — without being reminded — ODIN already knows her context and picks up exactly where she left off.
+  </div>
+
+  <h3>Examples of What You Can Just Ask</h3>
+  <table>
+    <tr><th class="katelyn-th">What You Type</th><th class="katelyn-th">What ODIN Does</th></tr>
+    <tr><td>"I keep procrastinating on launching my Etsy shop. What's actually stopping me and what should I do today?"</td><td>Business advisor responds — identifies the real blocker, gives 1–3 specific actions for today, not generic advice.</td></tr>
+    <tr><td>"My first 5 Etsy listings got zero views in 2 weeks. What do I do?"</td><td>Diagnoses the likely cause (SEO keywords, photo quality, listing titles), gives specific fixes to try in order.</td></tr>
+    <tr><td>"I want to make $1,000/month from home. What's the fastest realistic path given what I'm already doing?"</td><td>Gives a specific recommendation based on everything ODIN already knows about Katelyn — not a generic answer.</td></tr>
+    <tr><td>"I have 3 hours this week. What's the most valuable thing I can do for my business right now?"</td><td>Prioritizes based on where she is in the launch plan and what's been working.</td></tr>
+    <tr><td>"Help me write a product description for this planner" + paste your draft</td><td>Rewrites it with Etsy SEO in mind, compelling copy, and the right keywords.</td></tr>
+    <tr><td>"I'm thinking about pivoting from printables to coaching. Talk me through it."</td><td>Evaluates the pivot against her current momentum, pros/cons, and what she'd need to make it work.</td></tr>
+  </table>
+
+  <h2 class="katelyn">What's Coming for Katelyn</h2>
+
+  <div class="timeline">
+    <div class="phase">
+      <div class="dot dot-done"></div>
+      <div class="phase-content">
+        <div class="phase-title">✅ Done — Full Business Creation Suite</div>
+        <div class="phase-detail">Scout, Income, Builder, Auditor, Business Advisor, IT Agent, Layer 2 Memory. All live and working now.</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="dot dot-active"></div>
+      <div class="phase-content">
+        <div class="phase-title">🔄 Now — First Automation (Her Choice)</div>
+        <div class="phase-detail">Once Katelyn picks her first business, ODIN builds the first automation for it — most likely email outreach sequence or Etsy listing workflow. This is the first time ODIN does recurring work for her automatically, on a schedule, without her triggering it.</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="dot dot-future"></div>
+      <div class="phase-content">
+        <div class="phase-title">⏳ Automated Business Operations</div>
+        <div class="phase-detail">ODIN runs weekly KPI reports for her business (revenue, orders, traffic). Posts reminders for things she needs to do. Sends follow-up sequences to buyers/customers automatically. She checks in — ODIN briefs her on what happened and what's next.</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="dot dot-future"></div>
+      <div class="phase-content">
+        <div class="phase-title">⏳ Gmail Integration (Code Built — Needs 5-Min Setup)</div>
+        <div class="phase-detail">ODIN can send and read emails from any Gmail account directly through Slack. Useful for customer outreach, wholesale inquiries, partnership emails. One-time Google OAuth setup needed.</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="dot dot-future"></div>
+      <div class="phase-content">
+        <div class="phase-title">⏳ Full Income Stack</div>
+        <div class="phase-detail">Multiple income streams running in parallel, each with automated reporting, each managed through ODIN. Katelyn checks her Slack in the morning and sees a single dashboard of everything — revenue, tasks due, what's working.</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="dot dot-future"></div>
+      <div class="phase-content">
+        <div class="phase-title">⏳ Advanced Memory Upgrade</div>
+        <div class="phase-detail">Upgrade from database memory to vector-based semantic memory (Mem0 + Pinecone). ODIN won't just remember facts — it'll remember patterns, what kinds of advice she responds to, what's worked before, and what hasn't. Fully personalized over time.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="katelyn">Katelyn's Quick Command Reference</h2>
+  <table>
+    <tr><th class="katelyn-th">What You Want</th><th class="katelyn-th">Command</th></tr>
+    <tr><td>Evaluate a business idea</td><td><code>scout [idea]</code></td></tr>
+    <tr><td>See income potential</td><td><code>income [business] hours:X budget:X</code></td></tr>
+    <tr><td>Get a launch plan</td><td><code>build [business]</code></td></tr>
+    <tr><td>Find out what to automate</td><td><code>audit [business]</code></td></tr>
+    <tr><td>Full business brief at once</td><td><code>plan [business]</code></td></tr>
+    <tr><td>Ask anything / get advice</td><td>Just type it — no command needed</td></tr>
+    <tr><td>Fix a technical problem</td><td><code>debug [problem]</code></td></tr>
+    <tr><td>Draft an email</td><td><code>draft email [type] [context]</code></td></tr>
+    <tr><td>See all commands</td><td><code>help</code></td></tr>
+  </table>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  BROCK SECTION                                -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <div class="person-banner brock-banner">
+    <div class="role">Super Admin</div>
+    <h2>Brock</h2>
+    <div class="tagline">Real estate wholesaling command center + future business empire infrastructure. ODIN is your unfair advantage.</div>
+  </div>
+
+  <h2 class="brock">Real Estate — What ODIN Does for You Right Now</h2>
+
+  <h3>Inbound Seller Replies — Fully Automatic</h3>
+  <p>You blast 1,770 sellers. They start texting back. ODIN handles the entire first-response workflow without you touching anything:</p>
+  <table>
+    <tr><th class="brock-th">What Happens</th><th class="brock-th">How It Works</th></tr>
+    <tr><td>Seller texts back</td><td>XLeads fires a webhook to ODIN instantly</td></tr>
+    <tr><td>AI scores the reply</td><td>Claude Haiku reads the message, scores MCTP (0-10), determines Hot/Warm/Cold</td></tr>
+    <tr><td>XLeads auto-tagged</td><td>Seller gets tagged Hot / Warm / Cold in your CRM automatically</td></tr>
+    <tr><td>You get alerted</td><td>Slack alert with score, full conversation history (last 5 messages), one-tap reply commands</td></tr>
+    <tr><td>Discord alert</td><td>Hot/warm leads also mirror to Discord for Eddie and the team</td></tr>
+    <tr><td>Seller says STOP</td><td>Auto-removed from all workflows, tagged Do-Not-Contact — handled, never contacts them again</td></tr>
+  </table>
+
+  <h3>Full Deal Math in 10 Seconds</h3>
+  <div class="cmd">analyze 4314 Leatherwood Ave Memphis beds:3 baths:2 sqft:1534 zip:38111 condition:medium</div>
+  <p>Returns: ARV (low/mid/high), rehab estimate, Lowest Acceptable Offer (LAO), walk-up max, your assignment price, expected fee — AND Redfin recent sold comps automatically appended. Everything to make an offer, in one Slack message.</p>
+
+  <h3>Buyer Matching — 8,705 Cash Buyers</h3>
+  <div class="cmd">match 4314 Leatherwood arv:165000 assign:90000</div>
+  <p>Searches your entire buyer database. Ranks by: Memphis metro first → active flippers first → portfolio size. Returns name, phone, flipper history, portfolio stats. Ready to call.</p>
+
+  <h3>All Real Estate Commands</h3>
+  <table>
+    <tr><th class="brock-th">Command</th><th class="brock-th">What It Does</th></tr>
+    <tr><td><code>analyze [address] beds:X baths:X sqft:X zip:X condition:X</code></td><td>Full deal math + Redfin comps</td></tr>
+    <tr><td><code>score [call notes]</code></td><td>MCTP score from free-text call notes</td></tr>
+    <tr><td><code>script [seller] [address]</code></td><td>Personalized MCTP call script</td></tr>
+    <tr><td><code>match [address] arv:X assign:X</code></td><td>Rank 8,705 buyers for the deal</td></tr>
+    <tr><td><code>leads</code></td><td>Hot + warm leads in pipeline</td></tr>
+    <tr><td><code>approve [id]</code> / <code>reject [id]</code></td><td>Approve deal → auto-generates offer script</td></tr>
+    <tr><td><code>blast tags:he,tax-delinquent workflow:[id] limit:100</code></td><td>Fire outbound SMS campaign</td></tr>
+    <tr><td><code>lookup [address]</code></td><td>Shelby County: owner, assessed value, tax status, absentee flag</td></tr>
+    <tr><td><code>contacts [name]</code> / <code>contact [id]</code></td><td>Search or pull full seller profile from XLeads</td></tr>
+    <tr><td><code>text [contact_id] [message]</code></td><td>Send SMS via XLeads</td></tr>
+    <tr><td><code>ignore [id]</code></td><td>DNC tag + remove from all workflows</td></tr>
+    <tr><td><code>buyers</code> / <code>buyers flipper</code> / <code>buyers [city]</code></td><td>Browse buyer database</td></tr>
+    <tr><td><code>contract [id] template:[id]</code></td><td>Send contract via XLeads</td></tr>
+    <tr><td><code>workflows</code></td><td>All 41 workflows catalogued</td></tr>
+    <tr><td><code>tags</code></td><td>All XLeads tags (for blast targeting)</td></tr>
+    <tr><td><code>draft email seller [name] [context]</code></td><td>AI-drafted seller follow-up</td></tr>
+    <tr><td><code>content [deal summary]</code></td><td>LinkedIn posts + email content from a deal</td></tr>
+    <tr><td><code>buy number 901</code> → <code>confirm buy +1901XXXXXXX</code></td><td>Buy a new phone number (charges apply)</td></tr>
+  </table>
+
+  <h3>Heartbeat — ODIN Runs Itself</h3>
+  <table>
+    <tr><th class="brock-th">Schedule</th><th class="brock-th">What You Get</th></tr>
+    <tr><td>6:00 AM daily</td><td>Morning briefing — follow-ups due today, hot/warm pipeline, pending approvals</td></tr>
+    <tr><td>9:00 PM daily</td><td>Pipeline report — leads by status, new today, pending deals</td></tr>
+    <tr><td>Every 30 min</td><td>Seller reply scanner — catches any missed inbound replies</td></tr>
+    <tr><td>Every 2 hours</td><td>Overdue follow-up alert — any lead with a missed follow-up date</td></tr>
+    <tr><td>Every 4 hours</td><td>XLeads deal pipeline snapshot — all active opportunities by stage</td></tr>
+    <tr><td>Monday 7:00 AM</td><td>Weekly KPIs — new leads, hot/warm counts, contracted, closed</td></tr>
+  </table>
+
+  <h3>Maya — Your Voice AI</h3>
+  <p>Maya is your inbound voice AI. She answers seller calls on your XLeads number, qualifies them in your tone ("warm, genuinely curious, patient"), and extracts motivation, timeline, and price — the three things you need for MCTP. 29+ calls completed.</p>
+
+  <h2 class="brock">Brock's Future — New Businesses Through ODIN</h2>
+
+  <p>ODIN isn't locked to real estate. The same 4-agent business suite Katelyn uses is available to you. When you're ready to build a new income stream — or want to evaluate whether an idea is worth pursuing — ODIN does the full due diligence and launch plan in minutes.</p>
+
+  <div class="alert alert-blue">
+    <strong>How It Works for You</strong>
+    You have an idea. You type one command. ODIN's 4 agents run in sequence — market analysis, revenue modeling, launch task breakdown, automation audit. You get a complete business brief. If it passes, ODIN helps you build and automate it.
+  </div>
+
+  <h3>The Business Creation Pipeline — 4 Agents in Sequence</h3>
+
+  <div class="agent-card">
+    <div class="agent-name">1. Business Scout</div>
+    <div class="agent-trigger">scout [idea or keywords]</div>
+    <div class="agent-desc">Scores and ranks business ideas based on: startup cost, weekly time required, income potential, market competition, and alignment with your existing skills and assets (your CRM, buyer list, Memphis market knowledge, ODIN infrastructure). Returns top 3 options ranked with a score and reasoning for each.</div>
+    <div class="agent-output">Output: Ranked options with startup cost, monthly income potential, risk level, and why it fits you specifically.</div>
+  </div>
+
+  <div class="agent-card">
+    <div class="agent-name">2. Income Calculator</div>
+    <div class="agent-trigger">income [business name] hours:10 budget:500</div>
+    <div class="agent-desc">Models realistic revenue for the chosen business at your hours and budget constraints. Shows month 1, month 3, month 6, and month 12 projections with breakeven point, assuming realistic ramp-up. Also shows what levers move income fastest.</div>
+    <div class="agent-output">Output: Revenue model with timeline, what needs to happen each month, and where the ceiling is.</div>
+  </div>
+
+  <div class="agent-card">
+    <div class="agent-name">3. Business Builder</div>
+    <div class="agent-trigger">build [business name]</div>
+    <div class="agent-desc">Creates a week-by-week task breakdown to launch the business from scratch. Assigns priorities, estimates hours per task, and sequences everything so you're not guessing what to do next. Built specifically around your available time and budget.</div>
+    <div class="agent-output">Output: Week 1–8 task list. What to do, in what order, with time estimates.</div>
+  </div>
+
+  <div class="agent-card">
+    <div class="agent-name">4. Automation Auditor</div>
+    <div class="agent-trigger">audit [business name]</div>
+    <div class="agent-desc">Maps every recurring task in the business and identifies exactly what ODIN can automate — email sequences, lead responses, content posting, reporting, follow-ups. Shows what stays manual, what gets automated, and what the automation ROI looks like in saved hours per week.</div>
+    <div class="agent-output">Output: Manual vs automated task breakdown + ODIN build list for that business.</div>
+  </div>
+
+  <div class="cmd" style="background: #0f3460; border-left: 3px solid #3182ce;">plan [business name] &nbsp;<span class="note">// runs all 4 agents back to back — full picture in one command</span></div>
+
+  <div class="example-flow">
+    <div class="flow-title">Example: You're thinking about flipping electronics on the side</div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>You: <code>plan electronics reselling</code></div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>Scout: "Electronics reselling ranks #2 of your 3 ideas. $200 startup, $1,200–2,400/mo potential by month 3. Leverages your negotiation skills from RE."</div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>Income: "Month 1: $400. Month 3: $1,600. Month 6: $2,800. Breakeven at 14 days if sourcing from FB Marketplace."</div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>Builder: Week 1–2 setup, Week 3–4 first sales, Week 5–8 scale sourcing...</div></div>
+    <div class="flow-step"><div class="flow-arrow">→</div><div>Auditor: "ODIN can automate: listing creation from photos, pricing research, buyer follow-up messages, weekly sales reporting."</div></div>
+  </div>
+
+  <h3>Business Ideas ODIN Can Help You Scout Right Now</h3>
+  <div class="cols">
+    <div>
+      <div class="business-idea"><div class="bi-name">Wholesaling adjacent — deal finding</div><div class="bi-detail">Virtual assistants who find deals for you in other markets. ODIN already has the buyer infrastructure.</div></div>
+      <div class="business-idea"><div class="bi-name">Property management</div><div class="bi-detail">Leverage your Memphis network. ODIN can handle tenant communication automation.</div></div>
+      <div class="business-idea"><div class="bi-name">Lead generation agency</div><div class="bi-detail">Sell the ODIN blast/inbound system as a service to other wholesalers.</div></div>
+    </div>
+    <div>
+      <div class="business-idea"><div class="bi-name">PartSync Pro (on hold)</div><div class="bi-detail">HVAC contractor SaaS — warm leads already built. Reactivate when you're ready.</div></div>
+      <div class="business-idea"><div class="bi-name">Content/course selling</div><div class="bi-detail">Teach wholesaling. ODIN's content engine can build and distribute the content.</div></div>
+      <div class="business-idea"><div class="bi-name">Anything you come up with</div><div class="bi-detail">Seriously — type <code>scout [your idea]</code> and ODIN will tell you if it's worth doing.</div></div>
+    </div>
+  </div>
+
+  <h3>IT Support — For Any Business Problem</h3>
+  <div class="cmd">debug [describe the problem]</div>
+  <p>ODIN's IT agent (Claude AI) diagnoses and solves technical issues across any tool, platform, or system — ODIN itself, XLeads, email deliverability, website issues, business software, anything. Describe the problem in plain English, get a diagnosis and fix steps in seconds.</p>
+
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--  SHARED INFRASTRUCTURE                        -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <h2>Shared Infrastructure — What ODIN Is Built On</h2>
+
+  <div class="layers">
+    <div class="layer"><div class="lnum">LAYER 1</div><div class="lname">Brain — Claude AI</div><div class="ldesc">Anthropic Claude powers every intelligent task. Haiku for fast scoring, Sonnet for deep analysis.</div><div class="live">✅ Live</div></div>
+    <div class="layer"><div class="lnum">LAYER 2</div><div class="lname">Memory</div><div class="ldesc">PostgreSQL-backed memory. Loads facts before each conversation, extracts new facts after. Both Brock and Katelyn have separate memory stores.</div><div class="live">✅ Live</div></div>
+    <div class="layer"><div class="lnum">LAYER 3</div><div class="lname">Gateway</div><div class="ldesc">XLeads (58 API routes), Slack, Discord. Everything flows through here.</div><div class="live">✅ Live</div></div>
+    <div class="layer"><div class="lnum">LAYER 4</div><div class="lname">Skills — 8 RE Modules</div><div class="ldesc">ARV, LAO, offer calc, lead scorer, script gen, buyer matcher, content engine, email drafter.</div><div class="live">✅ Live</div></div>
+    <div class="layer"><div class="lnum">LAYER 5</div><div class="lname">Heartbeat</div><div class="ldesc">6 automated jobs — runs itself on a schedule, no input needed.</div><div class="live">✅ Live</div></div>
+    <div class="layer"><div class="lnum">LAYER 6</div><div class="lname">Security</div><div class="ldesc">JWT auth, 7 roles, role-based permissions, all keys in Railway env vars.</div><div class="live">✅ Live</div></div>
+    <div class="layer"><div class="lnum">LAYER 7</div><div class="lname">Voice — Maya</div><div class="ldesc">Inbound seller call handling. 29+ calls. Collects motivation, timeline, price.</div><div class="live">✅ Live</div></div>
+    <div class="layer"><div class="lnum">+</div><div class="lname">Google Calendar + Gmail</div><div class="ldesc">Code built. Needs one-time OAuth setup — 5 minutes on your local machine.</div><div class="soon">⏳ Setup Needed</div></div>
+  </div>
+
+  <div class="footer">
+    ODIN — Shue Box LLC | Memphis TN | Built for Brock &amp; Katelyn Shue | Confidential
+  </div>
+
+</div>
+</body>
+</html>

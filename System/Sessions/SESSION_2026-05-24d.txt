@@ -1,0 +1,21 @@
+SESSION: 2026-05-24d
+FOCUS: Fixed double-reply bug (Katelyn getting 2 responses)
+
+===== ROOT CAUSE =====
+Slack requires a response within 3 seconds or it retries the event.
+Claude API calls take longer than 3s, so Slack was resending the event
+with X-Slack-Retry-Num header. ODIN was processing retries as new messages
+→ Katelyn received 2 replies.
+
+===== FIX =====
+File: api/app.py — slack_events() handler
+Added at top of handler (before any processing):
+
+  if request.headers.get('X-Slack-Retry-Num'):
+      return jsonify({'ok': True})
+
+Immediately returns 200 to Slack on any retry — event is dropped.
+One-liner fix, deployed and health-checked.
+
+===== DEPLOYMENT =====
+railway up --detach — deployed, health check passed.

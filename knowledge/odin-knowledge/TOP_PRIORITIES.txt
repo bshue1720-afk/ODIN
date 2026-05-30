@@ -1,0 +1,387 @@
+TOP 15 ODIN PRIORITIES FROM DAN MARTELL TRANSCRIPTS
+Ranked by APEX advancement potential (lowest completion = highest priority)
+Generated: 2026-05-25
+====================================================================
+
+APEX COMPLETION REFERENCE:
+  Buyer/Client Onboarding: 0%
+  Voice Briefing: 10%
+  Decision Queue: 20%
+  Revenue Tracking: 30%
+  KPI Visibility: 40%
+  Team Delegation: 50%
+  Follow-Up Automation: 60%
+  Offer Generation: 70%
+  SMS Outbound: 70%
+  Lead Qualification: 80%
+
+====================================================================
+
+PRIORITY #1 — BUYER/CLIENT ONBOARDING (0% complete)
+Insight: Speed to Value — The Golden Path
+The single most predictive retention signal is whether a customer wins in Week 1.
+Dan's research across his portfolio: clients who hit their first milestone in 7 days
+stay 6+ months. Those who don't: 80% churn by day 30. The "golden path" is the
+shortest possible route from signup to first win — strip everything else.
+
+Why it matters for ODIN:
+Onboarding is at 0%. There is no structured handoff from lead → closed deal → active
+client. Without this, every won deal starts with confusion, and confusion = churn.
+The golden path principle means ODIN needs ONE defined sequence that fires
+immediately on deal close and walks the new buyer to their first clear win.
+
+Implementation:
+1. Define the "first win" for a real estate buyer: receiving their first deal alert
+   that matches their buy box with full deal summary.
+2. Build a 7-day onboarding sequence in ODIN: Day 0 welcome (SMS+email), Day 1 buy
+   box confirmation request, Day 3 first deal match alert, Day 7 check-in ping.
+3. Add a `onboarding_stage` field to the buyers table (0–7 day tracker).
+4. Trigger a Slack alert to Brock/Eddie if a buyer goes 3 days without engagement.
+Source: "How I Built a $100M Business that Never Loses Customers"
+
+--------------------------------------------------------------------
+
+PRIORITY #2 — BUYER/CLIENT ONBOARDING (0% complete)
+Insight: Dummy-Proof the Product — Adoption Ladder
+Most churn is not dissatisfaction — it's confusion. Clients don't fail because the
+product is bad; they fail because they never fully adopt it. The adoption ladder
+maps every feature to a milestone. You guide clients up the ladder one rung at a time
+instead of dumping everything on them at once.
+
+Why it matters for ODIN:
+New buyers need to understand: (a) how deals get sent to them, (b) how to respond,
+(c) what happens after they express interest. If any of those steps are unclear,
+they go silent and you never know if they're disengaged or just confused.
+
+Implementation:
+1. Create a 3-step adoption ladder for buyers: Step 1 = receive deal alert,
+   Step 2 = reply with interest/pass, Step 3 = get connected with seller/agent.
+2. ODIN should track which step each buyer is on and send a re-engagement nudge
+   if they stall (e.g., 2 deals sent, 0 replies = trigger "how are we doing?" SMS).
+3. Build a buyer engagement score (0–100) based on open rate, reply rate, and
+   deals reviewed. Flag low-score buyers for manual outreach.
+Source: "How I Built a $100M Business that Never Loses Customers"
+
+--------------------------------------------------------------------
+
+PRIORITY #3 — VOICE BRIEFING (10% complete)
+Insight: The Leadership Rhythm — Weekly Scorecard Sync
+The most high-leverage leadership behavior is a weekly meeting cadence where every
+metric has a DRI (Directly Responsible Individual), traffic light status (green/
+yellow/red), and a trend line. The founder reviews, asks one question per red metric,
+and trusts the team to solve it. This replaces firefighting with systemic awareness.
+
+Why it matters for ODIN:
+Voice Briefing is at 10% — the concept exists but isn't delivering a real briefing.
+A voice briefing is essentially a scorecard sync delivered verbally. Once ODIN has
+its KPI system built (Priority #5), the voice briefing becomes the delivery layer:
+every morning ODIN should speak the scorecard to Brock.
+
+Implementation:
+1. Define 5–7 ODIN metrics that matter daily: leads in pipeline, deals under offer,
+   buyer responses pending, follow-up tasks overdue, revenue this month vs. target.
+2. ODIN pulls these at 7am, formats them as a 60-second spoken summary.
+3. Deliver via Slack voice message or a scheduled SMS digest (text-based briefing
+   is acceptable as interim until full voice is built).
+4. Each metric must have a DRI (even if it's just ODIN itself for automated ones).
+Source: "Build a Business That Runs Itself", "Leadership Rhythm" frameworks
+
+--------------------------------------------------------------------
+
+PRIORITY #4 — DECISION QUEUE (20% complete)
+Insight: The 1-3-1 Rule — Eliminate Founder Bottlenecks
+The #1 reason businesses stall: everything routes back to the founder for a decision.
+1-3-1 Rule: any time a team member brings a problem, they must bring (1) the problem
+statement, (3) possible solutions they've considered, and (1) their recommendation.
+The founder only approves or declines — never invents solutions.
+
+Why it matters for ODIN:
+Decision Queue is at 20%. Currently decisions pile up with no structure. When Eddie
+or the system surfaces something that needs Brock's call (e.g., pricing a deal,
+handling an unusual seller response), it should arrive pre-packaged with context
+and a recommendation — not as a raw question.
+
+Implementation:
+1. Add a `decision_queue` table: id, issue_summary, option_1, option_2, option_3,
+   recommended_option, status (pending/approved/declined), created_at.
+2. Any agent or automation that hits a decision point creates a queue entry instead
+   of pinging Brock with a question.
+3. Build a `/decisions` Slack command that shows Brock pending items in 1-3-1 format.
+4. Auto-close decisions older than 48 hours by executing the recommended option
+   and logging the auto-approval (with Slack alert).
+Source: "27 Years of No Bullsh*t Business Advice", "How to Build a Business That Runs Itself"
+
+--------------------------------------------------------------------
+
+PRIORITY #5 — DECISION QUEUE (20% complete)
+Insight: The $50-to-Fix-It Rule — Autonomous Problem Resolution
+For any recurring problem that costs less than $50 to fix, the team (or system)
+should fix it without asking. This single rule eliminates 80% of founder interrupts.
+Applied to automation: if a retry, a lookup, or a fallback costs nothing or nearly
+nothing, ODIN should execute it automatically and log the decision — never surface it.
+
+Why it matters for ODIN:
+ODIN currently escalates things that shouldn't require human judgment. Every time
+ODIN pings Brock with something it could handle itself, it's burning attention.
+The $50-equivalent threshold for ODIN: anything that doesn't commit money or change
+a deal status should be handled autonomously.
+
+Implementation:
+1. Define ODIN's autonomous action rules: retry failed SMS (auto), switch to email
+   fallback if SMS bounces (auto), re-queue stalled lead after 7 days (auto),
+   send buyer a "still interested?" ping after 14 days of silence (auto).
+2. All autonomous actions are logged to an `autonomous_actions` table with timestamp,
+   action taken, and outcome.
+3. Weekly digest to Brock showing what ODIN handled without him (builds trust
+   in the system and surfaces patterns for further automation).
+Source: "Buy Back Your Time", "27 Years of No Bullsh*t Business Advice"
+
+--------------------------------------------------------------------
+
+PRIORITY #6 — REVENUE TRACKING (30% complete)
+Insight: Financial System Automation — Real-Time Profit Visibility
+Dan's framework: the financial system should tell you profit at any moment, not just
+at month-end. Three layers: (1) automated P&L updated daily, (2) a "profit per
+customer" metric calculated automatically, (3) a cash runway counter visible
+on the dashboard. "Profit solves all problems" — but only if you can see it.
+
+Why it matters for ODIN:
+Revenue Tracking at 30% means the data exists but the visibility doesn't. Brock
+needs to know: this month's revenue, per-deal profit, and whether he's on track
+for the $20k goal — without manually calculating anything.
+
+Implementation:
+1. Add a `revenue` table: deal_id, assignment_fee, costs, net_profit, close_date.
+2. Build a `/revenue` Slack command: returns MTD revenue, average deal profit,
+   number of deals closed, and projected month-end based on pipeline.
+3. Add a "days to $20k goal" counter to the ODIN dashboard (goal / avg deal profit
+   × avg deal cycle time).
+4. Trigger a Slack celebration message when a deal closes (reinforces momentum).
+Source: "These 4 AI Automations", "27 Years of No Bullsh*t Business Advice"
+
+--------------------------------------------------------------------
+
+PRIORITY #7 — REVENUE TRACKING (30% complete)
+Insight: North Star Metric — One Number That Tells If Business Got Better
+Every business has one metric that, if it goes up, everything else improves.
+For real estate wholesaling: Deals Under Contract (pipeline velocity). Track this
+daily. If it trends up, the engine is working. If it drops two weeks in a row,
+something is broken upstream — find the constraint.
+
+Why it matters for ODIN:
+Without a North Star, ODIN optimizes for activity (leads sent, SMS delivered) but
+not outcomes. The North Star for ODIN is Deals Under Contract Per Month. Every
+other metric is a leading indicator pointing to this one number.
+
+Implementation:
+1. Add `deal_stage` tracking to the pipeline: Lead → Qualified → Offer Sent →
+   Under Contract → Closed.
+2. ODIN's daily briefing leads with: "Deals Under Contract: X (vs. goal: 2/month)"
+3. Any drop in pipeline velocity triggers a diagnostic: which stage is stuck?
+   (Lead volume? Qualification rate? Offer acceptance? Buyer response speed?)
+4. Build a simple pipeline velocity report available via `/pipeline` Slack command.
+Source: "How to Build a Business That Runs Itself", "Build a Business That Runs Itself"
+
+--------------------------------------------------------------------
+
+PRIORITY #8 — KPI VISIBILITY (40% complete)
+Insight: Scorecard System — Traffic Lights + DRI + Trend Lines
+The scorecard is the operating system of a self-running business. Structure: each
+KPI has a name, a DRI, a target, this week's actual, a traffic light (green/yellow/
+red), and a 4-week trend line. The scorecard replaces status meetings. If green:
+keep going. If yellow: watch. If red: DRI presents a fix at next sync.
+
+Why it matters for ODIN:
+KPI Visibility at 40% means some data is tracked but no structured scorecard exists.
+Without this, it's impossible to know which APEX dimension needs attention most —
+and weekly leadership rhythm is impossible without a scorecard to sync against.
+
+Implementation:
+1. Define 8–10 ODIN KPIs with targets (e.g., leads ingested/week: target 50,
+   follow-up completion rate: target 90%, buyer response rate: target 40%,
+   deals under contract: target 2/month, SMS deliverability: target 95%+).
+2. Build a `scorecard` table: metric_name, dri, target, actual_this_week,
+   actual_last_week, status (green/yellow/red).
+3. Auto-populate via existing ODIN data jobs (heartbeat jobs already running).
+4. `/scorecard` Slack command outputs the full scorecard in formatted text.
+Source: "Transformational vs. Transactional Leadership", "Leadership Rhythm"
+
+--------------------------------------------------------------------
+
+PRIORITY #9 — KPI VISIBILITY (40% complete)
+Insight: Theory of Constraints — Fix the Bottleneck, Not Everything
+In any system, one constraint limits total throughput. Improving anything else
+gives zero gain until the constraint is fixed. For sales pipelines: identify which
+stage has the lowest conversion rate. That's the constraint. Fix THAT before
+touching anything else.
+
+Why it matters for ODIN:
+With KPI Visibility at 40%, ODIN can't yet identify its own constraint. Once the
+scorecard is built (Priority #8), the next step is running a constraint analysis:
+which pipeline stage loses the most leads? That stage gets all improvement energy.
+
+Implementation:
+1. Add conversion rate tracking per pipeline stage (Lead→Qualified, Qualified→Offer,
+   Offer→Under Contract, Under Contract→Closed).
+2. Identify the lowest conversion rate stage — this is the current constraint.
+3. All ODIN development sprints start with the constraint stage until it improves
+   by 10 percentage points, then re-identify constraint and repeat.
+4. Display current constraint prominently in the ODIN dashboard.
+Source: "Business is Hard Until You Build These Systems", "These 4 AI Automations"
+
+--------------------------------------------------------------------
+
+PRIORITY #10 — TEAM DELEGATION (50% complete)
+Insight: The Replacement Ladder — Delegate in Order
+The Replacement Ladder defines the sequence for delegation: Admin first, then
+Delivery, then Marketing, then Sales, then Leadership. Never skip rungs. Trying to
+delegate sales before admin is handled creates chaos. The ladder gives a clear answer
+to "what do I hire/automate next?"
+
+Why it matters for ODIN:
+Team Delegation at 50% means some things are delegated but no structured framework
+governs what goes next. The Replacement Ladder applied to ODIN: Admin tasks (data
+entry, logging, scheduling) should be 100% automated before Delivery tasks (deal
+prep, offer generation) get focus.
+
+Implementation:
+1. Audit current delegation state against the ladder: what admin tasks still touch
+   Brock? (lead import, tagging, stage updates — any manual = Priority #1 to automate)
+2. Build ODIN's Replacement Ladder: Rung 1 = all data entry automated, Rung 2 =
+   all follow-up sequences automated, Rung 3 = offer generation automated, Rung 4 =
+   buyer matching automated, Rung 5 = deal closing coordination automated.
+3. Don't build Rung 3 until Rung 1 is 100%. Each rung needs a completion test.
+Source: "Buy Back Your Time", "Build a Business That Runs Itself"
+
+--------------------------------------------------------------------
+
+PRIORITY #11 — TEAM DELEGATION (50% complete)
+Insight: The Camcorder Method — Convert Founder Actions into SOPs
+The fastest way to create an SOP: record yourself doing the task once, send the
+recording to a team member (or AI), and have them write the procedure. This
+eliminates the "I'll document it later" trap. Every task Brock does more than once
+should be recorded and converted into an ODIN automation or team SOP.
+
+Why it matters for ODIN:
+Every time Brock manually handles something ODIN should be doing, it's a delegation
+gap. The Camcorder Method is the extraction mechanism: capture the process, convert
+it to ODIN logic or team instruction.
+
+Implementation:
+1. Every week, identify the top 3 tasks Brock did manually that ODIN should own.
+2. Record a Loom (or write a process note) for each task.
+3. For tasks ODIN can automate: convert to a new job/agent within 1 sprint.
+4. For tasks requiring a human: convert to a checklist SOP in ODIN's docs folder.
+5. Track "tasks reclaimed from Brock" as a KPI in the scorecard.
+Source: "How to Build a Business That Runs Itself", "Buy Back Your Time Book Summary"
+
+--------------------------------------------------------------------
+
+PRIORITY #12 — FOLLOW-UP AUTOMATION (60% complete)
+Insight: The Multi-Touch Follow-Up Sequence — 7 Touches, Multiple Channels
+Data from Dan's portfolio: 80% of sales happen between touch 4 and touch 12.
+Most people quit after touch 2. The winning follow-up system uses multiple channels
+(SMS, email, voicemail drop, social) with decreasing frequency over time.
+Structure: Day 1, 3, 7, 14, 30, 60, 90.
+
+Why it matters for ODIN:
+Follow-Up at 60% means sequences exist but aren't complete. The 7-touch, multi-
+channel structure is likely missing. Sellers who don't respond after the first
+contact are the highest-potential leads — they just need more touches.
+
+Implementation:
+1. Audit current follow-up sequence: how many touches? Which channels? What cadence?
+2. Expand to 7-touch minimum: SMS (Day 1, 7, 30), Email (Day 3, 14, 60),
+   Personal ping from Brock or Eddie (Day 90 only for highest-scored leads).
+3. Add channel fallback: if SMS fails, auto-switch to email. If email bounces,
+   flag for manual outreach.
+4. Track "touch number at first response" — this data tells you where leads actually
+   convert and lets you optimize sequence timing.
+Source: "27 Years of Sales Advice", "These 4 AI Automations"
+
+--------------------------------------------------------------------
+
+PRIORITY #13 — OFFER GENERATION (70% complete)
+Insight: 10-80-10 Rule — Founder Sets the Frame, System Executes the Middle
+The founder owns the first 10% (strategy, criteria, constraints) and the last 10%
+(integration, approval, relationship). The middle 80% is execution — repeatable,
+delegatable, automatable. Applied to offers: Brock defines the buy box and profit
+targets (10%), ODIN calculates and drafts the offer (80%), Brock reviews and sends (10%).
+
+Why it matters for ODIN:
+Offer Generation at 70% is close. The likely gap: ODIN calculates numbers but doesn't
+draft the full offer communication. The 10-80-10 rule clarifies the target state —
+Brock should only touch offers at the beginning (criteria) and end (approval).
+
+Implementation:
+1. Define Brock's 10% inputs for offers: ARV source, repair cost estimate, max
+   offer formula (e.g., 70% ARV minus repairs minus assignment fee target).
+2. ODIN's 80%: pull ARV from existing data or web lookup, apply formula, draft
+   full offer letter with seller name, property address, and offer amount.
+3. Brock's 10%: review draft in Slack, approve with a single button/command.
+4. On approval, ODIN sends the offer via configured channel (SMS/email/DocuSign link).
+Source: "How to Build a Business That Runs Itself", "Build a Business That Runs Itself"
+
+--------------------------------------------------------------------
+
+PRIORITY #14 — SMS OUTBOUND (70% complete)
+Insight: SMS Advantage — 30% Higher Show Rates, Real-Time Engagement
+Text message open rates: 98% vs. 20% for email. Response time: 90 seconds vs. 90
+minutes. For appointment confirmation specifically: SMS reminders sent 24 hours and
+1 hour before a call increase show rates by 30%. Every appointment ODIN books needs
+SMS confirmation, reminder, and follow-up — without exception.
+
+Why it matters for ODIN:
+SMS Outbound at 70% means the infrastructure exists but the full sequence isn't
+deployed. Appointment confirmation sequences and post-no-show recovery SMS are
+likely the missing pieces. These are high-ROI additions given Twilio is already live.
+
+Implementation:
+1. Build appointment SMS sequence: confirmation on booking, 24hr reminder, 1hr
+   reminder, post-appointment follow-up (did we talk? → next steps).
+2. Build no-show recovery sequence: if call missed, auto-send "missed you — want
+   to reschedule?" within 15 minutes. Two follow-up attempts at 24hr and 72hr.
+3. Add SMS deliverability tracking to the scorecard (delivery rate, response rate).
+4. Test personalization tokens in SMS (first name, property address) — personal
+   messages get significantly higher response rates.
+Source: "SMS Advantage" video (direct source), "These 4 AI Automations"
+
+--------------------------------------------------------------------
+
+PRIORITY #15 — LEAD QUALIFICATION (80% complete)
+Insight: MCTP Scoring — Motivation, Condition, Timeline, Price as Qualification Matrix
+The four dimensions of lead quality: Motivation (why are they selling?), Condition
+(what's the property state?), Timeline (how urgent?), Price (are they flexible?).
+A lead only moves to offer stage when all four are scored. Leads missing Motivation
+data are 10x less likely to close — motivation is the #1 predictor.
+
+Why it matters for ODIN:
+Lead Qualification at 80% is the most complete APEX dimension, but 80% means
+something is still missing. The likely gap: Motivation is not being captured or
+weighted correctly. Most systems capture price flexibility but skip deep motivation
+probing — that's where qualified leads get miscategorized.
+
+Implementation:
+1. Audit current qualification fields: does ODIN capture all 4 MCTP dimensions?
+   Which fields are missing or inconsistently filled?
+2. Add a Motivation score field (1–5): 1 = browsing/curious, 5 = must sell now.
+   Weight this 2x in the overall lead score formula.
+3. Build a qualification gap alert: if a lead is 30 days old and Motivation is
+   still unscored, trigger an ODIN task to capture it before the lead goes cold.
+4. Update the AI qualifier's question sequence to probe Motivation first, before
+   price — this mirrors the doctor frame (diagnose before prescribing).
+Source: Rick Ginn MCTP framework + Dan Martell qualification frameworks
+
+====================================================================
+
+IMPLEMENTATION ORDER RECOMMENDATION:
+Week 1–2:  Priority #8 (Scorecard) → unblocks visibility for everything else
+Week 3–4:  Priority #4 (Decision Queue) → eliminates founder bottleneck immediately
+Week 5–6:  Priority #1 (Buyer Onboarding) → only 0% APEX dimension; highest churn risk
+Week 7–8:  Priority #6 (Revenue Tracking) → needed to validate $20k goal progress
+Week 9–10: Priority #3 (Voice Briefing) → scorecard + revenue must exist first
+
+All other priorities feed naturally into this foundation once these 5 are live.
+
+====================================================================
+END OF TOP_PRIORITIES.txt

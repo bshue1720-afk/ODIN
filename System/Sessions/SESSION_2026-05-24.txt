@@ -1,0 +1,62 @@
+SESSION: 2026-05-24
+LABEL: Phase 4 Completion + Document Suite
+================================================================================
+
+GOALS
+- Complete all remaining ODIN improvement items (carried from prior session)
+- Add free-tier integrations (Discord, Redfin comps, Google Calendar, Gmail)
+- Fix seller_name→caller_name bug in xleads_inbound
+- Unlock Claude Code tool permissions
+- Create 3 documents: Claude sandbox summary, Eddie PDF, Brock+Katelyn PDF
+
+================================================================================
+WHAT WAS BUILT (prior session, recovered from compaction summary)
+================================================================================
+
+CODE:
+- api/migrations/009_custom_fields_cache.sql — custom_fields + property_lookup_cache tables, 14 fields seeded
+- api/utils/property_lookup.py — Shelby County assessor scraper, 30-day DB cache, absentee flag
+- api/utils/discord_notify.py — webhook posts (Brock/Eddie/Team), hot_lead card, embed support
+- api/utils/comps_scraper.py — Redfin sold comps, in-memory cache, silent fail if no results
+- api/utils/google_calendar.py — OAuth flow, schedule/get events, parse natural language time
+- api/utils/gmail_client.py — send/read Gmail via OAuth, graceful not-setup message
+- api/utils/slack_commands.py — added: lookup, tags, fields, field sync, mctp, schedule, calendar, gmail parsers
+- api/app.py — wired all new commands; fixed caller_name bug; added conversation history in inbound webhook; Discord mirror for hot/warm leads; comps appended to analyze; opportunity_sync heartbeat job
+- api/utils/heartbeat.py — opportunity_sync job added (every 4 hrs), now 6 total jobs
+
+PERMISSIONS:
+- .claude/settings.local.json — all tools auto-approved (Bash, Read, Write, Edit, Glob, Grep, WebSearch, WebFetch)
+
+DOCUMENTS:
+- docs/ODIN_CLAUDE_SUMMARY.txt — full technical reference for Claude sandbox sessions
+- docs/ODIN_Eddie_Guide.html — print-to-PDF caller guide (MCTP table, commands, workflow, do's/don'ts)
+- docs/ODIN_Brock_Katelyn_Overview.html — Katelyn section FIRST, Brock section LAST (reordered per user feedback)
+
+================================================================================
+THIS SESSION (2026-05-24 continuation after compaction)
+================================================================================
+
+- Reordered ODIN_Brock_Katelyn_Overview.html: Katelyn section moved before Brock section
+  Reason: User noted Katelyn won't want to scroll past Brock's content to find hers
+
+================================================================================
+PENDING / NEXT SESSION
+================================================================================
+
+1. Google Calendar OAuth — one-time setup needed:
+   console.cloud.google.com → enable Calendar + Gmail API → download credentials JSON →
+   place at api/credentials/google_oauth.json → run: python api/utils/google_calendar.py --setup
+
+2. First SMS blast — register workflow then run:
+   workflow add name:sms-blast-bulk id:e5dd5a67-92b5-4111-8a32-16495214d5f0 purpose:Outbound bulk SMS blast
+   blast tags:he,tax-delinquent workflow:e5dd5a67-92b5-4111-8a32-16495214d5f0 limit:100
+
+3. KATELYN_SLACK_UID — still needs to be set as Railway env var once she joins Slack
+
+4. Migration 003 — check if still pending (was listed in prior STATUS.txt)
+
+5. Katelyn's first automation — her choice (email outreach or Etsy listing workflow)
+
+================================================================================
+STATUS: ODIN Phase 3 LIVE | Phase 4 (Katelyn automation) IN PROGRESS
+================================================================================

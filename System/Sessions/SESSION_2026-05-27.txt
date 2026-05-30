@@ -1,0 +1,99 @@
+SESSION: 2026-05-27
+TYPE: Research + Analysis
+PROJECTS: Real Estate, ODIN (Dan Martell memory)
+STATUS: Complete
+
+════════════════════════════════════════════════════════
+TASKS COMPLETED
+════════════════════════════════════════════════════════
+
+1. DOCUMENT REVIEW (10 files)
+   - Executive Summary PDFs (2x ChatGPT-generated): 8 ODIN automation ideas, 12-week roadmap, APEX mapping
+   - ODIN_Strategic_Expansion_Report PDFs (2x): 5 spoke concepts, PPL comparison (contained inaccurate data — corrected)
+   - ODIN_PPL_VA_Efficiency_Report PDFs (3x): PPL & VA efficiency tables (contained inaccurate data — corrected)
+   - Cost-Effective Automation Ideas PDF: free data sources, Twilio campaigns, PPL marketplace overview
+   - research_findings.txt + detailed_research.txt: pre-generated summaries, used as baseline
+
+2. PPL DEEP RESEARCH — CORRECTED FINDINGS
+
+   DollarLeads ("Pirate Packs"):
+   - $1/lead, 100-lead packs, non-exclusive, non-exclusive, nationwide
+   - Marketed explicitly as "practice leads" — not high-intent PPL
+   - Trustpilot: 2.9/5. Common complaints: wrong numbers, sold properties, sellers never contacted
+   - Separate company from XLeads (no ownership overlap — PDFs were wrong about this)
+   - Verdict: Training tool only. NOT for closing first deal.
+
+   AlphaLeads:
+   - Was CLOSED during research agent run; NOW OPEN as of 2026-05-27 (user screenshot confirmed)
+   - Operator Plan: $999/mo per VA caller (Egyptian call center, in-office supervised)
+   - 80–160 market-specific leads/month per caller (3–6/day)
+   - $24–$49/lead effective range shown on site
+   - 100% exclusive, watermarked, MP3 call recordings, AI summaries, Enzo Dialer (3 seats)
+   - Effective cost at $999 ÷ 120 leads (midpoint) = ~$8.33/lead
+   - GATING QUESTIONS before committing: (1) Memphis TN market available? (2) Month-to-month terms?
+
+   iSpeedToLead Sale (Coupon Club):
+   - $29/lead with $1,599/yr Coupon Club membership (flash price; standard $2,678/yr)
+   - 1:22 close ratio, 73-day median close, DealPredictor AI scoring
+   - Trustpilot 4.6/5 (315 reviews, 86% five-star)
+   - Cost/contract: $638 + amortized membership
+
+   iSpeedToLead Exclusive:
+   - ~$325/lead, 1:10 close ratio → $3,250/contract
+
+   XLeads CORRECTION:
+   - SaaS platform ONLY ($81–$229/mo). No PPL program exists.
+   - "$24/lead XLeads PPL" in multiple PDFs was fabricated/conflated with AlphaLeads data.
+
+3. COST-TO-DEAL ANALYSIS (Memphis wholesale, $12k mid deal size)
+
+   AlphaLeads ($999/mo)    | ~$8–24/lead | 1:18 | $150–$432/contract  ← BEST if market confirmed
+   iSpeedToLead Sale+CC    | $29/lead    | 1:22 | $638/contract       ← Best flexible option
+   iSpeedToLead Exclusive  | $325/lead   | 1:10 | $3,250/contract
+   DollarLeads             | $1/lead     | 1:150| $150/contract (theoretical only — unreliable)
+
+4. CREDIT CARD VERDICT
+
+   Recommended deployment: iSpeedToLead Sale + Coupon Club = $2,324 total
+   - $1,599 Coupon Club + $725 (25 leads at $29)
+   - 73-day median close → ~$96 interest at 20% APR
+   - First deal net profit: $5,580–$15,580 (ROI: 230%–644%)
+
+   UPDATED (2026-05-27): AlphaLeads now OPEN at $999/mo may be superior
+   - If Memphis supported + month-to-month: AlphaLeads $999/mo is the better ROI path
+   - If not confirmed: iSpeedToLead Sale + Coupon Club is the play
+   - PREREQUISITE for either: Wire 73-day ODIN drip sequence first. Don't buy leads without follow-up infrastructure.
+
+5. DAN MARTELL NEW TRANSCRIPT IDEAS (4 videos, 2026-05-25)
+   Sources: "14 Ways to Make Money with AI", "Laziest Way to Make Money with AI",
+            "Brutally Honest Advice for AI Money", "I Tested 500+ AI Tools"
+
+   Added to memory file: project_danmartell_insights.txt
+   Categories updated: ODIN Systems, Real Estate, Valdr Ops, PartSync Pro/General
+   NEW CATEGORY 5 ADDED: AI Business Development / Venture Studio
+
+   Category 5 highlights:
+   - AI Agent Development service: $2,500–$5,000 build + $300/mo maintenance (S-tier per Dan)
+   - AI Consulting Sprint: 2-day paid "AI Audit" at $2,500–$5,000 (zero overhead)
+   - ODIN as Venture Studio: each spoke = portfolio company, 5-step launch framework
+   - Atlas/Voice Agent Reseller: $300–500/mo add-on for Valdr Ops clients (A-tier per Dan)
+   - AI Cybersecurity audits for SMBs: $1,500–$3,000/engagement (S-tier per Dan)
+   - Manus-powered DFY outreach service: $1,000–$2,500/mo
+
+   Tool ratings captured (from "I Tested 500+ AI Tools"):
+   Claude=S, Gumloop=S, Revvio=S, Atlas=A, ChatGPT=C, Faceless YouTube=F
+
+════════════════════════════════════════════════════════
+MEMORY FILES UPDATED
+════════════════════════════════════════════════════════
+- project_danmartell_insights.txt — new transcript insights + Category 5 added
+- Real Estate/System/SESSION_INDEX.txt — PPL decisions logged, AlphaLeads status updated
+
+════════════════════════════════════════════════════════
+OPEN ITEMS / NEXT SESSION
+════════════════════════════════════════════════════════
+[ ] Check AlphaLeads: (1) Memphis TN market available? (2) Month-to-month contract terms?
+[ ] Wire 73-day iSpeedToLead drip in ODIN before purchasing any leads
+[ ] Then deploy: AlphaLeads $999/mo (if confirmed) OR iSpeedToLead Coupon Club $1,599 + 25 leads
+[ ] Ongoing ODIN APEX pending: log first revenue event, SMS blast, Katelyn automation,
+    Revenue Tracking/Decision Queue/Voice Briefing remaining builds

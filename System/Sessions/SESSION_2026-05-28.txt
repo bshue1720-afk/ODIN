@@ -1,0 +1,115 @@
+SESSION SUMMARY — 2026-05-28
+======================================================================
+
+## What Was Done
+
+### 1. Finance Bot Builder — Remote Trigger Created
+- Created remote CCR trigger: trig_01L23d9nBMBsLN6vRiWrd57G ("ODIN Finance Bot Builder")
+- Schedule: 14:28 UTC = 10:28 AM ET May 28 (one-time, cron: 28 14 28 5 *)
+- Environment: env_01FimK2Jn2UFXVEUvXXgCCsn (Default Anthropic Cloud)
+- MCP: Google Drive (connector_uuid: 60f8653e-928c-494c-b94b-c8512684627a)
+- Prompt: check Google Drive "ODIN Finance Bot" folder → build 5 files:
+    018_finance_bot.sql, finance_bot.py, heartbeat_addition.txt,
+    slack_command_addition.txt, deployment_checklist.txt → save all to Drive
+- URL: https://claude.ai/code/scheduled/trig_01L23d9nBMBsLN6vRiWrd57G
+
+### 2. YouTube Transcript Downloader — IP Block Diagnosis
+- Hard YouTube IP-level block detected: started 03:41 ET, affects all videos for ~24h
+- 75 downloads completed before block. ~25+ videos in failed state.
+- Root cause: cumulative volume over 36-48 hours of continuous downloading
+- Settings reverted to originals (BATCH_SIZE=75, BATCH_REST=5400, DELAY_MIN=8, DELAY_MAX=18)
+- Fix: wait for reset (~04:00 ET next day) then run: python transcript_downloader.py --retry-failed
+
+### 3. Transcript Knowledge Extraction — COMPLETE
+- Scanned: 711 new Dan Martell YouTube transcripts + 43 Skool FWR Wholesaling lessons
+- Python extract_insights.py run locally (C:\Users\Brock\AppData\Local\Temp\)
+- Raw output: 270 Cat A, 268 Cat B, 189 Cat C, 531 Cat D, 1637 Cat E hits
+- SCANNED_MANIFEST.txt updated: 754 new entries appended (711 DM + 43 Skool)
+- CURATED_INSIGHTS_2026-05-28.txt saved: hand-curated clean knowledge doc
+
+### 4. ODIN Memories — 19 Entries Inserted
+- Source tag: transcript_extraction_2026-05-28
+- User: shueboxllc@gmail.com (a4ede2f8-b3b1-4158-816f-e7503dab81a4)
+- All 19 keys inserted with importance 1-3:
+
+  IMPORTANCE 3 (critical):
+  re_cold_calling_script      — Zach's million dollar 2-line script
+  re_mctp_framework           — Full MCTP + timeframe buckets + ODN avatar
+  re_six_objections           — All 6 objections + exact cure scripts
+  re_offer_formula            — MAO/LAO formula with example
+  re_marketing_benchmarks     — Leads per deal by channel
+  re_cold_calling_kpis        — Contact rates, second chance, dialer options
+  re_certainty_is_product     — MLS vs wholesale cost breakdown
+  re_conditioning_agreement   — Pre-appointment framing script
+  re_cash_buyer_dispo         — Buyer acquisition + JV system
+  odin_pending_builds_re      — 7 RE automation builds queued
+
+  IMPORTANCE 2 (medium):
+  odin_10_80_10_delegation    — 10-80-10 framework
+  odin_drift_monitoring       — Sensor-style drift checks
+  odin_pending_builds_system  — 8 system + Valdr Ops builds queued
+  odin_replacement_ladder     — Admin-first hire sequence
+  re_key_numbers              — All key wholesaling numbers
+  re_memphis_market           — Memphis TN notes + 30-day action plan
+  saas_churn_5_reasons        — 5 reasons SaaS customers churn
+  saas_sales_framework        — 27 years sales advice distilled
+
+  IMPORTANCE 1 (normal):
+  mindset_belief_conviction   — Rick Ginn belief + conviction framework
+
+
+## Key Files
+- CURATED_INSIGHTS_2026-05-28.txt: C:\Users\Brock\OneDrive\Desktop\Master Folder\ODIN knowledge from transcripts\
+- SCANNED_MANIFEST.txt: same folder (now 1,096 total entries)
+- Finance Bot trigger: https://claude.ai/code/scheduled/trig_01L23d9nBMBsLN6vRiWrd57G
+
+
+## Pending / Next Steps
+1. Finance Bot: after 10:28 AM trigger fires, check Google Drive "ODIN Finance Bot" folder.
+   Copy files to ODIN/, set Railway env vars (TELLER_APP_ID, TELLER_CERT_PATH, TELLER_PRIVATE_KEY_PATH),
+   run migration 018, deploy via railway up --detach.
+
+2. YouTube downloader: IP block clears ~04:00 ET. Run:
+   python transcript_downloader.py --retry-failed
+
+3. Skool transcriber: ~41 lessons still pending. Run launch_skool_transcriber.bat to resume.
+
+4. ODIN builds from memory (odin_pending_builds_re + odin_pending_builds_system):
+   Priority: MCTP fields on leads table, timeframe-driven follow-up automation,
+   second chance lead SMS, objection/script Slack commands, MAO/LAO calculator.
+
+
+## ODIN DB State
+- migrations 001-017 live (018 finance bot pending)
+- 24 memories total (5 chat + 19 transcript extraction)
+- Heartbeat jobs: 13 active
+
+━━━ AUTO-COMPACTION CHECKPOINT 2026-05-28T23:32:24.816Z ━━━
+{
+  "session_id": "b54ba74f-e81f-47c0-ab16-28fafa376654",
+  "transcript_path": "C:\\Users\\Brock\\.claude\\projects\\C--Users-Brock-OneDrive-Desktop-Master-Folder\\b54ba74f-e81f-47c0-ab16-28fafa376654.jsonl",
+  "cwd": "C:\\Users\\Brock\\OneDrive\\Desktop\\Master Folder",
+  "hook_event_name": "PreCompact",
+  "trigger": "auto",
+  "custom_instructions": null
+}
+
+━━━ AUTO-COMPACTION CHECKPOINT 2026-05-28T23:36:11.257Z ━━━
+{
+  "session_id": "b54ba74f-e81f-47c0-ab16-28fafa376654",
+  "transcript_path": "C:\\Users\\Brock\\.claude\\projects\\C--Users-Brock-OneDrive-Desktop-Master-Folder\\b54ba74f-e81f-47c0-ab16-28fafa376654.jsonl",
+  "cwd": "C:\\Users\\Brock\\OneDrive\\Desktop\\Master Folder",
+  "hook_event_name": "PreCompact",
+  "trigger": "auto",
+  "custom_instructions": null
+}
+
+━━━ AUTO-COMPACTION CHECKPOINT 2026-05-28T23:57:01.122Z ━━━
+{
+  "session_id": "b54ba74f-e81f-47c0-ab16-28fafa376654",
+  "transcript_path": "C:\\Users\\Brock\\.claude\\projects\\C--Users-Brock-OneDrive-Desktop-Master-Folder\\b54ba74f-e81f-47c0-ab16-28fafa376654.jsonl",
+  "cwd": "C:\\Users\\Brock\\OneDrive\\Desktop\\Master Folder\\ODIN",
+  "hook_event_name": "PreCompact",
+  "trigger": "auto",
+  "custom_instructions": null
+}
