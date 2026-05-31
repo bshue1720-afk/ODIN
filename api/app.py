@@ -2361,6 +2361,38 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
             _slack_post(reply_channel, f'❌ Decline decision error: {e}')
         return
 
+    # ── DECISION OUTCOME ──────────────────────────────────────────────────────
+    if action == 'decision_outcome':
+        try:
+            did    = str(cmd.get('decision_id', '') or '').strip()
+            result = str(cmd.get('result', '') or '').strip()
+            if not did or not result:
+                _slack_post(reply_channel, '⚠️ Usage: `decision outcome <id> result:"What happened"`')
+                return
+            db  = get_db()
+            cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur.execute("""
+                UPDATE decision_queue
+                SET outcome_notes       = %s,
+                    outcome_recorded_at = NOW(),
+                    updated_at          = NOW()
+                WHERE id::text LIKE %s
+                RETURNING id, issue_summary, status
+            """, (result[:500], f'{did}%'))
+            row = cur.fetchone()
+            db.commit()
+            db.close()
+            if row:
+                _slack_post(reply_channel,
+                    f'✅ *Outcome recorded* on decision `{str(row["id"])[:8]}`\n'
+                    f'_{row["issue_summary"]}_\n'
+                    f'Result: {result}')
+            else:
+                _slack_post(reply_channel, f'⚠️ Decision `{did}` not found.')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Decision outcome error: {e}')
+        return
+
     # ── LOG DECISION ──────────────────────────────────────────────────────────
     if action == 'log_decision':
         try:
@@ -2410,6 +2442,17 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
             """)
             rows = cur.fetchall() or []
 
+            # Prior month totals for MoM comparison
+            cur.execute("""
+                SELECT spoke,
+                       SUM(CASE WHEN type = 'income'  THEN amount ELSE 0 END) AS income,
+                       SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS expenses
+                FROM revenue_events
+                WHERE DATE_TRUNC('month', event_date) = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')
+                GROUP BY spoke
+            """)
+            prior_rows = {r['spoke']: r for r in (cur.fetchall() or [])}
+
             cur.execute("""
                 SELECT spoke, amount, type, description, event_date
                 FROM revenue_events
@@ -2428,17 +2471,26 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
 
             db.close()
 
-            month_str = datetime.now().strftime('%B %Y')
+            now = datetime.now()
+            month_str      = now.strftime('%B %Y')
+            prior_month_str = (now.replace(day=1) - timedelta(days=1)).strftime('%b')
             lines = [f'*💰 Revenue — {month_str}*', '']
 
             if rows:
                 total_net = sum(r['income'] - r['expenses'] for r in rows)
                 for r in rows:
-                    net = r['income'] - r['expenses']
-                    tgt = targets.get(r['spoke'])
+                    net   = r['income'] - r['expenses']
+                    prior = prior_rows.get(r['spoke'])
+                    tgt   = targets.get(r['spoke'])
                     tgt_str = f' / ${tgt["target_value"]:,.0f} target' if tgt else ''
-                    pct = f' ({net/tgt["target_value"]*100:.0f}%)' if tgt and tgt['target_value'] else ''
-                    lines.append(f'*{r["spoke"]}*: ${r["income"]:,.0f} in — ${r["expenses"]:,.0f} out = *${net:,.0f} net*{tgt_str}{pct}')
+                    pct   = f' ({net/tgt["target_value"]*100:.0f}%)' if tgt and tgt['target_value'] else ''
+                    if prior:
+                        prior_net = prior['income'] - prior['expenses']
+                        delta     = net - prior_net
+                        mom_str   = f' | {prior_month_str}: ${prior_net:,.0f} (Δ{delta:+,.0f})'
+                    else:
+                        mom_str   = ''
+                    lines.append(f'*{r["spoke"]}*: ${r["income"]:,.0f} in — ${r["expenses"]:,.0f} out = *${net:,.0f} net*{tgt_str}{pct}{mom_str}')
                 lines.append(f'\n*Total net: ${total_net:,.0f}*')
             else:
                 lines.append('No revenue logged this month yet.')
@@ -2717,6 +2769,55 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
             _slack_post(reply_channel, f'❌ KPI scorecard error: {type(e).__name__}: {e}')
         return
 
+    # ── KPI TRENDS (week-over-week) ───────────────────────────────────────────
+    if action == 'kpi_trends':
+        try:
+            db  = get_db()
+            cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur.execute("""
+                SELECT t.spoke, t.metric_name, t.current_value, t.target_value,
+                       t.unit, t.status,
+                       this_wk.value  AS this_week,
+                       last_wk.value  AS last_week
+                FROM kpi_targets t
+                LEFT JOIN kpi_snapshots this_wk
+                    ON this_wk.metric_name = t.metric_name
+                   AND this_wk.spoke      = t.spoke
+                   AND this_wk.snapshot_date = CURRENT_DATE
+                LEFT JOIN kpi_snapshots last_wk
+                    ON last_wk.metric_name = t.metric_name
+                   AND last_wk.spoke      = t.spoke
+                   AND last_wk.snapshot_date = CURRENT_DATE - INTERVAL '7 days'
+                ORDER BY t.spoke, t.metric_name
+            """)
+            rows = cur.fetchall() or []
+            db.close()
+
+            if not rows:
+                _slack_post(reply_channel, 'No KPI snapshots yet — data accumulates after the first kpi_auto_update cycle.')
+                return
+
+            TREND = lambda c, p: ('📈' if c > p else ('📉' if c < p else '➡️')) if (c is not None and p is not None) else '—'
+            STATUS_EMOJI = {'green': '🟢', 'yellow': '🟡', 'red': '🔴'}
+            lines = ['*📊 KPI Trends — This Week vs Last Week*', '']
+            current_spoke = None
+            for r in rows:
+                if r['spoke'] != current_spoke:
+                    current_spoke = r['spoke']
+                    lines.append(f'*{current_spoke.upper()}*')
+                this_w = r['this_week']
+                last_w = r['last_week']
+                trend  = TREND(this_w, last_w)
+                delta  = f'Δ{this_w - last_w:+.0f}' if (this_w is not None and last_w is not None) else 'no prior data'
+                emoji  = STATUS_EMOJI.get(r['status'] or 'green', '⚪')
+                cur_str = f'{r["current_value"] or 0:.0f}' if r['current_value'] is not None else '?'
+                lines.append(f'  {emoji}{trend} {r["metric_name"]}: {cur_str} ({delta})')
+            lines.append('\n_Trends populate after 7 days of snapshots. Run `scorecard` for current targets._')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ KPI trends error: {type(e).__name__}: {e}')
+        return
+
     # ── BUYERS ONBOARDING PIPELINE ────────────────────────────────────────────
     if action == 'buyers_onboarding':
         try:
@@ -2818,6 +2919,146 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
             db.close()
         except Exception as e:
             _slack_post(reply_channel, f'❌ Onboard buyer failed: {type(e).__name__}: {e}')
+        return
+
+    # ── BUYER MATCH (criteria-based) ──────────────────────────────────────────
+    if action == 'buyer_match_criteria':
+        address = cmd.get('address', '').strip()
+        arv     = cmd.get('arv') or 0
+        if not address:
+            _slack_post(reply_channel, '⚠️ Usage: `buyer match <address> arv:165000`')
+            return
+        try:
+            db  = get_db()
+            cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            # Extract zip from address or use known Memphis zips
+            zip_m = re.search(r'\b(3\d{4})\b', address)
+            zip_code = zip_m.group(1) if zip_m else None
+
+            if zip_code:
+                cur.execute("""
+                    SELECT b.name, b.phone, b.email, b.buyer_type,
+                           bc.min_price, bc.max_price, bc.zip_codes,
+                           bc.deal_types, bc.max_rehab, bc.notes
+                    FROM buyer_criteria bc
+                    JOIN buyers b ON b.id = bc.buyer_id
+                    WHERE b.is_dnc = FALSE
+                      AND b.onboarding_stage IN ('qualified', 'active')
+                      AND (bc.min_price IS NULL OR bc.min_price <= %s)
+                      AND (bc.max_price IS NULL OR bc.max_price >= %s)
+                      AND (bc.zip_codes IS NULL OR bc.zip_codes = '{}' OR %s = ANY(bc.zip_codes))
+                    ORDER BY bc.max_price DESC NULLS LAST
+                    LIMIT 8
+                """, (arv or 999999, arv or 0, zip_code))
+            else:
+                cur.execute("""
+                    SELECT b.name, b.phone, b.email, b.buyer_type,
+                           bc.min_price, bc.max_price, bc.zip_codes,
+                           bc.deal_types, bc.max_rehab, bc.notes
+                    FROM buyer_criteria bc
+                    JOIN buyers b ON b.id = bc.buyer_id
+                    WHERE b.is_dnc = FALSE
+                      AND b.onboarding_stage IN ('qualified', 'active')
+                      AND (bc.min_price IS NULL OR bc.min_price <= %s)
+                      AND (bc.max_price IS NULL OR bc.max_price >= %s)
+                    ORDER BY bc.max_price DESC NULLS LAST
+                    LIMIT 8
+                """, (arv or 999999, arv or 0))
+
+            matches = cur.fetchall() or []
+            db.close()
+
+            if not matches:
+                _slack_post(reply_channel,
+                    f'No criteria-qualified buyers match {address} (ARV ${arv:,.0f}).\n'
+                    f'Run `buyers onboarding` to see qualification pipeline.')
+                return
+
+            lines = [f'*🏠 Criteria Buyers for {address}*{f" (ARV ${arv:,.0f})" if arv else ""}', '']
+            for b in matches:
+                price_range = f'${b["min_price"]:,.0f}–${b["max_price"]:,.0f}' if b['max_price'] else 'no range set'
+                zips_str    = ', '.join(b['zip_codes'] or []) or 'any'
+                types_str   = ', '.join(b['deal_types'] or []) or 'any'
+                lines.append(
+                    f'• *{b["name"] or "Unknown"}* ({b["buyer_type"] or "buyer"})\n'
+                    f'  Range: {price_range} | Zips: {zips_str} | Types: {types_str}\n'
+                    f'  Contact: {b["phone"] or b["email"] or "—"}'
+                )
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Buyer match error: {type(e).__name__}: {e}')
+        return
+
+    # ── BUYER CRITERIA VIEW ───────────────────────────────────────────────────
+    if action == 'buyer_criteria_view':
+        name = cmd.get('name', '').strip()
+        if not name:
+            _slack_post(reply_channel, '⚠️ Usage: `buyer criteria <name>`')
+            return
+        try:
+            db  = get_db()
+            cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur.execute("""
+                SELECT b.name, b.phone, b.onboarding_stage,
+                       bc.min_price, bc.max_price, bc.zip_codes,
+                       bc.deal_types, bc.max_rehab, bc.notes, bc.raw_reply, bc.captured_at
+                FROM buyers b
+                JOIN buyer_criteria bc ON bc.buyer_id = b.id
+                WHERE LOWER(b.name) LIKE LOWER(%s)
+                  AND b.is_dnc = FALSE
+                ORDER BY bc.captured_at DESC LIMIT 1
+            """, (f'%{name}%',))
+            row = cur.fetchone()
+            db.close()
+            if not row:
+                _slack_post(reply_channel, f'No buyer criteria found for `{name}`. They may not have replied yet.')
+                return
+            lines = [
+                f'*📋 Buyer Criteria — {row["name"]}*',
+                f'Stage: {row["onboarding_stage"]}',
+                f'Price range: ${row["min_price"] or "?"} – ${row["max_price"] or "?"}',
+                f'Zip codes: {", ".join(row["zip_codes"] or []) or "not specified"}',
+                f'Deal types: {", ".join(row["deal_types"] or []) or "not specified"}',
+                f'Max rehab: ${row["max_rehab"] or "not specified"}',
+                f'Notes: {row["notes"] or "—"}',
+            ]
+            if row['raw_reply']:
+                lines.append(f'Raw reply: _{row["raw_reply"][:200]}_')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Buyer criteria error: {type(e).__name__}: {e}')
+        return
+
+    # ── SET FOLLOWUP SEQUENCE ─────────────────────────────────────────────────
+    if action == 'set_followup_sequence':
+        address = cmd.get('address', '').strip()
+        steps   = max(1, min(int(cmd.get('steps') or 3), 5))
+        if not address:
+            _slack_post(reply_channel, '⚠️ Usage: `set followup sequence <address> steps:3`')
+            return
+        try:
+            db  = get_db()
+            cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur.execute("""
+                UPDATE leads
+                SET followup_max_steps = %s,
+                    followup_step      = 1,
+                    updated_at         = NOW()
+                WHERE LOWER(address) LIKE LOWER(%s)
+                  AND status NOT IN ('closed','dead','contracted')
+                RETURNING address, followup_max_steps
+            """, (steps, f'%{address}%'))
+            row = cur.fetchone()
+            db.commit()
+            db.close()
+            if row:
+                _slack_post(reply_channel,
+                    f'✅ Follow-up sequence set on *{row["address"]}*: *{steps} steps*, 4 days apart.\n'
+                    f'Auto-advances when heartbeat fires each step. Resets to step 1 when seller replies.')
+            else:
+                _slack_post(reply_channel, f'⚠️ No active lead found matching `{address}`.')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Set followup sequence error: {e}')
         return
 
     # ── FINANCE — BROCK ONLY ──────────────────────────────────────────────────
@@ -5623,16 +5864,23 @@ def xleads_inbound():
     """
     data = request.get_json(silent=True) or {}
 
-    event_type   = data.get('type', '')
-    contact_id   = data.get('contactId', '')
-    body         = (data.get('body') or data.get('message') or '').strip()
+    # GHL sends 'message' as either a plain string or a nested dict
+    # e.g. {"body": "...", "type": "SMS", "direction": "inbound"}
+    _msg_raw = data.get('message')
+    _msg_obj = _msg_raw if isinstance(_msg_raw, dict) else {}
+
+    event_type   = data.get('type', '') or _msg_obj.get('type', '')
+    contact_id   = data.get('contactId', '') or data.get('contact_id', '')
+    _body_str    = data.get('body') or (_msg_raw if isinstance(_msg_raw, str) else None) or _msg_obj.get('body', '') or _msg_obj.get('text', '')
+    body         = str(_body_str).strip() if _body_str else ''
     first_name   = data.get('firstName', 'Unknown')
     last_name    = data.get('lastName', '')
     phone        = data.get('phone', '—')
-    msg_type     = data.get('messageType', 'SMS')
+    msg_type     = data.get('messageType', '') or _msg_obj.get('type', 'SMS')
+    _direction   = data.get('direction', '') or _msg_obj.get('direction', '')
 
     # Only process inbound messages
-    if 'inbound' not in event_type.lower() and data.get('direction', '') != 'inbound':
+    if 'inbound' not in event_type.lower() and _direction != 'inbound':
         return jsonify({'ok': True})
 
     if not body:
@@ -5643,6 +5891,86 @@ def xleads_inbound():
 
     log_action(None, 'xleads_inbound_message', 'xleads', contact_id,
                {'from': sender_name, 'message_preview': body[:100]})
+
+    # ── BUYER CRITERIA CAPTURE — check if this is a buyer replying to qualification SMS ──
+    if contact_id and not is_negative_reply(body):
+        try:
+            _bq_db  = get_db()
+            _bq_cur = _bq_db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            _bq_cur.execute("""
+                SELECT b.id AS buyer_id, b.name,
+                       bc.id AS criteria_id, bc.notes AS criteria_notes
+                FROM buyers b
+                LEFT JOIN buyer_criteria bc ON bc.buyer_id = b.id
+                WHERE b.xleads_contact_id = %s
+                  AND b.is_dnc = FALSE
+                  AND b.onboarding_stage IN ('welcomed', 'qualified')
+                LIMIT 1
+            """, (contact_id,))
+            _buyer = _bq_cur.fetchone()
+            if _buyer:
+                # Use Haiku to extract structured criteria from the reply
+                _criteria_raw = _haiku(
+                    f'Extract buyer criteria from this SMS reply. Return JSON only, no extra text: '
+                    f'{{"min_price": number or null, "max_price": number or null, '
+                    f'"zip_codes": ["list of zip strings"], "deal_types": ["flip","rental", etc], '
+                    f'"max_rehab": number or null, "notes": "one-line summary"}}\n\n'
+                    f'SMS: "{body}"',
+                    max_tokens=200,
+                )
+                try:
+                    _criteria = json.loads(_criteria_raw.strip().strip('`').replace('json\n','').replace('json',''))
+                except Exception:
+                    _criteria = {}
+
+                _bq_cur.execute("""
+                    INSERT INTO buyer_criteria
+                        (buyer_id, min_price, max_price, zip_codes, deal_types, max_rehab, notes, raw_reply)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    ON CONFLICT (buyer_id) DO UPDATE SET
+                        min_price  = COALESCE(EXCLUDED.min_price,  buyer_criteria.min_price),
+                        max_price  = COALESCE(EXCLUDED.max_price,  buyer_criteria.max_price),
+                        zip_codes  = COALESCE(EXCLUDED.zip_codes,  buyer_criteria.zip_codes),
+                        deal_types = COALESCE(EXCLUDED.deal_types, buyer_criteria.deal_types),
+                        max_rehab  = COALESCE(EXCLUDED.max_rehab,  buyer_criteria.max_rehab),
+                        notes      = EXCLUDED.notes,
+                        raw_reply  = EXCLUDED.raw_reply,
+                        updated_at = NOW()
+                """, (
+                    str(_buyer['buyer_id']),
+                    _criteria.get('min_price'),
+                    _criteria.get('max_price'),
+                    _criteria.get('zip_codes') or [],
+                    _criteria.get('deal_types') or [],
+                    _criteria.get('max_rehab'),
+                    _criteria.get('notes', '')[:300],
+                    body[:500],
+                ))
+                _bq_cur.execute("""
+                    UPDATE buyers
+                    SET onboarding_stage = 'qualified', updated_at = NOW()
+                    WHERE id = %s AND onboarding_stage != 'active'
+                """, (str(_buyer['buyer_id']),))
+                _bq_db.commit()
+                _bq_cur.close()
+                _bq_db.close()
+                # Alert Brock — buyer updated their criteria
+                _buyer_name = _buyer['name'] or sender_name
+                _slack_post(brock_channel,
+                    f'✅ *Buyer criteria captured — {_buyer_name}*\n'
+                    f'Reply: _{body}_\n'
+                    f'{_criteria.get("notes", "")}\n'
+                    f'Price: ${_criteria.get("min_price") or "?"} – ${_criteria.get("max_price") or "?"} | '
+                    f'Zips: {", ".join(_criteria.get("zip_codes") or []) or "—"} | '
+                    f'Types: {", ".join(_criteria.get("deal_types") or []) or "—"}\n'
+                    f'_Buyer advanced to Qualified stage._'
+                )
+                return jsonify({'ok': True})
+            else:
+                _bq_cur.close()
+                _bq_db.close()
+        except Exception as _bq_err:
+            print(f'[xleads_inbound] Buyer criteria capture failed: {_bq_err}')
 
     # ── NEGATIVE / OPT-OUT reply
     if is_negative_reply(body):
@@ -5658,6 +5986,23 @@ def xleads_inbound():
                     pass
         except Exception as e:
             print(f'[xleads_inbound] Auto-ignore failed: {e}')
+
+        # Stamp opted_out_at on ODIN lead record if xleads_contact_id matches
+        try:
+            _oo_db = get_db()
+            _oo_cur = _oo_db.cursor()
+            _oo_cur.execute("""
+                UPDATE leads
+                SET opted_out_at   = NOW(),
+                    opt_out_reason = %s,
+                    updated_at     = NOW()
+                WHERE xleads_contact_id = %s
+            """, (body[:200], contact_id))
+            _oo_db.commit()
+            _oo_cur.close()
+            _oo_db.close()
+        except Exception as _oo_err:
+            print(f'[xleads_inbound] Opt-out stamp failed: {_oo_err}')
 
         opt_out_msg = (
             f'🚫 *Auto-ignored* — {sender_name} ({phone})\n'
@@ -5696,6 +6041,22 @@ def xleads_inbound():
                 xleads.remove_contact_tags(contact_id, ['Warm', 'Cold'])
             except Exception:
                 pass
+            # Hot lead auto-route: trigger customer-replied workflow + DM Brock urgently
+            try:
+                _hr_db = get_db()
+                _hr_cur = _hr_db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+                _hr_cur.execute("""
+                    SELECT xleads_id FROM workflow_registry
+                    WHERE name ILIKE '%customer%replied%' OR name ILIKE '%customer-replied%'
+                    LIMIT 1
+                """)
+                _wf_row = _hr_cur.fetchone()
+                _hr_cur.close()
+                _hr_db.close()
+                if _wf_row and _wf_row.get('xleads_id') and contact_id:
+                    xleads.trigger_workflow(contact_id, _wf_row['xleads_id'])
+            except Exception as _hr_err:
+                print(f'[xleads_inbound] Hot auto-route failed: {_hr_err}')
         elif total >= 5:
             try:
                 xleads.add_contact_tags(contact_id, ['Warm'])
@@ -5754,6 +6115,26 @@ def xleads_inbound():
         _db.close()
     except Exception as _le:
         print(f'[xleads_inbound] Lead upsert failed: {_le}')
+
+    # ── Clear follow_up_date, reset sequence step, stamp last_contact_date ──
+    if contact_id:
+        try:
+            _fu_db = get_db()
+            _fu_cur = _fu_db.cursor()
+            _fu_cur.execute("""
+                UPDATE leads
+                SET follow_up_date    = NULL,
+                    next_action       = NULL,
+                    followup_step     = 1,
+                    last_contact_date = CURRENT_DATE,
+                    updated_at        = NOW()
+                WHERE xleads_contact_id = %s
+            """, (contact_id,))
+            _fu_db.commit()
+            _fu_cur.close()
+            _fu_db.close()
+        except Exception as _fu_err:
+            print(f'[xleads_inbound] follow_up_date clear failed: {_fu_err}')
 
     # ── Pull last 5 conversation messages for context ──────────────────────
     history_block = ''
