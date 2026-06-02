@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from flask import Flask
+from flask import Flask, request, make_response
 from flask_cors import CORS
 
 import utils.heartbeat        as heartbeat
@@ -35,6 +35,24 @@ def create_app() -> Flask:
     application = Flask(__name__, static_folder='../dashboard', static_url_path='')
 
     CORS(application, resources={r'/api/*': {'origins': '*'}})
+
+    # Belt-and-suspenders: manually stamp CORS headers on every response
+    @application.after_request
+    def _cors(response):
+        response.headers['Access-Control-Allow-Origin']  = '*'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+        return response
+
+    # Handle preflight OPTIONS for every route
+    @application.before_request
+    def _preflight():
+        if request.method == 'OPTIONS':
+            resp = make_response('', 204)
+            resp.headers['Access-Control-Allow-Origin']  = '*'
+            resp.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            resp.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+            return resp
 
     application.register_blueprint(system_bp)
     application.register_blueprint(auth_bp)
