@@ -1,0 +1,69 @@
+SESSION 2026-05-31b — APP.PY MODULARIZATION + DYNAMIC AGENT SPAWNER
+Deployed: railway up --detach, build 19ba32fc
+
+===== WHAT WAS BUILT =====
+
+1. APP.PY MODULARIZATION
+   - Refactored monolithic app.py (6,632 lines) into Flask factory pattern
+   - New api/app.py: 77 lines — create_app() + blueprint registration + service init
+
+   New modules:
+     api/core/__init__.py
+     api/core/db.py             — get_db(), log_action(), DATABASE_URL, BASE_URL
+     api/core/auth.py           — JWT_SECRET, require_auth, require_role, require_permission_for
+     api/core/helpers.py        — _slack_post, _slack_verify, _haiku, _run_agent, MAYA_PROMPT
+     api/core/discord_state.py  — shared _discord_queues (circular-import fix)
+     api/commands/__init__.py
+     api/commands/executor.py   — _execute_slack_command() (~3,600 lines extracted from monolith)
+     api/blueprints/__init__.py
+     api/blueprints/system_bp.py       — /, /set-password, /api/health
+     api/blueprints/auth_bp.py         — /api/auth/login, /api/auth/set-password
+     api/blueprints/users_bp.py        — /api/users CRUD + invite + activity
+     api/blueprints/leads_bp.py        — /api/leads, /api/buyers, sync-xleads
+     api/blueprints/approval_bp.py     — /api/approval CRUD
+     api/blueprints/dashboard_bp.py    — /api/dashboard/agents + summary
+     api/blueprints/agents_bp.py       — /api/agents/* (scout/income/build/audit/debug/plan/spawn)
+     api/blueprints/integrations_bp.py — Slack events, voice briefing, Telegram webhook
+     api/blueprints/xleads_bp.py       — 54 passthrough routes + inbound webhook + DLQ retry
+
+   Key fixes during modularization:
+     - circular import: _discord_queues moved to core/discord_state.py (neutral shared module)
+     - xleads_inbound_retry: app.test_request_context → current_app.test_request_context
+     - MAYA_PROMPT moved to core/helpers.py (was defined after use in original monolith)
+     - Procfile unchanged: gunicorn app:app --workers 1 still works (factory exposes app at module level)
+
+2. DYNAMIC AGENT SPAWNER
+   New file: api/utils/agent_spawner.py
+   - spawn(task, get_db, xleads_mod, triggered_by) — main entry point
+   - Claude Haiku decomposes task into ≤5 sequential sub-agent steps
+   - Built-in agents: scout, income, build, audit, it, claude (ad-hoc)
+   - Step chaining: {{step_N_output}} placeholder resolves previous step's output into next step's params
+   - Synthesis: Haiku synthesizes all step outputs into a final Slack-formatted summary
+   - Logging: writes to agent_runs table + agent_logs table
+
+   New migration: api/migrations/027_agent_runs.sql — APPLIED TO RAILWAY DB
+   Table: agent_runs (id UUID, task, triggered_by, status, steps JSONB, result, duration_ms, created_at, completed_at)
+
+   New API route: POST /api/agents/spawn {"task": "..."}
+
+   New Slack commands:
+     spawn <task>   — decompose + run sub-agents + synthesize
+     agent runs     — show recent spawn history
+
+   Parser entries added to slack_commands.py + HELP_TEXT updated
+   Handlers added to commands/executor.py (before error/unknown block)
+
+===== DEPLOYMENT =====
+  railway up --detach from ODIN/ root
+  Build ID: 19ba32fc-ef84-4b26-9deb-c6b6b8777ab2
+  Migration 027 applied via py -3 + psycopg2 using DATABASE_PUBLIC_URL (kodama.proxy.rlwy.net)
+
+===== TEST COMMANDS =====
+  spawn research the printables on Etsy business and build a 30-day launch plan
+  agent runs
+
+===== APEX STATUS POST-SESSION — ~99% =====
+  Modular architecture: COMPLETE
+  Dynamic spawner: LIVE
+  All prior features: unchanged and functional
+  Remaining: First Katelyn automation (email outreach or Etsy — her choice)

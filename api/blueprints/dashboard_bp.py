@@ -1,4 +1,4 @@
-"""ODIN Blueprint — Dashboard summary and agent org chart."""
+"""ODIN Blueprint — Dashboard summary, agent org chart, and finance overview."""
 import psycopg2.extras
 from flask import Blueprint, request, jsonify, g
 
@@ -130,3 +130,35 @@ def dashboard_summary():
             return jsonify({'role': role, 'message': 'Dashboard active'})
     finally:
         conn.close()
+
+
+@bp.route('/api/finance/summary', methods=['GET'])
+@require_auth
+def finance_summary():
+    """Finance dashboard data for super_admin — balances + spending."""
+    if g.user.get('role') != 'super_admin':
+        return jsonify({'error': 'Forbidden'}), 403
+    try:
+        from utils.finance_bot import get_balances, get_spending_report, get_subscriptions
+        balances  = get_balances()
+        spending  = get_spending_report(period='month')
+        subs      = get_subscriptions()
+        # Serialize Decimal/date types
+        def _clean(obj):
+            import decimal, datetime
+            if isinstance(obj, dict):
+                return {k: _clean(v) for k, v in obj.items()}
+            if isinstance(obj, list):
+                return [_clean(i) for i in obj]
+            if isinstance(obj, decimal.Decimal):
+                return float(obj)
+            if isinstance(obj, (datetime.date, datetime.datetime)):
+                return obj.isoformat()
+            return obj
+        return jsonify({
+            'balances':  _clean(balances),
+            'spending':  _clean(spending),
+            'subs':      _clean(subs),
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

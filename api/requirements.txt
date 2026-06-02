@@ -1,4 +1,6 @@
+# cache-bust: 2026-06-02
 flask==3.1.0
+flask-cors==5.0.0
 psycopg2-binary==2.9.10
 PyJWT==2.10.1
 bcrypt==4.3.0
@@ -7,3 +9,8 @@ python-dotenv==1.1.0
 gunicorn==23.0.0
 fpdf2==2.8.3
 anthropic
+google-auth==2.38.0
+google-auth-oauthlib==1.2.1
+google-api-python-client==2.167.0
+apscheduler==3.10.4
+discord.py==2.3.2

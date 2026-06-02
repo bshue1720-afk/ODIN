@@ -1,0 +1,114 @@
+━━━ LATEST CHECKPOINT — tool call 50 — 2026-06-02T00:39:13.654Z ━━━
+👤 USER:
+Odin
+
+---
+
+🤖 CLAUDE:
+**State:**
+- ODIN ~72% APEX parity, migrations 001–030 applied, Railway live
+- Last session (2026-06-02): deployed error alerting, dashboard last_run, `tone`/`sentiment` commands, details→data fix — all need Slack confirmation
+- Open: blast stats (72hr window from Jun 01), VA decision pending blast results, Katelyn's first automation, Google Form for VA lead intake
+
+Session goal: [what are we working on today?] Correct?
+
+**Next:** Tell me the focus and we'll anchor.
+
+---
+
+👤 USER:
+Progess ODIN as far as possible. Potentially deploy ODIN to netlify. What am I supposed to test in slack?
+
+---
+
+🤖 CLAUDE:
+Let me read the key context files before we build.
+
+---
+
+🤖 CLAUDE:
+Now let me look at the dashboard frontend and understand the current state.
+
+---
+
+🤖 CLAUDE:
+Good context gathered. Here's the full picture:
+
+---
+
+## Slack Test Checklist
+
+Type these now (in order of importance):
+
+```
+tone update email direct, 3 lines max, no corporate speak
+sentiment
+email inbox
+draft offer 4314 Leatherwood Dr
+offer status 4314 Leatherwood Dr
+resurrect
+agent runs
+set followup sequence 4314 Leatherwood Dr steps:3
+decision outcome <id> result:"resolved"
+```
+
+Error alerting + dashboard last_run will confirm themselves on the next heartbeat fire — nothing to type.
+
+---
+
+## Session Goal: 62% → ~75% parity + Netlify deploy
+
+**Plan:**
+1. CORS + Netlify deploy (dashboard accessible from phone/browser, not Railway-only)
+2. Unified Inbox tab in dashboard (conversations view — biggest gap at 20%)
+3. Agent Identity profiles (currently 0%)
+
+Starting with Netlify + CORS — it's
+
+---
+
+🤖 CLAUDE:
+Conversations API already exists. Now let me look at the existing dashboard tabs to understand how they're structured before adding new ones.
+
+---
+
+🤖 CLAUDE:
+I have everything I need. Let me now build all 5 things in parallel where possible.
+
+**What's being built:**
+1. CORS — `requirements.txt` + `app.py`
+2. Finance API endpoint — `dashboard_bp.py`
+3. Dashboard — Inbox, Agents, Finance tabs
+4. Netlify deploy package
+
+Starting now:
+
+---
+
+🤖 CLAUDE:
+Now add the Finance API endpoint to dashboard_bp:
+
+---
+
+🤖 CLAUDE:
+Now update the dashboard with the 3 new tabs. I'll add them to the nav config, page router, renderers, and loaders:
+
+---
+
+🤖 CLAUDE:
+Now add the page HTML functions and data loaders. I'll insert them before the `// ── Data Loaders` comment:
+
+---
+
+🤖 CLAUDE:
+Now add the three loader functions. I'll insert them after `loadAgentOrgChart`:
+
+---
+
+🤖 CLAUDE:
+Now create the Netlify package. First I need to read the full dashboard HTML to copy it with the Railway URL:
+
+---
+
+🤖 CLAUDE:
+Verify the Railway URL got into the netlify file:

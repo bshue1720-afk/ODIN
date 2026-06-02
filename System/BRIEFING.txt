@@ -1,0 +1,27 @@
+ODIN SESSION BRIEFING
+Generated: 2026-06-02T00:41:58.484Z
+─────────────────────────────────────────
+READ THIS FIRST on cold start. Skip STATUS.txt and session files.
+
+LAST SESSION: 2026-06-02
+LAST USER MESSAGE:
+Make sure Katelyns dashboard remains the same theme to netlify like cute, pink, witchy
+
+LAST CLAUDE ACTION:
+It's all there. The pink/witchy theme is role-based — when Katelyn logs in with her `business_standard` account, it automatically applies the pink galaxy theme, floating stars, witch cards, shimmer banner — everything. No changes needed.
+
+The theme switch happens at login via:
+```js
+if (currentUser.role === 'business_standard') {
+  document.body.classList.add('theme-pink');
+  // floating stars spa
+
+─────────────────────────────────────────
+OPEN ITEMS (update manually each session):
+[ ] Check blast stats (blast stats in Slack) — 72hr window from Jun 01 02:02AM
+[ ] VA decision: Ring Ring VA — 2 callers $1,950/mo, month-to-month, pending blast results
+[ ] Katelyn: first automation (email outreach or Etsy — her choice)
+[ ] Google Form + Apps Script for VA lead intake — built, needs form creation
+
+RAILWAY: Always handle autonomously. Never report back unless critical failure.
+VALDR OPS: ON HOLD. Do not surface or recommend. Active project = AI Audit.

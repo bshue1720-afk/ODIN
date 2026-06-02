@@ -1,0 +1,157 @@
+ODIN DEPLOY STATE
+Last updated: 2026-06-02 (CORS + Netlify + Dashboard tabs)
+Read this at every cold start alongside BRIEFING.txt.
+Update this file whenever a feature is confirmed tested.
+
+Legend: CONFIRMED = user tested in Slack/Telegram | DEPLOYED = on Railway, untested | WRITTEN = code exists, not deployed | HOLD = intentionally paused
+
+==============================================================
+DEPLOYED 2026-06-02 (this session) — NEEDS CONFIRM
+==============================================================
+[ ] flask-cors — installed, CORS enabled for /api/* (needed for Netlify)
+[ ] Dashboard: Inbox tab — loads /api/xleads/conversations (30 most recent)
+[ ] Dashboard: Finance tab — loads /api/finance/summary (balances + spending + subs)
+[ ] Dashboard: Agent Org Chart tab (dedicated page, not just in summary)
+[ ] Netlify package — ODIN/netlify/ (index.html + netlify.toml, Railway URL hardcoded)
+[ ] /api/finance/summary endpoint — added to dashboard_bp.py
+
+Netlify deploy steps:
+  1. Go to netlify.com → drag & drop ODIN/netlify/ folder
+  2. ODIN will be live at <random>.netlify.app (or custom domain)
+  3. Share URL with Eddie/Katelyn for remote access
+
+==============================================================
+CORE SYSTEM
+==============================================================
+Login / JWT auth                        CONFIRMED   (ongoing use)
+Dashboard SPA                           CONFIRMED   (ongoing use)
+Inbound webhook (/api/xleads/inbound)   CONFIRMED   (fixed + confirmed 2026-05-31)
+XLeads 58-route gateway                 CONFIRMED   (ongoing use)
+Modular blueprint architecture          DEPLOYED    (2026-05-31, no structural test since refactor)
+
+==============================================================
+HEARTBEAT JOBS (20 total)
+==============================================================
+morning_briefing (6am ET)               CONFIRMED   (timezone fix confirmed 2026-05-27)
+buyer_onboarding_scan (8am ET)          DEPLOYED    (written, no confirmed fire reported)
+pipeline_report (9pm ET)                DEPLOYED    (written, no confirmed fire reported)
+reply_scanner (every 30min)             CONFIRMED   (inbound replies processing)
+followup_queue (every 2hr)              DEPLOYED    (multi-step logic added 2026-05-30c, no confirmed fire)
+decision_queue_scan (every 2hr)         DEPLOYED    (commands tested, auto-scan unconfirmed)
+opportunity_sync (every 4hr)            DEPLOYED    (written, no confirmed fire reported)
+task_delegation_scan (every 4hr)        DEPLOYED    (written, no confirmed fire reported)
+kpi_auto_update (every 4hr)             DEPLOYED    (scorecard command confirmed, auto-update unconfirmed)
+weekly_kpi (Monday 7am)                 DEPLOYED    (never fired in a confirmed session)
+weekly_ceo_review (Sunday 8pm)          DEPLOYED    (never fired in a confirmed session)
+resurrect_scan (Wednesday 10am)         DEPLOYED    (never fired in a confirmed session)
+sms_health_monitor (hourly)             DEPLOYED    (written, no confirmed output seen)
+outreach_reply_scan (hourly)            DEPLOYED    (written, no confirmed output seen)
+outreach_send_scheduled (every 30min)   DEPLOYED    (written, no confirmed output seen)
+email_triage_scan (7:30am ET)           DEPLOYED    (EMAIL_AUTO_SEND=true, no confirmed triage seen)
+lead_aging_scan (9:05am ET)             DEPLOYED    (written 2026-05-30b, no confirmed fire)
+offer_expiry_scan (10am ET)             DEPLOYED    (written 2026-05-30, no confirmed fire)
+revenue_sync (9am ET)                   DEPLOYED    (command tested, heartbeat unconfirmed)
+webhook_dlq_retry (hourly)              DEPLOYED    (written 2026-05-31, no confirmed fire)
+
+==============================================================
+SLACK / TELEGRAM COMMANDS
+==============================================================
+decisions / approve / decline           CONFIRMED   (used in active sessions)
+revenue / revenue log                   CONFIRMED   (used in active sessions)
+scorecard                               CONFIRMED   (used in active sessions)
+leads / approvals                       CONFIRMED   (used in active sessions)
+blast / textblast / text                CONFIRMED   (blast fired 2026-05-29)
+blast stats / blast results             CONFIRMED   (data visible in session)
+email / contacts                        DEPLOYED    (written, untested in Slack)
+analyze / score / script / match        CONFIRMED   (used in sessions)
+draft offer / offer status              DEPLOYED    (written 2026-05-29b, not confirmed tested)
+offer stats                             CONFIRMED   (tested 2026-06-01)
+source stats                            CONFIRMED   (tested 2026-06-01)
+log decision                            CONFIRMED   (used to seed 3 decisions)
+decision outcome                        DEPLOYED    (written 2026-05-30, not confirmed tested)
+revenue sync                            CONFIRMED   (on-demand pull confirmed)
+find knowledge                          CONFIRMED   (1,014 transcripts, tested 2026-05-29)
+lookup / mctp / schedule / calendar     CONFIRMED   (used in sessions)
+gmail / gmail inbox                     CONFIRMED   (OAuth live, commands tested)
+tags / fields / workflows / numbers     CONFIRMED   (used in sessions)
+spokes / status / review / stats        CONFIRMED   (used in sessions)
+resurrect                               DEPLOYED    (written, not confirmed tested in Slack)
+scorecard trends                        CONFIRMED   (tested 2026-06-01)
+audit pipeline/stats/log/sold/followup  CONFIRMED   (tested 2026-06-01)
+spawn <task>                            DEPLOYED    (written 2026-05-31 — [ ] TEST IN SLACK)
+agent runs                              DEPLOYED    (written 2026-05-31, not confirmed tested)
+set followup sequence                   DEPLOYED    (written 2026-05-30c, not confirmed tested)
+buyer match / buyer criteria            DEPLOYED    (written 2026-05-30c, not confirmed tested)
+NLP parser (natural language commands)  CONFIRMED   (tested 2026-06-01)
+finance / balance / subscriptions       CONFIRMED   (Teller creds set, tested 2026-05-29)
+financial advisor / money moves         CONFIRMED   (tested 2026-06-01)
+recommend_money_moves                   CONFIRMED   (tested 2026-06-01)
+buyer match / buyer criteria            CONFIRMED   (tested 2026-06-01)
+
+==============================================================
+INTEGRATIONS
+==============================================================
+Slack                                   CONFIRMED   (core channel, ongoing)
+Telegram (@Shuebox_ODIN_bot)            CONFIRMED   (tested 2026-06-01 — morning briefing, commands, NLP all verified)
+Gmail OAuth                             CONFIRMED   (token live, triage running)
+Google Calendar                         CONFIRMED   (schedule commands work)
+XLeads / GHL                            CONFIRMED   (58 routes, ongoing)
+Teller.io (finance)                     CONFIRMED   (creds set, sync confirmed)
+Discord TTS                             DEPLOYED    (post_tts() written, not confirmed working)
+Twilio Voice (twilio_voice.py)          WRITTEN     (no creds set — HOLD until LLC campaign approved)
+
+==============================================================
+DATABASE (migrations 001-028)
+==============================================================
+All 28 migrations: APPLIED to Railway Postgres-9BFG
+NOTE: Column existence in code was not grepped for every reference.
+      Verify specific columns before writing new code that touches them.
+
+Key tables confirmed in use:
+  leads, buyers, users, memories, agent_logs, agent_actions,
+  blast_campaigns, workflow_registry, kpi_targets, revenue_events,
+  decision_queue, outreach_contacts, outreach_touches, audit_prospects,
+  transcript_knowledge (1,014 rows), agent_runs (migration 027)
+
+==============================================================
+BUGS FIXED — 2026-06-01 AUDIT (deployed, needs Slack test to confirm)
+==============================================================
+FIX 1: leads handler — was substring match, caught 'audit pipeline' → now exact match only
+FIX 2: AI Audit commands (audit pipeline/stats/log/sold/followup) — were unreachable, moved before generic 'audit ' handler
+FIX 3: _parse_kv() — was called in audit_log + audit_sold but never defined → NameError crash → now defined in executor.py
+FIX 4: approve collision — 'approve <id>' was routing to approve_decision, killing deal approvals → now split
+FIX 5: NLP action names — 'finance'/'balance'/'spending'/'subscriptions' → corrected to finance_dashboard/finance_balances/finance_spending/finance_subscriptions
+FIX 6: Duplicate spawn/agent_runs handlers at bottom of slack_commands.py — removed dead code
+FIX 7: Dead imports in executor.py (_slack_post, _haiku from core.helpers) — removed, kept _run_agent + MAYA_PROMPT
+FIX 8: xleads_bp.py:1061 — _camp[0] → _camp['id'] (RealDictCursor index bug, blast_campaign_id never stamped)
+FIX 9: buyer_criteria.buyer_id was INTEGER, buyers.id is UUID — type mismatch silently broke all buyer qualification capture. Migration 029 applied, table recreated with UUID FK.
+FIX 11: dashboard_bp.py:45 — `details::text` → `data::text` (agent_actions has no `details` column; silent except swallowed error, dashboard agents tab showed zero data since deployment)
+ENV:   SLACK_CHANNEL_EDDIE=U0B5CTBLKCP set in Railway — Eddie was missing all inbound reply + hot lead alerts
+
+==============================================================
+DEPLOYED 2026-06-01 (session 2) — NEEDS SLACK TEST
+==============================================================
+[ ] Error alerting — _SlackErrorHandler now routes all log.error() to Slack. First job failure will confirm.
+[ ] Dashboard last_run — _guarded() stamps heartbeat_* into agent_actions. Check /api/dashboard/agents to confirm.
+[ ] AI Audit section in morning briefing — will show tomorrow 6am. Check if audit_prospects table has rows.
+[ ] tone — try `tone update email direct, 3 lines max, no corporate speak`
+[ ] sentiment — try `sentiment` after next seller reply comes in
+[ ] details→data fix — decision_auto_executed agent_action inserts now use correct column.
+
+PREVIOUSLY CONFIRMED:
+[x] spawn <task> — CONFIRMED 2026-06-01
+[x] NLP parser — CONFIRMED 2026-06-01
+[x] financial advisor / money moves — CONFIRMED 2026-06-01
+[x] audit pipeline/stats/log/sold/followup — CONFIRMED 2026-06-01
+[x] approve <deal_id> — CONFIRMED 2026-06-01
+[x] Telegram end-to-end — CONFIRMED 2026-06-01
+[x] offer stats / source stats — CONFIRMED 2026-06-01
+[x] scorecard trends — CONFIRMED 2026-06-01
+[x] buyer match / criteria — CONFIRMED 2026-06-01
+[ ] set followup sequence — written 2026-05-30c
+[ ] multi-step followup firing — written, never confirmed fired in prod
+
+==============================================================
+DATABASE
+==============================================================
+All 30 migrations: APPLIED (030 added reply_sentiment, last_reply_body, last_reply_at to leads)

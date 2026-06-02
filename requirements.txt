@@ -10,3 +10,7 @@ apscheduler==3.10.4
 python-dateutil==2.9.0
 discord.py==2.3.2
 audioop-lts==0.2.1
+google-auth==2.38.0
+google-auth-oauthlib==1.2.1
+google-api-python-client==2.167.0
+fpdf2==2.8.3

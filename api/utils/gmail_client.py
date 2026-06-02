@@ -42,6 +42,33 @@ SCOPES = [
 ]
 
 
+def _load_token_json() -> str:
+    """
+    Return the token JSON string from file (preferred) or env var (Railway).
+    Returns empty string if neither is available.
+    """
+    if TOKEN_FILE.exists():
+        return TOKEN_FILE.read_text()
+    raw = os.environ.get('GOOGLE_TOKEN_JSON', '').strip()
+    if not raw:
+        return ''
+    # Try base64 first, fall back to treating as raw JSON
+    try:
+        decoded = base64.b64decode(raw + '==').decode('utf-8')
+        json.loads(decoded)  # validate it parses
+        print(f'[gmail] loaded token from GOOGLE_TOKEN_JSON env var (base64, len={len(raw)})', flush=True)
+        return decoded
+    except Exception:
+        pass
+    try:
+        json.loads(raw)  # validate raw JSON
+        print(f'[gmail] loaded token from GOOGLE_TOKEN_JSON env var (raw JSON, len={len(raw)})', flush=True)
+        return raw
+    except Exception as e:
+        print(f'[gmail] GOOGLE_TOKEN_JSON is set but unparseable: {e}', flush=True)
+        return ''
+
+
 def _get_service():
     """Get authenticated Gmail service. Raises if not set up."""
     try:
@@ -50,21 +77,26 @@ def _get_service():
         from googleapiclient.discovery import build
     except ImportError:
         raise RuntimeError(
-            'Google API libraries not installed. '
-            'Run: pip install google-auth google-auth-oauthlib google-api-python-client'
+            'Google API libraries not installed — add google-auth to requirements.txt'
         )
 
-    if not TOKEN_FILE.exists():
+    token_json = _load_token_json()
+    if not token_json:
         raise RuntimeError(
-            'Gmail not authorized. Run: python api/utils/gmail_client.py --setup'
+            'Gmail not authorized. Run: python api/utils/gmail_client.py --setup\n'
+            'Then set GOOGLE_TOKEN_JSON in Railway (base64-encode the token file contents).'
         )
 
-    creds = Credentials.from_authorized_user_file(str(TOKEN_FILE), SCOPES)
+    creds = Credentials.from_authorized_user_info(json.loads(token_json), SCOPES)
     if not creds.valid:
         if creds.expired and creds.refresh_token:
-            from google.auth.transport.requests import Request
             creds.refresh(Request())
-            TOKEN_FILE.write_text(creds.to_json())
+            # Persist refreshed token to file if possible; ignore if read-only FS
+            try:
+                TOKEN_FILE.parent.mkdir(parents=True, exist_ok=True)
+                TOKEN_FILE.write_text(creds.to_json())
+            except Exception:
+                pass
         else:
             raise RuntimeError('Google token expired. Re-run setup.')
 
@@ -150,12 +182,13 @@ def format_slack_threads(threads: list) -> str:
 
 def is_available() -> bool:
     """Check if Gmail is authorized."""
-    if not TOKEN_FILE.exists():
+    if not _load_token_json():
         return False
     try:
         _get_service()
         return True
-    except Exception:
+    except Exception as e:
+        print(f'[gmail] is_available=False: {type(e).__name__}: {e}', flush=True)
         return False
 
 

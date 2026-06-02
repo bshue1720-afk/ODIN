@@ -403,7 +403,12 @@ def get_balances() -> dict:
 
         reserved       = float(os.environ.get('FINANCE_RESERVED_FUNDS', '0'))
         reserved_label = os.environ.get('FINANCE_RESERVED_LABEL', 'Reserved funds')
-        true_liquid    = round(total_deposits - total_credit - reserved, 2)
+        # cash_on_hand = what's actually in bank accounts right now
+        # net_position = cash minus all debt (if you paid everything off today)
+        # true_liquid  = cash minus reserved funds (what you can actually deploy)
+        cash_on_hand  = round(total_deposits, 2)
+        net_position  = round(total_deposits - total_credit, 2)
+        true_liquid   = round(total_deposits - reserved, 2)
 
         return {
             'accounts':        accounts,
@@ -413,7 +418,9 @@ def get_balances() -> dict:
             'total_deposits':  round(total_deposits, 2),
             'total_credit':    round(total_credit, 2),
             'total_available': round(total_available, 2),
-            'net_liquid':      round(total_deposits - total_credit, 2),
+            'cash_on_hand':    cash_on_hand,
+            'net_position':    net_position,
+            'net_liquid':      cash_on_hand,   # backwards-compat alias
             'reserved':        reserved,
             'reserved_label':  reserved_label,
             'true_liquid':     true_liquid,
@@ -627,15 +634,17 @@ BUSINESSES:
   1. Real Estate Wholesaling (Memphis TN, virtual) — No deals closed yet.
      1,900 XLeads contacts, Eddie cold calling, 8,655 buyers in DB.
      Closest to revenue: convert hot leads into first closed deal ($10-20k fee).
-  2. Valdr Ops — Missed call AI text-back SaaS. NO active leads — needs cold outreach to generate pipeline.
-     $750-2k setup fee + $150-300/mo recurring. Infrastructure fully built. Target: local service businesses.
-  3. PartSync Pro — On hold. HVAC contractors ($1.5-4.5k/mo retainer). No active outreach happening.
+  2. AI Audit — $497 scored PDF audit offer. Active email campaign (36 emails, 5 niches, Columbus leads).
+     Pricing ladder: $497 audit → $2,500 quick win → $5,000 full build → $300-750/mo retainer.
+     NO Twilio needed. ODIN generates the audit report via `audit` command.
+  3. Valdr Ops — ON HOLD. Twilio A2P campaign pending approval. Do not invest here until unblocked.
+  4. PartSync Pro — On hold. HVAC contractors ($1.5-4.5k/mo retainer). No active outreach happening.
 
 INVESTMENT OPTIONS TO EVALUATE for ${available:,.0f} available:
 
 A. VIRTUAL ASSISTANTS ($200-400/mo/VA)
    - Cold callers for RE leads (1,900 XLeads contacts sitting untouched)
-   - Valdr Ops outreach VA (cold outreach to local service businesses — no existing pipeline)
+   - AI Audit outreach VA (follow-up calls after email campaign — no Twilio needed, regular calls)
    - Best for: scaling outreach without Brock's time
 
 B. PPL - PAY PER LEAD for RE ($30-80/lead, motivated sellers, Memphis)
@@ -643,16 +652,11 @@ B. PPL - PAY PER LEAD for RE ($30-80/lead, motivated sellers, Memphis)
    - Better conversion rate than bulk SMS
    - Best for: accelerating first deal close
 
-C. Valdr Ops Cold Outreach (Facebook/Google ads, LinkedIn, cold email to local businesses)
-   - Target: plumbers, electricians, dentists, auto shops — businesses that miss calls
-   - Must build pipeline from scratch — no existing warm leads
-   - Best for: building recurring monthly revenue if Brock can close the first few clients
+C. AI Audit Email Campaign (already launched — 36 drafts, Columbus leads)
+   - No ad spend needed — pure cold email outreach
+   - Best for: generating first $497 audit sale this week
 
-D. PPL for Valdr Ops (buy local biz lead lists)
-   - Buy targeted local business lists to feed into ODIN outreach system
-   - Best for: jumpstarting Valdr Ops pipeline without ad spend
-
-E. PartSync Pro Relaunch (HVAC contractors, $1.5-4.5k/mo)
+D. PartSync Pro Relaunch (HVAC contractors, $1.5-4.5k/mo)
    - Brock transitioning from job soon — was on hold
    - Would need to restart outreach from scratch
 
@@ -722,10 +726,11 @@ def finance_dashboard() -> str:
             elif t == 'credit':
                 lines.append(f'  {a["institution_name"]} — {a["account_name"]}: ${b:,.2f} used | *${v:,.2f} avail*{tag}')
 
-        lines.append(f'\n  Net liquid (deposits − credit): ${bal["net_liquid"]:,.2f}')
+        lines.append(f'\n  *Cash on hand: ${bal["cash_on_hand"]:,.2f}*')
+        lines.append(f'  Credit owed: ${bal["total_credit"]:,.2f}  |  Net position: ${bal["net_position"]:,.2f}')
         if bal['reserved'] > 0:
             lines.append(f'  Reserved ({bal["reserved_label"]}): -${bal["reserved"]:,.2f}')
-            lines.append(f'  *True available liquid: ${bal["true_liquid"]:,.2f}*')
+            lines.append(f'  *Deployable cash: ${bal["true_liquid"]:,.2f}*')
         lines.append('')
 
         # MTD Spend
@@ -861,6 +866,290 @@ def mark_biz_card(search_name: str) -> str:
         return f'✅ *{acct["institution_name"]} — {acct["account_name"]}* marked as biz card.\nRun `biz card` to see its status.'
     finally:
         conn.close()
+
+
+# ─── FINANCIAL ADVISOR ────────────────────────────────────────────────────────
+
+_ADVISOR_SYSTEM = """You are ODIN's personal financial advisor for Brock Shue (Shue Box LLC).
+You think like a fiduciary CFP — specific, numbers-first, no fluff.
+
+BROCK'S FULL CONTEXT — know this before answering anything:
+- Works a full-time job (W2) while building businesses on the side
+- Goal: replace W2 income through business revenue, first RE deal ASAP
+
+REAL ESTATE WHOLESALING (primary spoke):
+- Market: Memphis TN — virtual wholesaling
+- Platform: XLeads (GHL-based CRM) — all-in-one: CRM, skip trace, dialer, SMS, comping, e-sign (~$97-110/mo)
+- XLeads can pull 10,000+ motivated seller leads from virtually any city in the USA on demand
+- Current list: 1,900 contacts loaded in Memphis (zips 38109/38111/38118) — this is just the starting batch
+- Tags: "he" (high equity) + "tax-delinquent" = best sub-list
+- ODIN (his AI OS) handles: inbound SMS scoring, MCTP lead scoring, follow-up automation, buyer matching
+- Buyer database: 8,655 cash buyers in Memphis metro
+- Maya: AI voice agent handling inbound seller calls 24/7
+- Eddie (Heriberto Trejo): JV cold calling partner — not yet active (soundproofing his room)
+- SMS blast: 688 mobile-only contacts just enrolled in drip campaign (tonight)
+- VA consideration: Ring Ring VA — $975/caller/month, Cairo-based, 7yr experience, evaluating 2 callers
+- Pipeline: 0 MCTP-scored deals closed yet — first deal is the goal
+- Typical assignment fee: $5,000–$20,000 per deal
+
+AI AUDIT (active revenue campaign):
+- Product: $497 scored PDF audit + Loom + 30-min debrief call
+- Pricing ladder: $497 → $2,500 → $5,000 → $300-750/mo retainer
+- Status: 36 cold emails drafted across 5 niches (roofing, dental, auto repair, law, plumbing)
+- Target: Columbus OH local service businesses
+- First emails going out 2026-06-01
+- No Twilio/SMS needed — pure email outreach
+
+VALDR OPS: ON HOLD — Twilio A2P campaign approval pending. Do not recommend this as active.
+PARTSYNC PRO: ON HOLD — HVAC contractors, warm leads, not actively pursuing.
+
+TOOLS ALREADY BUILT (no additional cost):
+- ODIN: full AI business OS on Railway ($0 extra — already paying)
+- XLeads: CRM + dialer + skip trace (~$97-110/mo, already paying)
+- Claude API: powering ODIN's AI ($0 marginal for advisor calls)
+- Maya: inbound voice AI (already live, 29+ calls handled)
+
+FINANCIAL PROFILE:
+- Business credit card: $5k limit (primary deployment vehicle)
+- Risk profile: moderate — limited runway, needs ROI fast
+- LLC: Shue Box LLC — track business expenses for tax deductions
+
+YOUR JOB:
+- Answer with his ACTUAL setup in mind — he has XLeads, 1,900 leads, ODIN automation, and a blast running
+- Factor in live financial data provided with each question
+- Recommend concrete next actions with dollar amounts and timelines
+- Flag risks clearly — every dollar counts
+- Tax implications when relevant (LLC deductions, self-employment, business expenses)
+- Never recommend individual stocks or crypto unless asked
+- Default to capital deployment into the businesses already running over passive investing
+
+CRITICAL — ANTI-SYCOPHANCY RULES:
+- Your recommendation must NOT change based on how the question is framed
+- If you would say "don't spend on X" when asked directly, you must ALSO say "don't spend on X" when asked "what should I spend on"
+- Do not tell Brock what he wants to hear — tell him what the data supports
+- If your answer to question B contradicts what you'd say to question A about the same topic, you are wrong on one of them
+- State your position clearly and hold it regardless of question framing
+- If you are uncertain, say so — do not flip to confidence based on a leading question"""
+
+def finance_advisor(question: str, get_db=None) -> str:
+    """Full Claude Sonnet financial advisor. Loads live financial data before answering."""
+    try:
+        key = os.environ.get('ANTHROPIC_API_KEY', '')
+        if not key:
+            return '⚠️ ANTHROPIC_API_KEY not set.'
+
+        # Load live financial snapshot
+        try:
+            bal   = get_balances()
+            spend = get_spending_report('month')
+            subs  = get_subscriptions()
+            biz   = get_biz_card()
+            bal_ctx = (
+                f"Cash on hand: ${bal['cash_on_hand']:,.2f} | "
+                f"Credit owed: ${bal['total_credit']:,.2f} | "
+                f"Net position: ${bal['net_position']:,.2f} | "
+                f"Deployable cash: ${bal['true_liquid']:,.2f}"
+            )
+            if biz:
+                bal_ctx += f" | Biz card available: ${biz['available']:,.2f} of ${biz['limit']:,.0f}"
+            spend_ctx = f"MTD spend: ${spend['total_spend']:,.2f} | Daily avg: ${spend['daily_avg']:,.2f}"
+            sub_total = sum(float(s['amount']) for s in subs)
+            sub_ctx   = f"Subscriptions: {len(subs)} active = ${sub_total:,.2f}/mo"
+            top_cats  = ' | '.join(f'{r["cat"]} ${float(r["total"]):,.0f}' for r in spend['by_category'][:5])
+            fin_data  = f"{bal_ctx}\n{spend_ctx}\n{sub_ctx}\nTop spend: {top_cats}"
+        except Exception:
+            fin_data = '(Financial data unavailable — run `finance sync` first)'
+
+        # Load ODIN business context if DB available
+        odin_ctx = ''
+        if get_db:
+            try:
+                conn = get_db()
+                cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+                # RE pipeline
+                cur.execute("""
+                    SELECT COUNT(*) FILTER (WHERE status='hot') as hot,
+                           COUNT(*) FILTER (WHERE status='warm') as warm,
+                           COUNT(*) as total
+                    FROM leads
+                """)
+                r = cur.fetchone()
+                odin_ctx += f"ODIN RE pipeline: {r['total']} MCTP-scored leads | {r['hot']} hot | {r['warm']} warm\n"
+                # Buyers
+                cur.execute("SELECT COUNT(*) as cnt FROM buyers")
+                b = cur.fetchone()
+                odin_ctx += f"Buyer DB: {b['cnt']} cash buyers loaded\n"
+                # Recent blast
+                cur.execute("""
+                    SELECT name, sent_count, reply_count, opt_out_count, created_at
+                    FROM blast_campaigns ORDER BY created_at DESC LIMIT 1
+                """)
+                blast = cur.fetchone()
+                if blast:
+                    odin_ctx += f"Latest blast: {blast['name']} — {blast['sent_count']} sent | {blast['reply_count']} replies | {blast['opt_out_count']} opt-outs\n"
+                # AI Audit pipeline
+                cur.execute("SELECT stage, COUNT(*) as cnt FROM audit_prospects GROUP BY stage")
+                audit_rows = cur.fetchall()
+                if audit_rows:
+                    audit_summary = ' | '.join(f"{r['stage']}:{r['cnt']}" for r in audit_rows)
+                    odin_ctx += f"AI Audit pipeline: {audit_summary}\n"
+                # MTD revenue
+                cur.execute("""
+                    SELECT spoke, SUM(amount) as total FROM revenue_events
+                    WHERE recorded_at >= date_trunc('month', NOW())
+                    GROUP BY spoke
+                """)
+                rev_rows = cur.fetchall()
+                if rev_rows:
+                    rev_summary = ' | '.join(f"{r['spoke']}:${float(r['total']):,.0f}" for r in rev_rows)
+                    odin_ctx += f"MTD revenue: {rev_summary}\n"
+                conn.close()
+            except Exception:
+                pass
+
+        context = f"LIVE FINANCIAL DATA:\n{fin_data}"
+        if odin_ctx:
+            context += f"\n\nLIVE BUSINESS DATA:\n{odin_ctx.strip()}"
+
+        # Load previous advisor positions from memory — prevents contradictions
+        prior_positions = ''
+        brock_user_id   = None
+        if get_db:
+            try:
+                import utils.memory as memory_mod
+                conn = get_db()
+                cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+                cur.execute("SELECT id FROM users WHERE role='super_admin' LIMIT 1")
+                row = cur.fetchone()
+                conn.close()
+                if row:
+                    brock_user_id   = str(row['id'])
+                    prior_positions = memory_mod.load_finance_positions(brock_user_id, get_db)
+            except Exception:
+                pass
+        if prior_positions:
+            context += f"\n\n{prior_positions}"
+
+        client = anthropic.Anthropic(api_key=key)
+        resp   = client.messages.create(
+            model='claude-sonnet-4-6',
+            max_tokens=1000,
+            system=_ADVISOR_SYSTEM,
+            messages=[{'role': 'user', 'content': f"{context}\n\nQuestion: {question}"}],
+        )
+        answer = resp.content[0].text.strip()
+
+        # Save advisor's positions to memory after each response
+        if brock_user_id and get_db:
+            try:
+                import utils.memory as memory_mod
+                memory_mod.extract_finance_positions(brock_user_id, question, answer, get_db)
+            except Exception:
+                pass
+
+        return f'*💼 Financial Advisor*\n\n{answer}'
+
+    except Exception as e:
+        log.error(f'Finance advisor failed: {e}')
+        return f'❌ Advisor error: {type(e).__name__}: {e}'
+
+
+def recommend_money_moves(get_db=None) -> str:
+    """
+    Analyze finances and generate specific money-move recommendations.
+    Queues each as a decision in decision_queue for Brock to approve.
+    Returns Slack summary.
+    """
+    try:
+        key = os.environ.get('ANTHROPIC_API_KEY', '')
+        if not key:
+            return '⚠️ ANTHROPIC_API_KEY not set.'
+
+        bal   = get_balances()
+        spend = get_spending_report('month')
+        subs  = get_subscriptions()
+        biz   = get_biz_card()
+        sub_total = sum(float(s['amount']) for s in subs)
+
+        prompt = f"""Analyze Brock's finances and generate 3-5 specific, actionable money-move recommendations.
+
+FINANCIAL SNAPSHOT:
+- Cash on hand: ${bal['cash_on_hand']:,.2f}
+- Credit owed: ${bal['total_credit']:,.2f}
+- Deployable cash: ${bal['true_liquid']:,.2f}
+- Biz card available: ${biz['available']:,.2f if biz else 0:,.2f} of ${biz['limit']:,.0f if biz else 0:,.0f}
+- MTD spend: ${spend['total_spend']:,.2f} | Daily avg: ${spend['daily_avg']:,.2f}
+- Monthly subscriptions: {len(subs)} = ${sub_total:,.2f}/mo
+
+TOP SUBSCRIPTIONS:
+{chr(10).join(f'  - {s["merchant_name"]}: ${float(s["amount"]):,.2f}/mo' for s in subs[:10])}
+
+TOP SPEND CATEGORIES:
+{chr(10).join(f'  - {r["cat"]}: ${float(r["total"]):,.0f}' for r in spend["by_category"][:5])}
+
+CONTEXT: Brock is building businesses on a budget. First RE deal not closed yet. AI Audit campaign just launched. Limited runway.
+
+Return ONLY a JSON array, no markdown:
+[
+  {{"move": "Pay down $X on credit card Y", "reason": "saves $Z/mo interest", "amount": 000, "priority": "high/medium/low"}},
+  ...
+]
+Max 5 moves. Be specific with dollar amounts."""
+
+        client = anthropic.Anthropic(api_key=key)
+        resp   = client.messages.create(
+            model='claude-haiku-4-5-20251001',
+            max_tokens=800,
+            messages=[{'role': 'user', 'content': prompt}],
+        )
+        raw = resp.content[0].text.strip()
+        if raw.startswith('```'):
+            raw = raw.split('```')[1]
+            if raw.lower().startswith('json'):
+                raw = raw[4:]
+        moves = json.loads(raw)
+
+        # Queue each move as a decision
+        queued = 0
+        if get_db and moves:
+            try:
+                conn = get_db()
+                cur  = conn.cursor()
+                for m in moves:
+                    cur.execute("""
+                        INSERT INTO decision_queue
+                            (spoke, issue, option1, option2, recommended, reason, status)
+                        VALUES (%s, %s, %s, %s, %s, %s, 'pending')
+                    """, (
+                        'financial_health',
+                        f"Money move: {m.get('move', '')}",
+                        f"Execute: {m.get('move', '')}",
+                        'Skip for now',
+                        f"Execute: {m.get('move', '')}",
+                        m.get('reason', ''),
+                    ))
+                    queued += 1
+                conn.commit()
+                conn.close()
+            except Exception as qe:
+                log.error(f'Failed to queue money moves: {qe}')
+
+        lines = ['*💰 Money Move Recommendations*', '']
+        for i, m in enumerate(moves, 1):
+            pri_icon = {'high': '🔴', 'medium': '🟡', 'low': '🟢'}.get(m.get('priority', 'medium'), '⚪')
+            lines.append(f'{pri_icon} *{i}. {m.get("move", "")}*')
+            lines.append(f'   _{m.get("reason", "")}_')
+        lines.append('')
+        if queued:
+            lines.append(f'_{queued} moves queued as decisions. Review with `decisions` → approve/decline each._')
+        else:
+            lines.append('_Run with DB connected to queue for approval._')
+
+        return '\n'.join(lines)
+
+    except Exception as e:
+        log.error(f'Money moves failed: {e}')
+        return f'❌ Money moves error: {type(e).__name__}: {e}'
 
 
 # ─── HELPERS ──────────────────────────────────────────────────────────────────

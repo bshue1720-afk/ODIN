@@ -104,4 +104,410 @@ SESSION SUMMARY — 2026-05-30
 [ ] Remote Control setup (see above)
 
 ======================================================================
-Last updated: 2026-05-30 end of afternoon session
+
+## EVENING SESSION — 2026-05-30
+
+### Completed This Session
+
+#### Email System — Full Rebuild
+- Rewrote all 21 Columbus plumbing emails — unique hooks, no fabricated anecdotes, no "found you while mapping"
+- Wrote 5 roofing emails NEW (storm surge, urgency, inspection season hooks)
+- Rewrote auto repair emails — estimate follow-up, lapsed customers, speed-to-lead
+- Rewrote dental emails — front desk labor cost, patient reactivation, no-shows, new patient speed, review generation
+- Rewrote law emails — intake conversion speed, consultation follow-up, after-hours, boutique intake
+- Total: 36 emails across 5 niches in 5 files under projects/ai-audit/
+
+#### Outreach Tracking System (Migration 022)
+- Tables: outreach_contacts (41 seeded), outreach_touches (41 step-1 emails queued as 'pending')
+- Hourly heartbeat: outreach_reply_scan() — Gmail reply detection, Slack alert, cancels follow-up sequence on reply
+- Slack commands: outreach, outreach stats, outreach <niche>, log sent, log reply, outreach queue
+- All 41 contacts seeded with niche + hook_type tags for stats tracking
+
+#### Auto Email Sender (email_sender.py)
+- Sends 1 email per 30-min window, Mon–Fri 8am–4:30pm ET
+- Hard cap: 16/day (OUTREACH_DAILY_LIMIT)
+- Auto-queues day-3 and day-7 follow-up touches
+- Cancels pending follow-ups when reply detected
+- OUTREACH_ENABLED=true set in Railway — LIVE
+
+#### Lead Sniper (lead_sniper.py)
+- Triggers automatically when all 41 step-1 emails are sent
+- Analyzes reply rates by niche, identifies bottom 2
+- Uses Claude API + web_search tool to find 5 new leads per niche
+- Generates personalized emails via Haiku, inserts contacts, queues touches
+- Manual trigger: `snipe <niche> [count]` in Slack
+
+#### GitHub Backup
+- ODIN backed up to https://github.com/bshue1720-afk/ODIN
+- 251 files, initial commit
+- Google OAuth tokens excluded (GitHub push protection blocked them — kept local only)
+- .gitignore created
+
+#### SQL Deploy Fix
+- skool_transcriber/ (224MB) added to .railwayignore — was causing Railway upload timeouts
+- Deployed successfully (3 deploys this session)
+
+#### Hook Verification
+- PreCompact hook: CONFIRMED — 26 compaction backups across 7 days
+- Stop hook: CONFIRMED — 68 session saves today alone
+- No 10-message checkpoint exists — only compaction + close triggers
+
+### Still Open
+[ ] Rotate DB password in Railway (leaked in 14 local scripts — do after confirming Gmail OAuth still works)
+[ ] Katelyn first automation (her choice)
+[ ] SQL injection fixes — deployed this session via railway up
+
+======================================================================
+Last updated: 2026-05-30 evening session (remote control)
+
+━━━ MID-SESSION CHECKPOINT #1 — tool call 10 — 2026-05-30T23:40:03.954Z ━━━
+👤 USER:
+odin
+
+---
+
+🤖 CLAUDE:
+**ODIN — Session 2026-05-30**
+
+Current state from STATUS.txt:
+
+**APEX at ~88%** | Last session: 2026-05-29c
+
+**2 open decisions:**
+- D2: Memphis zip expansion — deeper 38109/38111/38118 vs expand to Germantown/Collierville/Bartlett/Arlington
+- D3: Valdr Ops reactivation — tie to first RE deal close?
+
+**Active monitoring:**
+- Blast fired (100 contacts) — watch `blast stats` for replies
+- 300 buyers linked to XLeads contact IDs
+
+**Remaining gap to 100% APEX:**
+- Buyer Onboarding: 40% (300 linked, rest are cash buyers — not sellers)
+- Voice Briefing: 55% (Discord TTS live, phone delivery skipped by choice)
+- Team Delegation: 75%
+
+**Next logged actions:**
+1. `decisions` in Slack → resolve D2 + D3
+2. Monitor blast replies
+3. Log revenue when first deal closes
+4. Katelyn's first automation (on h
+
+---
+
+👤 USER:
+One gap to flag: There are no periodic mid-session checkpoints (no "every 10 messages" trigger). If you want those, I'd need to add
+  a PostToolUse hook that counts tool calls and saves every N turns. Worth building if you want tighter protection during long
+  sessions. Build this. Decisions need addressed, I have been monitoring blast no replies, Logging revenue will be updated when a deal closes.
+
+---
+
+🤖 CLAUDE:
+Let me check the current hooks setup first.
+
+---
+
+🤖 CLAUDE:
+Now let me look at the existing hooks to understand the pattern:
+
+---
+
+🤖 CLAUDE:
+Good pattern established. Now I'll build the checkpoint hook and wire it in, then address the decisions.
+
+---
+
+🤖 CLAUDE:
+Now wire it into `settings.json` as a `PostToolUse` hook:
+
+---
+
+🤖 CLAUDE:
+Good. Now the decisions.
+
+---
+
+**D2: Memphis zip expansion — deeper vs expand to Germantown/Collierville/Bartlett/Arlington**
+
+Recommendation: **Stay deeper in 38109/38111/38118.**
+
+- Your blast of 100 just fired and has zero replies yet — no data to justify a market change
+- Germantown/Collierville/Bartlett are higher-income suburbs — seller motivation profile shifts entirely (less financial distress, higher asking prices, harder ARV squeeze)
+- 38109/38111/38118 are your confirmed buy box: tax-delinquent, he-tagged, and aligned with what buyers in your DB are actually buying
+- You have 1,770 contacts in those 3 zips — you've barely scratched it (100 contacted)
+- Expand only when you've worked through this list and hit diminishing reply rates
+
+**D3: Valdr Ops reactivation — tie to first RE
+
+---
+
+👤 USER:
+Create a plan to push ODIN closer to 100% not focusing on voice yet
+
+---
+
+🤖 CLAUDE:
+Let me explore the codebase before presenting the plan.
+
+━━━ MID-SESSION CHECKPOINT #2 — tool call 20 — 2026-05-30T23:40:33.112Z ━━━
+👤 USER:
+odin
+
+---
+
+🤖 CLAUDE:
+**ODIN — Session 2026-05-30**
+
+Current state from STATUS.txt:
+
+**APEX at ~88%** | Last session: 2026-05-29c
+
+**2 open decisions:**
+- D2: Memphis zip expansion — deeper 38109/38111/38118 vs expand to Germantown/Collierville/Bartlett/Arlington
+- D3: Valdr Ops reactivation — tie to first RE deal close?
+
+**Active monitoring:**
+- Blast fired (100 contacts) — watch `blast stats` for replies
+- 300 buyers linked to XLeads contact IDs
+
+**Remaining gap to 100% APEX:**
+- Buyer Onboarding: 40% (300 linked, rest are cash buyers — not sellers)
+- Voice Briefing: 55% (Discord TTS live, phone delivery skipped by choice)
+- Team Delegation: 75%
+
+**Next logged actions:**
+1. `decisions` in Slack → resolve D2 + D3
+2. Monitor blast replies
+3. Log revenue when first deal closes
+4. Katelyn's first automation (on h
+
+---
+
+👤 USER:
+One gap to flag: There are no periodic mid-session checkpoints (no "every 10 messages" trigger). If you want those, I'd need to add
+  a PostToolUse hook that counts tool calls and saves every N turns. Worth building if you want tighter protection during long
+  sessions. Build this. Decisions need addressed, I have been monitoring blast no replies, Logging revenue will be updated when a deal closes.
+
+---
+
+🤖 CLAUDE:
+Let me check the current hooks setup first.
+
+---
+
+🤖 CLAUDE:
+Now let me look at the existing hooks to understand the pattern:
+
+---
+
+🤖 CLAUDE:
+Good pattern established. Now I'll build the checkpoint hook and wire it in, then address the decisions.
+
+---
+
+🤖 CLAUDE:
+Now wire it into `settings.json` as a `PostToolUse` hook:
+
+---
+
+🤖 CLAUDE:
+Good. Now the decisions.
+
+---
+
+**D2: Memphis zip expansion — deeper vs expand to Germantown/Collierville/Bartlett/Arlington**
+
+Recommendation: **Stay deeper in 38109/38111/38118.**
+
+- Your blast of 100 just fired and has zero replies yet — no data to justify a market change
+- Germantown/Collierville/Bartlett are higher-income suburbs — seller motivation profile shifts entirely (less financial distress, higher asking prices, harder ARV squeeze)
+- 38109/38111/38118 are your confirmed buy box: tax-delinquent, he-tagged, and aligned with what buyers in your DB are actually buying
+- You have 1,770 contacts in those 3 zips — you've barely scratched it (100 contacted)
+- Expand only when you've worked through this list and hit diminishing reply rates
+
+**D3: Valdr Ops reactivation — tie to first RE
+
+---
+
+👤 USER:
+Create a plan to push ODIN closer to 100% not focusing on voice yet
+
+---
+
+🤖 CLAUDE:
+Let me explore the codebase before presenting the plan.
+
+━━━ MID-SESSION CHECKPOINT #3 — tool call 30 — 2026-05-30T23:41:06.477Z ━━━
+👤 USER:
+odin
+
+---
+
+🤖 CLAUDE:
+**ODIN — Session 2026-05-30**
+
+Current state from STATUS.txt:
+
+**APEX at ~88%** | Last session: 2026-05-29c
+
+**2 open decisions:**
+- D2: Memphis zip expansion — deeper 38109/38111/38118 vs expand to Germantown/Collierville/Bartlett/Arlington
+- D3: Valdr Ops reactivation — tie to first RE deal close?
+
+**Active monitoring:**
+- Blast fired (100 contacts) — watch `blast stats` for replies
+- 300 buyers linked to XLeads contact IDs
+
+**Remaining gap to 100% APEX:**
+- Buyer Onboarding: 40% (300 linked, rest are cash buyers — not sellers)
+- Voice Briefing: 55% (Discord TTS live, phone delivery skipped by choice)
+- Team Delegation: 75%
+
+**Next logged actions:**
+1. `decisions` in Slack → resolve D2 + D3
+2. Monitor blast replies
+3. Log revenue when first deal closes
+4. Katelyn's first automation (on h
+
+---
+
+👤 USER:
+One gap to flag: There are no periodic mid-session checkpoints (no "every 10 messages" trigger). If you want those, I'd need to add
+  a PostToolUse hook that counts tool calls and saves every N turns. Worth building if you want tighter protection during long
+  sessions. Build this. Decisions need addressed, I have been monitoring blast no replies, Logging revenue will be updated when a deal closes.
+
+---
+
+🤖 CLAUDE:
+Let me check the current hooks setup first.
+
+---
+
+🤖 CLAUDE:
+Now let me look at the existing hooks to understand the pattern:
+
+---
+
+🤖 CLAUDE:
+Good pattern established. Now I'll build the checkpoint hook and wire it in, then address the decisions.
+
+---
+
+🤖 CLAUDE:
+Now wire it into `settings.json` as a `PostToolUse` hook:
+
+---
+
+🤖 CLAUDE:
+Good. Now the decisions.
+
+---
+
+**D2: Memphis zip expansion — deeper vs expand to Germantown/Collierville/Bartlett/Arlington**
+
+Recommendation: **Stay deeper in 38109/38111/38118.**
+
+- Your blast of 100 just fired and has zero replies yet — no data to justify a market change
+- Germantown/Collierville/Bartlett are higher-income suburbs — seller motivation profile shifts entirely (less financial distress, higher asking prices, harder ARV squeeze)
+- 38109/38111/38118 are your confirmed buy box: tax-delinquent, he-tagged, and aligned with what buyers in your DB are actually buying
+- You have 1,770 contacts in those 3 zips — you've barely scratched it (100 contacted)
+- Expand only when you've worked through this list and hit diminishing reply rates
+
+**D3: Valdr Ops reactivation — tie to first RE
+
+---
+
+👤 USER:
+Create a plan to push ODIN closer to 100% not focusing on voice yet
+
+---
+
+🤖 CLAUDE:
+Let me explore the codebase before presenting the plan.
+
+━━━ MID-SESSION CHECKPOINT #4 — tool call 40 — 2026-05-30T23:55:08.372Z ━━━
+👤 USER:
+odin
+
+---
+
+🤖 CLAUDE:
+**ODIN — Session 2026-05-30**
+
+Current state from STATUS.txt:
+
+**APEX at ~88%** | Last session: 2026-05-29c
+
+**2 open decisions:**
+- D2: Memphis zip expansion — deeper 38109/38111/38118 vs expand to Germantown/Collierville/Bartlett/Arlington
+- D3: Valdr Ops reactivation — tie to first RE deal close?
+
+**Active monitoring:**
+- Blast fired (100 contacts) — watch `blast stats` for replies
+- 300 buyers linked to XLeads contact IDs
+
+**Remaining gap to 100% APEX:**
+- Buyer Onboarding: 40% (300 linked, rest are cash buyers — not sellers)
+- Voice Briefing: 55% (Discord TTS live, phone delivery skipped by choice)
+- Team Delegation: 75%
+
+**Next logged actions:**
+1. `decisions` in Slack → resolve D2 + D3
+2. Monitor blast replies
+3. Log revenue when first deal closes
+4. Katelyn's first automation (on h
+
+---
+
+👤 USER:
+One gap to flag: There are no periodic mid-session checkpoints (no "every 10 messages" trigger). If you want those, I'd need to add
+  a PostToolUse hook that counts tool calls and saves every N turns. Worth building if you want tighter protection during long
+  sessions. Build this. Decisions need addressed, I have been monitoring blast no replies, Logging revenue will be updated when a deal closes.
+
+---
+
+🤖 CLAUDE:
+Let me check the current hooks setup first.
+
+---
+
+🤖 CLAUDE:
+Now let me look at the existing hooks to understand the pattern:
+
+---
+
+🤖 CLAUDE:
+Good pattern established. Now I'll build the checkpoint hook and wire it in, then address the decisions.
+
+---
+
+🤖 CLAUDE:
+Now wire it into `settings.json` as a `PostToolUse` hook:
+
+---
+
+🤖 CLAUDE:
+Good. Now the decisions.
+
+---
+
+**D2: Memphis zip expansion — deeper vs expand to Germantown/Collierville/Bartlett/Arlington**
+
+Recommendation: **Stay deeper in 38109/38111/38118.**
+
+- Your blast of 100 just fired and has zero replies yet — no data to justify a market change
+- Germantown/Collierville/Bartlett are higher-income suburbs — seller motivation profile shifts entirely (less financial distress, higher asking prices, harder ARV squeeze)
+- 38109/38111/38118 are your confirmed buy box: tax-delinquent, he-tagged, and aligned with what buyers in your DB are actually buying
+- You have 1,770 contacts in those 3 zips — you've barely scratched it (100 contacted)
+- Expand only when you've worked through this list and hit diminishing reply rates
+
+**D3: Valdr Ops reactivation — tie to first RE
+
+---
+
+👤 USER:
+Create a plan to push ODIN closer to 100% not focusing on voice yet
+
+---
+
+🤖 CLAUDE:
+Let me explore the codebase before presenting the plan.

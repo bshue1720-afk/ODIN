@@ -1,0 +1,45 @@
+SESSION INDEX — ODIN
+====================
+
+SESSION: 2026-05-31
+--------------------
+COMPLETED:
+  [x] Email triage (Gmail) LIVE — gmail_client.py refactored to read GOOGLE_TOKEN_JSON
+      env var (base64 or raw JSON), bypassing filesystem. google-auth packages added to
+      ROOT requirements.txt (Railway was ignoring api/requirements.txt). Deployed + tested,
+      classified 10 emails correctly on first run. Heartbeat at 7:30am ET.
+
+  [x] XLeads inbound webhook crash FIXED — commit 869546d
+      Root cause: GHL "Customer Replied" webhook sends 'message' as a nested dict
+      {"body": "...", "direction": "inbound", "type": "SMS"}, not a plain string.
+      ODIN called .strip() on the dict → AttributeError (500) on every reply.
+      GHL retried 3-4x → "Failed Retry Limit Reached." All 33 prior replies were dropped.
+      Fix: parse _msg_raw, detect dict vs string, extract body/direction/type from
+      nested object. Also handles contact_id as snake_case fallback.
+      File: api/app.py lines 5865-5877
+
+  [x] APEX deep research completed — memory/project_apex_analysis.md created
+      15 APEX features + 12 ODIN improvement opportunities documented.
+      Voice (Speak) PAUSED — Retell AI ($0.07/min) flagged as candidate when revisited.
+
+  [x] RE wholesaling analysis — 3 tables built (VA comparison, PPL analysis, PPC analysis)
+
+PENDING (carry to next session):
+  [ ] Fix negative reply exit in XLeads blast workflow — add keyword conditions
+      (no, stop, wrong number, not me, remove me) to exit workflow + tag DNC
+  [ ] Fix "Brock's Account" signature — update sub-account name in XLeads Business Info
+  [ ] Skip trace the he+tax-delinquent list — filter landlines before next blast
+  [ ] PAUSE blasting — 68% delivery failure, two suspension warnings active
+      (failure rate >10%, opt-out 7.14% vs 2% limit)
+  [ ] Decision queue auto-execute bug — 48hr timeout says "auto_executed" but does nothing
+  [ ] DB password rotation — leaked in 14 files, rotate in Railway
+  [ ] Retry pending decisions: fe14171a and 6b9ec155
+  [ ] Twilio voice vars — add when LLC approved or switching to Retell AI
+  [ ] First Katelyn automation (Phase 4)
+
+BLAST STATUS (as of 2026-05-31):
+  441 sent / 140 delivered / 301 failed = 68% failure rate
+  Opt-out rate: 7.14% (limit 2%) — both metrics triggering suspension warnings
+  33 inbound replies received in XLeads — 0 reached ODIN (now fixed)
+  Two contacts confirmed in workflow execution logs: Daandrea Kelly, Crisofloro Duarte
+  Kenyata Venson replied "No m,ma" May 29 — workflow re-messaged next day (no exit condition)

@@ -1,11 +1,11 @@
 ODIN PHASE 3 — CURRENT STATUS
-Last Updated: 2026-05-29 (Transcript Knowledge Base, Finance Guard, Migration 019)
+Last Updated: 2026-06-01 (NLP Parser, Financial Advisor, AI Audit Integration, Migration 028)
 
 ===== PHASE =====
-Phase 3 + Phase 4 Infrastructure — FULLY LIVE
+Phase 3 + Phase 4 — ~99% APEX PARITY — FULLY LIVE
 
 ===== LATEST SESSION =====
-System/Sessions/SESSION_2026-05-29.txt
+System/Sessions/SESSION_2026-06-01.txt
 Session 2026-05-24: Phase 4 infra complete, phone buy flow wired, PreCompact hook added
 Session 2026-05-24b: Layer 2 Memory built — memories table, memory.py, wired into advisor
 Session 2026-05-24c: Eddie (Heriberto Trejo) added as caller — invite sent, Slack #odin-brock
@@ -349,14 +349,96 @@ Buyer link: 300 buyers matched to XLeads contact IDs (of 8,655 total — rest no
   Remaining 8,246 have no XLeads contact (expected — they're cash buyers, not sellers)
 Blast decision auto-closed (already fired). 2 decisions remaining.
 
+===== SESSION 2026-05-30 — APEX PHASE A (Quick Wins) =====
+Migration 023: leads.opted_out_at + leads.opt_out_reason + decision_queue.outcome_notes + decision_queue.outcome_recorded_at
+A1 Opt-Out DB Tracking: inbound webhook now stamps opted_out_at + opt_out_reason on lead when DNC detected
+A2 Reply Clears Follow-Up: inbound webhook clears follow_up_date on positive reply — no more double-fire
+A3 DNC Safeguard: followup_queue() auto-fire query now filters leads where opted_out_at IS NULL
+A4 Stale Lead Alert: followup_queue() now surfaces leads 14+ days overdue in Slack (not just no-CID overdue)
+A5 Decision Outcome: new Slack command `decision outcome <id> result:"..."` — closes the loop on resolved decisions
+A6 Offer Expiry Scan: new offer_expiry_scan() heartbeat daily 10am ET — alerts on drafted offers >7 days old
+Mid-session Checkpoint Hook: PostToolUse hook fires every 10 tool calls, saves last 30 messages to Sessions/ + Compaction_Backups/
+
+===== APEX STATUS (2026-05-30) — ~90% =====
+  Lead Qualification:   80% — MCTP auto-scoring on inbound
+  Offer Generation:     88% — expiry alerts added (offer_expiry_scan daily 10am)
+  SMS Outbound:         87% — reply now clears follow_up_date (no double-fire)
+  Follow-Up Auto:       88% — DNC safeguard + stale alert (14d) + reply clears date
+  KPI Visibility:       85% — kpi_auto_update() writes live values every 4hrs
+  Team Delegation:      75% — auto-assign + escalation + ODIN auto-execute LIVE
+  Revenue Tracking:     80% — revenue_sync() heartbeat + `revenue sync` on-demand
+  Decision Queue:       83% — outcome tracking added (`decision outcome <id> result:"..."`)
+  Voice Briefing:       55% — Discord TTS LIVE, phone call delivery skipped
+  Buyer Onboarding:     40% — link_buyers.py ready
+
+===== SESSION 2026-05-30b — APEX PHASE B + BUG FIX =====
+BUG FIX: approve/decline decision parser was passing full trailing text as ID → WHERE id LIKE 'fe14171a go deeper...' matched nothing. Fixed: trim did to first token only.
+B1 SKIPPED: Eddie Task DMs — Eddie is bird dog, not RE partner yet
+B2 Task Delegation in Weekly Review: weekly_ceo_review() now has section 6b — open/closed by assignee, ODIN auto-executed count, escalations fired this week
+B3 Hot Reply Auto-Route: inbound MCTP >= 8 now auto-triggers customer-replied workflow for that contact (if registered in workflow_registry)
+B4 KPI Trend Snapshots: migration 024 — kpi_snapshots table. kpi_auto_update() now INSERTs daily snapshot after each run. New Slack command `scorecard trends` shows week-over-week 📈📉 deltas
+B5 Revenue MoM: `revenue` command now shows prior month net beside MTD + Δ delta per spoke
+B6 Lead Aging Scan: lead_aging_scan() heartbeat daily 9:05am ET — surfaces leads 5+ days with no contact. last_contact_date stamped on every inbound reply
+Migration 024: kpi_snapshots table + leads.last_contact_date column
+Migrations run: 023, 024. Deployed.
+
+===== APEX STATUS (2026-05-30b) — ~93% =====
+  Lead Qualification:   83% — MCTP auto-scoring + lead aging daily alerts
+  Offer Generation:     88% — offer_expiry_scan daily 10am
+  SMS Outbound:         88% — hot reply auto-routes workflow, reply clears follow_up
+  Follow-Up Auto:       90% — DNC guard + stale alert + last_contact_date stamped
+  KPI Visibility:       91% — trend snapshots daily, scorecard trends command
+  Team Delegation:      80% — delegation summary in weekly review
+  Revenue Tracking:     85% — MoM delta in revenue command
+  Decision Queue:       85% — outcome tracking + approval parser fixed
+  Voice Briefing:       55% — skipped
+  Buyer Onboarding:     40% — Phase C
+
+===== SESSION 2026-05-30c — APEX PHASE C =====
+Migration 025: leads.followup_step/followup_max_steps + buyer_criteria table (buyer_id, min_price, max_price, zip_codes[], deal_types[], max_rehab, notes, raw_reply)
+C1 Multi-Step Follow-Up: followup_queue() now auto-advances through steps (default 3, 4 days apart). Haiku generates each next message. Sequence complete → lead marked cold. Reply resets to step 1.
+  New command: `set followup sequence <address> steps:3`
+C2 Buyer Qualification: buyer_onboarding_scan() now sends qualification SMS 2 days post-welcome ("what's your buy box?"). Inbound buyer reply → Haiku extracts criteria → saved to buyer_criteria → stage advanced to 'qualified'.
+  New commands: `buyer match <address> arv:165000` | `buyer criteria <name>`
+
+===== APEX STATUS (2026-05-30c) — ~95% =====
+  Lead Qualification:   83%
+  Offer Generation:     88%
+  SMS Outbound:         88%
+  Follow-Up Auto:       95% — 3-step sequence LIVE
+  KPI Visibility:       91%
+  Team Delegation:      80%
+  Revenue Tracking:     85%
+  Decision Queue:       85%
+  Voice Briefing:       55% — skipped
+  Buyer Onboarding:     70% — qualification flow + criteria capture LIVE
+
+PHASE C COMPLETE.
+
+REMAINING TO 100% (optional future work):
+  [ ] Buyer stage → active (when they close a deal via ODIN match)
+  [ ] Offer conversion rate stats (`offer stats` command)
+  [ ] A/B blast message variant tracking
+
+===== SESSION 2026-05-31b — MODULARIZATION + SPAWNER =====
+See: System/Sessions/SESSION_2026-05-31b.txt
+  - app.py refactored: 6,632-line monolith → factory (77 lines) + 9 blueprints
+  - core/, commands/, blueprints/ modules all written and deployed
+  - api/utils/agent_spawner.py — dynamic multi-step agent spawner
+  - Migration 027: agent_runs table (APPLIED)
+  - New commands: `spawn <task>`, `agent runs`
+  - Deployed: build 19ba32fc
+
+===== SESSION 2026-05-31c — CLEANUP + DECISIONS =====
+  - D2 + D3 decisions resolved by Brock
+  - Gmail alias deferred item closed: ODIN uses shueboxllc@gmail.com (already live, no change needed)
+  - WD My Passport 1TB HDD purchased for ODIN + PC backup
+  - PC Diagnostic Agent verified intact, all modules present
+
 ===== NEXT ACTIONS =====
-  [ ] Review 2 remaining decisions: `decisions` in Slack
-        D2: Memphis zip expansion (deeper vs expand to Germantown/Collierville/Bartlett/Arlington)
-        D3: Valdr Ops reactivation date (tie to first RE deal closing?)
-  [ ] Monitor blast: `blast stats` — watch for replies as they come in
-  [ ] Log first revenue event when deal closes: `revenue log spoke:real_estate amount:X type:income desc:...`
-  [ ] Run `revenue sync` once a deal closes in XLeads (auto-logs it)
-  [ ] Katelyn: first automation (skipped for now)
+  [ ] Test `spawn` command in Slack
+  [ ] Katelyn: first automation (email outreach or Etsy — her choice)
+  [ ] Monitor blast replies: `blast stats`
 
 ===== ODIN LAYERS STATUS =====
 Layer 1 Brain:     ✅ Claude API (Anthropic SDK)

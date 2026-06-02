@@ -22,6 +22,7 @@ No cost. Google Calendar API free tier = 1M requests/day.
 """
 
 import os
+import base64
 import json
 import datetime
 from pathlib import Path
@@ -30,6 +31,27 @@ CREDENTIALS_FILE = Path(__file__).parent.parent / 'credentials' / 'google_oauth.
 TOKEN_FILE       = Path(__file__).parent.parent / 'credentials' / 'google_token.json'
 CALENDAR_ID      = os.environ.get('GOOGLE_CALENDAR_ID', 'primary')
 SCOPES           = ['https://www.googleapis.com/auth/calendar']
+
+
+def _ensure_token_file():
+    """Write token from GOOGLE_TOKEN_JSON env var (Railway) if file is absent."""
+    if TOKEN_FILE.exists():
+        return
+    raw = os.environ.get('GOOGLE_TOKEN_JSON', '')
+    if not raw:
+        return
+    try:
+        try:
+            decoded = base64.b64decode(raw).decode('utf-8')
+            json.loads(decoded)
+            TOKEN_FILE.parent.mkdir(parents=True, exist_ok=True)
+            TOKEN_FILE.write_text(decoded)
+        except Exception:
+            json.loads(raw)
+            TOKEN_FILE.parent.mkdir(parents=True, exist_ok=True)
+            TOKEN_FILE.write_text(raw)
+    except Exception:
+        pass
 
 
 def _get_service():
@@ -44,11 +66,13 @@ def _get_service():
             'Run: pip install google-auth google-auth-oauthlib google-api-python-client'
         )
 
+    _ensure_token_file()
+
     if not TOKEN_FILE.exists():
         raise RuntimeError(
             'Google Calendar not authorized. '
             'Run setup: python api/utils/google_calendar.py --setup\n'
-            'Or tell Brock: the ODIN server needs one-time Google auth to use Calendar.'
+            'Then set GOOGLE_TOKEN_JSON in Railway (base64-encode the token file).'
         )
 
     creds = Credentials.from_authorized_user_file(str(TOKEN_FILE), SCOPES)
@@ -220,6 +244,7 @@ def parse_appointment_time(text: str) -> datetime.datetime:
 
 def is_available() -> bool:
     """Check if Google Calendar is set up and credentials are valid."""
+    _ensure_token_file()
     if not TOKEN_FILE.exists():
         return False
     try:

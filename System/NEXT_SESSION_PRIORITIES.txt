@@ -1,26 +1,40 @@
 NEXT SESSION PRIORITIES
-Last updated: 2026-05-30
+Last updated: 2026-05-31
 ======================================================================
 
-🔴 PRIORITY 1 — FIX: Email issues in ODIN
-   Brock flagged email problems at end of 2026-05-30 session.
-   Investigate: email_triage.py, Gmail OAuth token, outreach agent,
-   any email-related Slack commands (gmail inbox, draft email, etc.)
-   Check Railway logs for email-related errors first.
+🔴 PRIORITY 0 — START HERE: Address deferred ODIN items (user instruction)
+   See list below under OPTIONAL DEFERRED — tackle these before AI Audit or other work.
+   Order of attack: Agent own email → app.py modularization → dynamic sub-agents → two-way voice eval
 
-🟡 PRIORITY 2 — EXECUTE: Send Columbus roofing emails
-   5 emails written, ready to copy-paste. leads_007.txt.
-   Send from shueboxllc@gmail.com, 5 min apart.
+🟡 PRIORITY 1 — EXECUTE: Send Columbus AI Audit emails (go out tomorrow 2026-06-01)
+   36 emails written across 5 niches. Monitor replies.
+   Files: ODIN/projects/ai-audit/email-drafts-columbus-*.txt
+   Calendly 30-min debrief link needed before first reply comes in.
 
-🟡 PRIORITY 3 — SNIPE: Columbus plumbers
-   Run @sniping-agent: "5 tier 0 plumbers columbus ohio —
-   company emails verified, decision makers, missed-call pain."
+🟡 PRIORITY 2 — SNIPE: Columbus plumbers
+   Run @sniping-agent: "5 tier 0 plumbers columbus ohio"
+   Then write 5 emails using AI Audit offer frame.
 
-🟡 PRIORITY 4 — SETUP: Calendly 30-min debrief link
-   Needed before first audit reply comes in.
+🟡 PRIORITY 3 — MONITOR: Blast replies in XLeads
+   33 inbound replies received. Run `blast stats` and `source stats`.
+   Fix skip-trace filter (landlines) before next blast.
 
-🟠 PRIORITY 5 — HOUSEKEEPING
-   Move C:\Users\Brock\Downloads\202610501438-01-0001.pdf
-   → Master Folder/System/Legal/
+🟠 PRIORITY 4 — SETUP: Calendly 30-min debrief link
+   Needed before first AI Audit reply lands.
+
+🟠 PRIORITY 5 — OPTIONAL DEFERRED (no rush)
+   - Dynamic sub-agent spawning (Very High effort)
+   - app.py modularization (High effort, zero user impact)
+   - Two-way voice / Speak (paused — revisit post job transition)
+   - Agent own email (needs Gmail alias created)
 
 ======================================================================
+ODIN STATUS AS OF 2026-05-31
+  APEX Parity: ~98%
+  Heartbeat jobs: 20
+  Migrations: 001-026
+  Telegram: LIVE (@Shuebox_ODIN_bot, chat_id 8751726417)
+  Email auto-send: LIVE (EMAIL_AUTO_SEND=true)
+  Twilio/Voice: ON HOLD (LLC campaign pending)
+  Valdr Ops: ON HOLD (tie to first RE deal close)
+  AI Audit: ACTIVE (emails out 2026-06-01)

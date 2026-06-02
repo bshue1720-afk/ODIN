@@ -53,6 +53,10 @@ ODIN CAPABILITIES: Lead scoring, ARV analysis, buyer matching, offer math, \
 Slack commands (analyze, score, match, mctp, blast, resurrect, scorecard, review, stats), \
 XLeads/GHL integration, Google Calendar, Gmail, voice AI (Maya), buyer database (8,705 buyers).
 
+XLEADS SCALE: XLeads can pull 10,000+ motivated seller leads from virtually any city in the USA on demand — \
+the current 1,900 Memphis contacts is just the starting batch, not a ceiling. \
+Market expansion is a one-click operation.
+
 BUSINESS SPOKE CRITERIA — apply every time Brock asks about new income streams or business ideas:
   1. Startup cost: $0-$100 max
   2. ODIN automation: 90%+ minimum — if ODIN can't run most of it, deprioritize
@@ -201,7 +205,7 @@ def chat(message: str, history: list = None, memory_context: str = '',
     messages.append({'role': 'user', 'content': message})
 
     response = client.messages.create(
-        model='claude-haiku-4-5-20251001',
+        model='claude-sonnet-4-6',
         max_tokens=1500,
         system=system,
         messages=messages,
