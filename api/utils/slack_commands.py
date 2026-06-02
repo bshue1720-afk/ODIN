@@ -152,6 +152,10 @@ HELP_TEXT = """:robot_face: *ODIN Commands*
 `agents` — list all custom agents + their trigger keywords
 `disable agent <name>` — turn off an agent
 
+*Dynamic Spawner*
+`spawn <task>` — ODIN decomposes task into sub-agents and runs them
+`agent runs` — recent spawn history
+
 *Logs & Diagnostics*
 `logs` — last 25 agent runs (all agents)
 `logs errors` — only failed runs with error details
@@ -180,12 +184,26 @@ Examples:
 *Buyer Onboarding*
 `buyers onboarding` — pipeline by stage (new/welcomed/qualified/active/inactive)
 `onboard <name> cid:<xleads_contact_id>` — link buyer to XLeads + trigger welcome SMS
+`buyer match <address> arv:165000` — match criteria-qualified buyers to a deal
+`buyer criteria <name>` — show what buy box criteria a buyer has on file
+`set followup sequence <address> steps:3` — enable 3-step auto follow-up on a lead
 
 *CEO Tools*
 `review` — full weekly CEO review (pipeline, Eddie activity, priorities, The One Thing)
 `stats` / `stats week` / `stats month` / `stats spoke:real_estate` — full deal funnel
 `resurrect` — dead/cold leads not contacted in 30+ days with re-engagement texts
 `scorecard 4314 Leatherwood arv:165000 beds:3 baths:2 sqft:1400 zip:38111 condition:medium` — pre-offer due diligence
+
+*Decisions*
+`decisions` — show pending decisions
+`approve decision <id>` / `decline decision <id>` — resolve a pending decision
+`log decision spoke:real_estate issue:"..." option1:"..." option2:"..." rec:"..." reason:"..."` — queue a new decision
+`decision outcome <id> result:"What actually happened"` — close the loop on a resolved decision
+
+*KPI & Revenue*
+`scorecard` — KPI dashboard with traffic lights
+`scorecard trends` — week-over-week KPI deltas (📈📉➡️)
+`revenue` — MTD revenue by spoke + prior month comparison (MoM delta)
 
 *Finance*
 `finance` — full dashboard (balances, spend, subscriptions, biz card)
@@ -196,6 +214,16 @@ Examples:
 `biz card` — business card status (available balance, used %)
 `invest` — AI analysis: best ROI use of available biz card balance
 `mark biz card <name>` — designate which account is the $5k biz card
+
+*Agent Files (Tone Profiles)*
+`tone` — view all per-channel writing style profiles
+`tone update email <description>` — set how ODIN drafts your emails
+`tone update sms <description>` — set how ODIN writes your SMS follow-ups
+`tone update slack <description>` — set your Slack communication style
+
+*Pipeline Intelligence*
+`sentiment` — seller reply sentiment breakdown (curious/stalling/angry/etc.)
+`sentiment <type>` — show all leads with a specific sentiment (e.g. `sentiment curious`)
 
 _Tip: you can @mention ODIN in a channel or DM directly._"""
 
@@ -214,6 +242,13 @@ def parse_command(text: str) -> dict:
     # Strip @mention (e.g. <@U12345>)
     text = re.sub(r'<@\w+>', '', text).strip()
     text_lower = text.lower()
+
+    # ── SPAWN — must be first to prevent keyword hijacking ────────────────────
+    if text_lower.startswith('spawn '):
+        task = text[6:].strip()
+        return {'action': 'spawn', 'task': task}
+    if text_lower in ('agent runs', 'spawn runs', 'spawn history'):
+        return {'action': 'agent_runs'}
 
     # ── HELP ──────────────────────────────────────────────────────────────────
     if text_lower in ('help', '?', 'commands', 'odin help'):
@@ -237,6 +272,12 @@ def parse_command(text: str) -> dict:
         }
 
     # ── BLAST STATS ───────────────────────────────────────────────────────────
+    if text_lower in ('offer stats', 'offer funnel', 'offer conversion'):
+        return {'action': 'offer_stats'}
+
+    if text_lower in ('source stats', 'lead sources', 'source attribution'):
+        return {'action': 'source_stats'}
+
     if text_lower in ('blast stats', 'blast results', 'campaign stats', 'sms stats'):
         return {'action': 'blast_stats', 'campaign_id': None}
 
@@ -250,12 +291,16 @@ def parse_command(text: str) -> dict:
         wf_m      = re.search(r'workflow[:\s]+(\S+)', text, re.IGNORECASE)
         limit_m   = re.search(r'limit[:\s]+(\d+)', text_lower)
         query_m   = re.search(r'query[:\s]+"([^"]+)"', text, re.IGNORECASE)
+        variant_m = re.search(r'variant[:\s]+([ABab])', text, re.IGNORECASE)
+        label_m   = re.search(r'label[:\s]+"([^"]+)"', text, re.IGNORECASE)
         return {
-            'action':      'blast',
-            'tags':        tags_m.group(1).split(',') if tags_m else None,
-            'workflow_id': wf_m.group(1) if wf_m else None,
-            'limit':       int(limit_m.group(1)) if limit_m else 100,
-            'query':       query_m.group(1) if query_m else None,
+            'action':         'blast',
+            'tags':           tags_m.group(1).split(',') if tags_m else None,
+            'workflow_id':    wf_m.group(1) if wf_m else None,
+            'limit':          int(limit_m.group(1)) if limit_m else 100,
+            'query':          query_m.group(1) if query_m else None,
+            'variant':        variant_m.group(1).upper() if variant_m else 'A',
+            'variant_label':  label_m.group(1) if label_m else None,
         }
 
     # ── TEXTBLAST (direct SMS, no workflow) ──────────────────────────────────
@@ -297,12 +342,13 @@ def parse_command(text: str) -> dict:
     if text_lower in ('decisions', 'decision queue', 'decide', 'decision'):
         return {'action': 'decisions'}
 
-    if text_lower.startswith('approve decision ') or text_lower.startswith('approve '):
-        parts = text.split(None, 2)
-        did = parts[2] if len(parts) > 2 else (parts[1] if len(parts) > 1 else None)
-        # strip leading "decision" word if present
-        if did and did.lower().startswith('decision'):
-            did = did[8:].strip()
+    # 'approve decision <id>' → approve_decision (decision queue)
+    # 'approve <id>'          → approve         (deal approval queue)
+    # These MUST be separate — previously both routed to approve_decision,
+    # making deal approvals completely unreachable.
+    if text_lower.startswith('approve decision '):
+        rest = text[len('approve decision '):].strip()
+        did  = rest.split()[0] if rest else None
         return {'action': 'approve_decision', 'decision_id': did}
 
     if text_lower.startswith('decline decision ') or text_lower.startswith('decline ') or text_lower.startswith('skip '):
@@ -310,6 +356,8 @@ def parse_command(text: str) -> dict:
         did = parts[2] if len(parts) > 2 else (parts[1] if len(parts) > 1 else None)
         if did and did.lower().startswith('decision'):
             did = did[8:].strip()
+        if did:
+            did = did.split()[0]
         return {'action': 'decline_decision', 'decision_id': did}
 
     if text_lower.startswith('log decision ') or text_lower.startswith('add decision '):
@@ -333,6 +381,16 @@ def parse_command(text: str) -> dict:
             'recommended': rec_m.group(1)   if rec_m   else None,
             'reason':      reason_m.group(1) if reason_m else None,
         }
+
+    if text_lower.startswith('decision outcome ') or text_lower.startswith('outcome decision '):
+        rest    = re.sub(r'^(decision outcome|outcome decision)\s+', '', text, flags=re.IGNORECASE).strip()
+        # Format: decision outcome <id> result:"..."
+        did_m   = re.match(r'^([\w\-]+)', rest)
+        result_m= re.search(r'result[:\s]+"([^"]+)"', rest, re.IGNORECASE)
+        # fallback: everything after the id
+        did     = did_m.group(1) if did_m else ''
+        result  = result_m.group(1) if result_m else re.sub(r'^[\w\-]+\s*', '', rest).strip()
+        return {'action': 'decision_outcome', 'decision_id': did, 'result': result}
 
     # ── REVENUE ───────────────────────────────────────────────────────────────
     if text_lower in ('revenue', 'revenue mtd', 'p&l', 'income'):
@@ -367,11 +425,16 @@ def parse_command(text: str) -> dict:
             return {'action': 'offer_status', 'address': address}
 
     # ── SCORECARD (KPI targets) ────────────────────────────────────────────────
+    if text_lower in ('scorecard trends', 'kpi trends', 'kpis trend', 'trends'):
+        return {'action': 'kpi_trends'}
+
     if text_lower in ('scorecard', 'kpis', 'kpi status', 'targets'):
         return {'action': 'kpi_scorecard'}
 
     # ── LEADS ─────────────────────────────────────────────────────────────────
-    if any(x in text_lower for x in ('hot leads', 'warm leads', 'leads', 'pipeline')):
+    # Exact match only — do NOT use substring 'in' or words like 'pipeline' will
+    # hijack commands such as 'audit pipeline'.
+    if text_lower.strip() in ('leads', 'hot leads', 'warm leads', 'pipeline', 'my leads'):
         return {'action': 'leads'}
 
     # ── APPROVALS ─────────────────────────────────────────────────────────────
@@ -485,6 +548,27 @@ def parse_command(text: str) -> dict:
 
     if text_lower.strip() in ('buyers onboarding', 'onboarding', 'buyer onboarding'):
         return {'action': 'buyers_onboarding'}
+
+    # buyer match <address> — match criteria-qualified buyers to a deal
+    if text_lower.startswith('buyer match') or text_lower.startswith('match buyers'):
+        address = re.sub(r'^(buyer match|match buyers)\s*', '', text, flags=re.IGNORECASE).strip()
+        arv_m   = re.search(r'arv[:\s]+([\d,]+)', address, re.IGNORECASE)
+        arv     = int(arv_m.group(1).replace(',','')) if arv_m else None
+        addr    = re.sub(r'\s+arv[:\s]+[\d,]+', '', address, flags=re.IGNORECASE).strip()
+        return {'action': 'buyer_match_criteria', 'address': addr, 'arv': arv}
+
+    # buyer criteria <name> — show what a specific buyer has on file
+    if text_lower.startswith('buyer criteria') or (text_lower.startswith('criteria ') and not text_lower.startswith('criteria for')):
+        name = re.sub(r'^(buyer criteria|criteria)\s*', '', text, flags=re.IGNORECASE).strip()
+        return {'action': 'buyer_criteria_view', 'name': name}
+
+    # set followup sequence <address> steps:N
+    if text_lower.startswith('set followup') or text_lower.startswith('followup sequence'):
+        rest    = re.sub(r'^(set followup(?: sequence)?|followup sequence)\s+', '', text, flags=re.IGNORECASE).strip()
+        steps_m = re.search(r'steps?[:\s]+(\d)', rest, re.IGNORECASE)
+        steps   = int(steps_m.group(1)) if steps_m else 3
+        address = re.sub(r'\s+steps?[:\s]+\d', '', rest, flags=re.IGNORECASE).strip()
+        return {'action': 'set_followup_sequence', 'address': address, 'steps': steps}
 
     # ── REVIEW (weekly CEO review — on-demand) ────────────────────────────────
     if text_lower.strip() in ('review', 'ceo review', 'weekly review'):
@@ -812,7 +896,22 @@ def parse_command(text: str) -> dict:
         kw = re.sub(r'^ideas\s+', '', text, flags=re.IGNORECASE).strip()
         return {'action': 'ideas', 'keywords': kw, 'variation': False}
 
-    # ── AUDIT ─────────────────────────────────────────────────────────────────
+    # ── AI AUDIT COMMANDS — must come BEFORE generic 'audit <business>' ──────
+    # If these are placed after, 'audit pipeline' gets caught by 'audit ' handler
+    # and 'audit pipeline' was also caught by the leads handler via 'pipeline' substring.
+    # Both are now fixed: leads uses exact match, and these are checked first.
+    if text_lower in ('audit pipeline', 'audit prospects', 'audit leads'):
+        return {'action': 'audit_pipeline'}
+    if text_lower in ('audit stats', 'audit funnel', 'audit results'):
+        return {'action': 'audit_stats'}
+    if text_lower.startswith('audit log '):
+        return {'action': 'audit_log', 'raw': text[10:].strip()}
+    if text_lower.startswith('audit sold '):
+        return {'action': 'audit_sold', 'raw': text[11:].strip()}
+    if text_lower.startswith('audit followup') or text_lower == 'audit follow up':
+        return {'action': 'audit_followup'}
+
+    # ── AUTOMATION AUDITOR (business agent) ───────────────────────────────────
     if text_lower.startswith('audit '):
         business = re.sub(r'^audit\s+', '', text, flags=re.IGNORECASE).strip()
         business = _resolve_business_name(business)
@@ -954,5 +1053,137 @@ def parse_command(text: str) -> dict:
                 status = p[7:]
         return {'action': 'log_reply', 'email': email, 'status': status}
 
-    # ── FALLBACK ──────────────────────────────────────────────────────────────
+    # ── FINANCIAL ADVISOR ─────────────────────────────────────────────────────
+    if any(text_lower.startswith(x) for x in ('financial advisor', 'financial plan', 'advise me', 'money advice', 'finance advice', 'financial question')):
+        question = re.sub(r'^(financial advisor|financial plan|advise me|money advice|finance advice|financial question)\s*', '', text, flags=re.I).strip() or text
+        return {'action': 'finance_advisor', 'question': question}
+    if text_lower.startswith('advise ') or text_lower.startswith('advisor '):
+        return {'action': 'finance_advisor', 'question': text.split(' ', 1)[1].strip()}
+
+    # ── MONEY MOVES ───────────────────────────────────────────────────────────
+    if any(text_lower in (x,) or text_lower.startswith(x) for x in ('money moves', 'money move', 'finance moves', 'recommend moves', 'what should i do with')):
+        return {'action': 'money_moves'}
+
+    # ── TONE PROFILES (Agent Files — APEX parity) ────────────────────────────
+    # tone                            → show all tone profiles
+    # tone update email <description> → set email tone
+    # tone update sms <description>   → set SMS tone
+    # tone update slack <description> → set Slack tone
+    if text_lower == 'tone' or text_lower == 'tone profiles':
+        return {'action': 'tone_view'}
+    if text_lower.startswith('tone update ') or text_lower.startswith('tone set '):
+        rest    = re.sub(r'^tone\s+(update|set)\s+', '', text, flags=re.IGNORECASE).strip()
+        parts   = rest.split(None, 1)
+        channel = parts[0].lower() if parts else ''
+        desc    = parts[1].strip() if len(parts) > 1 else ''
+        if channel in ('email', 'sms', 'slack') and desc:
+            return {'action': 'tone_update', 'channel': channel, 'description': desc}
+        return {'action': 'tone_view'}
+
+    # ── SENTIMENT PIPELINE ────────────────────────────────────────────────────
+    # sentiment           → show leads grouped by reply sentiment
+    # sentiment curious   → show only 'curious' leads
+    if text_lower == 'sentiment' or text_lower == 'sentiment report':
+        return {'action': 'sentiment_report', 'filter': ''}
+    if text_lower.startswith('sentiment '):
+        filter_val = text_lower.replace('sentiment ', '').strip()
+        return {'action': 'sentiment_report', 'filter': filter_val}
+
+    # ── NATURAL LANGUAGE SHORTCUTS (pre-NLP, unambiguous phrases) ────────────
+    _tl = text_lower
+    if any(p in _tl for p in ('show me my pipeline', "what's in my pipeline", 'whats in my pipeline',
+                               'show me my leads', 'what leads do i have', 'pull my pipeline',
+                               'pipeline update', 'check my pipeline')):
+        return {'action': 'leads'}
+    if any(p in _tl for p in ("what's my revenue", 'whats my revenue', 'show my revenue',
+                               'how much have i made', 'how much revenue')):
+        return {'action': 'revenue'}
+    if any(p in _tl for p in ('how are my kpis', 'show my kpis', 'kpi update', 'show kpis',
+                               'check kpis', 'my scorecard')):
+        return {'action': 'kpi_scorecard'}
+    if any(p in _tl for p in ("what's my balance", 'whats my balance', 'show my balance',
+                               'how much cash', "what's my cash", 'check my balance')):
+        return {'action': 'finance_balances'}
+    if any(p in _tl for p in ('how am i spending', 'show my spending', 'where is my money going',
+                               'spending breakdown', 'mtd spending')):
+        return {'action': 'finance_spending', 'period': 'month'}
+    if any(p in _tl for p in ('pending decisions', 'what decisions', 'show decisions',
+                               'any decisions', 'decisions pending')):
+        return {'action': 'decisions'}
+
+    # ── NLP FALLBACK — try Claude Haiku before giving up ──────────────────────
+    nlp = _nlp_parse(text)
+    if nlp:
+        return nlp
+
     return {'action': 'unknown', 'raw': text}
+
+
+def _nlp_parse(text: str) -> dict | None:
+    """
+    Use Claude Haiku to interpret natural language as an ODIN command.
+    Returns a parsed command dict or None if no confident match.
+    """
+    import os, json
+    try:
+        import anthropic as _anthropic
+        key = os.environ.get('ANTHROPIC_API_KEY', '')
+        if not key:
+            return None
+
+        system = """You are ODIN's natural language command parser.
+Map the user's message to one of these ODIN actions. Return ONLY valid JSON — no markdown, no explanation.
+CRITICAL: Use the EXACT action names listed below — the executor matches on these strings precisely.
+
+AVAILABLE ACTIONS (return the exact action name + required params):
+{"action": "leads"}  — show hot/warm leads pipeline
+{"action": "blast", "tags": "<tag>", "workflow_id": "<id>", "limit": <int>}
+{"action": "kpi_scorecard"}  — KPI dashboard with traffic lights
+{"action": "revenue"}  — MTD revenue by spoke
+{"action": "decisions"}  — pending decisions
+{"action": "status"}  — pipeline snapshot
+{"action": "finance_dashboard"}  — full finance dashboard (NOT "finance")
+{"action": "finance_balances"}  — account balances (NOT "balance")
+{"action": "finance_spending", "period": "month"}  — MTD spending breakdown (NOT "spending")
+{"action": "finance_subscriptions"}  — recurring charges (NOT "subscriptions")
+{"action": "finance_advisor", "question": "<user's question verbatim>"}
+{"action": "money_moves"}  — recommend financial actions for approval
+{"action": "resurrect"}  — re-engage cold leads
+{"action": "stats"}  — deal funnel stats
+{"action": "audit_pipeline"}  — AI Audit prospect pipeline
+{"action": "audit_stats"}  — AI Audit conversion funnel
+{"action": "spawn", "task": "<natural language task>"}  — multi-agent task
+{"action": "help"}  — show commands
+
+EXAMPLES (these MUST match):
+"show me my pipeline" → {"action": "leads"}
+"what's in my pipeline" → {"action": "leads"}
+"show me my leads" → {"action": "leads"}
+"what leads do I have" → {"action": "leads"}
+"pipeline update" → {"action": "status"}
+"what's my revenue" → {"action": "revenue"}
+"how are my KPIs" → {"action": "kpi_scorecard"}
+"what decisions are pending" → {"action": "decisions"}
+"show me my balance" → {"action": "finance_balances"}
+"what's my cash" → {"action": "finance_balances"}
+"how's my money" → {"action": "finance_dashboard"}
+
+If the message is a financial question (how should I invest, should I pay off X, etc.) → use finance_advisor.
+Only return null if the message is clearly general conversation with zero command intent (greetings, complaints, off-topic)."""
+
+        client = _anthropic.Anthropic(api_key=key)
+        resp   = client.messages.create(
+            model='claude-haiku-4-5-20251001',
+            max_tokens=200,
+            system=system,
+            messages=[{'role': 'user', 'content': text}],
+        )
+        raw = resp.content[0].text.strip()
+        if raw.lower() in ('null', 'none', ''):
+            return None
+        result = json.loads(raw)
+        if isinstance(result, dict) and result.get('action'):
+            return result
+        return None
+    except Exception:
+        return None

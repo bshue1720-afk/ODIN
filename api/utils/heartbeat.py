@@ -32,6 +32,72 @@ _xleads_mod      = None
 _channels        = None
 
 
+# ─── SLACK ERROR HANDLER ─────────────────────────────────────────────────────
+
+class _SlackErrorHandler(logging.Handler):
+    """
+    Route any log.error() from heartbeat jobs to #odin-brock.
+    Eliminates silent job failures — every error surfaces in Slack.
+    """
+    def emit(self, record):
+        if _slack_post_fn and _channels:
+            try:
+                msg = self.format(record)
+                _slack_post_fn(
+                    _channels.get('brock', ''),
+                    f'⚠️ *ODIN Heartbeat Error*\n`{msg[:300]}`\n_Check Railway logs for full traceback._'
+                )
+            except Exception:
+                pass
+
+
+_slack_handler_attached = False
+
+
+def _attach_slack_error_handler():
+    global _slack_handler_attached
+    if not _slack_handler_attached:
+        handler = _SlackErrorHandler()
+        handler.setLevel(logging.ERROR)
+        log.addHandler(handler)
+        _slack_handler_attached = True
+
+
+# ─── JOB GUARD WRAPPER ───────────────────────────────────────────────────────
+
+def _guarded(job_fn, job_name: str):
+    """
+    Wrap a heartbeat job to:
+    1. Catch unhandled exceptions and route through log.error() → Slack
+    2. Stamp agent_actions after each successful run (powers dashboard last_run)
+    """
+    import functools
+
+    @functools.wraps(job_fn)
+    def _wrapper():
+        try:
+            job_fn()
+        except Exception as e:
+            log.error(f'[{job_name}] unhandled exception: {e}')
+            return
+        # Stamp a successful run so the dashboard org chart shows last_run
+        try:
+            conn = _get_db_fn()
+            cur  = conn.cursor()
+            key  = job_name.lower().replace(' ', '_')
+            cur.execute(
+                "INSERT INTO agent_actions (action_type, spoke, data, created_at)"
+                " VALUES (%s, 'system', '{\"status\":\"ok\"}'::jsonb, NOW())",
+                (f'heartbeat_{key}',)
+            )
+            conn.commit()
+            conn.close()
+        except Exception:
+            pass
+
+    return _wrapper
+
+
 def init(slack_post_fn, get_db_fn, xleads_mod, channels: dict):
     """Called from app.py after imports are safe."""
     global _slack_post_fn, _get_db_fn, _xleads_mod, _channels
@@ -39,6 +105,9 @@ def init(slack_post_fn, get_db_fn, xleads_mod, channels: dict):
     _get_db_fn     = get_db_fn
     _xleads_mod    = xleads_mod
     _channels      = channels
+    # Attach Slack error handler so any log.error() in this module
+    # automatically pings #odin-brock — no silent job failures.
+    _attach_slack_error_handler()
 
 
 def _post(msg: str):
@@ -93,12 +162,12 @@ _OPPORTUNITIES = [
         "scout_cmd": "scout social media ghostwriting",
     },
     {
-        "name": "AI Lead Response (Valdr Ops model)",
-        "pitch": "Businesses miss 78% of inbound leads. AI responds in 60 seconds, 24/7, qualifies, and books the call. You resell the infrastructure.",
-        "startup": "~$20 (Twilio credit — infrastructure already built)",
-        "roi": "$750 setup + $150–300/month recurring per client",
-        "first_move": "Valdr Ops has 114 warm leads. Launch the Founding 50 program: 50% off for first 50 clients who commit to annual billing.",
-        "scout_cmd": "scout ai answering service agency",
+        "name": "AI Audit ($497 Entry Offer)",
+        "pitch": "The average roofing/dental/law firm loses $45K–$120K/yr to missed calls and slow follow-up. A scored PDF audit shows them exactly where. Turnaround: 5 business days.",
+        "startup": "$0 (ODIN generates the audit via `audit` command)",
+        "roi": "$497/audit → $2,500 Quick Win → $5,000 Full Build → $300–750/mo retainer",
+        "first_move": "36 emails written across 5 niches. Columbus leads ready. Campaign goes out 2026-06-01. Check ODIN/projects/ai-audit/ for drafts.",
+        "scout_cmd": "audit roofing",
     },
     {
         "name": "Automated Job Application Service",
@@ -251,6 +320,109 @@ def morning_briefing():
             lines.extend(revenue_lines)
             lines.append('Reply `revenue` for full breakdown.')
             lines.append('')
+
+        # ── 6. RE SPOKE SNAPSHOT ─────────────────────────────────────────────
+        try:
+            cur2 = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) if conn.closed else conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            conn2 = _db()
+            cur2  = conn2.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur2.execute("""
+                SELECT
+                  COUNT(*) FILTER (WHERE mctp_score >= 8)                        AS hot,
+                  COUNT(*) FILTER (WHERE mctp_score >= 5 AND mctp_score < 8)     AS warm,
+                  COUNT(*) FILTER (WHERE follow_up_date::date = CURRENT_DATE
+                                   AND opted_out_at IS NULL)                     AS followups_today,
+                  COUNT(*) FILTER (WHERE offer_status = 'drafted')               AS offers_open
+                FROM leads
+                WHERE spoke = 'real_estate'
+            """)
+            re = cur2.fetchone()
+            if re and (re['hot'] or re['warm'] or re['followups_today'] or re['offers_open']):
+                lines.append('*🏠 REAL ESTATE PIPELINE*')
+                lines.append(f'• Hot: {re["hot"]} | Warm: {re["warm"]} | Follow-ups today: {re["followups_today"]} | Open offers: {re["offers_open"]}')
+                lines.append('Reply `status` for full pipeline view.')
+                lines.append('')
+            conn2.close()
+        except Exception:
+            pass
+
+        # ── 7. FINANCE SNAPSHOT ───────────────────────────────────────────────
+        try:
+            conn3 = _db()
+            cur3  = conn3.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur3.execute("""
+                SELECT ba.name, ba.balance, ba.account_type
+                FROM bank_accounts ba
+                WHERE ba.user_id = (SELECT id FROM users WHERE role = 'super_admin' LIMIT 1)
+                ORDER BY ba.balance DESC
+                LIMIT 3
+            """)
+            accounts = cur3.fetchall() or []
+            cur3.execute("""
+                SELECT COALESCE(SUM(amount),0) AS spent
+                FROM transactions
+                WHERE type = 'debit'
+                  AND date >= DATE_TRUNC('month', CURRENT_DATE)
+            """)
+            spent_row = cur3.fetchone()
+            if accounts:
+                lines.append('*💳 FINANCE*')
+                for a in accounts:
+                    lines.append(f'• {a["name"]} ({a["account_type"]}): ${a["balance"]:,.2f}')
+                if spent_row:
+                    lines.append(f'• MTD spend: ${spent_row["spent"]:,.2f}')
+                lines.append('Reply `finance` for full breakdown.')
+                lines.append('')
+            conn3.close()
+        except Exception:
+            pass
+
+        # ── 8. KATELYN SPOKE SNAPSHOT ─────────────────────────────────────────
+        try:
+            conn4 = _db()
+            cur4  = conn4.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur4.execute("""
+                SELECT COUNT(*) AS open_tasks
+                FROM tasks
+                WHERE spoke = 'katelyn_business'
+                  AND status NOT IN ('done','completed','cancelled')
+            """)
+            k = cur4.fetchone()
+            if k and k['open_tasks']:
+                lines.append('*✨ KATELYN BUSINESS*')
+                lines.append(f'• {k["open_tasks"]} open task(s) pending')
+                lines.append('')
+            conn4.close()
+        except Exception:
+            pass
+
+        # ── 9. AI AUDIT SPOKE SNAPSHOT ────────────────────────────────────────
+        try:
+            conn5 = _db()
+            cur5  = conn5.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur5.execute("""
+                SELECT
+                    COUNT(*)                                                      AS total,
+                    COUNT(*) FILTER (WHERE stage = 'cold')                        AS cold,
+                    COUNT(*) FILTER (WHERE stage = 'emailed')                     AS emailed,
+                    COUNT(*) FILTER (WHERE stage = 'replied')                     AS replied,
+                    COUNT(*) FILTER (WHERE stage = 'booked')                      AS booked,
+                    COUNT(*) FILTER (WHERE stage IN ('paid','delivered','converted')) AS sold
+                FROM audit_prospects
+                WHERE created_at >= NOW() - INTERVAL '30 days'
+            """)
+            ai = cur5.fetchone()
+            if ai and ai['total']:
+                lines.append('*🔍 AI AUDIT PIPELINE (30d)*')
+                lines.append(
+                    f'• Cold: {ai["cold"]} | Emailed: {ai["emailed"]} | '
+                    f'Replied: {ai["replied"]} | Booked: {ai["booked"]} | Sold: {ai["sold"]}'
+                )
+                lines.append('Reply `audit pipeline` for full breakdown.')
+                lines.append('')
+            conn5.close()
+        except Exception:
+            pass
 
         if not has_content:
             # QUIET MODE — rotate opportunity by day of week
@@ -450,16 +622,44 @@ def decision_queue_scan():
         to_auto = cur.fetchall() or []
 
         for d in to_auto:
+            # Mark as auto_executed
             cur.execute("""
                 UPDATE decision_queue
-                SET status = 'auto_executed', resolved_at = NOW(), updated_at = NOW()
+                SET status = 'auto_executed', resolved_at = NOW(), updated_at = NOW(),
+                    outcome_notes = %s
                 WHERE id = %s
-            """, (str(d['id']),))
+            """, (f'Auto-executed: {d["recommended"]}', str(d['id'])))
+
+            # Actually perform the action: create a concrete task + log to agent_actions
+            try:
+                cur.execute("""
+                    INSERT INTO tasks (title, description, spoke, status, assignee, due_date, created_at, updated_at)
+                    VALUES (%s, %s, %s, 'todo', 'brock', CURRENT_DATE + INTERVAL '1 day', NOW(), NOW())
+                """, (
+                    f'[AUTO] {d["recommended"][:100]}' if d['recommended'] else f'[AUTO] Decision: {d["issue_summary"][:80]}',
+                    f'Auto-created from decision queue (48hr timeout).\nDecision: {d["issue_summary"]}\nRecommended: {d["recommended"]}\nReason: {d["reason"] or "48hr timeout reached"}',
+                    d['spoke'] or 'general'
+                ))
+            except Exception as _task_err:
+                log.warning(f'Auto-execute task creation failed: {_task_err}')
+
+            try:
+                cur.execute("""
+                    INSERT INTO agent_actions (action_type, spoke, data, created_at)
+                    VALUES ('decision_auto_executed', %s, %s::jsonb, NOW())
+                """, (
+                    d['spoke'] or 'general',
+                    json.dumps({'summary': d['issue_summary'][:120], 'action': (d['recommended'] or '')[:120]})
+                ))
+            except Exception:
+                pass
+
             _post(
                 f'*⚙️ ODIN Auto-Executed Decision*\n'
                 f'Issue: {d["issue_summary"]}\n'
-                f'Action taken: _{d["recommended"]}_\n'
+                f'Action: _{d["recommended"]}_\n'
                 f'Reason: {d["reason"] or "48hr timeout reached"}\n'
+                f'✅ *Task created* — reply `tasks` to see it in your queue.\n'
                 f'_Reply `decisions` to see full history._'
             )
 
@@ -522,12 +722,15 @@ def followup_queue():
 
         # ── AUTO-FIRE: due today with XLeads contact ID wired ────────────────
         cur.execute("""
-            SELECT id, address, xleads_contact_id, next_action, mctp_total
+            SELECT id, address, xleads_contact_id, next_action, mctp_total,
+                   COALESCE(followup_step, 1)      AS followup_step,
+                   COALESCE(followup_max_steps, 3) AS followup_max_steps
             FROM leads
             WHERE follow_up_date = CURRENT_DATE
               AND next_action IS NOT NULL AND next_action != ''
               AND xleads_contact_id IS NOT NULL AND xleads_contact_id != ''
               AND status NOT IN ('closed', 'dead', 'contracted')
+              AND opted_out_at IS NULL
               AND (followup_fired_at IS NULL
                    OR followup_fired_at::date < CURRENT_DATE)
         """)
@@ -537,13 +740,46 @@ def followup_queue():
         for lead in due_today:
             try:
                 _xleads_mod.send_sms(lead['xleads_contact_id'], lead['next_action'])
-                cur.execute("""
-                    UPDATE leads
-                    SET followup_fired_at = NOW(),
-                        follow_up_date    = NULL,
-                        updated_at        = NOW()
-                    WHERE id = %s
-                """, (str(lead['id']),))
+
+                step      = int(lead.get('followup_step') or 1)
+                max_steps = int(lead.get('followup_max_steps') or 3)
+                next_step = step + 1
+
+                if next_step <= max_steps:
+                    # Generate next step message via Haiku
+                    step_msg = _haiku(
+                        f'Write a short follow-up SMS (max 100 chars, no hashtags) from a Memphis RE '
+                        f'wholesaler to a seller at {lead["address"]}. '
+                        f'This is follow-up message #{next_step} of {max_steps}. '
+                        f'Be brief, warm, not pushy. Don\'t start with "Hi" or "Hey".',
+                        max_tokens=60,
+                    )
+                    next_date = (datetime.now() + timedelta(days=4)).date()
+                    cur.execute("""
+                        UPDATE leads
+                        SET followup_fired_at = NOW(),
+                            followup_step     = %s,
+                            follow_up_date    = %s,
+                            next_action       = %s,
+                            updated_at        = NOW()
+                        WHERE id = %s
+                    """, (next_step, next_date, step_msg[:200], str(lead['id'])))
+                    lead['_next_step'] = next_step
+                    lead['_next_date'] = next_date
+                else:
+                    # Sequence complete — clear queue, mark cold if still new
+                    cur.execute("""
+                        UPDATE leads
+                        SET followup_fired_at = NOW(),
+                            follow_up_date    = NULL,
+                            next_action       = NULL,
+                            followup_step     = 1,
+                            status            = CASE WHEN status = 'new' THEN 'cold' ELSE status END,
+                            updated_at        = NOW()
+                        WHERE id = %s
+                    """, (str(lead['id']),))
+                    lead['_sequence_done'] = True
+
                 cur.execute("""
                     INSERT INTO agent_actions
                         (action_type, resource, resource_id, data, result)
@@ -553,6 +789,8 @@ def followup_queue():
                     json.dumps({
                         'address': lead['address'],
                         'message': lead['next_action'][:120],
+                        'step':    step,
+                        'max':     max_steps,
                     })
                 ))
                 fired.append(lead)
@@ -565,8 +803,14 @@ def followup_queue():
         if fired:
             lines = [f'*🤖 ODIN Auto-Fired {len(fired)} Follow-Up{"s" if len(fired) > 1 else ""}*']
             for l in fired:
-                lines.append(f'• {l["address"]} (score {l["mctp_total"]}/10) — _{l["next_action"][:80]}_')
-            lines.append('_follow_up_date cleared — set a new date after they reply._')
+                step = int(l.get('followup_step') or 1)
+                max_s = int(l.get('followup_max_steps') or 3)
+                step_str = f' [step {step}/{max_s}]'
+                if l.get('_sequence_done'):
+                    step_str = ' [sequence complete → marked cold]'
+                elif l.get('_next_step'):
+                    step_str = f' [step {step}/{max_s} → step {l["_next_step"]} in 4d]'
+                lines.append(f'• {l["address"]} (score {l["mctp_total"]}/10){step_str} — _{l["next_action"][:80]}_')
             _post('\n'.join(lines))
 
         if failed:
@@ -586,21 +830,39 @@ def followup_queue():
             LIMIT 15
         """)
         overdue = cur.fetchall() or []
+
+        # ── STALE ALERT: 14+ days overdue regardless of contact ID status ────
+        cur.execute("""
+            SELECT address, follow_up_date, mctp_total, status
+            FROM leads
+            WHERE follow_up_date < CURRENT_DATE - INTERVAL '14 days'
+              AND status NOT IN ('closed', 'dead', 'contracted')
+              AND opted_out_at IS NULL
+            ORDER BY follow_up_date ASC
+            LIMIT 10
+        """)
+        stale = cur.fetchall() or []
         conn.close()
 
-        if not overdue:
-            return
+        if overdue:
+            lines = [f'*⏰ Overdue Follow-ups — Need Contact ID ({len(overdue)})*']
+            for l in overdue:
+                days_overdue = (datetime.now().date() -
+                                (l['follow_up_date'] if l['follow_up_date'] else datetime.now().date())).days
+                lines.append(
+                    f'• {l["address"]} — {days_overdue}d overdue | '
+                    f'Score: {l["mctp_total"]}/10 | {l["next_action"] or "no action set"}'
+                )
+            lines.append('\n_Add `cid:<xleads_contact_id>` to `follow up` command to enable auto-SMS firing._')
+            _post('\n'.join(lines))
 
-        lines = [f'*⏰ Overdue Follow-ups — Need Contact ID ({len(overdue)})*']
-        for l in overdue:
-            days_overdue = (datetime.now().date() -
-                            (l['follow_up_date'] if l['follow_up_date'] else datetime.now().date())).days
-            lines.append(
-                f'• {l["address"]} — {days_overdue}d overdue | '
-                f'Score: {l["mctp_total"]}/10 | {l["next_action"] or "no action set"}'
-            )
-        lines.append('\n_Add `cid:<xleads_contact_id>` to `follow up` command to enable auto-SMS firing._')
-        _post('\n'.join(lines))
+        if stale:
+            stale_lines = [f'*🗓️ {len(stale)} Stale Lead{"s" if len(stale) > 1 else ""} — 14+ Days Overdue*']
+            for l in stale:
+                days = (datetime.now().date() - l['follow_up_date']).days if l['follow_up_date'] else '?'
+                stale_lines.append(f'• {l["address"]} — {days}d overdue | Score: {l["mctp_total"] or "?"}/10')
+            stale_lines.append('_Re-engage now or close the lead. Reply `resurrect` for AI re-engagement texts._')
+            _post('\n'.join(stale_lines))
 
     except Exception as e:
         log.error(f'Follow-up queue failed: {e}')
@@ -652,6 +914,40 @@ def opportunity_sync():
 
         lines.append('`leads` for ODIN DB pipeline | `contacts <name>` to pull any deal')
         _post('\n'.join(lines))
+
+        # Buyer → Active: advance buyer onboarding_stage when their matched deal closes
+        try:
+            closed_contact_ids = []
+            for o in opps:
+                stage = o.get('pipelineStage', {})
+                st_name = stage.get('name', '') if isinstance(stage, dict) else str(stage or '')
+                if any(kw in st_name.lower() for kw in ('closed', 'won', 'closed won')):
+                    contact_id = o.get('contactId') or o.get('contact', {}).get('id', '')
+                    if contact_id:
+                        closed_contact_ids.append(contact_id)
+
+            if closed_contact_ids:
+                conn2 = _db()
+                cur2  = conn2.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+                activated = 0
+                for cid in closed_contact_ids:
+                    cur2.execute("""
+                        UPDATE buyers
+                        SET onboarding_stage = 'active', updated_at = NOW()
+                        WHERE xleads_contact_id = %s
+                          AND onboarding_stage != 'active'
+                        RETURNING name
+                    """, (cid,))
+                    row = cur2.fetchone()
+                    if row:
+                        activated += 1
+                        log.info(f'Buyer activated: {row["name"]} (contact {cid})')
+                conn2.commit()
+                conn2.close()
+                if activated:
+                    _post(f'🏆 *{activated} buyer(s) advanced to Active* — matched deal stage hit Closed/Won.')
+        except Exception as _ba_err:
+            log.warning(f'Buyer activation check failed: {_ba_err}')
 
     except Exception as e:
         log.error(f'Opportunity sync failed: {e}')
@@ -828,6 +1124,30 @@ def weekly_ceo_review():
         """)
         last_blast = cur.fetchone()
 
+        # ── 6b. TASK DELEGATION SUMMARY ──
+        cur.execute("""
+            SELECT assignee,
+                   COUNT(*) FILTER (WHERE status IN ('pending','in_progress')) AS open_count,
+                   COUNT(*) FILTER (WHERE status = 'completed'
+                                     AND updated_at >= NOW() - INTERVAL '7 days') AS closed_this_week
+            FROM tasks
+            GROUP BY assignee
+        """)
+        task_summary = cur.fetchall() or []
+
+        cur.execute("""
+            SELECT COUNT(*) AS cnt FROM agent_actions
+            WHERE action_type = 'odin_task_auto_executed'
+              AND created_at >= NOW() - INTERVAL '7 days'
+        """)
+        odin_executed = (cur.fetchone() or {}).get('cnt', 0)
+
+        cur.execute("""
+            SELECT COUNT(*) AS cnt FROM tasks
+            WHERE escalated_at >= NOW() - INTERVAL '7 days'
+        """)
+        escalations_fired = (cur.fetchone() or {}).get('cnt', 0)
+
         # ── 7. TOP 3 PRIORITIES (days_stuck × mctp × fee potential) ──
         cur.execute("""
             SELECT address, mctp_total, status,
@@ -921,6 +1241,17 @@ def weekly_ceo_review():
             lines.append('  No blasts logged yet. Run: `blast tags:he,tax-delinquent workflow:<id> limit:100`')
         lines.append('')
 
+        # 6b. Task Delegation
+        lines.append('*6b. TEAM DELEGATION THIS WEEK*')
+        if task_summary:
+            for row in task_summary:
+                lines.append(
+                    f'  • *{row["assignee"]}*: {row["open_count"]} open | {row["closed_this_week"]} closed this week'
+                )
+        lines.append(f'  ODIN auto-executed: {odin_executed} tasks | Escalations fired: {escalations_fired}')
+        lines.append('  _Reply `tasks` to review open items._')
+        lines.append('')
+
         # 7. Top 3 Priorities
         lines.append('*7. TOP 3 PRIORITIES*')
         if top3:
@@ -978,6 +1309,137 @@ OPT_OUT_RATE_WARN   = 0.03   # 3% opt-out rate → warning
 OPT_OUT_RATE_FLAG   = 0.07   # 7% opt-out rate → flagged (likely carrier action)
 OPT_OUT_ABS_WARN    = 5      # 5+ opt-outs in the window even on small blasts
 REPLY_RATE_LOW_WARN = 0.01   # <1% reply rate after 6hrs → deliverability concern
+
+
+def webhook_dlq_retry():
+    """
+    Every hour — Retry unresolved dead letter queue entries.
+    Re-POSTs failed webhook payloads to their original endpoint.
+    Alerts Slack if any entry has failed 3+ times.
+    """
+    try:
+        conn = _db()
+        cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cur.execute("""
+            SELECT id, endpoint, payload, retry_count, error_msg
+            FROM webhook_dead_letters
+            WHERE resolved = FALSE
+              AND next_retry <= NOW()
+            ORDER BY created_at ASC
+            LIMIT 10
+        """)
+        entries = cur.fetchall() or []
+        conn.close()
+
+        if not entries:
+            return
+
+        import requests as _req
+        base_url = os.environ.get('BASE_URL', 'https://odin-api-production-e85d.up.railway.app')
+
+        for entry in entries:
+            try:
+                resp = _req.post(
+                    f'{base_url}{entry["endpoint"]}',
+                    json=entry['payload'],
+                    timeout=10
+                )
+                if resp.status_code < 300:
+                    conn2 = _db()
+                    cur2  = conn2.cursor()
+                    cur2.execute(
+                        "UPDATE webhook_dead_letters SET resolved = TRUE, updated_at = NOW() WHERE id = %s",
+                        (str(entry['id']),)
+                    )
+                    conn2.commit()
+                    conn2.close()
+                    log.info(f'DLQ retry succeeded for {entry["id"]}')
+                else:
+                    raise Exception(f'HTTP {resp.status_code}')
+            except Exception as retry_err:
+                new_count = entry['retry_count'] + 1
+                conn3 = _db()
+                cur3  = conn3.cursor()
+                cur3.execute("""
+                    UPDATE webhook_dead_letters
+                    SET retry_count = %s,
+                        error_msg   = %s,
+                        next_retry  = NOW() + INTERVAL '1 hour',
+                        updated_at  = NOW()
+                    WHERE id = %s
+                """, (new_count, str(retry_err)[:500], str(entry['id'])))
+                conn3.commit()
+                conn3.close()
+                if new_count >= 3:
+                    _post(
+                        f'⚠️ *Webhook Dead Letter — {new_count} retries failed*\n'
+                        f'Endpoint: `{entry["endpoint"]}`\n'
+                        f'Error: {str(retry_err)[:200]}\n'
+                        f'ID: `{str(entry["id"])[:8]}`\n'
+                        f'_Check ODIN logs or manually reprocess._'
+                    )
+
+    except Exception as e:
+        log.error(f'webhook_dlq_retry failed: {e}')
+
+
+def session_memory_summary():
+    """
+    Nightly 11pm ET — Summarize last 24hrs of #odin-brock Slack activity into memories table.
+    Implements APEX 'perfect recall' — ODIN auto-feeds its own memory from daily activity.
+    """
+    try:
+        slack_token = os.environ.get('SLACK_BOT_TOKEN', '')
+        brock_ch    = os.environ.get('SLACK_CHANNEL_BROCK', '')
+        if not slack_token or not brock_ch:
+            return
+
+        import requests as _req
+        oldest = str(int((datetime.now() - timedelta(hours=24)).timestamp()))
+        resp = _req.get(
+            'https://slack.com/api/conversations.history',
+            headers={'Authorization': f'Bearer {slack_token}'},
+            params={'channel': brock_ch, 'oldest': oldest, 'limit': 200},
+            timeout=15
+        )
+        messages = resp.json().get('messages', [])
+        if not messages:
+            return
+
+        # Build a transcript of the day's activity
+        lines = []
+        for m in reversed(messages):
+            text = m.get('text', '').strip()
+            if text and len(text) > 10:
+                lines.append(text[:300])
+
+        if len(lines) < 3:
+            return
+
+        transcript = '\n'.join(lines[:60])  # cap at 60 messages
+        summary = _haiku(
+            f'Summarize the key facts, decisions, and outcomes from today\'s ODIN activity log in 3-5 bullet points. '
+            f'Focus on: leads contacted, replies received, decisions made, revenue events, and any blockers.\n\n'
+            f'Activity log:\n{transcript}',
+            max_tokens=300
+        )
+
+        conn = _db()
+        cur  = conn.cursor()
+        today_str = datetime.now().strftime('%Y-%m-%d')
+        cur.execute("""
+            INSERT INTO memories (user_id, key, value, source, created_at, updated_at)
+            SELECT id, %s, %s, 'session_summary', NOW(), NOW()
+            FROM users WHERE role = 'super_admin' LIMIT 1
+            ON CONFLICT (user_id, key) DO UPDATE
+              SET value = EXCLUDED.value, updated_at = NOW()
+        """, (f'daily_summary_{today_str}', summary))
+        conn.commit()
+        conn.close()
+        log.info(f'session_memory_summary: saved daily summary for {today_str}')
+
+    except Exception as e:
+        log.error(f'session_memory_summary failed: {e}')
 
 
 def sms_health_monitor():
@@ -1320,6 +1782,81 @@ def resurrect_scan():
         log.error(f'Resurrect scan failed: {e}')
 
 
+# ─── LEAD AGING SCAN ─────────────────────────────────────────────────────────
+
+def lead_aging_scan():
+    """Daily 9:05 ET — Alert on active leads with no contact in 5+ days."""
+    try:
+        conn = _db()
+        cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cur.execute("""
+            SELECT address, mctp_total, status,
+                   COALESCE(last_contact_date, updated_at::date) AS last_contact,
+                   (CURRENT_DATE - COALESCE(last_contact_date, updated_at::date)) AS days_silent
+            FROM leads
+            WHERE spoke = 'real_estate'
+              AND status NOT IN ('closed', 'dead', 'contracted')
+              AND opted_out_at IS NULL
+              AND (last_contact_date < CURRENT_DATE - INTERVAL '5 days'
+                   OR (last_contact_date IS NULL
+                       AND updated_at < NOW() - INTERVAL '5 days'))
+            ORDER BY days_silent DESC
+            LIMIT 10
+        """)
+        aging = cur.fetchall() or []
+        conn.close()
+
+        if not aging:
+            return
+
+        lines = [f'*👻 {len(aging)} Lead{"s" if len(aging) > 1 else ""} Going Dark — 5+ Days No Contact*']
+        for l in aging:
+            days = int(l['days_silent']) if l['days_silent'] else '?'
+            lines.append(f'• {l["address"]} — {days}d silent | Score: {l["mctp_total"] or "?"}/10 | {l["status"]}')
+        lines.append('_Reply `follow up <address> date:tomorrow action:...` to re-engage, or `score <notes>` to re-qualify._')
+        _post('\n'.join(lines))
+
+    except Exception as e:
+        log.error(f'Lead aging scan failed: {e}')
+
+
+# ─── OFFER EXPIRY SCAN ───────────────────────────────────────────────────────
+
+def offer_expiry_scan():
+    """Daily 10:00 ET — Alert on drafted offers that haven't moved in 7+ days."""
+    try:
+        conn = _db()
+        cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+
+        cur.execute("""
+            SELECT address, offer_amount, offer_drafted_at, mctp_total,
+                   EXTRACT(EPOCH FROM (NOW() - offer_drafted_at))/86400 AS days_old
+            FROM leads
+            WHERE offer_status = 'drafted'
+              AND offer_drafted_at IS NOT NULL
+              AND offer_drafted_at < NOW() - INTERVAL '7 days'
+              AND status NOT IN ('closed', 'dead', 'contracted')
+            ORDER BY offer_drafted_at ASC
+            LIMIT 10
+        """)
+        stale_offers = cur.fetchall() or []
+        conn.close()
+
+        if not stale_offers:
+            return
+
+        lines = [f'*📋 {len(stale_offers)} Offer{"s" if len(stale_offers) > 1 else ""} Sitting >7 Days — Follow Up or Close*']
+        for o in stale_offers:
+            days  = int(o['days_old'])
+            amt   = f'${o["offer_amount"]:,.0f}' if o['offer_amount'] else 'no amount'
+            lines.append(f'• {o["address"]} — {amt} drafted {days}d ago | MCTP: {o["mctp_total"] or "?"}/10')
+        lines.append('_Reply `offer status <address>` to review. `offer status <address>` to update._')
+        _post('\n'.join(lines))
+
+    except Exception as e:
+        log.error(f'Offer expiry scan failed: {e}')
+
+
 # ─── KPI AUTO-UPDATE ─────────────────────────────────────────────────────────
 
 def kpi_auto_update():
@@ -1440,6 +1977,21 @@ def kpi_auto_update():
         _set('valdr_ops', 'Monthly Recurring Revenue', cur.fetchone()['total'])
 
         conn.commit()
+
+        # ── Daily snapshot for trend tracking (one row per metric per day) ────
+        try:
+            cur.execute("""
+                INSERT INTO kpi_snapshots (metric_name, spoke, value, status, snapshot_date)
+                SELECT metric_name, spoke, current_value, status, CURRENT_DATE
+                FROM kpi_targets
+                WHERE current_value IS NOT NULL
+                ON CONFLICT (metric_name, spoke, snapshot_date)
+                DO UPDATE SET value = EXCLUDED.value, status = EXCLUDED.status
+            """)
+            conn.commit()
+        except Exception as snap_err:
+            log.warning(f'KPI snapshot write failed: {snap_err}')
+
         conn.close()
         log.info('KPI auto-update complete')
 
@@ -1512,7 +2064,46 @@ def buyer_onboarding_scan():
             except Exception as sms_err:
                 log.error(f'Buyer welcome SMS failed for {b["name"]}: {sms_err}')
 
-        # ── Step 2: Stuck in 'welcomed' 3+ days ──────────────────────────────
+        # ── Step 2: Qualification SMS — welcomed 2+ days, no criteria yet ──────
+        cur.execute("""
+            SELECT b.id, b.name, b.phone, b.xleads_contact_id
+            FROM buyers b
+            LEFT JOIN buyer_criteria bc ON bc.buyer_id = b.id
+            WHERE b.onboarding_stage = 'welcomed'
+              AND b.onboarding_started_at < NOW() - INTERVAL '2 days'
+              AND b.xleads_contact_id IS NOT NULL AND b.xleads_contact_id != ''
+              AND b.is_dnc = FALSE
+              AND bc.id IS NULL
+            LIMIT 10
+        """)
+        needs_qualify = cur.fetchall() or []
+
+        qualified_pinged = []
+        _BUYER_QUALIFY_SMS = (
+            "Hey {name} — quick question: what's your buy box? "
+            "(price range + areas you're buying in) Reply back and I'll match you first on deals!"
+        )
+        for b in needs_qualify:
+            first = (b['name'] or 'there').split()[0]
+            msg   = _BUYER_QUALIFY_SMS.format(name=first)
+            try:
+                _xleads_mod.send_sms(b['xleads_contact_id'], msg)
+                # Insert empty placeholder so we don't re-send
+                cur.execute("""
+                    INSERT INTO buyer_criteria (buyer_id, notes, raw_reply)
+                    VALUES (%s, 'qualification_sms_sent', NULL)
+                    ON CONFLICT (buyer_id) DO NOTHING
+                """, (str(b['id']),))
+                cur.execute("""
+                    INSERT INTO agent_actions
+                        (action_type, resource, resource_id, data, result)
+                    VALUES ('buyer_qualify_sms', 'buyers', %s, %s, 'sent')
+                """, (str(b['id']), json.dumps({'name': b['name']})))
+                qualified_pinged.append(b['name'] or b['phone'])
+            except Exception as qe:
+                log.error(f'Buyer qualify SMS failed for {b["name"]}: {qe}')
+
+        # ── Step 3: Stuck in 'welcomed' 3+ days (still no reply) ─────────────
         cur.execute("""
             SELECT COUNT(*) AS cnt FROM buyers
             WHERE onboarding_stage = 'welcomed'
@@ -1535,13 +2126,15 @@ def buyer_onboarding_scan():
         conn.close()
 
         # Post summary if anything happened
-        if welcomed or stuck_count > 0:
+        if welcomed or qualified_pinged or stuck_count > 0:
             lines = ['*👥 Buyer Onboarding Update*']
             if welcomed:
                 lines.append(f'✅ Welcomed {len(welcomed)} new buyer{"s" if len(welcomed) > 1 else ""}: {", ".join(welcomed[:5])}')
+            if qualified_pinged:
+                lines.append(f'📋 Sent qualification SMS to {len(qualified_pinged)}: {", ".join(qualified_pinged[:5])}')
             if stuck_count:
                 lines.append(
-                    f'⚠️ {stuck_count} buyer{"s" if stuck_count > 1 else ""} stuck in *welcomed* for 3+ days — no reply yet.'
+                    f'⚠️ {stuck_count} buyer{"s" if stuck_count > 1 else ""} stuck in *welcomed* 3+ days — no reply.'
                 )
             if stage_counts:
                 lines.append('\n*Pipeline:*')
@@ -1669,74 +2262,122 @@ def start_heartbeat():
 
         scheduler = BackgroundScheduler(timezone='America/New_York')
 
+        # All jobs are wrapped with _guarded() which:
+        #   1. Catches unhandled exceptions → log.error() → Slack via _SlackErrorHandler
+        #   2. Stamps agent_actions after each run → powers dashboard last_run display
+
         # 6am daily briefing (Eastern time)
-        scheduler.add_job(morning_briefing, CronTrigger(hour=6, minute=0, timezone='America/New_York'),
+        scheduler.add_job(_guarded(morning_briefing, 'Morning Briefing'),
+                          CronTrigger(hour=6, minute=0, timezone='America/New_York'),
                           id='morning_briefing', replace_existing=True)
 
-        # 9pm pipeline report
-        scheduler.add_job(pipeline_report, CronTrigger(hour=21, minute=0, timezone='America/New_York'),
-                          id='pipeline_report', replace_existing=True)
+        # 7am ET — Finance sync
+        scheduler.add_job(_guarded(finance_daily_sync, 'Finance Sync'),
+                          CronTrigger(hour=7, minute=0, timezone='America/New_York'),
+                          id='finance_daily_sync', replace_existing=True)
 
-        # Every 30 min — seller reply scanner
-        scheduler.add_job(reply_scanner, IntervalTrigger(minutes=30),
-                          id='reply_scanner', replace_existing=True)
+        # 7:30am ET — autonomous email triage
+        scheduler.add_job(_guarded(email_triage_scan, 'Email Triage'),
+                          CronTrigger(hour=7, minute=30, timezone='America/New_York'),
+                          id='email_triage_scan', replace_existing=True)
 
-        # Every 2 hours — follow-up queue + decision queue scan
-        scheduler.add_job(followup_queue, IntervalTrigger(hours=2),
-                          id='followup_queue', replace_existing=True)
-        scheduler.add_job(decision_queue_scan, IntervalTrigger(hours=2),
-                          id='decision_queue_scan', replace_existing=True)
-
-        # Every 4 hours — XLeads opportunity sync + task delegation + KPI update
-        scheduler.add_job(opportunity_sync, IntervalTrigger(hours=4),
-                          id='opportunity_sync', replace_existing=True)
-        scheduler.add_job(task_delegation_scan, IntervalTrigger(hours=4),
-                          id='task_delegation_scan', replace_existing=True)
-        scheduler.add_job(kpi_auto_update, IntervalTrigger(hours=4),
-                          id='kpi_auto_update', replace_existing=True)
-
-        # Daily 8am ET — buyer onboarding scan
-        scheduler.add_job(buyer_onboarding_scan, CronTrigger(hour=8, minute=0, timezone='America/New_York'),
+        # 8am ET — buyer onboarding scan
+        scheduler.add_job(_guarded(buyer_onboarding_scan, 'Buyer Onboarding'),
+                          CronTrigger(hour=8, minute=0, timezone='America/New_York'),
                           id='buyer_onboarding_scan', replace_existing=True)
 
+        # 9am ET — revenue sync
+        scheduler.add_job(_guarded(revenue_sync, 'Revenue Sync'),
+                          CronTrigger(hour=9, minute=0, timezone='America/New_York'),
+                          id='revenue_sync', replace_existing=True)
+
+        # 9:05am ET — lead aging scan
+        scheduler.add_job(_guarded(lead_aging_scan, 'Lead Aging Scan'),
+                          CronTrigger(hour=9, minute=5, timezone='America/New_York'),
+                          id='lead_aging_scan', replace_existing=True)
+
+        # 10am ET — offer expiry scan
+        scheduler.add_job(_guarded(offer_expiry_scan, 'Offer Expiry Scan'),
+                          CronTrigger(hour=10, minute=0, timezone='America/New_York'),
+                          id='offer_expiry_scan', replace_existing=True)
+
+        # 9pm pipeline report
+        scheduler.add_job(_guarded(pipeline_report, 'Pipeline Report'),
+                          CronTrigger(hour=21, minute=0, timezone='America/New_York'),
+                          id='pipeline_report', replace_existing=True)
+
+        # 11pm ET — session memory summary (perfect recall)
+        scheduler.add_job(_guarded(session_memory_summary, 'Session Memory Summary'),
+                          CronTrigger(hour=23, minute=0, timezone='America/New_York'),
+                          id='session_memory_summary', replace_existing=True)
+
         # Monday 7am ET — weekly KPI
-        scheduler.add_job(weekly_kpi, CronTrigger(day_of_week='mon', hour=7, minute=0, timezone='America/New_York'),
+        scheduler.add_job(_guarded(weekly_kpi, 'Weekly KPI'),
+                          CronTrigger(day_of_week='mon', hour=7, minute=0, timezone='America/New_York'),
                           id='weekly_kpi', replace_existing=True)
 
         # Sunday 8pm ET — weekly CEO review
-        scheduler.add_job(weekly_ceo_review, CronTrigger(day_of_week='sun', hour=20, minute=0, timezone='America/New_York'),
+        scheduler.add_job(_guarded(weekly_ceo_review, 'Weekly CEO Review'),
+                          CronTrigger(day_of_week='sun', hour=20, minute=0, timezone='America/New_York'),
                           id='weekly_ceo_review', replace_existing=True)
 
-        # Wednesday 10am ET — dead lead resurrection scan (silent check)
-        scheduler.add_job(resurrect_scan, CronTrigger(day_of_week='wed', hour=10, minute=0, timezone='America/New_York'),
+        # Wednesday 10am ET — dead lead resurrection scan
+        scheduler.add_job(_guarded(resurrect_scan, 'Resurrect Scan'),
+                          CronTrigger(day_of_week='wed', hour=10, minute=0, timezone='America/New_York'),
                           id='resurrect_scan', replace_existing=True)
 
-        # Every hour — SMS deliverability + opt-out rate monitor
-        scheduler.add_job(sms_health_monitor, IntervalTrigger(hours=1),
-                          id='sms_health_monitor', replace_existing=True)
+        # Every 30 min — seller reply scanner
+        scheduler.add_job(_guarded(reply_scanner, 'Reply Scanner'),
+                          IntervalTrigger(minutes=30),
+                          id='reply_scanner', replace_existing=True)
 
-        # Daily 7am ET — Finance sync (Teller.io accounts + transactions + subscriptions)
-        scheduler.add_job(finance_daily_sync, CronTrigger(hour=7, minute=0, timezone='America/New_York'),
-                          id='finance_daily_sync', replace_existing=True)
-
-        # Daily 9am ET — Auto-log won XLeads opportunities into revenue_events
-        scheduler.add_job(revenue_sync, CronTrigger(hour=9, minute=0, timezone='America/New_York'),
-                          id='revenue_sync', replace_existing=True)
-
-        # Daily 7:30am ET — autonomous email triage (draft-by-default)
-        scheduler.add_job(email_triage_scan, CronTrigger(hour=7, minute=30, timezone='America/New_York'),
-                          id='email_triage_scan', replace_existing=True)
-
-        # Every hour — outreach reply scanner (cold email responses)
-        scheduler.add_job(outreach_reply_scan, IntervalTrigger(hours=1),
-                          id='outreach_reply_scan', replace_existing=True)
-
-        # Every 30 min — outreach auto-sender (Mon-Fri 8am-4:30pm ET, staggered)
-        scheduler.add_job(outreach_send_scheduled, IntervalTrigger(minutes=30),
+        # Every 30 min — outreach auto-sender
+        scheduler.add_job(_guarded(outreach_send_scheduled, 'Outreach Auto-Send'),
+                          IntervalTrigger(minutes=30),
                           id='outreach_send_scheduled', replace_existing=True)
 
+        # Every 2 hours — follow-up queue
+        scheduler.add_job(_guarded(followup_queue, 'Follow-Up Queue'),
+                          IntervalTrigger(hours=2),
+                          id='followup_queue', replace_existing=True)
+
+        # Every 2 hours — decision queue scan
+        scheduler.add_job(_guarded(decision_queue_scan, 'Decision Queue Scan'),
+                          IntervalTrigger(hours=2),
+                          id='decision_queue_scan', replace_existing=True)
+
+        # Every 4 hours — XLeads opportunity sync
+        scheduler.add_job(_guarded(opportunity_sync, 'Opportunity Sync'),
+                          IntervalTrigger(hours=4),
+                          id='opportunity_sync', replace_existing=True)
+
+        # Every 4 hours — task delegation
+        scheduler.add_job(_guarded(task_delegation_scan, 'Task Delegation'),
+                          IntervalTrigger(hours=4),
+                          id='task_delegation_scan', replace_existing=True)
+
+        # Every 4 hours — KPI auto-update
+        scheduler.add_job(_guarded(kpi_auto_update, 'KPI Auto-Update'),
+                          IntervalTrigger(hours=4),
+                          id='kpi_auto_update', replace_existing=True)
+
+        # Every hour — SMS health monitor
+        scheduler.add_job(_guarded(sms_health_monitor, 'SMS Health Monitor'),
+                          IntervalTrigger(hours=1),
+                          id='sms_health_monitor', replace_existing=True)
+
+        # Every hour — outreach reply scanner
+        scheduler.add_job(_guarded(outreach_reply_scan, 'Outreach Reply Scan'),
+                          IntervalTrigger(hours=1),
+                          id='outreach_reply_scan', replace_existing=True)
+
+        # Every hour — webhook dead letter queue retry
+        scheduler.add_job(_guarded(webhook_dlq_retry, 'Webhook DLQ Retry'),
+                          IntervalTrigger(hours=1),
+                          id='webhook_dlq_retry', replace_existing=True)
+
         scheduler.start()
-        log.info('ODIN Heartbeat started — 18 jobs scheduled')
+        log.info('ODIN Heartbeat started — 22 jobs scheduled')
         return scheduler
 
     except ImportError:

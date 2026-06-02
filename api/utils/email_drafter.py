@@ -42,7 +42,8 @@ Subject: [subject line]
 
 
 def draft(recipient_type: str, context: str,
-          recipient_name: str = '', tone: str = 'warm') -> dict:
+          recipient_name: str = '', tone: str = 'warm',
+          tone_profile: str = '') -> dict:
     """
     Draft an email.
 
@@ -65,7 +66,8 @@ def draft(recipient_type: str, context: str,
         'general':          'Write a context-appropriate email.',
     }.get(recipient_type, 'Write a context-appropriate email.')
 
-    name_line = f'Recipient first name: {recipient_name}\n' if recipient_name else ''
+    name_line  = f'Recipient first name: {recipient_name}\n' if recipient_name else ''
+    tone_line  = f'Tone profile (Brock\'s style): {tone_profile}\n' if tone_profile else ''
 
     msg = client.messages.create(
         model='claude-sonnet-4-6',
@@ -76,6 +78,7 @@ def draft(recipient_type: str, context: str,
             'content': (
                 f'Email type: {type_context}\n'
                 f'{name_line}'
+                f'{tone_line}'
                 f'Tone: {tone}\n\n'
                 f'Context:\n{context}'
             )
