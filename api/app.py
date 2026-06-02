@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from flask import Flask, request, make_response
-from flask_cors import CORS
 
 import utils.heartbeat        as heartbeat
 import utils.outreach_tracker as outreach_tracker
@@ -34,9 +33,7 @@ from blueprints.xleads_bp       import bp as xleads_bp
 def create_app() -> Flask:
     application = Flask(__name__, static_folder='../dashboard', static_url_path='')
 
-    CORS(application, resources={r'/api/*': {'origins': '*'}})
-
-    # Belt-and-suspenders: manually stamp CORS headers on every response
+    # Manual CORS headers on every response (no flask-cors dependency)
     @application.after_request
     def _cors(response):
         response.headers['Access-Control-Allow-Origin']  = '*'
