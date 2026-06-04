@@ -137,13 +137,14 @@ def _voice_channel() -> str:
     return (
         os.environ.get('SLACK_CHANNEL_BROCK')
         or os.environ.get('SLACK_CHANNEL')
-        or os.environ.get('BROCK_SLACK_UID', '')
+        or os.environ.get('BROCK_SLACK_UID', 'U0B5C32BJ6B')
     )
 
 
 def spawn_agent_task(task_description: str) -> str:
     """Spawn an agent pipeline in the background and return immediately."""
     import threading
+    import traceback
 
     def _run():
         try:
@@ -152,7 +153,12 @@ def spawn_agent_task(task_description: str) -> str:
             output = result.get('slack_text', 'Task completed.')
             _slack_post(_voice_channel(), f"🎙️ *Voice-spawned task:* {task_description}\n\n{output}")
         except Exception as e:
-            _slack_post(_voice_channel(), f"🎙️ *Voice spawn error:* {task_description}\n`{e}`")
+            tb = traceback.format_exc()
+            print(f"[voice spawn error] {e}\n{tb}", flush=True)
+            try:
+                _slack_post(_voice_channel(), f"🎙️ *Voice spawn error:*\n`{type(e).__name__}: {e}`\n```{tb[-600:]}```")
+            except Exception:
+                pass
 
     threading.Thread(target=_run, daemon=True).start()
     return f"On it. Agents are running for: {task_description}. I'll post results to Slack in about 30 seconds."
