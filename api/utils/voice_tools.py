@@ -134,34 +134,51 @@ def approve_deal(approval_id: str) -> str:
 
 def _voice_channel() -> str:
     """Return the Slack channel for voice-originated posts."""
-    return (
-        os.environ.get('SLACK_CHANNEL_BROCK')
-        or os.environ.get('SLACK_CHANNEL')
-        or os.environ.get('BROCK_SLACK_UID', 'U0B5C32BJ6B')
-    )
+    # Use the same env var the rest of ODIN uses — set in Railway
+    ch = os.environ.get('SLACK_CHANNEL_BROCK', '')
+    if ch:
+        return ch
+    # Fallback: Brock's Slack user ID (DM)
+    return os.environ.get('BROCK_SLACK_UID', 'U0B5C32BJ6B')
 
 
 def spawn_agent_task(task_description: str) -> str:
-    """Spawn an agent pipeline in the background and return immediately."""
-    import threading
+    """
+    Research a task with a direct Anthropic call and post results to Slack.
+    Runs synchronously in asyncio.to_thread — takes ~5-10 seconds.
+    """
+    import anthropic
     import traceback
 
-    def _run():
-        try:
-            import utils.agent_spawner as spawner
-            result = spawner.spawn(task_description, get_db=get_db)
-            output = result.get('slack_text', 'Task completed.')
-            _slack_post(_voice_channel(), f"🎙️ *Voice-spawned task:* {task_description}\n\n{output}")
-        except Exception as e:
-            tb = traceback.format_exc()
-            print(f"[voice spawn error] {e}\n{tb}", flush=True)
-            try:
-                _slack_post(_voice_channel(), f"🎙️ *Voice spawn error:*\n`{type(e).__name__}: {e}`\n```{tb[-600:]}```")
-            except Exception:
-                pass
+    try:
+        api_key = os.environ.get('ANTHROPIC_API_KEY', '')
+        if not api_key:
+            return "Can't research — ANTHROPIC_API_KEY is not set."
 
-    threading.Thread(target=_run, daemon=True).start()
-    return f"On it. Agents are running for: {task_description}. I'll post results to Slack in about 30 seconds."
+        client = anthropic.Anthropic(api_key=api_key)
+        resp = client.messages.create(
+            model='claude-haiku-4-5-20251001',
+            max_tokens=800,
+            system=(
+                "You are ODIN, an AI chief of staff for Brock Shue (real estate wholesaler, Memphis TN). "
+                "Give concise, actionable research results. Use bullet points. Be specific."
+            ),
+            messages=[{'role': 'user', 'content': f'Research: {task_description}'}],
+        )
+        result = resp.content[0].text.strip()
+
+        # Post full result to Slack
+        slack_msg = f"🎙️ *Voice Research:* {task_description}\n\n{result}"
+        _slack_post(_voice_channel(), slack_msg)
+
+        # Return a spoken summary (first 200 chars)
+        spoken = result[:200].replace('*', '').replace('_', '').replace('#', '')
+        return f"Here's what I found. {spoken}. Full results posted to Slack."
+
+    except Exception as e:
+        err = traceback.format_exc()
+        print(f"[voice spawn error] {e}\n{err}", flush=True)
+        return f"Research failed: {type(e).__name__}: {e}"
 
 
 def send_slack_note(message: str) -> str:
