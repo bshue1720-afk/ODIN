@@ -45,6 +45,8 @@ def _slack_verify(req) -> bool:
 
 def _slack_post(channel: str, text: str):
     """Fire a message to a Slack channel (or virtual discord:/tg: channel)."""
+    if not channel:
+        return
     if channel.startswith('discord:'):
         if channel in _discord_queues:
             _discord_queues[channel].append(text)
