@@ -1,9 +1,8 @@
 """
 ODIN Voice Agent (LiveKit Agents 1.x)
-Handles inbound SIP calls and outbound call sessions.
 STT: Deepgram Nova-3
-LLM: Anthropic Claude Haiku (fast, low-latency)
-TTS: ElevenLabs
+LLM: Anthropic Claude Haiku
+TTS: Cartesia (Grant voice)
 VAD: Silero
 """
 import os
@@ -14,9 +13,28 @@ from livekit import agents
 from livekit.agents import Agent, AgentSession, RoomInputOptions, function_tool
 from livekit.plugins import deepgram, cartesia, silero
 
+# Import tools at module level — never lazy-import inside a tool call
+from utils.voice_tools import (
+    get_hot_leads,
+    get_pending_approvals,
+    get_pending_decisions,
+    get_blast_stats,
+    get_morning_briefing,
+    approve_deal as _approve_deal,
+    spawn_agent_task,
+    send_slack_note,
+)
+
 log = logging.getLogger(__name__)
 
-SYSTEM_PROMPT = """You are ODIN, Brock's AI chief of staff. You're on a live phone call — speak naturally, no lists or markdown, max 2 sentences per reply unless giving a briefing. Use your tools to answer questions about leads, deals, approvals, and finances. Spawn agent tasks for research or planning requests and post results to Slack. Confirm before taking any action."""
+SYSTEM_PROMPT = (
+    "You are ODIN, Brock's AI chief of staff. You are on a live phone call. "
+    "Rules: speak naturally, no lists or markdown, max 2 sentences per reply unless giving a briefing. "
+    "When asked to research or find information, call spawn_task immediately — do not ask for permission first. "
+    "When asked to post a note, call slack_note immediately. "
+    "Only confirm before approving a deal (financial action). "
+    "Always speak the result of tool calls out loud."
+)
 
 
 class OdinVoiceAgent(Agent):
@@ -25,52 +43,67 @@ class OdinVoiceAgent(Agent):
 
     @function_tool
     async def hot_leads(self) -> str:
-        """Get current hot leads (score 9+)."""
-        from utils.voice_tools import get_hot_leads
-        return await asyncio.to_thread(get_hot_leads)
+        """Get current hot leads scored 9 or higher."""
+        try:
+            return await asyncio.to_thread(get_hot_leads)
+        except Exception as e:
+            return f"I couldn't pull hot leads right now: {e}"
 
     @function_tool
     async def pending_approvals(self) -> str:
         """Get deals waiting for Brock's approval."""
-        from utils.voice_tools import get_pending_approvals
-        return await asyncio.to_thread(get_pending_approvals)
+        try:
+            return await asyncio.to_thread(get_pending_approvals)
+        except Exception as e:
+            return f"I couldn't pull approvals: {e}"
 
     @function_tool
     async def pending_decisions(self) -> str:
         """Get open decisions that need an outcome recorded."""
-        from utils.voice_tools import get_pending_decisions
-        return await asyncio.to_thread(get_pending_decisions)
+        try:
+            return await asyncio.to_thread(get_pending_decisions)
+        except Exception as e:
+            return f"I couldn't pull decisions: {e}"
 
     @function_tool
     async def blast_stats(self) -> str:
         """Get the last text blast results."""
-        from utils.voice_tools import get_blast_stats
-        return await asyncio.to_thread(get_blast_stats)
+        try:
+            return await asyncio.to_thread(get_blast_stats)
+        except Exception as e:
+            return f"I couldn't pull blast stats: {e}"
 
     @function_tool
     async def morning_briefing(self) -> str:
         """Give a full morning briefing: leads, approvals, decisions, blast."""
-        from utils.voice_tools import get_morning_briefing
-        return await asyncio.to_thread(get_morning_briefing)
+        try:
+            return await asyncio.to_thread(get_morning_briefing)
+        except Exception as e:
+            return f"Briefing failed: {e}"
 
     @function_tool
     async def approve_deal(self, approval_id: str) -> str:
         """
-        Approve a pending deal.
+        Approve a pending deal by ID.
         approval_id: partial or full approval queue ID
         """
-        from utils.voice_tools import approve_deal
-        return await asyncio.to_thread(approve_deal, approval_id)
+        try:
+            return await asyncio.to_thread(_approve_deal, approval_id)
+        except Exception as e:
+            return f"Approval failed: {e}"
 
     @function_tool
     async def spawn_task(self, task_description: str) -> str:
         """
-        Spawn an agent pipeline for any task — research, business plans, proposals, etc.
-        Full output will be posted to Slack.
-        task_description: what to build or research
+        Launch a research or planning task. Fires immediately in the background.
+        Results post to Slack. Call this for ANY research, sourcing, or planning request.
+        task_description: what to research or build
         """
-        from utils.voice_tools import spawn_agent_task
-        return await asyncio.to_thread(spawn_agent_task, task_description)
+        try:
+            result = await asyncio.to_thread(spawn_agent_task, task_description)
+            return result
+        except Exception as e:
+            return f"I had trouble launching that task: {e}. Try again or check Slack."
 
     @function_tool
     async def slack_note(self, message: str) -> str:
@@ -78,8 +111,10 @@ class OdinVoiceAgent(Agent):
         Post a note or reminder to Slack.
         message: what to post
         """
-        from utils.voice_tools import send_slack_note
-        return await asyncio.to_thread(send_slack_note, message)
+        try:
+            return await asyncio.to_thread(send_slack_note, message)
+        except Exception as e:
+            return f"Couldn't post to Slack: {e}"
 
 
 async def entrypoint(ctx: agents.JobContext):
@@ -88,7 +123,6 @@ async def entrypoint(ctx: agents.JobContext):
 
     await ctx.connect(auto_subscribe=agents.AutoSubscribe.AUDIO_ONLY)
 
-    # Build the voice pipeline
     session = AgentSession(
         stt=deepgram.STT(model="nova-3"),
         llm=_build_llm(),
@@ -104,14 +138,12 @@ async def entrypoint(ctx: agents.JobContext):
         room_input_options=RoomInputOptions(),
     )
 
-    # Greet the caller
     await session.generate_reply(
-        instructions="Greet Brock as ODIN and ask what he needs. Keep it under 10 words."
+        instructions="Greet Brock as ODIN. Keep it under 8 words."
     )
 
 
 def _build_llm():
-    """Build the LLM — uses Anthropic via livekit plugin."""
     try:
         from livekit.plugins import anthropic as lk_anthropic
         return lk_anthropic.LLM(
@@ -119,6 +151,5 @@ def _build_llm():
             api_key=os.environ.get("ANTHROPIC_API_KEY"),
         )
     except ImportError:
-        # Fallback: openai if anthropic plugin not available
         from livekit.plugins import openai as lk_openai
         return lk_openai.LLM(model="gpt-4o-mini")
