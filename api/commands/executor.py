@@ -303,20 +303,48 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
 
         def _run_textblast(tags, limit, message, reply_channel):
             try:
-                contacts = xleads.search_contacts(tags=tags, limit=limit)
+                contacts    = xleads.search_contacts(tags=tags, limit=limit)
+                pool        = xleads.get_number_pool()
+                total       = len(contacts)
+
+                if not pool:
+                    # No rotation configured — send from default number
+                    chunks = [(None, contacts)]
+                else:
+                    # Partition contacts into len(pool) non-overlapping slices.
+                    # Each contact appears in exactly ONE slice → no duplicate texts.
+                    n        = len(pool)
+                    size     = (total + n - 1) // n  # ceiling division
+                    chunks   = [
+                        (pool[i], contacts[i * size:(i + 1) * size])
+                        for i in range(n)
+                        if i * size < total
+                    ]
+
                 sent, failed = 0, 0
-                for c in contacts:
-                    cid = c.get('id')
-                    try:
-                        xleads.send_sms(cid, message)
-                        sent += 1
-                    except Exception:
-                        failed += 1
+                number_stats = []
+                for from_num, slice_contacts in chunks:
+                    s, f = 0, 0
+                    for c in slice_contacts:
+                        cid = c.get('id')
+                        try:
+                            xleads.send_sms(cid, message, from_number=from_num)
+                            s += 1
+                        except Exception:
+                            f += 1
+                    sent   += s
+                    failed += f
+                    label = from_num or 'default'
+                    number_stats.append(f'  {label}: {s} sent, {f} failed')
+
+                stats_block = '\n'.join(number_stats) if number_stats else '  (single number)'
                 _slack_post(reply_channel,
                     f'✅ *Direct SMS blast complete*\n'
-                    f'• Sent:   {sent}\n'
-                    f'• Failed: {failed}\n'
-                    f'• Total matched: {len(contacts)}')
+                    f'• Sent:    {sent}\n'
+                    f'• Failed:  {failed}\n'
+                    f'• Matched: {total}\n'
+                    f'• Numbers used: {len(chunks)}\n'
+                    f'{stats_block}')
             except Exception as e:
                 _slack_post(reply_channel, f'❌ Textblast failed: {e}')
 
@@ -2391,6 +2419,43 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
             _slack_post(reply_channel, f'❌ Decision outcome error: {e}')
         return
 
+    # ── DECISION OUTCOMES LIST ────────────────────────────────────────────────
+    if action == 'decision_outcomes_list':
+        try:
+            db  = get_db()
+            cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur.execute("""
+                SELECT id, issue_summary, status, recommended, outcome_notes, outcome_recorded_at
+                FROM decision_queue
+                WHERE status IN ('approved','declined','auto_executed')
+                ORDER BY updated_at DESC
+                LIMIT 15
+            """)
+            rows = cur.fetchall() or []
+            db.close()
+            if not rows:
+                _slack_post(reply_channel, '_No resolved decisions yet._')
+                return
+            needs_outcome = [r for r in rows if not r['outcome_notes']]
+            has_outcome   = [r for r in rows if r['outcome_notes']]
+            lines = ['*📋 Decision Outcomes*', '']
+            if needs_outcome:
+                lines.append(f'*⏳ Needs Outcome Recorded ({len(needs_outcome)})*')
+                for r in needs_outcome:
+                    short_id = str(r['id'])[:8]
+                    lines.append(f'• `{short_id}` — _{r["issue_summary"][:60]}_')
+                lines.append('`decision outcome <id> result:"What actually happened"`\n')
+            if has_outcome:
+                lines.append(f'*✅ Outcomes Recorded ({len(has_outcome)})*')
+                for r in has_outcome[:5]:
+                    short_id = str(r['id'])[:8]
+                    ts = r['outcome_recorded_at'].strftime('%m/%d') if r['outcome_recorded_at'] else '?'
+                    lines.append(f'• `{short_id}` {ts} — {r["outcome_notes"][:60]}')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Outcomes list error: {e}')
+        return
+
     # ── LOG DECISION ──────────────────────────────────────────────────────────
     if action == 'log_decision':
         try:
@@ -2660,17 +2725,50 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
 
             _slack_post(reply_channel, f'⏳ Drafting offer letter for {address}...')
 
+            # ── Template selection based on motivation score + notes ──
+            motivation_score = lead.get('motivation_score') or 0
+            lead_notes_lower = (notes or motivation or '').lower()
+
+            if motivation_score >= 7:
+                template_style = (
+                    'URGENT template: Seller is highly motivated. Lead with speed — '
+                    '"We can close in as little as 7-10 days." Emphasize certainty of close, '
+                    'no inspections, no contingencies. Be warm but move fast.'
+                )
+            elif 'tax' in lead_notes_lower or 'delinquent' in lead_notes_lower or 'lien' in lead_notes_lower:
+                template_style = (
+                    'TAX RELIEF template: Seller likely has tax/lien pressure. Lead with relief — '
+                    '"We buy as-is and can handle back taxes/liens in the sale." '
+                    'Emphasize a clean, simple exit. No mention of investor profit.'
+                )
+            elif 'probate' in lead_notes_lower or 'inherited' in lead_notes_lower or 'estate' in lead_notes_lower:
+                template_style = (
+                    'PROBATE/ESTATE template: Be empathetic and respectful. Acknowledge this may be '
+                    'a difficult time. Lead with simplicity — "We handle everything so you don\'t have to." '
+                    'Avoid urgency. Focus on ease and peace of mind.'
+                )
+            elif motivation_score <= 3 and motivation_score > 0:
+                template_style = (
+                    'LOW MOTIVATION template: Seller is not desperate. Frame as an option, not a deal. '
+                    '"Just putting a number on paper so you have it — no pressure either way." '
+                    'Softer close, leave door open. Avoid any pressure language.'
+                )
+            else:
+                template_style = (
+                    'STANDARD template: Warm, professional. Highlight cash offer, as-is purchase, '
+                    'flexible close, no agent fees. End with clear call to action.'
+                )
+
             offer_prompt = (
-                f'You are a real estate wholesaler. Draft a professional but warm seller offer letter '
-                f'for the following property. Be direct and concise — max 200 words.\n\n'
+                f'You are a real estate wholesaler. Draft a professional offer letter using this approach:\n'
+                f'{template_style}\n\n'
                 f'Property: {address}\n'
                 f'Beds/Baths: {beds}bd/{baths}ba | Condition: {condition}\n'
-                f'Our offer: ${lao:,.0f} (cash, as-is, fast close)\n'
+                f'Our offer: ${lao:,.0f} (cash, as-is)\n'
                 f'ARV: ${arv:,.0f}\n'
-                f'Seller motivation notes: {motivation or notes or "Not yet determined"}\n\n'
-                f'Include: cash offer amount, as-is purchase, flexible close date, '
-                f'no repairs needed, no agent fees. '
-                f'Warm tone — not pushy. End with a clear call to action.'
+                f'Motivation score: {motivation_score}/10\n'
+                f'Seller notes: {motivation or notes or "None on file"}\n\n'
+                f'Max 200 words. Sound human, not corporate. No clichés.'
             )
 
             import anthropic as _anthropic
@@ -2707,7 +2805,34 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
     if action == 'offer_status':
         address = cmd.get('address', '').strip()
         if not address:
-            _slack_post(reply_channel, '⚠️ Usage: `offer status <address>`')
+            # No address = show all open offers
+            try:
+                db  = get_db()
+                cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+                cur.execute("""
+                    SELECT address, offer_amount, offer_status, offer_drafted_at, mctp_total
+                    FROM leads
+                    WHERE offer_status IN ('drafted','sent','countered')
+                      AND spoke = 'real_estate'
+                    ORDER BY offer_drafted_at DESC
+                    LIMIT 20
+                """)
+                rows = cur.fetchall() or []
+                db.close()
+                if not rows:
+                    _slack_post(reply_channel, '_No open offers in the pipeline._')
+                    return
+                status_map = {'drafted': '📝', 'sent': '📤', 'countered': '🔄'}
+                lines = [f'*📋 Open Offers ({len(rows)})*', '']
+                for r in rows:
+                    em  = status_map.get(r['offer_status'], '•')
+                    amt = f'${r["offer_amount"]:,.0f}' if r['offer_amount'] else '—'
+                    ts  = r['offer_drafted_at'].strftime('%m/%d') if r['offer_drafted_at'] else '?'
+                    lines.append(f'{em} *{r["address"]}* | {amt} | Score: {r["mctp_total"] or "?"}/10 | {ts}')
+                lines.append('\n`offer status <address>` for details')
+                _slack_post(reply_channel, '\n'.join(lines))
+            except Exception as e:
+                _slack_post(reply_channel, f'❌ Offer status error: {e}')
             return
         try:
             db  = get_db()
@@ -2750,44 +2875,132 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
             _slack_post(reply_channel, f'❌ Offer status error: {type(e).__name__}: {e}')
         return
 
+    # ── LEAD VELOCITY ─────────────────────────────────────────────────────────
+    if action == 'lead_velocity':
+        try:
+            db  = get_db()
+            cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            cur.execute("""
+                SELECT address, status, mctp_total, offer_status,
+                       EXTRACT(EPOCH FROM (NOW() - updated_at))/86400 AS days_since_update,
+                       EXTRACT(EPOCH FROM (NOW() - created_at))/86400 AS days_in_pipeline
+                FROM leads
+                WHERE (spoke = 'real_estate' OR spoke IS NULL)
+                  AND status NOT IN ('dead', 'closed')
+                ORDER BY mctp_total DESC NULLS LAST, days_since_update ASC
+                LIMIT 20
+            """)
+            rows = cur.fetchall() or []
+
+            cur.execute("""
+                SELECT
+                  AVG(EXTRACT(EPOCH FROM (updated_at - created_at))/86400)
+                    FILTER (WHERE status = 'closed') AS avg_days_to_close,
+                  COUNT(*) FILTER (WHERE status = 'closed') AS total_closed,
+                  AVG(EXTRACT(EPOCH FROM (NOW() - updated_at))/86400)
+                    FILTER (WHERE status NOT IN ('dead','closed')
+                            AND updated_at < NOW() - INTERVAL '7 days') AS avg_days_stuck
+                FROM leads
+                WHERE spoke = 'real_estate' OR spoke IS NULL
+            """)
+            meta = cur.fetchone()
+            db.close()
+
+            if not rows:
+                _slack_post(reply_channel, '_No active leads in pipeline._')
+                return
+
+            status_emoji = {
+                'new': '🆕', 'warm': '⚡', 'hot': '🔥', 'contacted': '📞',
+                'negotiating': '🤝', 'contracted': '📄', 'closed': '✅', 'cold': '🧊'
+            }
+            lines = ['*⚡ Deal Velocity — Pipeline Speed*', '']
+
+            if meta:
+                if meta['avg_days_to_close']:
+                    lines.append(f'Avg days to close: *{meta["avg_days_to_close"]:.0f}d* | Deals closed: {meta["total_closed"]}')
+                if meta['avg_days_stuck']:
+                    lines.append(f'Avg days stuck (7d+): *{meta["avg_days_stuck"]:.0f}d*')
+                lines.append('')
+
+            moving = [r for r in rows if (r['days_since_update'] or 0) <= 3]
+            stuck  = [r for r in rows if (r['days_since_update'] or 0) > 7]
+            other  = [r for r in rows if r not in moving and r not in stuck]
+
+            if moving:
+                lines.append(f'*🟢 Moving (updated <3d) — {len(moving)}*')
+                for r in moving:
+                    em = status_emoji.get(r['status'] or '', '•')
+                    lines.append(f'  {em} *{r["address"]}* | {r["status"]} | Score: {r["mctp_total"] or "?"}/10 | {r["days_since_update"]:.0f}d ago')
+                lines.append('')
+
+            if other:
+                lines.append(f'*🟡 In Progress (3-7d) — {len(other)}*')
+                for r in other:
+                    em = status_emoji.get(r['status'] or '', '•')
+                    lines.append(f'  {em} *{r["address"]}* | {r["status"]} | Score: {r["mctp_total"] or "?"}/10 | {r["days_since_update"]:.0f}d ago')
+                lines.append('')
+
+            if stuck:
+                lines.append(f'*🔴 Stuck (7d+ no update) — {len(stuck)}*')
+                for r in stuck:
+                    em = status_emoji.get(r['status'] or '', '•')
+                    offer_note = f' | Offer: {r["offer_status"]}' if r['offer_status'] and r['offer_status'] != 'none' else ''
+                    lines.append(f'  {em} *{r["address"]}* | {r["status"]}{offer_note} | {r["days_since_update"]:.0f}d — `follow up {r["address"]}`')
+                lines.append('')
+
+            lines.append('`resurrect` for AI re-engagement texts | `leads` for full pipeline')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Velocity error: {type(e).__name__}: {e}')
+        return
+
     # ── KPI SCORECARD ─────────────────────────────────────────────────────────
     if action == 'kpi_scorecard':
         try:
             db  = get_db()
             cur = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-            # Live spoke snapshots
+            # Live spoke snapshots — each sub-query uses its own connection to avoid
+            # InFailedSqlTransaction if a table/column doesn't exist
             spoke_snapshots = {}
-            try:
-                cur.execute("""
-                    SELECT
-                      COUNT(*) FILTER (WHERE mctp_total >= 8)                    AS hot,
-                      COUNT(*) FILTER (WHERE mctp_total >= 5 AND mctp_total < 8) AS warm,
-                      COUNT(*) FILTER (WHERE follow_up_date::date = CURRENT_DATE
-                                       AND opted_out_at IS NULL)                 AS followups,
-                      COUNT(*) FILTER (WHERE offer_status = 'drafted')           AS open_offers
-                    FROM leads WHERE spoke = 'real_estate'
-                """)
-                spoke_snapshots['real_estate'] = cur.fetchone()
-            except Exception:
-                pass
-            try:
-                cur.execute("""
-                    SELECT ba.name, ba.balance FROM bank_accounts ba
-                    ORDER BY ba.balance DESC LIMIT 1
-                """)
-                spoke_snapshots['financial_health'] = cur.fetchone()
-            except Exception:
-                pass
-            try:
-                cur.execute("""
-                    SELECT COUNT(*) AS open_tasks FROM tasks
-                    WHERE spoke = 'katelyn_business'
-                      AND status NOT IN ('done','completed','cancelled')
-                """)
-                spoke_snapshots['katelyn_business'] = cur.fetchone()
-            except Exception:
-                pass
+            _snap_dbs = []
+            def _snap(sql, key, params=None):
+                try:
+                    _c = get_db(); _snap_dbs.append(_c)
+                    _r = _c.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+                    _r.execute(sql, params or ())
+                    spoke_snapshots[key] = _r.fetchone()
+                    _c.close()
+                except Exception:
+                    pass
+
+            _snap("""
+                SELECT
+                  COUNT(*) FILTER (WHERE mctp_total >= 8)                    AS hot,
+                  COUNT(*) FILTER (WHERE mctp_total >= 5 AND mctp_total < 8) AS warm,
+                  COUNT(*) FILTER (WHERE follow_up_date::date = CURRENT_DATE
+                                   AND opted_out_at IS NULL)                 AS followups,
+                  COUNT(*) FILTER (WHERE offer_status = 'drafted')           AS open_offers
+                FROM leads WHERE spoke = 'real_estate' OR spoke IS NULL
+            """, 'real_estate')
+            _snap("""
+                SELECT ba.name, ba.balance FROM bank_accounts ba
+                ORDER BY ba.balance DESC LIMIT 1
+            """, 'financial_health')
+            _snap("""
+                SELECT COUNT(*) AS open_tasks FROM tasks
+                WHERE spoke = 'katelyn_business'
+                  AND status NOT IN ('done','completed','cancelled')
+            """, 'katelyn_business')
+            _snap("""
+                SELECT
+                  COUNT(*) AS total,
+                  COUNT(*) FILTER (WHERE stage IN ('emailed','replied','scheduled')) AS in_progress,
+                  COUNT(*) FILTER (WHERE stage IN ('paid','delivered','converted')) AS sold,
+                  COALESCE(SUM(amount_paid) FILTER (WHERE amount_paid > 0), 0) AS revenue
+                FROM audit_prospects
+            """, 'ai_audit')
 
             cur.execute("""
                 SELECT spoke, metric_name, current_value, target_value, unit, dri, status
@@ -2814,6 +3027,10 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
             kat_s = spoke_snapshots.get('katelyn_business')
             if kat_s:
                 lines.append(f'✨ *Katelyn*: {kat_s["open_tasks"]} open tasks')
+            audit_s = spoke_snapshots.get('ai_audit')
+            if audit_s:
+                rev = f'${audit_s["revenue"]:,.0f}' if audit_s.get("revenue") else '$0'
+                lines.append(f'🔍 *AI Audit*: {audit_s["total"]} prospects | {audit_s["in_progress"]} in-progress | {audit_s["sold"]} sold | {rev} rev')
             lines.append('')
 
             current_spoke = None
@@ -3872,6 +4089,1175 @@ def _execute_slack_command(cmd: dict, reply_channel: str, sender_uid: str = ''):
                 _slack_post(reply_channel, '\n'.join(lines))
         except Exception as e:
             _slack_post(reply_channel, f'❌ Sentiment report error: {e}')
+        return
+
+    # ── QUICK WIN: ASSIGNMENT FEE CALCULATOR ─────────────────────────────────
+    if action == 'fee_calc':
+        arv     = cmd.get('arv')
+        repairs = cmd.get('repairs')
+        asking  = cmd.get('asking')
+        address = cmd.get('address', 'this property')
+
+        if not all([arv, repairs]):
+            _slack_post(reply_channel,
+                '⚙️ *Fee Calc* — Usage:\n'
+                '`fee <address> arv:165000 repairs:25000 asking:95000`\n'
+                '_asking is optional — omit if unknown_')
+            return
+
+        mao       = int(arv * 0.70 - repairs)
+        lao       = int(mao * 0.92)           # 8% buffer below MAO = LAO
+        fee_at_mao = mao - asking if asking else None
+        fee_at_lao = lao - asking if asking else None
+
+        lines = [
+            f'*⚙️ Fee Calculator — {address}*',
+            f'ARV: *${arv:,}* | Repairs: *${repairs:,}*',
+            '```',
+            f'MAO (70% ARV - repairs): ${mao:,}',
+            f'LAO (MAO - 8% buffer):   ${lao:,}',
+        ]
+        if asking:
+            lines.append(f'Asking Price:             ${asking:,}')
+            if fee_at_lao and fee_at_lao > 0:
+                lines.append(f'Fee @ LAO offer:          ${fee_at_lao:,}')
+                lines.append(f'Fee @ MAO offer:          ${fee_at_mao:,}')
+                margin_pct = round((fee_at_lao / arv) * 100, 1)
+                lines.append(f'Margin (fee/ARV):         {margin_pct}%')
+            else:
+                lines.append(f'⚠️  Asking exceeds MAO — deal has no spread at current ask')
+        lines.append('```')
+
+        verdict = ''
+        if asking and fee_at_lao:
+            if fee_at_lao >= 15000:
+                verdict = '🔥 *Strong deal* — fee is solid'
+            elif fee_at_lao >= 8000:
+                verdict = '✅ *Workable deal* — negotiate toward LAO'
+            elif fee_at_lao > 0:
+                verdict = '⚠️ *Thin deal* — depends on buyer demand'
+            else:
+                verdict = '❌ *No deal* — asking too high'
+            lines.append(verdict)
+
+        _slack_post(reply_channel, '\n'.join(lines))
+        return
+
+    # ── QUICK WIN: GOAL THERMOMETER ──────────────────────────────────────────
+    if action == 'goal_thermometer':
+        try:
+            from utils.heartbeat import get_goal_progress
+            gp = get_goal_progress()
+            victory = '\n*ᚹ VICTORY — GOAL REACHED. The ravens feast. ᚹ*' if gp['pct'] >= 100 else ''
+            remaining = max(0, gp['goal'] - gp['total'])
+            _slack_post(reply_channel,
+                f'*🎯 $20K Revenue Goal*{victory}\n'
+                f'`{gp["bar_str"]}` *{gp["pct"]}%*\n'
+                f'${gp["total"]:,.0f} earned of $20,000 goal\n'
+                f'• Real Estate fees: ${gp["re_rev"]:,.0f}\n'
+                f'• AI Audit revenue: ${gp["audit_rev"]:,.0f}\n'
+                f'${remaining:,.0f} to go'
+            )
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Goal thermometer error: {e}')
+        return
+
+    # ── QUICK WIN: SESSION DEBRIEF ────────────────────────────────────────────
+    if action == 'debrief_start':
+        try:
+            conn = get_db()
+            cur  = conn.cursor()
+            # Store debrief session start — answers come in as debrief_answer
+            cur.execute("""
+                INSERT INTO agent_actions (action_type, spoke, data, result)
+                VALUES ('debrief_start', 'system',
+                        %s::jsonb, 'pending')
+            """, ('{"q1":"","q2":"","q3":"","step":1}',))
+            conn.commit()
+            conn.close()
+        except Exception:
+            pass
+        _slack_post(reply_channel,
+            '*📓 Session Debrief — 3 Questions*\n'
+            '_Answer one at a time. ODIN saves them and leads tomorrow\'s briefing with them._\n\n'
+            '*1. What moved today?* (deals, calls, outreach — any progress)'
+        )
+        return
+
+    if action == 'debrief_answer':
+        answer = cmd.get('answer', '').strip()
+        if not answer:
+            _slack_post(reply_channel, '⚠️ Include your answer: `debrief answer <your answer>`')
+            return
+        try:
+            conn = get_db()
+            cur  = conn.cursor(cursor_factory=__import__('psycopg2').extras.RealDictCursor)
+            # Find the active debrief session
+            cur.execute("""
+                SELECT id, data FROM agent_actions
+                WHERE action_type = 'debrief_start' AND result = 'pending'
+                ORDER BY created_at DESC LIMIT 1
+            """)
+            row = cur.fetchone()
+            if not row:
+                conn.close()
+                _slack_post(reply_channel, 'No active debrief session. Start one with `debrief`.')
+                return
+
+            data = row['data'] if isinstance(row['data'], dict) else {}
+            step = data.get('step', 1)
+
+            questions = {
+                1: ('q1', '*2. What\'s still stuck or unresolved?*'),
+                2: ('q2', '*3. What\'s the one thing you\'ll do first tomorrow?*'),
+                3: ('q3', None),
+            }
+            key, next_q = questions.get(step, ('q3', None))
+            data[key]   = answer
+            data['step'] = step + 1
+
+            if step >= 3:
+                # Debrief complete — save and close
+                data['completed_at'] = str(__import__('datetime').datetime.now())
+                cur.execute("""
+                    UPDATE agent_actions SET data = %s::jsonb, result = 'complete'
+                    WHERE id = %s
+                """, (__import__('json').dumps(data), row['id']))
+                conn.commit()
+                conn.close()
+                _slack_post(reply_channel,
+                    '✅ *Debrief saved. Rest well.*\n'
+                    '_Tomorrow\'s morning briefing will open with your notes._\n\n'
+                    f'Q1: _{data.get("q1","—")}_\n'
+                    f'Q2: _{data.get("q2","—")}_\n'
+                    f'Q3: _{data.get("q3","—")}_'
+                )
+            else:
+                cur.execute("""
+                    UPDATE agent_actions SET data = %s::jsonb WHERE id = %s
+                """, (__import__('json').dumps(data), row['id']))
+                conn.commit()
+                conn.close()
+                _slack_post(reply_channel,
+                    f'✓ Noted. _{answer[:80]}_\n\n{next_q}')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Debrief error: {e}')
+        return
+
+    # ── QUICK WIN: KNOWLEDGE ORACLE ───────────────────────────────────────────
+    if action == 'oracle':
+        query = cmd.get('query', '').strip()
+        if not query:
+            _slack_post(reply_channel,
+                '*ᚱ Knowledge Oracle*\n'
+                'Searches 1,000+ Dan Martell transcripts + frameworks for the best match.\n'
+                'Usage: `oracle <your question or situation>`\n'
+                'Example: `oracle how do I close a motivated seller who keeps stalling`')
+            return
+        try:
+            conn = get_db()
+            cur  = conn.cursor(cursor_factory=__import__('psycopg2').extras.RealDictCursor)
+            # Search transcript_knowledge (1,014 Dan Martell + FlipWithRick transcripts)
+            cur.execute("""
+                SELECT content, title, source, filename
+                FROM transcript_knowledge
+                WHERE content_tsv @@ plainto_tsquery('english', %s)
+                   OR content ILIKE %s
+                ORDER BY inserted_at DESC
+                LIMIT 5
+            """, (query, f'%{query[:40]}%'))
+            hits = cur.fetchall() or []
+            conn.close()
+
+            import anthropic as _ant
+            import os as _os
+            ant = _ant.Anthropic(api_key=_os.environ.get('ANTHROPIC_API_KEY',''))
+
+            context = '\n\n---\n\n'.join([f'[{h["title"]}]\n{h["content"][:600]}' for h in hits]) if hits else 'No direct KB match found.'
+            resp = ant.messages.create(
+                model='claude-haiku-4-5-20251001',
+                max_tokens=400,
+                messages=[{'role':'user','content':
+                    f'ODIN Knowledge Oracle. User situation/question: {query}\n\n'
+                    f'Relevant KB excerpts from Dan Martell transcripts:\n{context}\n\n'
+                    f'Surface the most applicable framework, principle, or script in under 150 words. '
+                    f'Be direct and actionable. Name the framework if it has one.'
+                }]
+            )
+            framework = resp.content[0].text.strip()
+            source_note = f'_(matched {len(hits)} KB entries)_' if hits else '_(no exact KB match — general synthesis)_'
+            _slack_post(reply_channel,
+                f'*ᚱ Oracle — "{query[:60]}"*\n{source_note}\n\n{framework}')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Oracle error: {e}')
+        return
+
+    # ── QUICK WIN: SMART REPLY ROUTING ────────────────────────────────────────
+    if action == 'smart_route':
+        lead_ref = cmd.get('lead', '').strip()
+        try:
+            conn = get_db()
+            cur  = conn.cursor(cursor_factory=__import__('psycopg2').extras.RealDictCursor)
+            cur.execute("""
+                SELECT id, address, reply_sentiment, last_reply_body,
+                       mctp_total, status, follow_up_date
+                FROM leads
+                WHERE address ILIKE %s OR id::text = %s
+                ORDER BY updated_at DESC LIMIT 1
+            """, (f'%{lead_ref}%', lead_ref))
+            lead = cur.fetchone()
+            conn.close()
+
+            if not lead:
+                _slack_post(reply_channel, f'❌ Lead not found: `{lead_ref}`')
+                return
+
+            sentiment = (lead.get('reply_sentiment') or '').lower()
+            reply_text = lead.get('last_reply_body') or ''
+            address   = lead.get('address', '')
+
+            # Route map
+            routing = {
+                'curious':     ('📬 *CURIOUS* → Draft MCTP follow-up',
+                                f'`draft email seller {address} — They seem curious, asked questions`'),
+                'interested':  ('🙋 *INTERESTED* → Move to warm, schedule call',
+                                f'`script {address.split(",")[0]} {address}` — then `follow up {address} date:tomorrow action:Call back`'),
+                'negotiating': ('🤝 *NEGOTIATING* → Surface comps + calc LAO',
+                                f'`analyze {address}`'),
+                'stalling':    ('⏳ *STALLING* → Auto 7-day delay',
+                                f'`follow up {address} date:+7 action:Check back in`'),
+                'angry':       ('🛑 *ANGRY* → Stop outreach immediately',
+                                f'Reply: _"Understood — I won\'t reach out again."_ Then `ignore <contact_id>`'),
+                'neutral':     ('😐 *NEUTRAL* → Continue sequence normally',
+                                f'`follow up {address} date:+3 action:Gentle check-in`'),
+            }
+
+            label, next_cmd = routing.get(sentiment, (
+                f'❓ *{sentiment or "UNKNOWN SENTIMENT"}* → Classify manually',
+                f'`sentiment` to review all lead sentiments'
+            ))
+
+            _slack_post(reply_channel,
+                f'*🧭 Smart Route — {address}*\n'
+                f'Score: *{lead["mctp_total"]}/10* | Status: *{lead["status"]}*\n'
+                f'Last reply: _{reply_text[:120] or "none"}_\n\n'
+                f'{label}\n'
+                f'Next: {next_cmd}'
+            )
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Smart route error: {e}')
+        return
+
+    # ── AUDIT RESET (blank emails were sent — reset to cold for proper resend) ──
+    if action == 'audit_reset_cold':
+        try:
+            conn = get_db()
+            cur  = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            # Reset prospects that were emailed with blank content (outreach_step=1, no reply)
+            # Only resets stage='emailed', outreach_step<=1, stage NOT replied/booked/paid
+            cur.execute("""
+                UPDATE audit_prospects
+                SET stage = 'cold', outreach_step = 0, updated_at = NOW()
+                WHERE stage = 'emailed'
+                  AND outreach_step <= 1
+                  AND cold_email_subject IS NOT NULL
+                  AND cold_email_body IS NOT NULL
+            """)
+            reset_count = cur.rowcount
+            conn.commit()
+            conn.close()
+            _slack_post(reply_channel,
+                f'♻️ *Audit Reset* — {reset_count} prospects reset to `cold`\n'
+                f'They now have personalized email content loaded.\n'
+                f'Run `audit send now` to send the first batch of 5.')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Audit reset error: {e}')
+        return
+
+    # ── AUDIT MANUAL SEND ────────────────────────────────────────────────────
+    if action == 'audit_send_now':
+        send_type = cmd.get('type', 'cold')
+        try:
+            import utils.audit_outreach as ao
+            if send_type == 'cold':
+                _slack_post(reply_channel, '_Seeding prospects and sending cold batch..._')
+                seed_msg = ao.seed_from_files()
+                result   = ao.send_cold_batch(limit=5)
+                _slack_post(reply_channel, f'`{seed_msg}`\n{result}')
+            else:
+                _slack_post(reply_channel, '_Sending follow-ups..._')
+                result = ao.send_followups()
+                _slack_post(reply_channel, result)
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Audit send error: {e}')
+        return
+
+    # ── LEGAL DEPARTMENT ─────────────────────────────────────────────────────
+    if action == 'legal_help':
+        _slack_post(reply_channel,
+            '*⚖️ ODIN Legal Department*\n'
+            '_General legal information for Shue Box LLC operations. Not a substitute for a licensed attorney._\n\n'
+            '*Commands:*\n'
+            '• `legal <question>` — Q&A on RE, LLC, contracts, Ohio/TN law\n'
+            '• `legal draft <document>` — Draft a template document\n'
+            '  Examples: `legal draft assignment contract` · `legal draft NDA` · `legal draft AI audit service agreement` · `legal draft independent contractor agreement`\n'
+            '• `legal review <contract text>` — Flag risk clauses (paste any contract language)\n'
+            '• `legal terms` — Glossary of RE & LLC legal terms\n\n'
+            '_Coverage: RE wholesaling (TN), Ohio LLC, AI Audit service agreements, NDAs, contractor agreements_'
+        )
+        return
+
+    if action == 'legal_terms':
+        try:
+            import utils.legal_agent as legal
+            _slack_post(reply_channel, legal.get_terms())
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Legal terms error: {e}')
+        return
+
+    if action == 'legal_draft':
+        doc_type = cmd.get('doc_type', '').strip()
+        if not doc_type:
+            _slack_post(reply_channel,
+                '⚖️ Specify what to draft:\n'
+                '`legal draft assignment contract`\n'
+                '`legal draft NDA`\n'
+                '`legal draft AI audit service agreement`\n'
+                '`legal draft independent contractor agreement`')
+            return
+        try:
+            import utils.legal_agent as legal
+            _slack_post(reply_channel, f'_Drafting {doc_type}..._')
+            doc = legal.draft_document(doc_type)
+            # Split if over Slack's 3,000 char limit
+            if len(doc) > 2800:
+                chunks = [doc[i:i+2800] for i in range(0, len(doc), 2800)]
+                for i, chunk in enumerate(chunks):
+                    _slack_post(reply_channel,
+                        (f'*⚖️ {doc_type.title()} — Part {i+1}/{len(chunks)}*\n' if i == 0
+                         else f'_(continued {i+1}/{len(chunks)})_\n') + chunk)
+            else:
+                _slack_post(reply_channel, f'*⚖️ {doc_type.title()} — Template*\n\n{doc}')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Legal draft error: {e}')
+        return
+
+    if action == 'legal_review':
+        snippet = cmd.get('snippet', '').strip()
+        if not snippet:
+            _slack_post(reply_channel,
+                '⚖️ Paste the contract text to review:\n`legal review <contract language here>`')
+            return
+        try:
+            import utils.legal_agent as legal
+            result = legal.review_contract(snippet)
+            _slack_post(reply_channel, f'*⚖️ Contract Review*\n\n{result}')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Legal review error: {e}')
+        return
+
+    if action == 'legal_question':
+        question = cmd.get('question', '').strip()
+        if not question:
+            _slack_post(reply_channel, '⚖️ Ask a legal question: `legal <your question>`')
+            return
+        try:
+            import utils.legal_agent as legal
+            answer = legal.answer(question)
+            _slack_post(reply_channel, f'*⚖️ ODIN Legal*\n\n{answer}')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Legal agent error: {e}')
+        return
+
+    # ── CONTENT CLIP ENGINE ────────────────────────────────────────────────────
+    if action == 'content_clip':
+        _slack_post(reply_channel, '_Pulling frameworks from the knowledge base..._')
+        try:
+            db = get_db()
+            cur = db.cursor()
+            cur.execute("""
+                SELECT title, content FROM transcript_knowledge
+                WHERE content IS NOT NULL
+                ORDER BY RANDOM() LIMIT 3
+            """)
+            rows = cur.fetchall()
+            if not rows:
+                _slack_post(reply_channel, 'ᚱ No frameworks found in KB yet.')
+                return
+            clips = []
+            for r in rows:
+                title = r['title'] if isinstance(r, dict) else r[0]
+                content = r['content'] if isinstance(r, dict) else r[1]
+                prompt = (
+                    f"Framework: {title}\n\n{content[:600]}\n\n"
+                    "Format this as 3 pieces of content:\n"
+                    "1. TWEET THREAD (3 tweets, numbered, under 280 chars each)\n"
+                    "2. LINKEDIN (3-4 sentences, professional, first-person)\n"
+                    "3. SMS HOOK (under 140 chars, conversational, ends with a question)\n"
+                    "Keep Brock's voice: direct, results-focused, no fluff."
+                )
+                clip = _haiku(prompt, max_tokens=500)
+                clips.append(f"*📎 {title}*\n{clip}")
+            _slack_post(reply_channel, '✍️ *Content Clip Engine — 3 Frameworks*\n\n' + '\n\n---\n\n'.join(clips))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Content clip error: {e}')
+        return
+
+    # ── DEAL AUTOPSY ───────────────────────────────────────────────────────────
+    if action == 'deal_autopsy_start':
+        lead_hint = cmd.get('lead', '').strip()
+        _slack_post(reply_channel,
+            '🔍 *Deal Autopsy — Learning from Loss*\n\n'
+            f'{"Lead: " + lead_hint + chr(10) if lead_hint else ""}'
+            '*Question 1 of 3:* What was the main objection or reason this deal died?\n\n'
+            '_Reply with:_ `autopsy answer <your response>`'
+        )
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute(
+                "INSERT INTO deal_autopsies (address, status) VALUES (%s, 'q1') RETURNING id",
+                (lead_hint or 'Unknown',)
+            )
+            conn.commit()
+        except Exception:
+            pass
+        return
+
+    if action == 'autopsy_answer':
+        answer = cmd.get('answer', '').strip()
+        if not answer:
+            _slack_post(reply_channel, '⚠️ Usage: `autopsy answer <your response>`')
+            return
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute(
+                "SELECT id, status, q1_objection, q2_last_touchpoint FROM deal_autopsies ORDER BY created_at DESC LIMIT 1"
+            )
+            row = cur.fetchone()
+            if not row:
+                _slack_post(reply_channel, '⚠️ No active autopsy. Start one with `autopsy <address>`')
+                return
+            autopsy_id = row['id'] if isinstance(row, dict) else row[0]
+            status = row['status'] if isinstance(row, dict) else row[1]
+            q1 = row['q1_objection'] if isinstance(row, dict) else row[2]
+
+            if status == 'q1':
+                cur.execute("UPDATE deal_autopsies SET q1_objection=%s, status='q2' WHERE id=%s", (answer, autopsy_id))
+                conn.commit()
+                _slack_post(reply_channel,
+                    '✅ Got it.\n\n*Question 2 of 3:* What was the last touchpoint before it went cold? '
+                    '(call, text, email, no contact?)\n\n_Reply:_ `autopsy answer <your response>`')
+            elif status == 'q2':
+                cur.execute("UPDATE deal_autopsies SET q2_last_touchpoint=%s, status='q3' WHERE id=%s", (answer, autopsy_id))
+                conn.commit()
+                _slack_post(reply_channel,
+                    '✅ Got it.\n\n*Question 3 of 3:* What would you do differently if you could replay it?\n\n'
+                    '_Reply:_ `autopsy answer <your response>`')
+            elif status == 'q3':
+                cur.execute("UPDATE deal_autopsies SET q3_differently=%s, status='complete' WHERE id=%s", (answer, autopsy_id))
+                conn.commit()
+                cur.execute("SELECT q1_objection, q2_last_touchpoint FROM deal_autopsies WHERE id=%s", (autopsy_id,))
+                final = cur.fetchone()
+                q1_f = final['q1_objection'] if isinstance(final, dict) else final[0]
+                q2_f = final['q2_last_touchpoint'] if isinstance(final, dict) else final[1]
+                insight = _haiku(
+                    f"Deal autopsy data:\nObjection: {q1_f}\nLast touchpoint: {q2_f}\nWould do differently: {answer}\n\n"
+                    "Give 2-3 bullet insights on what this pattern reveals and one specific change for next time. "
+                    "Be direct and actionable. No fluff.",
+                    max_tokens=300
+                )
+                _slack_post(reply_channel,
+                    f'🔍 *Autopsy Complete — ODIN Analysis*\n\n{insight}\n\n'
+                    '_Stored in playbook. After 20 autopsies, ODIN will start predicting objections._')
+            else:
+                _slack_post(reply_channel, '✅ Last autopsy is already complete. Start a new one with `autopsy <address>`')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Autopsy error: {e}')
+        return
+
+    # ── REVENUE FORECAST ───────────────────────────────────────────────────────
+    if action == 'revenue_forecast':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            # Pipeline counts by stage
+            cur.execute("""
+                SELECT status, COUNT(*) as cnt FROM leads
+                WHERE status NOT IN ('dead','closed','rejected','skip')
+                GROUP BY status
+            """)
+            stage_rows = cur.fetchall()
+            # Historical close rate
+            cur.execute("SELECT COUNT(*) as total FROM leads WHERE created_at > NOW() - INTERVAL '90 days'")
+            total_90 = (cur.fetchone() or {}).get('total', 0) or 1
+            cur.execute("SELECT COUNT(*) as closed FROM leads WHERE status='closed' AND created_at > NOW() - INTERVAL '90 days'")
+            closed_90 = (cur.fetchone() or {}).get('closed', 0)
+            close_rate = round((closed_90 / total_90) * 100, 1)
+            # Average deal velocity
+            cur.execute("""
+                SELECT AVG(EXTRACT(EPOCH FROM (updated_at - created_at))/86400) as avg_days
+                FROM leads WHERE status='closed'
+            """)
+            avg_days_row = cur.fetchone()
+            avg_days = round((avg_days_row['avg_days'] if isinstance(avg_days_row, dict) else (avg_days_row[0] if avg_days_row else None)) or 45)
+            # Revenue events
+            cur.execute("SELECT COALESCE(SUM(amount),0) as total FROM revenue_events WHERE event_date >= DATE_TRUNC('month', NOW())")
+            mtd = cur.fetchone()
+            mtd_rev = mtd['total'] if isinstance(mtd, dict) else (mtd[0] if mtd else 0)
+            # Pipeline stages
+            stage_summary = '\n'.join([
+                f"  • {(r['status'] if isinstance(r,dict) else r[0]).title()}: {r['cnt'] if isinstance(r,dict) else r[1]}"
+                for r in stage_rows
+            ]) or '  • No active leads'
+            active_count = sum(r['cnt'] if isinstance(r, dict) else r[1] for r in stage_rows)
+            # Projections
+            proj_30 = round(active_count * (close_rate / 100) * 7500)
+            proj_60 = round(proj_30 * 1.4)
+            proj_90 = round(proj_30 * 1.8)
+            audit_row = None
+            try:
+                cur.execute("SELECT COUNT(*) as cnt FROM audit_prospects WHERE stage NOT IN ('closed','rejected')")
+                audit_row = cur.fetchone()
+            except Exception:
+                pass
+            audit_active = (audit_row['cnt'] if isinstance(audit_row, dict) else (audit_row[0] if audit_row else 0)) or 0
+            audit_proj = audit_active * 497 * 0.15
+
+            _slack_post(reply_channel,
+                f'📈 *Revenue Weather Forecast*\n\n'
+                f'*Pipeline Snapshot*\n{stage_summary}\n\n'
+                f'*Historical Close Rate (90d):* {close_rate}% | *Avg. Days to Close:* {avg_days}d\n\n'
+                f'*Projections (RE + AI Audit)*\n'
+                f'  30-day: ~${proj_30 + int(audit_proj):,}\n'
+                f'  60-day: ~${proj_60 + int(audit_proj * 1.5):,}\n'
+                f'  90-day: ~${proj_90 + int(audit_proj * 2):,}\n\n'
+                f'*MTD Revenue:* ${float(mtd_rev):,.2f}\n'
+                f'_Based on {active_count} active leads × {close_rate}% close rate × avg ${7500:,} fee_'
+            )
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Forecast error: {e}')
+        return
+
+    # ── BOTTLENECK REPORT ──────────────────────────────────────────────────────
+    if action == 'bottleneck_report':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT status,
+                       COUNT(*) as cnt,
+                       AVG(EXTRACT(EPOCH FROM (NOW() - updated_at))/86400) as avg_days_stuck
+                FROM leads
+                WHERE status NOT IN ('dead','closed','rejected','skip')
+                GROUP BY status ORDER BY avg_days_stuck DESC
+            """)
+            rows = cur.fetchall()
+            if not rows:
+                _slack_post(reply_channel, 'ᚱ No active pipeline data yet.')
+                return
+            lines = ['🚧 *Pipeline Bottleneck Report*\n']
+            for r in rows:
+                status = r['status'] if isinstance(r, dict) else r[0]
+                cnt = r['cnt'] if isinstance(r, dict) else r[1]
+                days = r['avg_days_stuck'] if isinstance(r, dict) else r[2]
+                days_val = round(float(days) if days else 0, 1)
+                flag = ' ⚠️' if days_val > 14 else ''
+                lines.append(f'  • *{status.title()}* — {cnt} leads, avg {days_val}d stuck{flag}')
+            # Biggest bottleneck
+            worst = rows[0]
+            worst_stage = worst['status'] if isinstance(worst, dict) else worst[0]
+            worst_days = round(float(worst['avg_days_stuck'] if isinstance(worst, dict) else worst[2]) or 0, 1)
+            lines.append(f'\n*Biggest Bottleneck:* {worst_stage.title()} ({worst_days}d avg)')
+            lines.append('_Fix: add a follow-up step or move/disqualify stale leads._')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Bottleneck error: {e}')
+        return
+
+    # ── RELATIONSHIP HEAT MAP ──────────────────────────────────────────────────
+    if action == 'relationship_heatmap':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            # Buyers cold > 14 days
+            cur.execute("""
+                SELECT name, phone, email,
+                       EXTRACT(EPOCH FROM (NOW() - COALESCE(updated_at, created_at)))/86400 as days_cold
+                FROM buyers
+                WHERE active = TRUE
+                ORDER BY days_cold DESC LIMIT 10
+            """)
+            buyers = cur.fetchall()
+            lines = ['🔥 *Relationship Heat Map*\n']
+            cold_buyers = []
+            for b in buyers:
+                name = b['name'] if isinstance(b, dict) else b[0]
+                days = round(float(b['days_cold'] if isinstance(b, dict) else b[3]) or 0)
+                if days > 14:
+                    cold_buyers.append(f'  • *{name}* — {days}d cold 🥶')
+                elif days > 7:
+                    cold_buyers.append(f'  • *{name}* — {days}d cold')
+            if cold_buyers:
+                lines.append('*Buyers Going Cold:*')
+                lines.extend(cold_buyers)
+            else:
+                lines.append('✅ All active buyers contacted within 7 days.')
+
+            # Eddie
+            cur.execute("""
+                SELECT MAX(created_at) as last_log FROM agent_actions
+                WHERE action_type ILIKE '%mctp%'
+            """)
+            eddie_row = cur.fetchone()
+            last_eddie = eddie_row['last_log'] if isinstance(eddie_row, dict) else (eddie_row[0] if eddie_row else None)
+            if last_eddie:
+                import datetime
+                days_eddie = (datetime.datetime.now(datetime.timezone.utc) - last_eddie).days
+                lines.append(f'\n*Eddie:* last MCTP log {days_eddie}d ago{"  ⚠️ check in" if days_eddie > 5 else ""}')
+
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Relationship heatmap error: {e}')
+        return
+
+    # ── DEAL MOMENTUM SCORES ───────────────────────────────────────────────────
+    if action == 'momentum_scores':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            # Get leads with momentum data
+            cur.execute("""
+                SELECT l.address, l.status,
+                       COALESCE(lm.score, 50) as score,
+                       EXTRACT(EPOCH FROM (NOW() - COALESCE(l.updated_at, l.created_at)))/86400 as days_inactive
+                FROM leads l
+                LEFT JOIN lead_momentum lm ON lm.lead_id = l.id::text
+                WHERE l.status NOT IN ('dead','closed','rejected','skip')
+                ORDER BY score DESC LIMIT 15
+            """)
+            rows = cur.fetchall()
+            if not rows:
+                _slack_post(reply_channel, 'ᚱ No active leads to score.')
+                return
+            lines = ['⚡ *Deal Momentum Scores*\n']
+            for r in rows:
+                addr = r['address'] if isinstance(r, dict) else r[0]
+                status = r['status'] if isinstance(r, dict) else r[1]
+                score = int(r['score'] if isinstance(r, dict) else r[3])
+                days = round(float(r['days_inactive'] if isinstance(r, dict) else r[4]) or 0)
+                emoji = '🔥' if score >= 70 else ('⚡' if score >= 40 else '🥶')
+                lines.append(f'  {emoji} *{addr[:35]}* — {score}/100 | {status} | {days}d idle')
+            lines.append('\n_Scores decay daily. Advance a lead to boost its score._')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Momentum error: {e}')
+        return
+
+    # ── WIN/LOSS PATTERNS ──────────────────────────────────────────────────────
+    if action == 'win_loss_patterns':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("SELECT COUNT(*) as cnt FROM leads WHERE status='closed'")
+            closed_count = (cur.fetchone() or {}).get('cnt', 0)
+            if (closed_count or 0) < 3:
+                _slack_post(reply_channel,
+                    f'📊 *Win/Loss Patterns*\n\n'
+                    f'Need at least 3 closed deals for pattern analysis. You have {closed_count}.\n'
+                    '_Keep closing — the engine activates automatically._')
+                return
+            # Pull closed deal data
+            cur.execute("""
+                SELECT address, caller_notes AS tags, created_at, updated_at,
+                       EXTRACT(EPOCH FROM (updated_at - created_at))/86400 as days_to_close
+                FROM leads WHERE status='closed' ORDER BY updated_at DESC LIMIT 20
+            """)
+            wins = cur.fetchall()
+            # Pull dead deal data
+            cur.execute("""
+                SELECT address, caller_notes AS tags, created_at, updated_at,
+                       EXTRACT(EPOCH FROM (updated_at - created_at))/86400 as days_before_dead
+                FROM leads WHERE status='dead' ORDER BY updated_at DESC LIMIT 20
+            """)
+            losses = cur.fetchall()
+            win_summary = '\n'.join([
+                f"- {r['address'] if isinstance(r,dict) else r[0]} | {round(float(r['days_to_close'] if isinstance(r,dict) else r[4]) or 0)}d | tags: {r['tags'] if isinstance(r,dict) else r[1]}"
+                for r in wins[:5]
+            ])
+            loss_summary = '\n'.join([
+                f"- {r['address'] if isinstance(r,dict) else r[0]} | {round(float(r['days_before_dead'] if isinstance(r,dict) else r[4]) or 0)}d | tags: {r['tags'] if isinstance(r,dict) else r[1]}"
+                for r in losses[:5]
+            ])
+            analysis = _haiku(
+                f"Analyze these closed deals (wins) vs dead deals (losses) for a Memphis TN wholesaler:\n\n"
+                f"WINS:\n{win_summary}\n\nLOSSES:\n{loss_summary}\n\n"
+                "Give 3-4 bullet patterns that separate wins from losses. "
+                "Focus on: time-to-close, tags, any observable differences. "
+                "Be specific and actionable.",
+                max_tokens=400
+            )
+            _slack_post(reply_channel,
+                f'📊 *Win/Loss Pattern Analysis ({closed_count} closed deals)*\n\n{analysis}\n\n'
+                '_Pattern engine sharpens with every deal. Keep logging outcomes._')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Win/loss error: {e}')
+        return
+
+    # ── DELEGATION SCORE ───────────────────────────────────────────────────────
+    if action == 'delegation_score':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            # Count agent_actions by type in last 30 days
+            cur.execute("""
+                SELECT action_type, COUNT(*) as cnt FROM agent_actions
+                WHERE created_at > NOW() - INTERVAL '30 days'
+                GROUP BY action_type ORDER BY cnt DESC
+            """)
+            actions = cur.fetchall()
+            total = sum(r['cnt'] if isinstance(r, dict) else r[1] for r in actions) or 1
+            auto_keywords = ['scan','briefing','sync','alert','heartbeat','triage','monitor','digest','decay','pulse']
+            auto_count = sum(
+                r['cnt'] if isinstance(r, dict) else r[1]
+                for r in actions
+                if any(kw in (r['action_type'] if isinstance(r, dict) else r[0] or '').lower() for kw in auto_keywords)
+            )
+            pct = round((auto_count / total) * 100)
+            bar_filled = round(pct / 5)
+            bar = '█' * bar_filled + '░' * (20 - bar_filled)
+            # Command breakdown
+            top = actions[:5]
+            top_lines = '\n'.join([
+                f"  • {r['action_type'] if isinstance(r, dict) else r[0]}: {r['cnt'] if isinstance(r, dict) else r[1]}"
+                for r in top
+            ])
+            _slack_post(reply_channel,
+                f'🤖 *ODIN Delegation Score (Last 30 Days)*\n\n'
+                f'{bar} {pct}% autonomous\n\n'
+                f'*{auto_count} of {total} actions* handled by ODIN without you\n\n'
+                f'*Top Actions:*\n{top_lines}\n\n'
+                f'_Every feature you confirm moves this bar. Goal: 80%+_'
+            )
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Delegation score error: {e}')
+        return
+
+    # ── CASHFLOW CALENDAR ──────────────────────────────────────────────────────
+    if action == 'cashflow_calendar':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            import datetime
+            today = datetime.date.today()
+            # Fixed monthly costs (from Teller subscriptions if available)
+            try:
+                cur.execute("""
+                    SELECT merchant_name, amount FROM finance_transactions
+                    WHERE transaction_type='debit' AND amount < -50
+                    AND date >= DATE_TRUNC('month', NOW())
+                    ORDER BY amount ASC LIMIT 10
+                """)
+                costs = cur.fetchall()
+            except Exception:
+                conn.rollback()
+                costs = []
+            monthly_costs = sum(abs(float(r['amount'] if isinstance(r,dict) else r[1])) for r in costs)
+            # Expected revenue from pipeline
+            cur.execute("SELECT COUNT(*) as cnt FROM leads WHERE status NOT IN ('dead','closed','rejected','skip')")
+            active = (cur.fetchone() or {}).get('cnt', 0)
+            cur.execute("SELECT COALESCE(SUM(amount),0) as t FROM revenue_events WHERE event_date >= DATE_TRUNC('month', NOW())")
+            mtd_r = cur.fetchone()
+            mtd_rev = float(mtd_r['t'] if isinstance(mtd_r, dict) else (mtd_r[0] if mtd_r else 0))
+            # 60-day projection
+            est_deals_30 = max(1, round(active * 0.05))
+            est_deals_60 = max(1, round(active * 0.10))
+            proj_30 = est_deals_30 * 7500
+            proj_60 = est_deals_60 * 7500
+            cost_str = f'~${monthly_costs:,.0f}/mo' if monthly_costs > 0 else 'not synced yet (run `finance sync`)'
+            _slack_post(reply_channel,
+                f'📅 *60-Day Cashflow Calendar*\n\n'
+                f'*Today ({today.strftime("%b %d")})*\n'
+                f'  MTD Revenue: ${mtd_rev:,.0f}\n'
+                f'  Est. Monthly Costs: {cost_str}\n\n'
+                f'*30-Day Outlook*\n'
+                f'  Est. deals: {est_deals_30} | Rev: +${proj_30:,}\n'
+                f'  Net position: ~${proj_30 + mtd_rev - monthly_costs:,.0f}\n\n'
+                f'*60-Day Outlook*\n'
+                f'  Est. deals: {est_deals_60} | Rev: +${proj_60:,}\n'
+                f'  Net position: ~${proj_60 + mtd_rev - (monthly_costs * 2):,.0f}\n\n'
+                f'_Based on {active} active leads × 5-10% close rate × $7,500 avg fee_\n'
+                f'_Accuracy improves as you close deals and sync finance._'
+            )
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Cashflow error: {e}')
+        return
+
+    # ── EDDIE PERFORMANCE REPORT ───────────────────────────────────────────────
+    if action == 'eddie_report':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            import datetime
+            # MCTP logs (Eddie's primary activity)
+            cur.execute("""
+                SELECT COUNT(*) as cnt, MAX(created_at) as last_log
+                FROM agent_actions
+                WHERE action_type ILIKE '%mctp%'
+                AND created_at > NOW() - INTERVAL '7 days'
+            """)
+            mctp = cur.fetchone()
+            mctp_count = mctp['cnt'] if isinstance(mctp, dict) else (mctp[0] if mctp else 0)
+            last_log = mctp['last_log'] if isinstance(mctp, dict) else (mctp[1] if mctp else None)
+            # Approvals Eddie participated in
+            cur.execute("""
+                SELECT COUNT(*) as cnt FROM leads
+                WHERE status IN ('approved','under_contract','closed')
+                AND updated_at > NOW() - INTERVAL '7 days'
+            """)
+            approvals = cur.fetchone()
+            approval_count = approvals['cnt'] if isinstance(approvals, dict) else (approvals[0] if approvals else 0)
+            days_since = None
+            if last_log:
+                days_since = (datetime.datetime.now(datetime.timezone.utc) - last_log).days
+            activity_flag = f'⚠️ No activity in {days_since}d' if (days_since and days_since > 5) else '✅ Active'
+            _slack_post(reply_channel,
+                f'👤 *Eddie Performance Report (Last 7 Days)*\n\n'
+                f'  MCTP Logs: {mctp_count}\n'
+                f'  Deals Advanced: {approval_count}\n'
+                f'  Last Log: {f"{days_since}d ago" if days_since is not None else "none this week"}\n'
+                f'  Status: {activity_flag}\n\n'
+                f'_Full partner dashboard coming to odin-ops2.netlify.app_'
+            )
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Eddie report error: {e}')
+        return
+
+    # ── REFERRAL TRACKING ──────────────────────────────────────────────────────
+    if action == 'log_referral':
+        details = cmd.get('details', '').strip()
+        if not details:
+            _slack_post(reply_channel,
+                '⚠️ Usage: `log referral <referrer> → <who they sent> | <type>`\n'
+                'Example: `log referral Marcus → John Smith | buyer`')
+            return
+        try:
+            parts = re.split(r'[→>|]', details)
+            referrer = parts[0].strip() if len(parts) > 0 else details
+            referral = parts[1].strip() if len(parts) > 1 else 'Unknown'
+            ref_type = parts[2].strip() if len(parts) > 2 else 'general'
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute(
+                "INSERT INTO referrals (referrer_name, referral_name, referral_type) VALUES (%s, %s, %s)",
+                (referrer, referral, ref_type)
+            )
+            conn.commit()
+            _slack_post(reply_channel,
+                f'✅ Referral logged\n  From: {referrer}\n  Referred: {referral}\n  Type: {ref_type}')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Referral log error: {e}')
+        return
+
+    if action == 'referrals_list':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT referrer_name, COUNT(*) as cnt,
+                       COALESCE(SUM(revenue_generated),0) as total_rev
+                FROM referrals GROUP BY referrer_name ORDER BY cnt DESC LIMIT 10
+            """)
+            rows = cur.fetchall()
+            if not rows:
+                _slack_post(reply_channel, 'No referrals logged yet. Use `log referral <name> → <who> | <type>`')
+                return
+            lines = ['🤝 *Referral Leaderboard*\n']
+            for r in rows:
+                name = r['referrer_name'] if isinstance(r, dict) else r[0]
+                cnt = r['cnt'] if isinstance(r, dict) else r[1]
+                rev = float(r['total_rev'] if isinstance(r, dict) else r[2])
+                lines.append(f'  • *{name}*: {cnt} referral{"s" if cnt != 1 else ""} | ${rev:,.0f} revenue')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Referrals error: {e}')
+        return
+
+    # ── CASE STUDY ENGINE ──────────────────────────────────────────────────────
+    if action == 'case_study_start':
+        address = cmd.get('address', '').strip() or 'Recent Deal'
+        _slack_post(reply_channel,
+            f'📖 *Case Study — {address}*\n\n'
+            '*Question 1 of 4:* What specifically worked to get this deal to the finish line?\n\n'
+            '_Reply:_ `case study answer <your response>`'
+        )
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("INSERT INTO case_studies (address) VALUES (%s) RETURNING id", (address,))
+            conn.commit()
+        except Exception:
+            pass
+        return
+
+    if action == 'case_study_answer':
+        answer = cmd.get('answer', '').strip()
+        if not answer:
+            _slack_post(reply_channel, '⚠️ Usage: `case study answer <your response>`')
+            return
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT id, address,
+                       q1_what_worked, q2_deal_structure, q3_buyer_profile
+                FROM case_studies WHERE synthesized_text IS NULL ORDER BY created_at DESC LIMIT 1
+            """)
+            row = cur.fetchone()
+            if not row:
+                _slack_post(reply_channel, '⚠️ No active case study. Start one with `case study <address>`')
+                return
+            cs_id = row['id'] if isinstance(row, dict) else row[0]
+            q1 = row['q1_what_worked'] if isinstance(row, dict) else row[2]
+            q2 = row['q2_deal_structure'] if isinstance(row, dict) else row[3]
+            q3 = row['q3_buyer_profile'] if isinstance(row, dict) else row[4]
+
+            if not q1:
+                cur.execute("UPDATE case_studies SET q1_what_worked=%s WHERE id=%s", (answer, cs_id))
+                conn.commit()
+                _slack_post(reply_channel,
+                    '✅ Got it.\n\n*Question 2 of 4:* How was the deal structured? '
+                    '(purchase price, assignment fee, buyer, timeline)\n\n_Reply:_ `case study answer <response>`')
+            elif not q2:
+                cur.execute("UPDATE case_studies SET q2_deal_structure=%s WHERE id=%s", (answer, cs_id))
+                conn.commit()
+                _slack_post(reply_channel,
+                    '✅ Got it.\n\n*Question 3 of 4:* Who was the buyer and how did you find them?\n\n'
+                    '_Reply:_ `case study answer <response>`')
+            elif not q3:
+                cur.execute("UPDATE case_studies SET q3_buyer_profile=%s WHERE id=%s", (answer, cs_id))
+                conn.commit()
+                _slack_post(reply_channel,
+                    '✅ Got it.\n\n*Question 4 of 4:* What\'s the one lesson you\'d tell yourself before starting this deal?\n\n'
+                    '_Reply:_ `case study answer <response>`')
+            else:
+                cur.execute("UPDATE case_studies SET q4_lesson=%s WHERE id=%s", (answer, cs_id))
+                cur.execute("SELECT address, q1_what_worked, q2_deal_structure, q3_buyer_profile FROM case_studies WHERE id=%s", (cs_id,))
+                data = cur.fetchone()
+                addr = data['address'] if isinstance(data, dict) else data[0]
+                q1_f = data['q1_what_worked'] if isinstance(data, dict) else data[1]
+                q2_f = data['q2_deal_structure'] if isinstance(data, dict) else data[2]
+                q3_f = data['q3_buyer_profile'] if isinstance(data, dict) else data[3]
+                synthesis = _haiku(
+                    f"Write a 1-page case study for a real estate wholesale deal:\n"
+                    f"Property: {addr}\nWhat worked: {q1_f}\nDeal structure: {q2_f}\n"
+                    f"Buyer: {q3_f}\nLesson: {answer}\n\n"
+                    "Format as: HEADLINE | SITUATION | WHAT WE DID | THE RESULT | KEY LESSON\n"
+                    "Tone: confident, specific, proof-based. No fluff.",
+                    max_tokens=600
+                )
+                cur.execute("UPDATE case_studies SET q4_lesson=%s, synthesized_text=%s WHERE id=%s",
+                            (answer, synthesis, cs_id))
+                conn.commit()
+                # Check total case studies
+                cur.execute("SELECT COUNT(*) as cnt FROM case_studies WHERE synthesized_text IS NOT NULL")
+                total_cs = (cur.fetchone() or {}).get('cnt', 0)
+                _slack_post(reply_channel,
+                    f'📖 *Case Study Complete — {addr}*\n\n{synthesis}\n\n'
+                    f'_Case study #{total_cs} stored. {"One more and you\'ll have a proof package." if total_cs < 3 else "You now have a proof package for AI Audit prospects."}_')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Case study error: {e}')
+        return
+
+    if action == 'case_study_list':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("SELECT address, created_at FROM case_studies WHERE synthesized_text IS NOT NULL ORDER BY created_at DESC")
+            rows = cur.fetchall()
+            if not rows:
+                _slack_post(reply_channel,
+                    '📖 No case studies yet. Complete a deal, then use `case study <address>` to document it.')
+                return
+            lines = [f'📖 *Case Studies ({len(rows)} total)*\n']
+            for r in rows:
+                addr = r['address'] if isinstance(r, dict) else r[0]
+                ts = r['created_at'] if isinstance(r, dict) else r[1]
+                lines.append(f'  • {addr} — {ts.strftime("%b %d, %Y") if ts else "unknown date"}')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Case study list error: {e}')
+        return
+
+    # ── BUYER DEMAND PULSE ─────────────────────────────────────────────────────
+    if action == 'buyer_pulse':
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            # Rate guard: block a re-pulse within 7 days unless explicitly forced
+            if not cmd.get('force'):
+                cur.execute("""
+                    SELECT MAX(created_at) as last_pulse FROM agent_actions
+                    WHERE action_type = 'buyer_pulse' AND result = 'sent'
+                """)
+                lp = cur.fetchone()
+                last_pulse = (lp['last_pulse'] if isinstance(lp, dict) else (lp[0] if lp else None))
+                if last_pulse:
+                    import datetime as _dt
+                    days_ago = (_dt.datetime.now(_dt.timezone.utc) - last_pulse).days
+                    if days_ago < 7:
+                        _slack_post(reply_channel,
+                            f'⏳ Buyers were already pulsed {days_ago}d ago. Next pulse available in '
+                            f'{7 - days_ago}d.\nTo send anyway, reply `buyer pulse force`.')
+                        return
+            cur.execute("SELECT id, name, xleads_contact_id FROM buyers WHERE active=TRUE AND xleads_contact_id IS NOT NULL LIMIT 50")
+            buyers = cur.fetchall()
+            if not buyers:
+                _slack_post(reply_channel, '⚠️ No active buyers with XLeads contact IDs.')
+                return
+            import utils.xleads as _xleads_bp
+            sent = 0
+            failed = 0
+            for b in buyers:
+                contact_id = b['xleads_contact_id'] if isinstance(b, dict) else b[2]
+                name = b['name'] if isinstance(b, dict) else b[1]
+                msg = f"Hey {name.split()[0] if name else 'there'}, quick check — still actively buying in Memphis? Reply Y or N. – Brock"
+                try:
+                    _xleads_bp.send_sms(contact_id, msg)
+                    sent += 1
+                except Exception:
+                    failed += 1
+            # Record the pulse so the 7-day cooldown can see it
+            if sent > 0:
+                try:
+                    cur.execute(
+                        "INSERT INTO agent_actions (action_type, resource, result) VALUES ('buyer_pulse', 'buyers', 'sent')"
+                    )
+                    conn.commit()
+                except Exception:
+                    pass
+            _slack_post(reply_channel,
+                f'📡 *Buyer Demand Pulse Sent*\n  ✅ {sent} buyers pinged\n  ❌ {failed} failed\n\n'
+                f'_Replies will come in via XLeads. Non-responders after 2 more pulses flagged as ghosts._')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Buyer pulse error: {e}')
+        return
+
+    # ── AUTO PROPOSAL GENERATOR ────────────────────────────────────────────────
+    if action == 'auto_proposal':
+        lead_id = cmd.get('lead_id', '').strip()
+        if not lead_id:
+            _slack_post(reply_channel,
+                '⚠️ Usage: `proposal <lead address or ID>`\n'
+                'Example: `proposal 123 Main St`')
+            return
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT address, status, caller_notes AS tags, motivation_score AS score
+                FROM leads
+                WHERE id::text = %s OR LOWER(address) ILIKE %s
+                LIMIT 1
+            """, (lead_id, f'%{lead_id.lower()}%'))
+            lead = cur.fetchone()
+            if not lead:
+                _slack_post(reply_channel, f'⚠️ Lead not found: {lead_id}')
+                return
+            address = lead['address'] if isinstance(lead, dict) else lead[0]
+            status = lead['status'] if isinstance(lead, dict) else lead[1]
+            tags = lead['tags'] if isinstance(lead, dict) else lead[2]
+            score = lead['score'] if isinstance(lead, dict) else lead[3]
+            # Generate 3 offer scenarios
+            prompt = (
+                f"Property: {address}\nStatus: {status}\nTags: {tags}\nMotivation Score: {score}\n\n"
+                "Generate 3 offer scenarios for a Memphis TN wholesaler:\n"
+                "OFFER A (aggressive/low): MAO at 60% ARV - repairs\n"
+                "OFFER B (standard): MAO at 65% ARV - repairs\n"
+                "OFFER C (competitive/relationship): MAO at 70% ARV - repairs\n\n"
+                "For each: suggested offer price range, assignment fee range, buyer pitch angle.\n"
+                "Keep it concise and tactical. Assume avg Memphis home ARV $120-160k unless you know otherwise."
+            )
+            proposals = _haiku(prompt, max_tokens=500)
+            # Check for matching buyers
+            cur.execute("""
+                SELECT name, buy_box FROM buyers WHERE active=TRUE LIMIT 3
+            """)
+            buyer_rows = cur.fetchall()
+            buyer_text = ''
+            if buyer_rows:
+                buyer_names = [r['name'] if isinstance(r, dict) else r[0] for r in buyer_rows]
+                buyer_text = f'\n\n*Potential Buyers to Contact:*\n' + '\n'.join(f'  • {n}' for n in buyer_names)
+            _slack_post(reply_channel,
+                f'📋 *Auto-Proposal — {address}*\n\n{proposals}{buyer_text}\n\n'
+                f'_Use `draft offer {address}` for a formal offer letter._')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Proposal error: {e}')
+        return
+
+    # ── SELLER INTENT SCORES ───────────────────────────────────────────────────
+    if action == 'seller_intent':
+        lead_filter = cmd.get('lead', '').strip()
+        try:
+            conn = get_db()
+            cur = conn.cursor()
+            if lead_filter:
+                cur.execute("""
+                    SELECT l.address, l.status, l.caller_notes AS tags,
+                           COALESCE(si.score, 50) as intent_score,
+                           si.signals, si.scored_at
+                    FROM leads l
+                    LEFT JOIN seller_intent si ON si.lead_id = l.id::text
+                    WHERE LOWER(l.address) ILIKE %s
+                    ORDER BY si.scored_at DESC LIMIT 5
+                """, (f'%{lead_filter.lower()}%',))
+            else:
+                cur.execute("""
+                    SELECT l.address, l.status, l.caller_notes AS tags,
+                           COALESCE(si.score, 50) as intent_score,
+                           si.signals, si.scored_at
+                    FROM leads l
+                    LEFT JOIN seller_intent si ON si.lead_id = l.id::text
+                    WHERE l.status NOT IN ('dead','closed','rejected','skip')
+                    ORDER BY intent_score DESC LIMIT 10
+                """)
+            rows = cur.fetchall()
+            if not rows:
+                _slack_post(reply_channel, 'ᚱ No intent data yet. Intent scores update daily as replies come in.')
+                return
+            lines = ['🎯 *Seller Intent Scores*\n']
+            for r in rows:
+                addr = r['address'] if isinstance(r, dict) else r[0]
+                score = int(r['intent_score'] if isinstance(r, dict) else r[3])
+                status = r['status'] if isinstance(r, dict) else r[1]
+                emoji = '🔥' if score >= 70 else ('⚡' if score >= 50 else '🧊')
+                lines.append(f'  {emoji} *{addr[:35]}* — {score}/100 | {status}')
+            lines.append('\n_Scores above 70 = high intent. Alert fires automatically._')
+            _slack_post(reply_channel, '\n'.join(lines))
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Seller intent error: {e}')
+        return
+
+    # ── MEMPHIS MARKET DIGEST (manual trigger) ─────────────────────────────────
+    if action == 'memphis_digest':
+        _slack_post(reply_channel, '_Pulling Memphis market data..._')
+        try:
+            digest = _haiku(
+                "Generate a Memphis TN real estate market digest for a wholesaler. Include:\n"
+                "1. Current market condition (buyer's vs seller's market, estimated)\n"
+                "2. Typical distressed property discount from ARV in Memphis (38xxx zip codes)\n"
+                "3. Key zip codes with high distressed inventory\n"
+                "4. Average days on market for distressed properties\n"
+                "5. One actionable insight for a wholesaler right now\n\n"
+                "Be specific to Memphis TN. Keep it to 5 bullet points max. Note this is AI-generated estimate, not live data.",
+                max_tokens=400
+            )
+            _slack_post(reply_channel,
+                f'🏘️ *Memphis Market Intelligence Digest*\n\n{digest}\n\n'
+                f'_⚠️ AI-estimated data. Verify with Redfin/Zillow for live comps._')
+        except Exception as e:
+            _slack_post(reply_channel, f'❌ Market digest error: {e}')
         return
 
     # ── ERROR / UNKNOWN ────────────────────────────────────────────────────────

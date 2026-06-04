@@ -1,4 +1,4 @@
-# cache-bust: 2026-06-02
+# cache-bust: 2026-06-03
 flask==3.1.0
 psycopg2-binary==2.9.10
 PyJWT==2.10.1
@@ -13,3 +13,7 @@ google-auth-oauthlib==1.2.1
 google-api-python-client==2.167.0
 apscheduler==3.10.4
 discord.py==2.3.2
+audioop-lts==0.2.1
+stripe==11.4.1
+livekit-agents[anthropic,deepgram,cartesia,silero]>=1.0.0
+livekit>=1.0.0

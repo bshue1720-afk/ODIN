@@ -28,6 +28,7 @@ from blueprints.dashboard_bp    import bp as dashboard_bp
 from blueprints.agents_bp       import bp as agents_bp
 from blueprints.integrations_bp import bp as integrations_bp
 from blueprints.xleads_bp       import bp as xleads_bp
+from blueprints.voice_bp        import bp as voice_bp
 
 
 def create_app() -> Flask:
@@ -60,6 +61,7 @@ def create_app() -> Flask:
     application.register_blueprint(agents_bp)
     application.register_blueprint(integrations_bp)
     application.register_blueprint(xleads_bp)
+    application.register_blueprint(voice_bp)
 
     return application
 
@@ -85,6 +87,13 @@ try:
     discord_bot.start_bot()
 except Exception as _dbot_err:
     print(f'[discord_bot] Failed to start: {_dbot_err}')
+
+# LiveKit voice worker (no-op if DEEPGRAM/ELEVEN keys absent)
+try:
+    import voice_worker
+    voice_worker.start_worker_thread()
+except Exception as _vw_err:
+    print(f'[voice_worker] Failed to start: {_vw_err}')
 
 
 if __name__ == '__main__':
