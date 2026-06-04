@@ -134,19 +134,28 @@ def approve_deal(approval_id: str) -> str:
 
 def _voice_channel() -> str:
     """Return the Slack channel for voice-originated posts."""
-    return os.environ.get('SLACK_CHANNEL_BROCK', os.environ.get('SLACK_CHANNEL', ''))
+    return (
+        os.environ.get('SLACK_CHANNEL_BROCK')
+        or os.environ.get('SLACK_CHANNEL')
+        or os.environ.get('BROCK_SLACK_UID', '')
+    )
 
 
 def spawn_agent_task(task_description: str) -> str:
-    """Spawn an agent pipeline for a task and post result to Slack."""
-    try:
-        import utils.agent_spawner as spawner
-        result = spawner.spawn(task_description, get_db=get_db)
-        output = result.get('slack_text', 'Task completed.')
-        _slack_post(_voice_channel(), f"🎙️ *Voice-spawned task:* {task_description}\n\n{output}")
-        return f"Done. I spawned agents for: {task_description}. Full output posted to Slack."
-    except Exception as e:
-        return f"Agent spawn failed: {e}"
+    """Spawn an agent pipeline in the background and return immediately."""
+    import threading
+
+    def _run():
+        try:
+            import utils.agent_spawner as spawner
+            result = spawner.spawn(task_description, get_db=get_db)
+            output = result.get('slack_text', 'Task completed.')
+            _slack_post(_voice_channel(), f"🎙️ *Voice-spawned task:* {task_description}\n\n{output}")
+        except Exception as e:
+            _slack_post(_voice_channel(), f"🎙️ *Voice spawn error:* {task_description}\n`{e}`")
+
+    threading.Thread(target=_run, daemon=True).start()
+    return f"On it. Agents are running for: {task_description}. I'll post results to Slack in about 30 seconds."
 
 
 def send_slack_note(message: str) -> str:
